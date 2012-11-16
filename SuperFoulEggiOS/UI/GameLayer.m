@@ -10,6 +10,7 @@
 #import "Pad.h"
 #import "SZPoint.h"
 
+#import "BlockBase.h"
 #import "RedBlock.h"
 #import "GreenBlock.h"
 #import "BlueBlock.h"
@@ -47,6 +48,8 @@
 	if ((self = [super init])) {
 		
 		sranddev();
+		
+		self.touchEnabled = YES;
 		
 		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 		
@@ -689,6 +692,27 @@
 		return;
 	}
 	
+	if (_runners[0].grid.hasLiveBlocks) {
+		BlockBase *block = [_runners[0].grid liveBlock:0];
+		
+		if (block.x < _columnTargets[0]) {
+			[[Pad instanceTwo] releaseLeft];
+			[[Pad instanceTwo] releaseRight];
+			[[Pad instanceTwo] pressRight];
+		} else if (block.x > _columnTargets[0]) {
+			[[Pad instanceTwo] releaseLeft];
+			[[Pad instanceTwo] releaseRight];
+			[[Pad instanceTwo] pressLeft];
+		} else {
+			[[Pad instanceTwo] releaseLeft];
+			[[Pad instanceTwo] releaseRight];
+		}
+	} else {
+		[[Pad instanceTwo] releaseLeft];
+		[[Pad instanceTwo] releaseRight];
+		_columnTargets[0] = 2;
+	}
+	
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
 		[_runners[i] iterate];
 	}
@@ -878,6 +902,44 @@
 	[connector release];
 	
 	[sheet addChild:sprite];
+}
+
+- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches allObjects][0];
+	
+	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	
+	point.y = [CCDirector sharedDirector].winSize.height - point.y;
+	
+	int column = -1;
+	
+	if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+		column = (point.x - GRID_1_X) / BLOCK_SIZE;
+		
+		_columnTargets[0] = column;
+	}
+	
+	[[Pad instanceTwo] releaseLeft];
+	[[Pad instanceTwo] releaseRight];
+}
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches allObjects][0];
+	
+	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	
+	point.y = [CCDirector sharedDirector].winSize.height - point.y;
+
+	int column = -1;
+	
+	if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+		column = (point.x - GRID_1_X) / BLOCK_SIZE;
+		
+		_columnTargets[0] = column;
+	}
+	
+	[[Pad instanceTwo] releaseLeft];
+	[[Pad instanceTwo] releaseRight];
 }
 
 /*

@@ -65,6 +65,8 @@ typedef enum {
 	int _matchWins[MAX_PLAYERS];
 	
 	int _deathEffectTimer;
+	
+	int _columnTargets[MAX_PLAYERS];
 }
 
 + (CCScene*)scene;

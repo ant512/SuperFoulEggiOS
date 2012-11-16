@@ -204,28 +204,6 @@
 			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[GameLayer scene]]];
 		}
 	}
-
-/*
- // TODO: Back!
- 
-	} else if (keyCode == [Settings sharedSettings].keyCodeTwoB ||
-		keyCode == [Settings sharedSettings].keyCodeOneB) {
-		
-		[[SimpleAudioEngine sharedEngine] playEffect:@"drop.wav"];
-		
-		[Settings sharedSettings].speed = [_rectLayer selectedIndexInGroup:0];
-		[Settings sharedSettings].height = [_rectLayer selectedIndexInGroup:1];
-		[Settings sharedSettings].blockColours = [_rectLayer selectedIndexInGroup:2] + 4;
-		[Settings sharedSettings].gamesPerMatch = ([_rectLayer selectedIndexInGroup:3] * 2) + 3;
-		
-		if (_rectLayer.selectedGroupIndex == 0) {
-			[[CCDirector sharedDirector] replaceScene:[GameTypeMenuLayer scene]];
-		} else {
-			[_rectLayer selectPreviousGroup];
-		}
-		
-	}
- */
 	
 	[[Settings sharedSettings] save];
 }
