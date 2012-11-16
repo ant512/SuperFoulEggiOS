@@ -712,27 +712,25 @@
 	if (_runners[0].grid.hasLiveBlocks) {
 		BlockBase *block = [_runners[0].grid liveBlock:0];
 		
-		if (block.x < _columnTargets[0]) {
-			[[Pad instanceTwo] releaseLeft];
-			[[Pad instanceTwo] releaseRight];
-			[[Pad instanceTwo] pressRight];
-		} else if (block.x > _columnTargets[0]) {
-			[[Pad instanceTwo] releaseLeft];
-			[[Pad instanceTwo] releaseRight];
-			[[Pad instanceTwo] pressLeft];
-		} else {
-			[[Pad instanceTwo] releaseLeft];
-			[[Pad instanceTwo] releaseRight];
+		if (_columnTargets[0] > -1) {
+			if (block.x < _columnTargets[0]) {
+				[[Pad instanceTwo] pressRight];
+			} else if (block.x > _columnTargets[0]) {
+				[[Pad instanceTwo] pressLeft];
+			}
 		}
 	} else {
-		[[Pad instanceTwo] releaseLeft];
-		[[Pad instanceTwo] releaseRight];
-		_columnTargets[0] = 2;
+		_columnTargets[0] = -1;
 	}
 	
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
 		[_runners[i] iterate];
 	}
+	
+	[[Pad instanceTwo] releaseLeft];
+	[[Pad instanceTwo] releaseRight];
+	[[Pad instanceTwo] releaseA];
+	[[Pad instanceTwo] releaseB];
 	
 	if (_runners[1] == nil) {
 
@@ -922,47 +920,114 @@
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	UITouch *touch = [touches allObjects][0];
-	
-	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-	
-	point.y = [CCDirector sharedDirector].winSize.height - point.y;
-	
-	int column = -1;
-	
-	if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-		column = ((point.x - GRID_1_X) - (BLOCK_SIZE / 2)) / BLOCK_SIZE;
-		
-		_columnTargets[0] = column;
-	}
-	
-	[[Pad instanceTwo] releaseLeft];
-	[[Pad instanceTwo] releaseRight];
-}
 
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-
-	UITouch *touch = [touches allObjects][0];
+	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
 	
-	if (touch.tapCount == 2) {
-		
-		[[Pad instanceTwo] pressDown];
-		
-	} else {
-	
+	for (UITouch *touch in touches) {
 		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
 		
 		point.y = [CCDirector sharedDirector].winSize.height - point.y;
 		
-		int column = -1;
-		
 		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-			column = ((point.x - GRID_1_X) - (BLOCK_SIZE / 2)) / BLOCK_SIZE;
 			
-			_columnTargets[0] = column;
+			[touchesWithinGrid addObject:touch];
+		}
+	}
+	
+	if (touchesWithinGrid.count == 1) {
+		
+		UITouch *touch = [touches allObjects][0];
+		
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		_columnTargets[0] = (point.x - GRID_1_X) / BLOCK_SIZE;
+		
+	}
+}
+
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+	int touchesWithinGrid = [self countTouchesWithinGrid:0 InSet:touches];
+	
+	if (touchesWithinGrid == 2) {
+		
+		// We're looking for a downward swipe, which we identify as two fingers
+		// within the same grid moving downwards 10 points.
+		UITouch *touch1 = [touches allObjects][0];
+		UITouch *touch2 = [touches allObjects][1];
+		
+		CGPoint point1End = [touch1 locationInView:[[CCDirector sharedDirector] view]];
+		CGPoint point1Start = [touch1 previousLocationInView:[[CCDirector sharedDirector] view]];
+		
+		CGPoint point2End = [touch2 locationInView:[[CCDirector sharedDirector] view]];
+		CGPoint point2Start = [touch2 previousLocationInView:[[CCDirector sharedDirector] view]];
+		
+		NSLog(@"%f", point1End.y - point1Start.y);
+		
+		if (point1End.y - point1Start.y > 2 && point2End.y - point2Start.y > 2) {
+			
+			[[Pad instanceTwo] pressDown];
+			
+		} else if (point1End.x == point1Start.x &&
+				   point1End.y == point1Start.y &&
+				   point2End.x == point2Start.x &&
+				   point2End.y == point2Start.y) {
+			
+			[[Pad instanceTwo] pressB];
+			_columnTargets[0] = -1;
+		}
+		
+	} else if (touchesWithinGrid == 1) {
+		
+		UITouch *touch = [touches allObjects][0];
+		
+		CGPoint point1End = [touch locationInView:[[CCDirector sharedDirector] view]];
+		CGPoint point1Start = [touch previousLocationInView:[[CCDirector sharedDirector] view]];
+		
+		if (point1End.x == point1Start.x && point1End.y == point1Start.y) {
+			[[Pad instanceTwo] pressA];
+			_columnTargets[0] = -1;
 		}
 	}
 }
+
+- (int)countTouchesWithinGrid:(int)gridNumber InSet:(NSSet *)touches {
+	
+	int x = gridNumber == 0 ? GRID_1_X : GRID_2_X;
+	
+	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	
+	for (UITouch *touch in touches) {
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		point.y = [CCDirector sharedDirector].winSize.height - point.y;
+		
+		if (point.x > x && point.x < x + (GRID_WIDTH * BLOCK_SIZE)) {
+			
+			[touchesWithinGrid addObject:touch];
+		}
+	}
+	
+	return touchesWithinGrid.count;
+}
+/*
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	int touchesWithinGrid = [self countTouchesWithinGrid:0 InSet:touches];
+	
+	if (touchesWithinGrid == 1) {
+		
+		UITouch *touch = [touches allObjects][0];
+		
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		_columnTargets[0] = (point.x - GRID_1_X) / BLOCK_SIZE;
+		
+	} else if (touchesWithinGrid == 0) {
+		[[Pad instanceTwo] pressA];
+		_columnTargets[0] = -1;
+	}
+}*/
 
 /*
 - (BOOL)ccKeyUp:(NSEvent*)event {
