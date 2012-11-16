@@ -139,6 +139,8 @@
 	// two together.
 	_runners[0].onNextBlocksCreated = ^(GridRunner* runner) {
 		[layer createNextBlockSpriteConnectorPairForRunner:runner];
+
+		[[Pad instanceTwo] releaseDown];
 	};
 
 	_runners[0].grid.onBlockAdd = ^(Grid* grid, BlockBase* block) {
@@ -207,7 +209,6 @@
 	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 	
 	if (players > 1) {
-		_runners[1].onNextBlocksCreated = _runners[0].onNextBlocksCreated;
 		_runners[1].onLiveBlockMove = _runners[0].onLiveBlockMove;
 		_runners[1].onLiveBlockRotate = _runners[0].onLiveBlockRotate;
 		_runners[1].onChainExploded = _runners[0].onChainExploded;
@@ -224,6 +225,16 @@
 		// gets maddeningly annoying
 		if ([Settings sharedSettings].gameType == GameTwoPlayerType) {
 			_runners[1].onLiveBlockDropStart = _runners[0].onLiveBlockDropStart;
+			
+			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
+				[layer createNextBlockSpriteConnectorPairForRunner:runner];
+				
+				[[Pad instanceOne] releaseDown];
+			};
+		} else {
+			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
+				[layer createNextBlockSpriteConnectorPairForRunner:runner];
+			};
 		}
 	}
 }
@@ -672,8 +683,14 @@
 }
 
 - (void)runGameOverState {
-	if ([[Pad instanceOne] isStartNewPress] || [[Pad instanceOne] isANewPress] || [[Pad instanceOne] isBNewPress]
-		|| [[Pad instanceTwo] isStartNewPress] || [[Pad instanceTwo] isANewPress] || [[Pad instanceTwo] isBNewPress]) {
+	if ([[Pad instanceOne] isStartNewPress] ||
+		[[Pad instanceOne] isANewPress] ||
+		[[Pad instanceOne] isBNewPress] ||
+		[[Pad instanceTwo] isStartNewPress] ||
+		[[Pad instanceTwo] isANewPress] ||
+		[[Pad instanceTwo] isBNewPress] ||
+		[[Pad instanceTwo] isLeftNewPress] ||
+		[[Pad instanceTwo] isRightNewPress]) {
 		[self resetGame];
 	}
 }
@@ -914,7 +931,7 @@
 	int column = -1;
 	
 	if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-		column = (point.x - GRID_1_X) / BLOCK_SIZE;
+		column = ((point.x - GRID_1_X) - (BLOCK_SIZE / 2)) / BLOCK_SIZE;
 		
 		_columnTargets[0] = column;
 	}
@@ -924,22 +941,27 @@
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+
 	UITouch *touch = [touches allObjects][0];
 	
-	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-	
-	point.y = [CCDirector sharedDirector].winSize.height - point.y;
-
-	int column = -1;
-	
-	if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-		column = (point.x - GRID_1_X) / BLOCK_SIZE;
+	if (touch.tapCount == 2) {
 		
-		_columnTargets[0] = column;
-	}
+		[[Pad instanceTwo] pressDown];
+		
+	} else {
 	
-	[[Pad instanceTwo] releaseLeft];
-	[[Pad instanceTwo] releaseRight];
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		point.y = [CCDirector sharedDirector].winSize.height - point.y;
+		
+		int column = -1;
+		
+		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+			column = ((point.x - GRID_1_X) - (BLOCK_SIZE / 2)) / BLOCK_SIZE;
+			
+			_columnTargets[0] = column;
+		}
+	}
 }
 
 /*
