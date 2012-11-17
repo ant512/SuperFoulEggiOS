@@ -27,6 +27,8 @@
 
 #import "GameTypeMenuLayer.h"
 
+#import "CCNode+SFGestureRecognizers.h"
+
 @implementation GameLayer
 
 + (CCScene *)scene {
@@ -51,6 +53,28 @@
 		
 		self.touchEnabled = YES;
 		
+		UITapGestureRecognizer *clockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleClockwiseRotateTap:)];
+		
+		clockwiseRotateTap.numberOfTouchesRequired = 1;
+		
+		[self addGestureRecognizer:clockwiseRotateTap];
+		[clockwiseRotateTap release];
+		
+		UITapGestureRecognizer *antiClockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleAntiClockwiseRotateTap:)];
+		
+		antiClockwiseRotateTap.numberOfTouchesRequired = 2;
+		
+		[self addGestureRecognizer:antiClockwiseRotateTap];
+		[antiClockwiseRotateTap release];
+		
+		UISwipeGestureRecognizer *dropSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleDropSwipe:)];
+		
+		dropSwipe.numberOfTouchesRequired = 2;
+		dropSwipe.direction = UISwipeGestureRecognizerDirectionDown;
+		
+		[self addGestureRecognizer:dropSwipe];
+		[dropSwipe release];
+		
 		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 		
 		_blockFactory = [[BlockFactory alloc] initWithPlayerCount:players blockColourCount:[Settings sharedSettings].blockColours];
@@ -70,6 +94,39 @@
 		[self scheduleUpdate];
 	}
 	return self;
+}
+
+#pragma mark - Gesture recogniser handlers
+
+- (void)handleClockwiseRotateTap:(UITapGestureRecognizer *)gesture {
+	
+	NSArray *tapPoints = [self pointsFromGesture:gesture withinGrid:0];
+	
+	if (_didDrag[0]) return;
+	
+	if (tapPoints.count == 1) {
+		[[Pad instanceTwo] pressA];
+		_columnTargets[0] = -1;
+	}
+}
+
+- (void)handleAntiClockwiseRotateTap:(UITapGestureRecognizer *)gesture {
+	
+	NSArray *tapPoints = [self pointsFromGesture:gesture withinGrid:0];
+	
+	if (tapPoints.count == 2) {
+		[[Pad instanceTwo] pressB];
+		_columnTargets[0] = -1;
+	}
+}
+
+- (void)handleDropSwipe:(UISwipeGestureRecognizer *)gesture {
+	
+	NSArray *swipePoints = [self pointsFromGesture:gesture withinGrid:0];
+	
+	if (swipePoints.count == 2) {
+		[[Pad instanceTwo] pressDown];
+	}
 }
 
 - (void)createNextBlockSpriteConnectorPairForRunner:(GridRunner*)runner {
@@ -919,7 +976,79 @@
 	[sheet addChild:sprite];
 }
 
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	
+	for (UITouch *touch in touches) {
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		point.y = [CCDirector sharedDirector].winSize.height - point.y;
+		
+		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+			
+			[touchesWithinGrid addObject:touch];
+		}
+	}
+	
+	if (touchesWithinGrid.count == 1) {
+		
+		if (_runners[0].grid.hasLiveBlocks) {
+		
+			UITouch *touch = [touches allObjects][0];
+	
+			CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+			// We need to figure out if the user touched somewhere we're not
+			// expecting or if he tried to grab the live blocks.
+			int touchColumn = (point.x - GRID_1_X) / BLOCK_SIZE;
+		
+			int block1X = [[_runners[0].grid liveBlock:0] x];
+			int block2X = [[_runners[0].grid liveBlock:1] x];
+			
+			int minColumn = block1X < block2X ? block1X : block2X;
+			int maxColumn = block1X > block2X ? block1X : block2X;
+			
+			// The live blocks can be tricky to grab (especially when they're
+			// rotated vertically) so we allow a column either side as an error
+			// margin.
+			if (minColumn > 0) --minColumn;
+			if (maxColumn < GRID_WIDTH - 1) ++maxColumn;
+			
+			if (touchColumn >= minColumn && touchColumn <= maxColumn) {
+				_isDragging[0] = YES;
+			}
+		}
+	}
+}
+
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	if (!_isDragging[0]) return;
+	
+	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	
+	for (UITouch *touch in touches) {
+		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+		
+		point.y = [CCDirector sharedDirector].winSize.height - point.y;
+		
+		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+			
+			[touchesWithinGrid addObject:touch];
+		}
+	}
+	
+	if (touchesWithinGrid.count == 1) {
+	
+		_isDragging[0] = NO;
+		_didDrag[0] = NO;
+	}
+}
+
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	if (!_isDragging[0]) return;
 
 	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
 	
@@ -942,92 +1071,29 @@
 		
 		_columnTargets[0] = (point.x - GRID_1_X) / BLOCK_SIZE;
 		
+		_didDrag[0] = YES;
 	}
 }
 
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
-	int touchesWithinGrid = [self countTouchesWithinGrid:0 InSet:touches];
-	
-	if (touchesWithinGrid == 2) {
-		
-		// We're looking for a downward swipe, which we identify as two fingers
-		// within the same grid moving downwards 10 points.
-		UITouch *touch1 = [touches allObjects][0];
-		UITouch *touch2 = [touches allObjects][1];
-		
-		CGPoint point1End = [touch1 locationInView:[[CCDirector sharedDirector] view]];
-		CGPoint point1Start = [touch1 previousLocationInView:[[CCDirector sharedDirector] view]];
-		
-		CGPoint point2End = [touch2 locationInView:[[CCDirector sharedDirector] view]];
-		CGPoint point2Start = [touch2 previousLocationInView:[[CCDirector sharedDirector] view]];
-		
-		NSLog(@"%f", point1End.y - point1Start.y);
-		
-		if (point1End.y - point1Start.y > 2 && point2End.y - point2Start.y > 2) {
-			
-			[[Pad instanceTwo] pressDown];
-			
-		} else if (point1End.x == point1Start.x &&
-				   point1End.y == point1Start.y &&
-				   point2End.x == point2Start.x &&
-				   point2End.y == point2Start.y) {
-			
-			[[Pad instanceTwo] pressB];
-			_columnTargets[0] = -1;
-		}
-		
-	} else if (touchesWithinGrid == 1) {
-		
-		UITouch *touch = [touches allObjects][0];
-		
-		CGPoint point1End = [touch locationInView:[[CCDirector sharedDirector] view]];
-		CGPoint point1Start = [touch previousLocationInView:[[CCDirector sharedDirector] view]];
-		
-		if (point1End.x == point1Start.x && point1End.y == point1Start.y) {
-			[[Pad instanceTwo] pressA];
-			_columnTargets[0] = -1;
-		}
-	}
-}
-
-- (int)countTouchesWithinGrid:(int)gridNumber InSet:(NSSet *)touches {
+- (NSArray *)pointsFromGesture:(UIGestureRecognizer *)gesture withinGrid:(int)gridNumber {
 	
 	int x = gridNumber == 0 ? GRID_1_X : GRID_2_X;
 	
-	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	NSMutableArray *points = [NSMutableArray array];
 	
-	for (UITouch *touch in touches) {
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	for (NSUInteger i = 0; i < gesture.numberOfTouches; ++i) {
+		
+		CGPoint point = [gesture locationOfTouch:i inView:[[CCDirector sharedDirector] view]];
 		
 		point.y = [CCDirector sharedDirector].winSize.height - point.y;
 		
 		if (point.x > x && point.x < x + (GRID_WIDTH * BLOCK_SIZE)) {
-			
-			[touchesWithinGrid addObject:touch];
+			[points addObject:[NSValue valueWithCGPoint:point]];
 		}
 	}
 	
-	return touchesWithinGrid.count;
+	return points;
 }
-/*
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	int touchesWithinGrid = [self countTouchesWithinGrid:0 InSet:touches];
-	
-	if (touchesWithinGrid == 1) {
-		
-		UITouch *touch = [touches allObjects][0];
-		
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-		
-		_columnTargets[0] = (point.x - GRID_1_X) / BLOCK_SIZE;
-		
-	} else if (touchesWithinGrid == 0) {
-		[[Pad instanceTwo] pressA];
-		_columnTargets[0] = -1;
-	}
-}*/
 
 /*
 - (BOOL)ccKeyUp:(NSEvent*)event {

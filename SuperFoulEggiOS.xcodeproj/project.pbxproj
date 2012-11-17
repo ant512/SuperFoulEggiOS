@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = C213BFA31657E6440009C13E /* CCNode+SFGestureRecognizers.m */; };
+		C213BFA61657E6440009C13E /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C213BFA41657E6440009C13E /* LICENCE.txt */; };
 		C2B754591655DCE100DB1D43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B754581655DCE100DB1D43 /* QuartzCore.framework */; };
 		C2B7545B1655DCE100DB1D43 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */; };
 		C2B7545D1655DCE100DB1D43 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545C1655DCE100DB1D43 /* OpenAL.framework */; };
@@ -223,6 +225,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C213BFA21657E6440009C13E /* CCNode+SFGestureRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+SFGestureRecognizers.h"; sourceTree = "<group>"; };
+		C213BFA31657E6440009C13E /* CCNode+SFGestureRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+SFGestureRecognizers.m"; sourceTree = "<group>"; };
+		C213BFA41657E6440009C13E /* LICENCE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE.txt; sourceTree = "<group>"; };
 		C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEggiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B754581655DCE100DB1D43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -631,6 +636,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C213BFA11657E6440009C13E /* CCNode+SFGestureRecognizers */ = {
+			isa = PBXGroup;
+			children = (
+				C213BFA21657E6440009C13E /* CCNode+SFGestureRecognizers.h */,
+				C213BFA31657E6440009C13E /* CCNode+SFGestureRecognizers.m */,
+				C213BFA41657E6440009C13E /* LICENCE.txt */,
+			);
+			name = "CCNode+SFGestureRecognizers";
+			path = "libs/CCNode+SFGestureRecognizers";
+			sourceTree = "<group>";
+		};
 		C2B754491655DCE100DB1D43 = {
 			isa = PBXGroup;
 			children = (
@@ -715,6 +731,7 @@
 				C2B755AE1655DCE300DB1D43 /* LICENSE_cocos2d.txt */,
 				C2B755BD1655DCE400DB1D43 /* LICENSE_CocosDenshion.txt */,
 				C2B755EF1655DCE400DB1D43 /* LICENSE_Kazmath.txt */,
+				C213BFA11657E6440009C13E /* CCNode+SFGestureRecognizers */,
 				C2B7548A1655DCE100DB1D43 /* cocos2d */,
 				C2B755AF1655DCE300DB1D43 /* CocosDenshion */,
 				C2B755BE1655DCE400DB1D43 /* kazmath */,
@@ -1319,6 +1336,7 @@
 				C2B756CD1655DD6A00DB1D43 /* rotate.wav in Resources */,
 				C2B756CE1655DD6A00DB1D43 /* title.mp3 in Resources */,
 				C2B756CF1655DD6A00DB1D43 /* win.wav in Resources */,
+				C213BFA61657E6440009C13E /* LICENCE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1467,6 +1485,7 @@
 				C2B756F11655DD8500DB1D43 /* Settings.m in Sources */,
 				C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */,
 				C2B756F41655DD8500DB1D43 /* ZombieLayer.m in Sources */,
+				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

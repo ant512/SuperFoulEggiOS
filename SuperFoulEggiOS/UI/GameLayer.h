@@ -67,6 +67,8 @@ typedef enum {
 	int _deathEffectTimer;
 	
 	int _columnTargets[MAX_PLAYERS];
+	int _isDragging[MAX_PLAYERS];
+	int _didDrag[MAX_PLAYERS];
 }
 
 + (CCScene*)scene;
