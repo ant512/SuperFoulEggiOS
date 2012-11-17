@@ -59,7 +59,7 @@
 		
 		[self addGestureRecognizer:clockwiseRotateTap];
 		[clockwiseRotateTap release];
-		
+
 		UITapGestureRecognizer *antiClockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleAntiClockwiseRotateTap:)];
 		
 		antiClockwiseRotateTap.numberOfTouchesRequired = 2;
@@ -100,33 +100,38 @@
 
 - (void)handleClockwiseRotateTap:(UITapGestureRecognizer *)gesture {
 	
-	NSArray *tapPoints = [self pointsFromGesture:gesture withinGrid:0];
+	if (_didDrag) return;
 	
-	if (_didDrag[0]) return;
+	[[Pad instanceTwo] pressA];
+	_columnTarget = -1;
 	
-	if (tapPoints.count == 1) {
-		[[Pad instanceTwo] pressA];
-		_columnTargets[0] = -1;
-	}
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
 }
 
 - (void)handleAntiClockwiseRotateTap:(UITapGestureRecognizer *)gesture {
 	
-	NSArray *tapPoints = [self pointsFromGesture:gesture withinGrid:0];
+	if (_didDrag) return;
 	
-	if (tapPoints.count == 2) {
-		[[Pad instanceTwo] pressB];
-		_columnTargets[0] = -1;
-	}
+	[[Pad instanceTwo] pressB];
+	_columnTarget = -1;
+	
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
 }
 
 - (void)handleDropSwipe:(UISwipeGestureRecognizer *)gesture {
 	
-	NSArray *swipePoints = [self pointsFromGesture:gesture withinGrid:0];
+	if(_didDrag) return;
 	
-	if (swipePoints.count == 2) {
-		[[Pad instanceTwo] pressDown];
-	}
+	[[Pad instanceTwo] pressDown];
+	_columnTarget = -1;
+	
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
 }
 
 - (void)createNextBlockSpriteConnectorPairForRunner:(GridRunner*)runner {
@@ -198,6 +203,10 @@
 		[layer createNextBlockSpriteConnectorPairForRunner:runner];
 
 		[[Pad instanceTwo] releaseDown];
+		_didDrag = NO;
+		_columnTarget = -1;
+		_dragStartColumn = -1;
+		_dragStartX = -1;
 	};
 
 	_runners[0].grid.onBlockAdd = ^(Grid* grid, BlockBase* block) {
@@ -285,8 +294,6 @@
 			
 			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
 				[layer createNextBlockSpriteConnectorPairForRunner:runner];
-				
-				[[Pad instanceOne] releaseDown];
 			};
 		} else {
 			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
@@ -769,15 +776,15 @@
 	if (_runners[0].grid.hasLiveBlocks) {
 		BlockBase *block = [_runners[0].grid liveBlock:0];
 		
-		if (_columnTargets[0] > -1) {
-			if (block.x < _columnTargets[0]) {
+		if (_columnTarget > -1) {
+			if (block.x < _columnTarget) {
 				[[Pad instanceTwo] pressRight];
-			} else if (block.x > _columnTargets[0]) {
+			} else if (block.x > _columnTarget) {
 				[[Pad instanceTwo] pressLeft];
 			}
 		}
 	} else {
-		_columnTargets[0] = -1;
+		_columnTarget = -1;
 	}
 	
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
@@ -978,101 +985,50 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
 	
-	for (UITouch *touch in touches) {
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	if (touches.count > 1) return;
+	if (!_runners[0].grid.hasLiveBlocks) return;
 		
-		point.y = [CCDirector sharedDirector].winSize.height - point.y;
-		
-		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
+	int block1X = [[_runners[0].grid liveBlock:0] x];
+	int block2X = [[_runners[0].grid liveBlock:1] x];
 			
-			[touchesWithinGrid addObject:touch];
-		}
-	}
+	// Remember the left-most column.  We'll drag relative to this.
+	_dragStartColumn = block1X < block2X ? block1X : block2X;
 	
-	if (touchesWithinGrid.count == 1) {
-		
-		if (_runners[0].grid.hasLiveBlocks) {
-		
-			UITouch *touch = [touches allObjects][0];
+	UITouch *touch = [touches allObjects][0];
+	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
 	
-			CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-		
-			// We need to figure out if the user touched somewhere we're not
-			// expecting or if he tried to grab the live blocks.
-			int touchColumn = (point.x - GRID_1_X) / BLOCK_SIZE;
-		
-			int block1X = [[_runners[0].grid liveBlock:0] x];
-			int block2X = [[_runners[0].grid liveBlock:1] x];
-			
-			int minColumn = block1X < block2X ? block1X : block2X;
-			int maxColumn = block1X > block2X ? block1X : block2X;
-			
-			// The live blocks can be tricky to grab (especially when they're
-			// rotated vertically) so we allow a column either side as an error
-			// margin.
-			if (minColumn > 0) --minColumn;
-			if (maxColumn < GRID_WIDTH - 1) ++maxColumn;
-			
-			if (touchColumn >= minColumn && touchColumn <= maxColumn) {
-				_isDragging[0] = YES;
-			}
-		}
-	}
+	_dragStartX = point.x;
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	if (!_isDragging[0]) return;
-	
-	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
-	
-	for (UITouch *touch in touches) {
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-		
-		point.y = [CCDirector sharedDirector].winSize.height - point.y;
-		
-		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-			
-			[touchesWithinGrid addObject:touch];
-		}
-	}
-	
-	if (touchesWithinGrid.count == 1) {
-	
-		_isDragging[0] = NO;
-		_didDrag[0] = NO;
-	}
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	
-	if (!_isDragging[0]) return;
-
-	NSMutableArray *touchesWithinGrid = [NSMutableArray array];
+	if (touches.count > 1) return;
 	
-	for (UITouch *touch in touches) {
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	UITouch *touch = [touches allObjects][0];
 		
-		point.y = [CCDirector sharedDirector].winSize.height - point.y;
+	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
+	
+	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / BLOCK_SIZE);
+	
+	if (newColumnTarget == _dragStartColumn && !_didDrag) {
 		
-		if (point.x > GRID_1_X && point.x < GRID_1_X + (GRID_WIDTH * BLOCK_SIZE)) {
-			
-			[touchesWithinGrid addObject:touch];
-		}
+		// If the player hasn't moved horizontally a significant amount, this is
+		// possibly a different gesture.  We can discard it.
+		return;
 	}
 	
-	if (touchesWithinGrid.count == 1) {
-		
-		UITouch *touch = [touches allObjects][0];
-		
-		CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-		
-		_columnTargets[0] = (point.x - GRID_1_X) / BLOCK_SIZE;
-		
-		_didDrag[0] = YES;
-	}
+	_columnTarget = newColumnTarget;
+	_didDrag = YES;
 }
 
 - (NSArray *)pointsFromGesture:(UIGestureRecognizer *)gesture withinGrid:(int)gridNumber {
