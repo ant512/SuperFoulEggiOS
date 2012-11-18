@@ -175,10 +175,7 @@
 		C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562B1655DD3100DB1D43 /* SZPoint.m */; };
 		C2B756421655DD3100DB1D43 /* YellowBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562D1655DD3100DB1D43 /* YellowBlock.m */; };
 		C2B7568C1655DD6A00DB1D43 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = C2B756431655DD6900DB1D43 /* Credits.html */; };
-		C2B7568D1655DD6A00DB1D43 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756441655DD6900DB1D43 /* Default-568h@2x.png */; };
 		C2B7568E1655DD6A00DB1D43 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756451655DD6900DB1D43 /* Default-Landscape~ipad.png */; };
-		C2B7568F1655DD6A00DB1D43 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756461655DD6900DB1D43 /* Default.png */; };
-		C2B756901655DD6A00DB1D43 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756471655DD6900DB1D43 /* Default@2x.png */; };
 		C2B756931655DD6A00DB1D43 /* font_0.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B7564D1655DD6900DB1D43 /* font_0.png */; };
 		C2B756941655DD6A00DB1D43 /* font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C2B7564E1655DD6900DB1D43 /* font.fnt */; };
 		C2B756951655DD6A00DB1D43 /* fps_images-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B7564F1655DD6900DB1D43 /* fps_images-hd.png */; };
@@ -580,10 +577,7 @@
 		C2B7562C1655DD3100DB1D43 /* YellowBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YellowBlock.h; sourceTree = "<group>"; };
 		C2B7562D1655DD3100DB1D43 /* YellowBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YellowBlock.m; sourceTree = "<group>"; };
 		C2B756431655DD6900DB1D43 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
-		C2B756441655DD6900DB1D43 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		C2B756451655DD6900DB1D43 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		C2B756461655DD6900DB1D43 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
-		C2B756471655DD6900DB1D43 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		C2B7564D1655DD6900DB1D43 /* font_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = font_0.png; path = Resources/font_0.png; sourceTree = "<group>"; };
 		C2B7564E1655DD6900DB1D43 /* font.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = font.fnt; path = Resources/font.fnt; sourceTree = "<group>"; };
 		C2B7564F1655DD6900DB1D43 /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-hd.png"; path = "Resources/fps_images-hd.png"; sourceTree = "<group>"; };
@@ -749,11 +743,8 @@
 			isa = PBXGroup;
 			children = (
 				C2B756431655DD6900DB1D43 /* Credits.html */,
-				C2B756441655DD6900DB1D43 /* Default-568h@2x.png */,
 				C213BFA8165940010009C13E /* Default-Landscape@2x.png */,
 				C2B756451655DD6900DB1D43 /* Default-Landscape~ipad.png */,
-				C2B756461655DD6900DB1D43 /* Default.png */,
-				C2B756471655DD6900DB1D43 /* Default@2x.png */,
 				C2B7564D1655DD6900DB1D43 /* font_0.png */,
 				C2B7564E1655DD6900DB1D43 /* font.fnt */,
 				C2B7564F1655DD6900DB1D43 /* fps_images-hd.png */,
@@ -1339,10 +1330,7 @@
 			files = (
 				C2B755D41655DCE400DB1D43 /* ChangeLog in Resources */,
 				C2B7568C1655DD6A00DB1D43 /* Credits.html in Resources */,
-				C2B7568D1655DD6A00DB1D43 /* Default-568h@2x.png in Resources */,
 				C2B7568E1655DD6A00DB1D43 /* Default-Landscape~ipad.png in Resources */,
-				C2B7568F1655DD6A00DB1D43 /* Default.png in Resources */,
-				C2B756901655DD6A00DB1D43 /* Default@2x.png in Resources */,
 				C2B756931655DD6A00DB1D43 /* font_0.png in Resources */,
 				C2B756941655DD6A00DB1D43 /* font.fnt in Resources */,
 				C2B756951655DD6A00DB1D43 /* fps_images-hd.png in Resources */,
