@@ -26,11 +26,18 @@
 
 - (id)init {
 	if ((self = [super init])) {
+		
+		[self loadSounds];
 		[self loadBackground];
 
 		self.touchEnabled = YES;
 	}
 	return self;
+}
+
+- (void)loadSounds {
+	[[SimpleAudioEngine sharedEngine] preloadBackgroundMusic:@"title.mp3"];
+	[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"title.mp3"];
 }
 
 - (void)loadBackground {

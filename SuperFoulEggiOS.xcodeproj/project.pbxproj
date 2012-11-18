@@ -191,7 +191,6 @@
 		C2B756B61655DD6A00DB1D43 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756711655DD6900DB1D43 /* title.png */; };
 		C2B756B71655DD6A00DB1D43 /* yellow.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2B756721655DD6900DB1D43 /* yellow.plist */; };
 		C2B756B81655DD6A00DB1D43 /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756731655DD6900DB1D43 /* yellow.png */; };
-		C2B756B91655DD6A00DB1D43 /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756741655DD6900DB1D43 /* zombie.png */; };
 		C2B756BA1655DD6A00DB1D43 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756751655DD6900DB1D43 /* Icon-72.png */; };
 		C2B756BB1655DD6A00DB1D43 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756761655DD6900DB1D43 /* Icon-Small-50.png */; };
 		C2B756BC1655DD6A00DB1D43 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756771655DD6900DB1D43 /* Icon-Small.png */; };
@@ -221,7 +220,6 @@
 		C2B756F01655DD8500DB1D43 /* MenuRectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E01655DD8500DB1D43 /* MenuRectLayer.m */; };
 		C2B756F11655DD8500DB1D43 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E21655DD8500DB1D43 /* Settings.m */; };
 		C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */; };
-		C2B756F41655DD8500DB1D43 /* ZombieLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E81655DD8500DB1D43 /* ZombieLayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -573,7 +571,6 @@
 		C2B756711655DD6900DB1D43 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		C2B756721655DD6900DB1D43 /* yellow.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = yellow.plist; sourceTree = "<group>"; };
 		C2B756731655DD6900DB1D43 /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow.png; sourceTree = "<group>"; };
-		C2B756741655DD6900DB1D43 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombie.png; sourceTree = "<group>"; };
 		C2B756751655DD6900DB1D43 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
 		C2B756761655DD6900DB1D43 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources/Icon-Small-50.png"; sourceTree = "<group>"; };
 		C2B756771655DD6900DB1D43 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Resources/Icon-Small.png"; sourceTree = "<group>"; };
@@ -612,8 +609,6 @@
 		C2B756E21655DD8500DB1D43 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		C2B756E51655DD8500DB1D43 /* TitleScreenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScreenLayer.h; sourceTree = "<group>"; };
 		C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScreenLayer.m; sourceTree = "<group>"; };
-		C2B756E71655DD8500DB1D43 /* ZombieLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZombieLayer.h; sourceTree = "<group>"; };
-		C2B756E81655DD8500DB1D43 /* ZombieLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZombieLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1165,7 +1160,6 @@
 				C2B756711655DD6900DB1D43 /* title.png */,
 				C2B756721655DD6900DB1D43 /* yellow.plist */,
 				C2B756731655DD6900DB1D43 /* yellow.png */,
-				C2B756741655DD6900DB1D43 /* zombie.png */,
 			);
 			name = gfx;
 			path = Resources/gfx;
@@ -1212,8 +1206,6 @@
 				C2B756E21655DD8500DB1D43 /* Settings.m */,
 				C2B756E51655DD8500DB1D43 /* TitleScreenLayer.h */,
 				C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */,
-				C2B756E71655DD8500DB1D43 /* ZombieLayer.h */,
-				C2B756E81655DD8500DB1D43 /* ZombieLayer.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1314,7 +1306,6 @@
 				C2B756B61655DD6A00DB1D43 /* title.png in Resources */,
 				C2B756B71655DD6A00DB1D43 /* yellow.plist in Resources */,
 				C2B756B81655DD6A00DB1D43 /* yellow.png in Resources */,
-				C2B756B91655DD6A00DB1D43 /* zombie.png in Resources */,
 				C2B756BA1655DD6A00DB1D43 /* Icon-72.png in Resources */,
 				C2B756BB1655DD6A00DB1D43 /* Icon-Small-50.png in Resources */,
 				C2B756BC1655DD6A00DB1D43 /* Icon-Small.png in Resources */,
@@ -1484,7 +1475,6 @@
 				C2B756F01655DD8500DB1D43 /* MenuRectLayer.m in Sources */,
 				C2B756F11655DD8500DB1D43 /* Settings.m in Sources */,
 				C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */,
-				C2B756F41655DD8500DB1D43 /* ZombieLayer.m in Sources */,
 				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
