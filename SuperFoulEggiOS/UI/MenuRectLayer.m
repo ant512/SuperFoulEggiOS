@@ -63,7 +63,6 @@
 }
 
 - (void)draw {
-    glEnable(GL_LINE_LOOP);
     ccDrawColor4B(255, 255, 255, 255);
     glLineWidth(1);
 
