@@ -592,10 +592,10 @@
 }
 
 - (void)createSpritesForNumber:(int)number colour:(NSString*)colour x:(int)x y:(int)y {
-	
+
 	CCSpriteBatchNode* sheet = _purpleNumberSpriteSheet;
 	
-	if ([colour compare:@"orange"] == NSOrderedSame) {
+	if ([colour isEqualToString:@"orange"]) {
 		sheet = _orangeNumberSpriteSheet;
 	}
 	
@@ -607,7 +607,11 @@
 		NSString* spriteName = [NSString stringWithFormat:@"%@num%d.png", colour, number % 10];
 		CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:spriteName];
 		[sheet addChild:sprite];
-		sprite.position = ccp(x + (digits * sprite.textureRect.size.width), y);
+		
+		// Offsetting the co-ords by 0.5 pixels apparently fixes the anti-
+		// aliasing...
+		sprite.position = ccp(x + 0.5 + (digits * sprite.boundingBox.size.width), y + 0.5);
+		[sprite.texture setAliasTexParameters];
 		
 		--digits;
 		number /= 10;
@@ -726,7 +730,7 @@
 	} else {
 		// Add CPU tag to second grid
 		CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"cpu.png"];
-		sprite.position = ccp(GRID_2_TAG_X, GRID_2_TAG_Y);
+		sprite.position = ccp(GRID_2_TAG_X + 0.5, GRID_2_TAG_Y + 0.5);
 		[_playerTagSpriteSheet addChild:sprite];
 	}
 }
@@ -1031,85 +1035,4 @@
 	_didDrag = YES;
 }
 
-- (NSArray *)pointsFromGesture:(UIGestureRecognizer *)gesture withinGrid:(int)gridNumber {
-	
-	int x = gridNumber == 0 ? GRID_1_X : GRID_2_X;
-	
-	NSMutableArray *points = [NSMutableArray array];
-	
-	for (NSUInteger i = 0; i < gesture.numberOfTouches; ++i) {
-		
-		CGPoint point = [gesture locationOfTouch:i inView:[[CCDirector sharedDirector] view]];
-		
-		point.y = [CCDirector sharedDirector].winSize.height - point.y;
-		
-		if (point.x > x && point.x < x + (GRID_WIDTH * BLOCK_SIZE)) {
-			[points addObject:[NSValue valueWithCGPoint:point]];
-		}
-	}
-	
-	return points;
-}
-
-/*
-- (BOOL)ccKeyUp:(NSEvent*)event {
-	
-	NSString * character = [event characters];
-	unichar keyCode = [character characterAtIndex:0];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneUp) [[Pad instanceOne] releaseUp];
-	if (keyCode == [Settings sharedSettings].keyCodeOneDown) [[Pad instanceOne] releaseDown];
-	if (keyCode == [Settings sharedSettings].keyCodeOneLeft) [[Pad instanceOne] releaseLeft];
-	if (keyCode == [Settings sharedSettings].keyCodeOneRight) [[Pad instanceOne] releaseRight];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneA) [[Pad instanceOne] releaseA];
-	if (keyCode == [Settings sharedSettings].keyCodeOneB) [[Pad instanceOne] releaseB];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneStart) [[Pad instanceOne] releaseStart];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeTwoUp) [[Pad instanceTwo] releaseUp];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoDown) [[Pad instanceTwo] releaseDown];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoLeft) [[Pad instanceTwo] releaseLeft];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoRight) [[Pad instanceTwo] releaseRight];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeTwoA) [[Pad instanceTwo] releaseA];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoB) [[Pad instanceTwo] releaseB];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeTwoStart) [[Pad instanceTwo] releaseStart];
-	
-	return YES;
-}
-
-- (BOOL)ccKeyDown:(NSEvent*)event {
-	
-	NSString * character = [event characters];
-	unichar keyCode = [character characterAtIndex:0];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneUp) [[Pad instanceOne] pressUp];
-	if (keyCode == [Settings sharedSettings].keyCodeOneDown) [[Pad instanceOne] pressDown];
-	if (keyCode == [Settings sharedSettings].keyCodeOneLeft) [[Pad instanceOne] pressLeft];
-	if (keyCode == [Settings sharedSettings].keyCodeOneRight) [[Pad instanceOne] pressRight];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneA) [[Pad instanceOne] pressA];
-	if (keyCode == [Settings sharedSettings].keyCodeOneB) [[Pad instanceOne] pressB];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeOneStart) [[Pad instanceOne] pressStart];
-
-	if (keyCode == [Settings sharedSettings].keyCodeTwoUp) [[Pad instanceTwo] pressUp];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoDown) [[Pad instanceTwo] pressDown];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoLeft) [[Pad instanceTwo] pressLeft];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoRight) [[Pad instanceTwo] pressRight];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeTwoA) [[Pad instanceTwo] pressA];
-	if (keyCode == [Settings sharedSettings].keyCodeTwoB) [[Pad instanceTwo] pressB];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeTwoStart) [[Pad instanceTwo] pressStart];
-	
-	if (keyCode == [Settings sharedSettings].keyCodeQuit) {
-		[[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:1.0f scene:[GameTypeMenuLayer scene]]];
-	}
-	
-	return YES;
-}
-*/
 @end
