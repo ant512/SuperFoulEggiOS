@@ -74,6 +74,14 @@
 		
 		[self addGestureRecognizer:dropSwipe];
 		[dropSwipe release];
+
+		UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleMovePan:)];
+
+		pan.minimumNumberOfTouches = 1;
+		pan.maximumNumberOfTouches = 1;
+
+		[self addGestureRecognizer:pan];
+		[pan release];
 		
 		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 		
@@ -129,6 +137,63 @@
 	[[Pad instanceTwo] pressDown];
 	_columnTarget = -1;
 	
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
+}
+
+- (void)handleMovePan:(UIPanGestureRecognizer *)gesture {
+
+	CGPoint point = [gesture locationInView:[[CCDirector sharedDirector] view]];
+
+	switch (gesture.state) {
+		case UIGestureRecognizerStateBegan:
+			[self dragStarted:point];
+			break;
+
+		case UIGestureRecognizerStateChanged:
+			[self dragMoved:point];
+			break;
+
+		case UIGestureRecognizerStateEnded:
+			[self dragEnded];
+			break;
+
+		default:
+			break;
+	}
+}
+
+- (void)dragStarted:(CGPoint)point {
+	_didDrag = NO;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
+
+	if (!_runners[0].grid.hasLiveBlocks) return;
+
+	int block1X = [[_runners[0].grid liveBlock:0] x];
+	int block2X = [[_runners[0].grid liveBlock:1] x];
+
+	// Remember the left-most column.  We'll drag relative to this.
+	_dragStartColumn = block1X < block2X ? block1X : block2X;
+	_dragStartX = point.x;
+}
+
+- (void)dragMoved:(CGPoint)point {
+	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / BLOCK_SIZE);
+
+	if (newColumnTarget == _dragStartColumn && !_didDrag) {
+
+		// If the player hasn't moved horizontally a significant amount, this is
+		// possibly a different gesture.  We can discard it.
+		return;
+	}
+
+	_columnTarget = newColumnTarget;
+	_didDrag = YES;
+}
+
+- (void)dragEnded {
 	_didDrag = NO;
 	_dragStartColumn = -1;
 	_dragStartX = -1;
@@ -985,54 +1050,6 @@
 	[connector release];
 	
 	[sheet addChild:sprite];
-}
-
-- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	_didDrag = NO;
-	_dragStartColumn = -1;
-	_dragStartX = -1;
-	
-	if (touches.count > 1) return;
-	if (!_runners[0].grid.hasLiveBlocks) return;
-		
-	int block1X = [[_runners[0].grid liveBlock:0] x];
-	int block2X = [[_runners[0].grid liveBlock:1] x];
-			
-	// Remember the left-most column.  We'll drag relative to this.
-	_dragStartColumn = block1X < block2X ? block1X : block2X;
-	
-	UITouch *touch = [touches allObjects][0];
-	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-	
-	_dragStartX = point.x;
-}
-
-- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	_didDrag = NO;
-	_dragStartColumn = -1;
-	_dragStartX = -1;
-}
-
-- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	if (touches.count > 1) return;
-	
-	UITouch *touch = [touches allObjects][0];
-		
-	CGPoint point = [touch locationInView:[[CCDirector sharedDirector] view]];
-	
-	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / BLOCK_SIZE);
-	
-	if (newColumnTarget == _dragStartColumn && !_didDrag) {
-		
-		// If the player hasn't moved horizontally a significant amount, this is
-		// possibly a different gesture.  We can discard it.
-		return;
-	}
-	
-	_columnTarget = newColumnTarget;
-	_didDrag = YES;
 }
 
 @end
