@@ -180,6 +180,9 @@
 }
 
 - (void)dragMoved:(CGPoint)point {
+	
+	if (_dragStartColumn == -1) return;
+	
 	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / BLOCK_SIZE);
 
 	if (newColumnTarget == _dragStartColumn && !_didDrag) {
