@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C202842C165B423C005204F5 /* gridbottom-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C202842B165B423C005204F5 /* gridbottom-ipadhd.plist */; };
 		C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = C213BFA31657E6440009C13E /* CCNode+SFGestureRecognizers.m */; };
 		C213BFA61657E6440009C13E /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C213BFA41657E6440009C13E /* LICENCE.txt */; };
 		C213BFA9165940010009C13E /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C213BFA8165940010009C13E /* Default-Landscape@2x.png */; };
@@ -245,6 +246,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C202842B165B423C005204F5 /* gridbottom-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gridbottom-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFA21657E6440009C13E /* CCNode+SFGestureRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+SFGestureRecognizers.h"; sourceTree = "<group>"; };
 		C213BFA31657E6440009C13E /* CCNode+SFGestureRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+SFGestureRecognizers.m"; sourceTree = "<group>"; };
 		C213BFA41657E6440009C13E /* LICENCE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE.txt; sourceTree = "<group>"; };
@@ -1179,8 +1181,9 @@
 				C2B756571655DD6900DB1D43 /* grey.plist */,
 				C213BFBE165944B50009C13E /* grey-ipadhd.png */,
 				C2B756581655DD6900DB1D43 /* grey.png */,
-				C2B756591655DD6900DB1D43 /* gridbottom.plist */,
+				C202842B165B423C005204F5 /* gridbottom-ipadhd.plist */,
 				C213BFB8165943E70009C13E /* gridbottom-ipadhd.png */,
+				C2B756591655DD6900DB1D43 /* gridbottom.plist */,
 				C2B7565A1655DD6900DB1D43 /* gridbottom.png */,
 				C2B7565B1655DD6900DB1D43 /* gridbottomleft.plist */,
 				C213BFB6165943DB0009C13E /* gridbottomleft-ipadhd.png */,
@@ -1416,6 +1419,7 @@
 				C213BFDB16594EEC0009C13E /* incoming-ipadhd.plist in Resources */,
 				C213BFDD1659501D0009C13E /* message-ipadhd.plist in Resources */,
 				C213BFDF165950990009C13E /* playertags-ipadhd.plist in Resources */,
+				C202842C165B423C005204F5 /* gridbottom-ipadhd.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
