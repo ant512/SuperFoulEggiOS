@@ -78,7 +78,6 @@
 		UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleMovePan:)];
 
 		pan.minimumNumberOfTouches = 1;
-		pan.maximumNumberOfTouches = 1;
 
 		[self addGestureRecognizer:pan];
 		[pan release];
