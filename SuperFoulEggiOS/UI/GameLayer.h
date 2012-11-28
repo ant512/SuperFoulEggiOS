@@ -31,11 +31,11 @@
 #define GRID_2_GAME_SCORE_X 602
 #define GRID_2_SCORES_Y 285
 
-typedef NS_ENUM(NSUInteger, GameState) {
-	GameActiveState = 0,
-	GamePausedState = 1,
-	GameOverEffectState = 2,
-	GameOverState = 3
+typedef NS_ENUM(NSUInteger, SZGameState) {
+	SZGameStateActive = 0,
+	SZGameStatePaused = 1,
+	SZGameStateGameOverEffect = 2,
+	SZGameStateGameOver = 3
 };
 
 @interface GameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {
@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, GameState) {
 	CCSpriteBatchNode* _purpleNumberSpriteSheet;
 	
 	BlockFactory* _blockFactory;
-	GameState _state;
+	SZGameState _state;
 	
 	GridRunner* _runners[MAX_PLAYERS];
 	NSMutableArray* _blockSpriteConnectors[MAX_PLAYERS];

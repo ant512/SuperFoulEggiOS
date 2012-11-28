@@ -416,7 +416,7 @@
 	}
 	
 	if (!requiresIteration) {
-		_state = GameOverState;
+		_state = SZGameStateGameOver;
 		
 		int requiredWins = ([Settings sharedSettings].gamesPerMatch / 2) + 1;
 		
@@ -481,19 +481,19 @@
 	for (int i = 0; i < frames; ++i) {
 		
 		switch (_state) {
-			case GameActiveState:
+			case SZGameStateActive:
 				[self runActiveState];
 				break;
 				
-			case GamePausedState:
+			case SZGameStatePaused:
 				[self runPausedState];
 				break;
 				
-			case GameOverEffectState:
+			case SZGameStateGameOverEffect:
 				[self runGameOverEffectState];
 				break;
 				
-			case GameOverState:
+			case SZGameStateGameOver:
 				[self runGameOverState];
 				break;
 		}
@@ -517,7 +517,7 @@
 }
 
 - (void)pauseGame {
-	_state = GamePausedState;
+	_state = SZGameStatePaused;
 	
 	[[SimpleAudioEngine sharedEngine] playEffect:@"pause.wav"];
 	
@@ -536,7 +536,7 @@
 }
 
 - (void)resumeGame {
-	_state = GameActiveState;
+	_state = SZGameStateActive;
 
 	// Remove all "paused" messages
 	while ([[_messageSpriteSheet children] count] > 0) {
@@ -592,7 +592,7 @@
 
 - (void)resetGame {
 
-	_state = GameActiveState;
+	_state = SZGameStateActive;
 	_deathEffectTimer = 0;
 
 	[[Pad instanceOne] reset];
@@ -765,7 +765,7 @@
 			
 			// Single player dead
 			[[SimpleAudioEngine sharedEngine] playEffect:@"dead.wav"];
-			_state = GameOverEffectState;
+			_state = SZGameStateGameOverEffect;
 			_deathEffectTimer = 0;
 		}
 	} else {
@@ -776,7 +776,7 @@
 			// Player one dead
 			[[SimpleAudioEngine sharedEngine] playEffect:@"dead.wav"];
 
-			_state = GameOverEffectState;
+			_state = SZGameStateGameOverEffect;
 			_deathEffectTimer = 0;
 			
 		} else if (_runners[1].isDead && !_runners[0].isDead) {
@@ -784,7 +784,7 @@
 			// Player two dead
 			[[SimpleAudioEngine sharedEngine] playEffect:@"dead.wav"];
 			
-			_state = GameOverEffectState;
+			_state = SZGameStateGameOverEffect;
 			_deathEffectTimer = 0;
 			
 		} else if (_runners[1].isDead && _runners[0].isDead) {
@@ -792,7 +792,7 @@
 			// Both dead
 			[[SimpleAudioEngine sharedEngine] playEffect:@"dead.wav"];
 			
-			_state = GameOverEffectState;
+			_state = SZGameStateGameOverEffect;
 			_deathEffectTimer = 0;
 		}
 		
