@@ -33,17 +33,15 @@
  */
 @interface Grid : GridBase {
 @private
-	SZEggBase* _liveBlocks[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live blocks in the grid. */
-	BOOL _hasLiveBlocks;						/**< True if the grid has player-controlled blocks; false if not. */
-	int _playerNumber;							/**< The zero-based number of the player controlling this grid. */
+	SZEggBase* _liveEggs[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live eggs in the grid. */
 }
 
 @property (readwrite, assign) id <SZGridDelegate> delegate;
 
 /**
- * Check if the grid has live blocks.
+ * Check if the grid has live eggs.
  */
-@property (readonly) BOOL hasLiveBlocks;
+@property (readonly) BOOL hasLiveEggs;
 
 /**
  * The 0-based number of the player controlling the grid.

@@ -123,7 +123,7 @@
 		}
 	}
 	
-	while (gridCopy.hasLiveBlocks) [gridCopy dropLiveBlocks];
+	while (gridCopy.hasLiveEggs) [gridCopy dropLiveBlocks];
 	
 	do {
 		while ([gridCopy dropBlocks]);

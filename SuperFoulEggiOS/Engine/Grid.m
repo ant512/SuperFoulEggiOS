@@ -9,16 +9,13 @@
 
 @implementation Grid
 
-@synthesize hasLiveBlocks = _hasLiveBlocks;
-@synthesize playerNumber = _playerNumber;
-
 - (id)initWithPlayerNumber:(int)playerNumber {
 	if ((self = [super init])) {
-		_hasLiveBlocks = NO;
+		_hasLiveEggs = NO;
 		_playerNumber = playerNumber;
 		
 		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-			_liveBlocks[i] = nil;
+			_liveEggs[i] = nil;
 		}
 	}
 	
@@ -136,7 +133,7 @@
 - (SZEggBase*)liveBlock:(int)index {
 	NSAssert(index < 2, @"Only 2 live blocks are available.");
 	
-	return _liveBlocks[index];
+	return _liveEggs[index];
 }
 
 - (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(SZEggBase*)block checkedData:(BOOL*)checkedData {
@@ -303,7 +300,7 @@
 
 - (void)dropLiveBlocks {
 
-	NSAssert(_hasLiveBlocks, @"No live blocks in play.");
+	NSAssert(_hasLiveEggs, @"No live eggs in play.");
 
 	BOOL hasLanded = NO;
 
@@ -315,32 +312,32 @@
 		// Check if the block has landed on another.  We don't need to bother
 		// checking if the block is at the bottom of the grid because live
 		// blocks can never reach there - the row of bottom blocks prevents it
-		SZEggBase* blockBelow = [self blockAtX:_liveBlocks[i].x y:_liveBlocks[i].y + 1];
+		SZEggBase* blockBelow = [self blockAtX:_liveEggs[i].x y:_liveEggs[i].y + 1];
 
 		if (blockBelow != nil) {
 
 			// Do not land if the block below is also falling
 			if (blockBelow.state != SZEggStateFalling) {
-				_hasLiveBlocks = NO;
+				_hasLiveEggs = NO;
 
-				[_liveBlocks[i] startLanding];
+				[_liveEggs[i] startLanding];
 
 				hasLanded = YES;
 			}
 		}
 	}
 
-	if (_hasLiveBlocks) {
+	if (_hasLiveEggs) {
 
 		// Blocks are still live - drop them to the next position.  Drop block
 		// 1 first as when vertical 1 is always below
 		for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
 
-			if (_liveBlocks[i].hasDroppedHalfBlock) {
-				[self moveBlockFromSourceX:_liveBlocks[i].x sourceY:_liveBlocks[i].y toDestinationX:_liveBlocks[i].x destinationY:_liveBlocks[i].y + 1];
+			if (_liveEggs[i].hasDroppedHalfBlock) {
+				[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x destinationY:_liveEggs[i].y + 1];
 			}
 			
-			[_liveBlocks[i] dropHalfBlock];
+			[_liveEggs[i] dropHalfBlock];
 		}
 	}
 
@@ -351,7 +348,7 @@
 
 - (BOOL)dropBlocks {
 
-	NSAssert(!_hasLiveBlocks, @"Live blocks are in play.");
+	NSAssert(!_hasLiveEggs, @"Live eggs are in play.");
 
 	BOOL hasDropped = NO;
 	BOOL hasLanded = NO;
@@ -428,182 +425,182 @@
 }
 
 - (BOOL)moveLiveBlocksLeft {
-	NSAssert(_hasLiveBlocks, @"No live blocks in play");
+	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// 0 block should always be on the left or at the top
-	if (_liveBlocks[0].x == 0) return NO;
+	if (_liveEggs[0].x == 0) return NO;
 
 	// Check the block to the left
-	if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y] != nil) return NO;
+	if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
 	// If we've dropped half a block we also need to check the block left and
 	// down one
-	if (_liveBlocks[0].hasDroppedHalfBlock) {
-		if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y + 1] != nil) return NO;
+	if (_liveEggs[0].hasDroppedHalfBlock) {
+		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 	}
 
 	// Check 1 block if it is below the 0 block
-	if (_liveBlocks[0].x == _liveBlocks[1].x) {
-		if ([self blockAtX:_liveBlocks[1].x - 1 y:_liveBlocks[1].y] != nil) return NO;
+	if (_liveEggs[0].x == _liveEggs[1].x) {
+		if ([self blockAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y] != nil) return NO;
 
 		// Check the block left and down one if we've dropped a half block
-		if (_liveBlocks[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[1].x - 1 y:_liveBlocks[1].y + 1] != nil) return NO;
+		if (_liveEggs[1].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y + 1] != nil) return NO;
 		}
 	}
 
 	// Blocks can move
 	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-		[self moveBlockFromSourceX:_liveBlocks[i].x sourceY:_liveBlocks[i].y toDestinationX:_liveBlocks[i].x - 1 destinationY:_liveBlocks[i].y];
+		[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x - 1 destinationY:_liveEggs[i].y];
 	}
 
 	return YES;
 }
 
 - (BOOL)moveLiveBlocksRight {
-	NSAssert(_hasLiveBlocks, @"No live blocks in play");
+	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
-	// 1 block should always be on the right or at the bottom
-	if (_liveBlocks[1].x == GRID_WIDTH - 1) return NO;
+	// 1 egg should always be on the right or at the bottom
+	if (_liveEggs[1].x == GRID_WIDTH - 1) return NO;
 
-	// Check the block to the right
-	if ([self blockAtX:_liveBlocks[1].x + 1 y:_liveBlocks[1].y] != nil) return NO;
+	// Check the egg to the right
+	if ([self blockAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y] != nil) return NO;
 
-	// If we've dropped half a block we also need to check the block right and
+	// If we've dropped half a step we also need to check the egg right and
 	// down one
-	if (_liveBlocks[1].hasDroppedHalfBlock) {
-		if ([self blockAtX:_liveBlocks[1].x + 1 y:_liveBlocks[1].y + 1] != nil) return NO;
+	if (_liveEggs[1].hasDroppedHalfBlock) {
+		if ([self blockAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y + 1] != nil) return NO;
 	}
 
-	// Check 0 block if it is above the 1 block
-	if (_liveBlocks[0].x == _liveBlocks[1].x) {
-		if ([self blockAtX:_liveBlocks[0].x + 1 y:_liveBlocks[0].y] != nil) return NO;
+	// Check 0 egg if it is above the 1 egg
+	if (_liveEggs[0].x == _liveEggs[1].x) {
+		if ([self blockAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y] != nil) return NO;
 
-		// Check the block right and down one if we've dropped a half block
-		if (_liveBlocks[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[0].x + 1 y:_liveBlocks[0].y + 1] != nil) return NO;
+		// Check the egg right and down one if we've dropped a half egg
+		if (_liveEggs[0].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 	}
 
 	// Blocks can move
 	for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
-		[self moveBlockFromSourceX:_liveBlocks[i].x sourceY:_liveBlocks[i].y toDestinationX:_liveBlocks[i].x + 1 destinationY:_liveBlocks[i].y];
+		[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x + 1 destinationY:_liveEggs[i].y];
 	}
 
 	return YES;
 }
 
 - (BOOL)rotateLiveBlocksClockwise {
-	NSAssert(_hasLiveBlocks, @"No live blocks in play");
+	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// Determine whether to swap to a vertical or horizontal arrangement
-	if (_liveBlocks[0].y == _liveBlocks[1].y) {
+	if (_liveEggs[0].y == _liveEggs[1].y) {
 
 		// Swapping to vertical
 
 		// Do not need to check for the bottom of the well as the bottom row of
-		// blocks eliminates the possibility of blocks being there
+		// eggs eliminates the possibility of eggs being there
 
-		// Cannot swap if the block below the block on the right is populated
-		if ([self blockAtX:_liveBlocks[1].x y:_liveBlocks[1].y + 1] != nil) return NO;
+		// Cannot swap if the egg below the egg on the right is populated
+		if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
 
-		// Cannot swap if the block 2 below the block on the right is populated
-		// if we've dropped a half block
-		if (_liveBlocks[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[1].x y:_liveBlocks[1].y + 2] != nil) return NO;
+		// Cannot swap if the egg 2 below the egg on the right is populated
+		// if we've dropped a half step
+		if (_liveEggs[1].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
 		}
 
 		// Perform the rotation
 
-		// Move the right block down one place
-		[self moveBlockFromSourceX:_liveBlocks[1].x sourceY:_liveBlocks[1].y toDestinationX:_liveBlocks[1].x destinationY:_liveBlocks[1].y + 1];
+		// Move the right egg down one place
+		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
 
-		// Move the left block right one place
-		[self moveBlockFromSourceX:_liveBlocks[0].x sourceY:_liveBlocks[0].y toDestinationX:_liveBlocks[0].x + 1 destinationY:_liveBlocks[0].y];
+		// Move the left egg right one place
+		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x + 1 destinationY:_liveEggs[0].y];
 
 	} else {
 
 		// Swapping to horizontal
 
-		// Cannot swap if the blocks are at the left edge of the well
-		if (_liveBlocks[0].x == 0) return NO;
+		// Cannot swap if the eggs are at the left edge of the well
+		if (_liveEggs[0].x == 0) return NO;
 
-		// Cannot swap if the block to the left of the block at the top is populated
-		if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y] != nil) return NO;
+		// Cannot swap if the egg to the left of the egg at the top is populated
+		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
-		// Cannot swap if the block below the block on the left of the top block
-		// is populated if we've dropped a half block
-		if (_liveBlocks[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y + 1] != nil) return NO;
+		// Cannot swap if the egg below the egg on the left of the top egg
+		// is populated if we've dropped a half step
+		if (_liveEggs[0].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 
 		// Perform the rotation
 
-		// Move the bottom block up and left
-		[self moveBlockFromSourceX:_liveBlocks[1].x sourceY:_liveBlocks[1].y toDestinationX:_liveBlocks[0].x - 1 destinationY:_liveBlocks[0].y];
+		// Move the bottom egg up and left
+		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
 
-		// 0 block should always be on the left
-		SZEggBase* tmp = _liveBlocks[0];
-		_liveBlocks[0] = _liveBlocks[1];
-		_liveBlocks[1] = tmp;
+		// 0 egg should always be on the left
+		SZEggBase* tmp = _liveEggs[0];
+		_liveEggs[0] = _liveEggs[1];
+		_liveEggs[1] = tmp;
 	}
 
 	return YES;
 }
 
 - (BOOL)rotateLiveBlocksAntiClockwise {
-	NSAssert(_hasLiveBlocks, @"No live blocks in play");
+	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
-	// Determine whether the blocks swap to a vertical or horizontal arrangement
-	if (_liveBlocks[0].y == _liveBlocks[1].y) {
+	// Determine whether the eggs swap to a vertical or horizontal arrangement
+	if (_liveEggs[0].y == _liveEggs[1].y) {
 
 		// Swapping to vertical
 
 		// Do not need to check for the bottom of the well as the bottom row of
-		// blocks eliminates the possibility of blocks being there
+		// eggs eliminates the possibility of eggs being there
 
-		// Cannot swap if the block below the block on the right is populated
-		if ([self blockAtX:_liveBlocks[1].x y:_liveBlocks[1].y + 1] != nil) return NO;
+		// Cannot swap if the egg below the egg on the right is populated
+		if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
 
-		// Cannot swap if the block 2 below the block on the right is populated
-		// if we've dropped a half block
-		if (_liveBlocks[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[1].x y:_liveBlocks[1].y + 2] != nil) return NO;
+		// Cannot swap if the egg 2 below the egg on the right is populated
+		// if we've dropped a half step
+		if (_liveEggs[1].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
 		}
 
 		// Perform the rotation
 
-		// Move the left block down and right
-		[self moveBlockFromSourceX:_liveBlocks[0].x sourceY:_liveBlocks[0].y toDestinationX:_liveBlocks[1].x destinationY:_liveBlocks[1].y + 1];
+		// Move the left egg down and right
+		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
 
-		// 0 block should always be at the top
-		SZEggBase* tmp = _liveBlocks[0];
-		_liveBlocks[0] = _liveBlocks[1];
-		_liveBlocks[1] = tmp;
+		// 0 egg should always be at the top
+		SZEggBase* tmp = _liveEggs[0];
+		_liveEggs[0] = _liveEggs[1];
+		_liveEggs[1] = tmp;
 
 	} else {
 
 		// Swapping to horizontal
 
-		// Cannot swap if the blocks are at the left edge of the well
-		if (_liveBlocks[0].x == 0) return NO;
+		// Cannot swap if the eggs are at the left edge of the well
+		if (_liveEggs[0].x == 0) return NO;
 
-		// Cannot swap if the block to the left of the block at the top is populated
-		if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y] != nil) return NO;
+		// Cannot swap if the egg to the left of the egg at the top is populated
+		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
-		// Cannot swap if the block below the block on the left of the top block
-		// is populated if we've dropped a half block
-		if (_liveBlocks[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveBlocks[0].x - 1 y:_liveBlocks[0].y + 1] != nil) return NO;
+		// Cannot swap if the egg below the egg on the left of the top egg
+		// is populated if we've dropped a half step
+		if (_liveEggs[0].hasDroppedHalfBlock) {
+			if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 
 		// Perform the rotation
 
-		// Move the top block left
-		[self moveBlockFromSourceX:_liveBlocks[0].x sourceY:_liveBlocks[0].y toDestinationX:_liveBlocks[0].x - 1 destinationY:_liveBlocks[0].y];
+		// Move the top egg left
+		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
 
-		// Move the bottom block up
-		[self moveBlockFromSourceX:_liveBlocks[1].x sourceY:_liveBlocks[1].y toDestinationX:_liveBlocks[1].x destinationY:_liveBlocks[1].y - 1];
+		// Move the bottom egg up
+		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y - 1];
 	}
 
 	return YES;
@@ -614,7 +611,7 @@
 	// Do not add more live blocks if we have blocks already.  However, return
 	// true because we don't want to treat this as a special case; as far as
 	// any other code is concerned it did its job - live blocks are in play
-	if (_hasLiveBlocks) return YES;
+	if (_hasLiveEggs) return YES;
 
 	// Cannot add live blocks if the grid positions already contain blocks
 	if ([self blockAtX:2 y:GRID_ENTRY_Y] != nil) return NO;
@@ -627,10 +624,10 @@
 	[block1 startFalling];
 	[block2 startFalling];
 
-	_liveBlocks[0] = block1;
-	_liveBlocks[1] = block2;
+	_liveEggs[0] = block1;
+	_liveEggs[1] = block2;
 
-	_hasLiveBlocks = YES;
+	_hasLiveEggs = YES;
 
 	return YES;
 }
@@ -785,7 +782,7 @@
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			if ([self blockAtX:x y:y] == _liveBlocks[0] || [self blockAtX:x y:y] == _liveBlocks[1]) {
+			if ([self blockAtX:x y:y] == _liveEggs[0] || [self blockAtX:x y:y] == _liveEggs[1]) {
 				continue;
 			}
 			
@@ -796,9 +793,9 @@
 		}
 	}
 	
-	if (_hasLiveBlocks) {
-		SZEggBase* block1 = [[[_liveBlocks[0] class] alloc] init];
-		SZEggBase* block2 = [[[_liveBlocks[1] class] alloc] init];
+	if (_hasLiveEggs) {
+		SZEggBase* block1 = [[[_liveEggs[0] class] alloc] init];
+		SZEggBase* block2 = [[[_liveEggs[1] class] alloc] init];
 		
 		[grid addLiveBlocks:block1 block2:block2];
 		[block1 release];

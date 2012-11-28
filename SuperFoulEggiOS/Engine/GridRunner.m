@@ -205,9 +205,9 @@
 
 - (void)live {
 
-	// Player-controllable blocks are in the grid
+	// Player-controllable eggs are in the grid
 
-	if ([_grid hasLiveBlocks]) {
+	if ([_grid hasLiveEggs]) {
 
 		// Work out how many frames we need to wait until the blocks drop
 		// automatically
