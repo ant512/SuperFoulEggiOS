@@ -75,7 +75,7 @@ typedef enum {
 + (CCScene*)scene;
 - (id)init;
 - (void)update:(ccTime)dt;
-- (void)createBlockSpriteConnector:(EggBase*)block
+- (void)createBlockSpriteConnector:(SZEggBase*)block
 							 gridX:(int)gridX
 							 gridY:(int)gridY
 					connectorArray:(NSMutableArray*)connectorArray;
@@ -97,8 +97,8 @@ typedef enum {
 - (void)setupCallbacks;
 - (void)createWinLabels;
 - (void)createNextBlockSpriteConnectorPairForRunner:(GridRunner*)runner;
-- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(EggBase*)block;
-- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(EggBase*)block;
+- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(SZEggBase*)block;
+- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(SZEggBase*)block;
 - (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column;
 - (CGFloat)panForPlayerNumber:(int)playerNumber;
 - (void)blankSecondGrid;

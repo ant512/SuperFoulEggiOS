@@ -1,6 +1,6 @@
-#import "EggBase.h"
+#import "SZEggBase.h"
 
-@implementation EggBase
+@implementation SZEggBase
 
 - (id)init {
 	if ((self = [super init])) {
@@ -124,7 +124,7 @@
 	if (_onConnect != nil) _onConnect(self);
 }
 
-- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left {
+- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left {
 }
 
 - (void)setX:(int)x andY:(int)y {

@@ -73,7 +73,7 @@
 	[super dealloc];
 }
 
-- (EggBase*)nextBlock:(int)index {
+- (SZEggBase*)nextBlock:(int)index {
 	NSAssert(index < 2, @"Index must be less than 2.");
 	
 	return _nextBlocks[index];

@@ -5,9 +5,9 @@
  */
 #define BLOCK_SIZE 48
 
-@class EggBase;
+@class SZEggBase;
 
-typedef void(^BlockEvent)(EggBase*);
+typedef void(^BlockEvent)(SZEggBase*);
 
 /**
  * Bitmask of possible connections.
@@ -33,9 +33,9 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 };
 
 /**
- * Base class for all blocks that appear in the grid.
+ * Base class for all eggs that appear in the grid.
  */
-@interface EggBase : NSObject
+@interface SZEggBase : NSObject
 
 /**
  * The x co-ordinate of the egg.
@@ -170,7 +170,7 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
  * @param right The block to the right of this.
  * @param left The block to the left of this.
  */
-- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left;
+- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left;
 
 /**
  * Sets the connections that the block has to the supplied parameters.

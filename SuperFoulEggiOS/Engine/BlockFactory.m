@@ -84,7 +84,7 @@
 	return [RedBlock class];
 }
 
-- (EggBase*)newBlockForPlayerNumber:(int)playerNumber {
+- (SZEggBase*)newBlockForPlayerNumber:(int)playerNumber {
 	int index = _playerBlockListIndices[playerNumber]++;
 
 	// If the player is requesting a block past the end of the block list,
@@ -95,7 +95,7 @@
 
 	// Initialise a new block instance from the class at the current blocklist
 	// index that this player is using
-	EggBase* block = [[[_blockList objectAtIndex:index] alloc] init];
+	SZEggBase* block = [[[_blockList objectAtIndex:index] alloc] init];
 	
 	// We can try to expire any old blocks in the list now
 	[self expireUsedBlockClasses];

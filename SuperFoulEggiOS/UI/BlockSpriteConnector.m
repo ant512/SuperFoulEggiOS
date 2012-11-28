@@ -28,7 +28,7 @@
 	_yOffset = 0;
 }
 
-- (id)initWithBlock:(EggBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
+- (id)initWithBlock:(SZEggBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
 	if ((self = [super init])) {
 		_block = [block retain];
 		_sprite = [sprite retain];
@@ -43,33 +43,33 @@
 		
 		__block BlockSpriteConnector* connector = self;
 
-		_block.onConnect = ^(EggBase* block) {
+		_block.onConnect = ^(SZEggBase* block) {
 			[connector setSpriteFrame:block.connections];
 		};
 
-		_block.onMove = ^(EggBase* block) {
+		_block.onMove = ^(SZEggBase* block) {
 			[connector updateSpritePosition];
 		};
 
-		_block.onStopExploding = ^(EggBase* block) {
+		_block.onStopExploding = ^(SZEggBase* block) {
 			[connector kill];
 		};
 
-		_block.onStartExploding = ^(EggBase* block) {
+		_block.onStartExploding = ^(SZEggBase* block) {
 			[connector resetTimer];
 		};
 
-		_block.onStartLanding = ^(EggBase* block) {
+		_block.onStartLanding = ^(SZEggBase* block) {
 			[connector resetTimer];
 			
 			[connector setSpriteFrame:BLOCK_LAND_START_FRAME];
 		};
 
-		_block.onStopLanding = ^(EggBase* block) {
+		_block.onStopLanding = ^(SZEggBase* block) {
 			// Don't care about this
 		};
 
-		_block.onStartFalling = ^(EggBase* block) {
+		_block.onStartFalling = ^(SZEggBase* block) {
 
 			// Prevent blocks in the grid from being displaced if their garbage
 			// hit bounce is interrupted

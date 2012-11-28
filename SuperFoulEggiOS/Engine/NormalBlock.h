@@ -1,9 +1,9 @@
-#import "EggBase.h"
+#import "SZEggBase.h"
 
-@interface NormalBlock : EggBase {
+@interface NormalBlock : SZEggBase {
 
 }
 
-- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left;
+- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left;
 
 @end

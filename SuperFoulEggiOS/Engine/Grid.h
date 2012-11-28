@@ -1,14 +1,14 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSArray.h>
 
-#import "EggBase.h"
+#import "SZEggBase.h"
 #import "GridBase.h"
 
 #define CHAIN_LENGTH 4
 #define LIVE_BLOCK_COUNT 2
 
 @class Grid;
-@class EggBase;
+@class SZEggBase;
 
 @protocol SZGridDelegate <NSObject>
 @required
@@ -17,12 +17,12 @@
 - (void)didLandGarbageEggInGrid:(Grid *)grid;
 - (void)didAddGarbageEggRowToGrid:(Grid *)grid;
 
-- (void)grid:(Grid *)grid didLandGarbageEgg:(EggBase *)egg;
-- (void)grid:(Grid *)grid didAddEgg:(EggBase *)egg;
+- (void)grid:(Grid *)grid didLandGarbageEgg:(SZEggBase *)egg;
+- (void)grid:(Grid *)grid didAddEgg:(SZEggBase *)egg;
 
 @optional
 
-- (void)grid:(Grid *)grid didRemoveEgg:(EggBase *)egg;
+- (void)grid:(Grid *)grid didRemoveEgg:(SZEggBase *)egg;
 
 @end
 
@@ -33,7 +33,7 @@
  */
 @interface Grid : GridBase {
 @private
-	EggBase* _liveBlocks[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live blocks in the grid. */
+	SZEggBase* _liveBlocks[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live blocks in the grid. */
 	BOOL _hasLiveBlocks;						/**< True if the grid has player-controlled blocks; false if not. */
 	int _playerNumber;							/**< The zero-based number of the player controlling this grid. */
 }
@@ -61,7 +61,7 @@
  * @param x The x co-ordinate of the block.
  * @param y The y co-ordinate of the block.
  */
-- (void)addBlock:(EggBase*)block x:(int)x y:(int)y;
+- (void)addBlock:(SZEggBase*)block x:(int)x y:(int)y;
 
 /**
  * Removes and deallocates the block at the specified co-ordinates.
@@ -119,7 +119,7 @@
  * @return True if the blocks were added; false if they could not be added.
  * Failure indicates game over.
  */
-- (BOOL)addLiveBlocks:(EggBase*)block1 block2:(EggBase*)block2;
+- (BOOL)addLiveBlocks:(SZEggBase*)block1 block2:(SZEggBase*)block2;
 
 /**
  * Connects all blocks to their same-coloured neighbours.
@@ -157,14 +157,14 @@
  * value is set to true.
  * @return The number of blocks that would be exploded by placing the block.
  */
-- (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(EggBase*)block checkedData:(BOOL*)checkedData;
+- (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(SZEggBase*)block checkedData:(BOOL*)checkedData;
 
 /**
  * Gets the specified live block.  Valid indices are 0 and 1.
  * @param index The index of the live block to retrieve.
  * @return The specified live block.
  */
-- (EggBase*)liveBlock:(int)index;
+- (SZEggBase*)liveBlock:(int)index;
 
 /**
  * Creates an array of points that represent grid co-ordinates of blocks that

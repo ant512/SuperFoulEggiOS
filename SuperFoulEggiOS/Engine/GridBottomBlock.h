@@ -1,5 +1,5 @@
-#import "EggBase.h"
+#import "SZEggBase.h"
 
-@interface GridBottomBlock : EggBase
+@interface GridBottomBlock : SZEggBase
 
 @end

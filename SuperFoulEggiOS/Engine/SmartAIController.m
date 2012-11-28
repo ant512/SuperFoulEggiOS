@@ -23,8 +23,8 @@
 
 - (void)analyseGrid {
 	
-	EggBase* block1 = [_grid liveBlock:0];
-	EggBase* block2 = [_grid liveBlock:1];
+	SZEggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block2 = [_grid liveBlock:1];
 	
 	// If last observed y is greater than current live block y, we'll need
 	// to choose a new move
@@ -171,7 +171,7 @@
 	// AI would be unbeatable.  I'm not going to fix the issue.
 	if (_targetRotations != 0) return NO;
 	
-	EggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveBlock:0];
 	
 	BOOL result = block1.x > _targetX;
 
@@ -183,7 +183,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	EggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveBlock:0];
 	
 	BOOL result = block1.x < _targetX;
 
@@ -199,7 +199,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	EggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveBlock:0];
 	
 	BOOL result = block1.x == _targetX;
 	

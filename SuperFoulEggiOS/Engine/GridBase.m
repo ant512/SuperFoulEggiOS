@@ -26,7 +26,7 @@
 	}
 }
 
-- (EggBase*)blockAtX:(int)x y:(int)y {
+- (SZEggBase*)blockAtX:(int)x y:(int)y {
 	if (![self isValidCoordinateX:x y:y]) return nil;
 
 	return _data[x + (y * GRID_WIDTH)];
@@ -60,7 +60,7 @@
 	return YES;
 }
 
-- (void)addBlock:(EggBase*)block x:(int)x y:(int)y {
+- (void)addBlock:(SZEggBase*)block x:(int)x y:(int)y {
 	
 	NSAssert([self blockAtX:x y:y] == nil, @"Attempt to add block at non-empty grid location");
 	
@@ -73,7 +73,7 @@
 - (void)removeBlockAtX:(int)x y:(int)y {
 	int index = x + (y * GRID_WIDTH);
 	
-	EggBase* block = _data[index];
+	SZEggBase* block = _data[index];
 	_data[index] = nil;
 	[block release];
 }
@@ -86,7 +86,7 @@
 	int height = 0;
 
 	for (int y = GRID_HEIGHT - GRID_ENTRY_Y + 1; y >= 0; --y) {
-		EggBase* block = [self blockAtX:index y:y];
+		SZEggBase* block = [self blockAtX:index y:y];
 		if (block != nil && block.state == SZEggStateNormal) {
 			++height;
 		} else {

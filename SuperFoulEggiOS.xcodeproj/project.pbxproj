@@ -154,7 +154,7 @@
 		C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F51655DCE400DB1D43 /* AppDelegate.m */; };
 		C2B755F91655DCE400DB1D43 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F81655DCE400DB1D43 /* HelloWorldLayer.m */; };
 		C2B755FC1655DCE400DB1D43 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755FB1655DCE400DB1D43 /* IntroLayer.m */; };
-		C2B7562E1655DD3100DB1D43 /* EggBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756041655DD3100DB1D43 /* EggBase.m */; };
+		C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756041655DD3100DB1D43 /* SZEggBase.m */; };
 		C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756061655DD3100DB1D43 /* BlockFactory.m */; };
 		C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756081655DD3100DB1D43 /* BlueBlock.m */; };
 		C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */; };
@@ -535,8 +535,8 @@
 		C2B755F81655DCE400DB1D43 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
 		C2B755FA1655DCE400DB1D43 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
 		C2B755FB1655DCE400DB1D43 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
-		C2B756031655DD3100DB1D43 /* EggBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EggBase.h; sourceTree = "<group>"; };
-		C2B756041655DD3100DB1D43 /* EggBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EggBase.m; sourceTree = "<group>"; };
+		C2B756031655DD3100DB1D43 /* SZEggBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZEggBase.h; sourceTree = "<group>"; };
+		C2B756041655DD3100DB1D43 /* SZEggBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEggBase.m; sourceTree = "<group>"; };
 		C2B756051655DD3100DB1D43 /* BlockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockFactory.h; sourceTree = "<group>"; };
 		C2B756061655DD3100DB1D43 /* BlockFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockFactory.m; sourceTree = "<group>"; };
 		C2B756071655DD3100DB1D43 /* BlueBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueBlock.h; sourceTree = "<group>"; };
@@ -1122,8 +1122,8 @@
 		C2B756021655DD3100DB1D43 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				C2B756031655DD3100DB1D43 /* EggBase.h */,
-				C2B756041655DD3100DB1D43 /* EggBase.m */,
+				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
+				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
 				C2B756051655DD3100DB1D43 /* BlockFactory.h */,
 				C2B756061655DD3100DB1D43 /* BlockFactory.m */,
 				C2B756071655DD3100DB1D43 /* BlueBlock.h */,
@@ -1538,7 +1538,7 @@
 				C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */,
 				C2B755F91655DCE400DB1D43 /* HelloWorldLayer.m in Sources */,
 				C2B755FC1655DCE400DB1D43 /* IntroLayer.m in Sources */,
-				C2B7562E1655DD3100DB1D43 /* EggBase.m in Sources */,
+				C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */,
 				C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */,
 				C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */,
 				C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */,

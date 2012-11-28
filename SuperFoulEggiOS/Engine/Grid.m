@@ -33,20 +33,20 @@
 	[super dealloc];
 }
 
-- (void)addBlock:(EggBase*)block x:(int)x y:(int)y {
+- (void)addBlock:(SZEggBase*)block x:(int)x y:(int)y {
 	[_delegate grid:self didAddEgg:block];
 	[super addBlock:block x:x y:y];
 }
 
 - (void)removeBlockAtX:(int)x y:(int)y {
-	EggBase *block = [self blockAtX:x y:y];
+	SZEggBase *block = [self blockAtX:x y:y];
 	[_delegate grid:self didRemoveEgg:block];
 	[super removeBlockAtX:x y:y];
 }
 
 - (void)createBottomRow {
 
-	EggBase* block = [[GridBottomLeftBlock alloc] init];
+	SZEggBase* block = [[GridBottomLeftBlock alloc] init];
 	[self addBlock:block x:0 y:GRID_HEIGHT - 1];
 	[block release];
 	
@@ -81,7 +81,7 @@
 			// Remove any adjacent garbage
 			for (int i = 0; i < 4; ++i) {
 
-				EggBase* garbage = [self blockAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
+				SZEggBase* garbage = [self blockAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 				if (garbage != nil && [garbage isKindOfClass:[GarbageBlock class]]) {
 					if (garbage.state == SZEggStateNormal) {
 						[garbage startExploding];
@@ -129,13 +129,13 @@
 	return chains;
 }
 
-- (EggBase*)liveBlock:(int)index {
+- (SZEggBase*)liveBlock:(int)index {
 	NSAssert(index < 2, @"Only 2 live blocks are available.");
 	
 	return _liveBlocks[index];
 }
 
-- (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(EggBase*)block checkedData:(BOOL*)checkedData {
+- (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(SZEggBase*)block checkedData:(BOOL*)checkedData {
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 	
@@ -153,7 +153,7 @@
 	// Analyze all adjacent blocks
 	for (int i = 0; i < 4; ++i) {
 
-		EggBase* gridBlock = [self blockAtX:x + xCoords[i] y:y + yCoords[i]];
+		SZEggBase* gridBlock = [self blockAtX:x + xCoords[i] y:y + yCoords[i]];
 		if (gridBlock != nil && [gridBlock class] == [block class]) {
 			singleChain = [self newPointChainFromCoordinatesX:x + xCoords[i] y:y + yCoords[i] checkedData:checkedData];
 
@@ -169,7 +169,7 @@
 	int garbageCount = 0;
 
 	if ([chain count] >= CHAIN_LENGTH) {
-		EggBase* gridBlock = nil;
+		SZEggBase* gridBlock = nil;
 
 		for (id item in chain) {
 
@@ -226,7 +226,7 @@
 	while (index < [chain count]) {
 
 		SZPoint* point = [chain objectAtIndex:index];
-		EggBase* block = [self blockAtX:point.x y:point.y];
+		SZEggBase* block = [self blockAtX:point.x y:point.y];
 
 		if (block == nil) return chain;
 
@@ -311,7 +311,7 @@
 		// Check if the block has landed on another.  We don't need to bother
 		// checking if the block is at the bottom of the grid because live
 		// blocks can never reach there - the row of bottom blocks prevents it
-		EggBase* blockBelow = [self blockAtX:_liveBlocks[i].x y:_liveBlocks[i].y + 1];
+		SZEggBase* blockBelow = [self blockAtX:_liveBlocks[i].x y:_liveBlocks[i].y + 1];
 
 		if (blockBelow != nil) {
 
@@ -355,7 +355,7 @@
 
 	// Everything on the bottom row should have landed
 	for (int x = 0; x < GRID_WIDTH; ++x) {
-		EggBase* block = [self blockAtX:x y:GRID_HEIGHT - 1];
+		SZEggBase* block = [self blockAtX:x y:GRID_HEIGHT - 1];
 
 		if (block != nil && block.state == SZEggStateFalling) {
 
@@ -377,7 +377,7 @@
 	for (int y = GRID_HEIGHT - 2; y >= 0; --y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			EggBase* block = [self blockAtX:x y:y];
+			SZEggBase* block = [self blockAtX:x y:y];
 
 			// Ignore this block if it's empty
 			if (block == nil) continue;
@@ -539,7 +539,7 @@
 		[self moveBlockFromSourceX:_liveBlocks[1].x sourceY:_liveBlocks[1].y toDestinationX:_liveBlocks[0].x - 1 destinationY:_liveBlocks[0].y];
 
 		// 0 block should always be on the left
-		EggBase* tmp = _liveBlocks[0];
+		SZEggBase* tmp = _liveBlocks[0];
 		_liveBlocks[0] = _liveBlocks[1];
 		_liveBlocks[1] = tmp;
 	}
@@ -573,7 +573,7 @@
 		[self moveBlockFromSourceX:_liveBlocks[0].x sourceY:_liveBlocks[0].y toDestinationX:_liveBlocks[1].x destinationY:_liveBlocks[1].y + 1];
 
 		// 0 block should always be at the top
-		EggBase* tmp = _liveBlocks[0];
+		SZEggBase* tmp = _liveBlocks[0];
 		_liveBlocks[0] = _liveBlocks[1];
 		_liveBlocks[1] = tmp;
 
@@ -605,7 +605,7 @@
 	return YES;
 }
 
-- (BOOL)addLiveBlocks:(EggBase*)block1 block2:(EggBase*)block2 {
+- (BOOL)addLiveBlocks:(SZEggBase*)block1 block2:(SZEggBase*)block2 {
 
 	// Do not add more live blocks if we have blocks already.  However, return
 	// true because we don't want to treat this as a special case; as far as
@@ -633,7 +633,7 @@
 
 - (void)connectBlocks {
 	
-	EggBase* block = nil;
+	SZEggBase* block = nil;
 	
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
@@ -656,7 +656,7 @@
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			EggBase* block = [self blockAtX:x y:y];
+			SZEggBase* block = [self blockAtX:x y:y];
 			
 			if (block == nil) continue;
 
@@ -786,15 +786,15 @@
 			}
 			
 			Class blockClass = [[self blockAtX:x y:y] class];
-			EggBase* block = [[blockClass alloc] init];
+			SZEggBase* block = [[blockClass alloc] init];
 			[grid addBlock:block x:x y:y];
 			[block release];
 		}
 	}
 	
 	if (_hasLiveBlocks) {
-		EggBase* block1 = [[[_liveBlocks[0] class] alloc] init];
-		EggBase* block2 = [[[_liveBlocks[1] class] alloc] init];
+		SZEggBase* block1 = [[[_liveBlocks[0] class] alloc] init];
+		SZEggBase* block2 = [[[_liveBlocks[1] class] alloc] init];
 		
 		[grid addLiveBlocks:block1 block2:block2];
 		[block1 release];
