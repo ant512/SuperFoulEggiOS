@@ -2,23 +2,6 @@
 
 @implementation GridRunner
 
-@synthesize outgoingGarbageCount = _outgoingGarbageCount;
-@synthesize incomingGarbageCount = _incomingGarbageCount;
-@synthesize playerNumber = _playerNumber;
-
-@synthesize controller = _controller;
-
-@synthesize onLiveBlockMove = _onLiveBlockMove;
-@synthesize onLiveBlockRotate = _onLiveBlockRotate;
-@synthesize onLiveBlockDropStart = _onLiveBlockDropStart;
-@synthesize onLiveBlockAdd = _onLiveBlockAdd;
-@synthesize onNextBlocksCreated = _onNextBlocksCreated;
-
-@synthesize onMultipleChainsExploded = _onMultipleChainsExploded;
-@synthesize onChainExploded = _onChainExploded;
-
-@synthesize onIncomingGarbageCleared = _onIncomingGarbageCleared;
-
 - (id)initWithController:(id <ControllerProtocol>)controller
 					grid:(SZGrid*)grid
 					blockFactory:(BlockFactory*)blockFactory
@@ -45,8 +28,6 @@
 		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
 			_nextBlocks[i] = [_blockFactory newBlockForPlayerNumber:_playerNumber];
 		}
-		
-		if (_onNextBlocksCreated != nil) _onNextBlocksCreated(self);
 	}
 	
 	return self;
@@ -56,15 +37,6 @@
 	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
 		[_nextBlocks[i] release];
 	}
-	
-	[_onLiveBlockMove release];
-	[_onLiveBlockRotate release];
-	[_onLiveBlockDropStart release];
-	[_onLiveBlockAdd release];
-	[_onNextBlocksCreated release];
-	[_onMultipleChainsExploded release];
-	[_onChainExploded release];
-	[_onIncomingGarbageCleared release];
 
 	[_grid release];
 	[_controller release];
@@ -119,7 +91,7 @@
 
 	if (eggs > 0) {
 
-		if (_onChainExploded != nil) _onChainExploded(self, _chainMultiplier);
+		[_delegate didGridRunnerExplodeChain:self sequence:_chainMultiplier];
 		
 		++_chainMultiplier;
 
@@ -157,8 +129,8 @@
 		_state = SZGridRunnerStateDropGarbage;
 
 		_incomingGarbageCount = 0;
-		
-		if (_onIncomingGarbageCleared != nil) _onIncomingGarbageCleared(self);
+
+		[_delegate didGridRunnerClearIncomingGarbage:self];
 	} else {
 
 		// Nothing exploded, so we can put a new live block into
@@ -182,11 +154,11 @@
 			for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
 				_nextBlocks[i] = [_blockFactory newBlockForPlayerNumber:_playerNumber];
 			}
-			
-			if (_onNextBlocksCreated != nil) _onNextBlocksCreated(self);
+
+			[_delegate didGridRunnerCreateNextBlocks:self];
 
 			if (_chainMultiplier > 1) {
-				if (_onMultipleChainsExploded != nil) _onMultipleChainsExploded(self);
+				[_delegate didGridRunnerExplodeMultipleChains:self];
 			}
 
 			_chainMultiplier = 0;
@@ -195,7 +167,7 @@
 			_outgoingGarbageCount += _accumulatingGarbageCount;
 			_accumulatingGarbageCount = 0;
 
-			if (_onLiveBlockAdd != nil) _onLiveBlockAdd(self);
+			[_delegate didGridRunnerAddLiveBlocks:self];
 
 			_state = SZGridRunnerStateLive;
 		}
@@ -217,11 +189,11 @@
 		// Process user input
 		if ([_controller isLeftHeld]) {
 			if ([_grid moveLiveEggsLeft]) {
-				if (_onLiveBlockMove != nil) _onLiveBlockMove(self);
+				[_delegate didGridRunnerMoveLiveBlocks:self];
             }
 		} else if ([_controller isRightHeld]) {
 			if ([_grid moveLiveEggsRight]) {
-				if (_onLiveBlockMove != nil) _onLiveBlockMove(self);
+				[_delegate didGridRunnerMoveLiveBlocks:self];
 			}
 		}
 
@@ -233,7 +205,7 @@
 			if (!_droppingLiveBlocks) {
 				_droppingLiveBlocks = YES;
 
-				if (_onLiveBlockDropStart != nil) _onLiveBlockDropStart(self);
+				[_delegate didGridRunnerStartDroppingLiveBlocks:self];
 			}
 		} else if (![_controller isDownHeld]) {
 			_droppingLiveBlocks = NO;
@@ -241,11 +213,11 @@
 		
 		if ([_controller isRotateClockwiseHeld]) {
 			if ([_grid rotateLiveEggsClockwise]) {
-				if (_onLiveBlockRotate != nil) _onLiveBlockRotate(self);
+				[_delegate didGridRunnerRotateLiveBlocks:self];
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
 			if ([_grid rotateLiveEggsAntiClockwise]) {
-				if (_onLiveBlockRotate != nil) _onLiveBlockRotate(self);
+				[_delegate didGridRunnerRotateLiveBlocks:self];
 			}
 		}
 

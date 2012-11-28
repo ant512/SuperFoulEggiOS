@@ -258,112 +258,6 @@
 	return playerNumber == 0 ? -1.0 : 1.0;
 }
 
-- (void)didAddGarbageEggRowToGrid:(SZGrid *)grid {
-	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
-	[[SimpleAudioEngine sharedEngine] playEffect:@"garbagebig.wav" pitch:1.0 pan:pan gain:1.0];
-}
-
-- (void)didLandEggInGrid:(SZGrid *)grid {
-	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
-	[[SimpleAudioEngine sharedEngine] playEffect:@"land.wav" pitch:1.0 pan:pan gain:1.0];
-}
-
-- (void)didLandGarbageEggInGrid:(SZGrid *)grid {
-	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
-	[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
-}
-
-- (void)grid:(SZGrid *)grid didAddEgg:(SZEggBase *)egg {
-	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
-
-		// No existing next block exists (this must be a garbage block) so
-		// create the connector
-		[self addBlockSpriteConnectorForPlayer:grid.playerNumber block:egg];
-	}
-}
-
-- (void)grid:(SZGrid *)grid didLandGarbageEgg:(SZEggBase *)egg {
-
-	// Offsets all of the blocks in the column so that the column appears to
-	// squash under the garbage weight.
-	[self hitColumnWithGarbageForPlayerNumber:grid.playerNumber column:egg.x];
-}
-
-- (void)setupCallbacks {
-
-	// Reference self in a way that blocks can use it without retaining it
-	__block GameLayer* layer = self;
-	
-	// Callback function that runs each time a new block is added to the
-	// grid.  We need to create a new sprite for the block and connect the
-	// two together.
-	_runners[0].onNextBlocksCreated = ^(GridRunner* runner) {
-		[layer createNextBlockSpriteConnectorPairForRunner:runner];
-
-		[[Pad instanceTwo] releaseDown];
-		_didDrag = NO;
-		_columnTarget = -1;
-		_dragStartColumn = -1;
-		_dragStartX = -1;
-	};
-	
-	_runners[0].onLiveBlockMove = ^(GridRunner* runner) {
-		CGFloat pan = [layer panForPlayerNumber:runner.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"move.wav" pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].onLiveBlockRotate = ^(GridRunner* runner) {
-		CGFloat pan = [layer panForPlayerNumber:runner.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav" pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].onLiveBlockDropStart = ^(GridRunner* runner) {
-		CGFloat pan = [layer panForPlayerNumber:runner.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"drop.wav" pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].onChainExploded = ^(GridRunner* runner, int sequence) {
-		CGFloat pan = [layer panForPlayerNumber:runner.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"chain.wav" pitch:(1.0 + (sequence * 0.05)) pan:pan gain:1.0];
-	};
-	
-	_runners[0].onMultipleChainsExploded = ^(GridRunner* runner) {
-		NSString* file = runner.playerNumber == 0 ? @"multichain1.wav" : @"multichain2.wav";
-		CGFloat pan = [layer panForPlayerNumber:runner.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:file pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].onIncomingGarbageCleared = ^(GridRunner* runner) {
-		[layer updateIncomingGarbageDisplayForRunner:runner];
-	};
-
-	// Since closures are copied, we can use the same closures for both
-	// grids/runners
-	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
-	
-	if (players > 1) {
-		_runners[1].onLiveBlockMove = _runners[0].onLiveBlockMove;
-		_runners[1].onLiveBlockRotate = _runners[0].onLiveBlockRotate;
-		_runners[1].onChainExploded = _runners[0].onChainExploded;
-		_runners[1].onMultipleChainsExploded = _runners[0].onMultipleChainsExploded;
-		_runners[1].onIncomingGarbageCleared = _runners[0].onIncomingGarbageCleared;
-		
-		// Only play the drop sound for the second player if it is human, or it
-		// gets maddeningly annoying
-		if ([Settings sharedSettings].gameType == GameTwoPlayerType) {
-			_runners[1].onLiveBlockDropStart = _runners[0].onLiveBlockDropStart;
-			
-			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
-				[layer createNextBlockSpriteConnectorPairForRunner:runner];
-			};
-		} else {
-			_runners[1].onNextBlocksCreated = ^(GridRunner* runner) {
-				[layer createNextBlockSpriteConnectorPairForRunner:runner];
-			};
-		}
-	}
-}
-
 - (void)loadSounds {
 	[[SimpleAudioEngine sharedEngine] preloadEffect:@"chain.wav"];
 	[[SimpleAudioEngine sharedEngine] preloadEffect:@"dead.wav"];
@@ -752,6 +646,7 @@
 											blockFactory:_blockFactory
 											playerNumber:0
 												   speed:[Settings sharedSettings].speed];
+	_runners[0].delegate = self;
 	
 	[grid release];
 	[controller release];
@@ -774,12 +669,11 @@
 												blockFactory:_blockFactory
 												playerNumber:1
 													   speed:[Settings sharedSettings].speed];
-	
+		_runners[1].delegate = self;
+
 		[grid release];
 		[controller release];
 	}
-
-	[self setupCallbacks];
 
 	[_runners[0].grid createBottomRow];
 	[_runners[0].grid addGarbage:GRID_WIDTH * [Settings sharedSettings].height];
@@ -1049,6 +943,92 @@
 	[connector release];
 	
 	[sheet addChild:sprite];
+}
+
+#pragma mark - SZGridDelegate
+
+- (void)didAddGarbageEggRowToGrid:(SZGrid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"garbagebig.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didLandEggInGrid:(SZGrid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"land.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didLandGarbageEggInGrid:(SZGrid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)grid:(SZGrid *)grid didAddEgg:(SZEggBase *)egg {
+	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
+
+		// No existing next block exists (this must be a garbage block) so
+		// create the connector
+		[self addBlockSpriteConnectorForPlayer:grid.playerNumber block:egg];
+	}
+}
+
+- (void)grid:(SZGrid *)grid didLandGarbageEgg:(SZEggBase *)egg {
+
+	// Offsets all of the blocks in the column so that the column appears to
+	// squash under the garbage weight.
+	[self hitColumnWithGarbageForPlayerNumber:grid.playerNumber column:egg.x];
+}
+
+#pragma mark - SZGridRunnerDelegate
+
+- (void)didGridRunnerAddLiveBlocks:(GridRunner *)gridRunner {
+
+}
+
+- (void)didGridRunnerClearIncomingGarbage:(GridRunner *)gridRunner {
+	[self updateIncomingGarbageDisplayForRunner:gridRunner];
+}
+
+- (void)didGridRunnerCreateNextBlocks:(GridRunner *)gridRunner {
+	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
+
+	[[Pad instanceTwo] releaseDown];
+	_didDrag = NO;
+	_columnTarget = -1;
+	_dragStartColumn = -1;
+	_dragStartX = -1;
+}
+
+- (void)didGridRunnerExplodeChain:(GridRunner *)gridRunner sequence:(int)sequence {
+	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"chain.wav" pitch:(1.0 + (sequence * 0.05)) pan:pan gain:1.0];
+}
+
+- (void)didGridRunnerExplodeMultipleChains:(GridRunner *)gridRunner {
+	NSString* filename = gridRunner.playerNumber == 0 ? @"multichain1.wav" : @"multichain2.wav";
+	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:filename pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didGridRunnerMoveLiveBlocks:(GridRunner *)gridRunner {
+	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"move.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didGridRunnerRotateLiveBlocks:(GridRunner *)gridRunner {
+	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didGridRunnerStartDroppingLiveBlocks:(GridRunner *)gridRunner {
+
+	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
+
+	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
+
+	// Never play the drop sound for the AI player as it is irritating.
+	if (gridRunner.playerNumber == 0 || players > 1) {
+		[[SimpleAudioEngine sharedEngine] playEffect:@"drop.wav" pitch:1.0 pan:pan gain:1.0];
+	}
 }
 
 @end

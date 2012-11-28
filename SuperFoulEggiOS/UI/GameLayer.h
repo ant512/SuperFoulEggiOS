@@ -31,14 +31,14 @@
 #define GRID_2_GAME_SCORE_X 602
 #define GRID_2_SCORES_Y 285
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, GameState) {
 	GameActiveState = 0,
 	GamePausedState = 1,
 	GameOverEffectState = 2,
 	GameOverState = 3
-} GameState;
+};
 
-@interface GameLayer : CCLayer <SZGridDelegate> {
+@interface GameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {
 	CCSpriteBatchNode* _redBlockSpriteSheet;
 	CCSpriteBatchNode* _blueBlockSpriteSheet;
 	CCSpriteBatchNode* _greenBlockSpriteSheet;
@@ -73,35 +73,5 @@ typedef enum {
 }
 
 + (CCScene*)scene;
-- (id)init;
-- (void)update:(ccTime)dt;
-- (void)createBlockSpriteConnector:(SZEggBase*)block
-							 gridX:(int)gridX
-							 gridY:(int)gridY
-					connectorArray:(NSMutableArray*)connectorArray;
-
-- (void)runActiveState;
-- (void)runPausedState;
-- (void)runGameOverEffectState;
-- (void)runGameOverState;
-- (void)updateBlockSpriteConnectors;
-- (void)updateIncomingGarbageDisplayForRunner:(GridRunner*)runner;
-- (void)loadSounds;
-- (void)unloadSounds;
-- (void)prepareSpriteSheets;
-- (void)loadBackground;
-- (void)setBlocksVisible:(BOOL)visible;
-- (void)pauseGame;
-- (void)resumeGame;
-- (void)resetGame;
-- (void)setupCallbacks;
-- (void)createWinLabels;
-- (void)createNextBlockSpriteConnectorPairForRunner:(GridRunner*)runner;
-- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(SZEggBase*)block;
-- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(SZEggBase*)block;
-- (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column;
-- (CGFloat)panForPlayerNumber:(int)playerNumber;
-- (void)blankSecondGrid;
-- (void)createSpritesForNumber:(int)number colour:(NSString*)colour x:(int)x y:(int)y;
 
 @end
