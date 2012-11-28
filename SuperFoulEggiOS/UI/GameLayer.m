@@ -258,6 +258,37 @@
 	return playerNumber == 0 ? -1.0 : 1.0;
 }
 
+- (void)didAddGarbageEggRowToGrid:(Grid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"garbagebig.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didLandEggInGrid:(Grid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"land.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)didLandGarbageEggInGrid:(Grid *)grid {
+	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
+	[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
+}
+
+- (void)grid:(Grid *)grid didAddEgg:(BlockBase *)egg {
+	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
+
+		// No existing next block exists (this must be a garbage block) so
+		// create the connector
+		[self addBlockSpriteConnectorForPlayer:grid.playerNumber block:egg];
+	}
+}
+
+- (void)grid:(Grid *)grid didLandGarbageEgg:(BlockBase *)egg {
+
+	// Offsets all of the blocks in the column so that the column appears to
+	// squash under the garbage weight.
+	[self hitColumnWithGarbageForPlayerNumber:grid.playerNumber column:egg.x];
+}
+
 - (void)setupCallbacks {
 
 	// Reference self in a way that blocks can use it without retaining it
@@ -274,37 +305,6 @@
 		_columnTarget = -1;
 		_dragStartColumn = -1;
 		_dragStartX = -1;
-	};
-
-	_runners[0].grid.onBlockAdd = ^(Grid* grid, BlockBase* block) {
-		if (![layer moveNextBlockToGridForPlayer:grid.playerNumber block:block]) {
-		
-			// No existing next block exists (this must be a garbage block) so
-			// create the connector
-			[layer addBlockSpriteConnectorForPlayer:grid.playerNumber block:block];
-		}
-	};
-	
-	// Callback function that runs each time a garbage block lands.  It
-	// offsets all of the blocks in the column so that the column appears to
-	// squash under the garbage weight.
-	_runners[0].grid.onGarbageBlockLand = ^(Grid* grid, BlockBase* block) {
-		[layer hitColumnWithGarbageForPlayerNumber:grid.playerNumber column:block.x];
-	};
-	
-	_runners[0].grid.onGarbageLand = ^(Grid* grid) {
-		CGFloat pan = [layer panForPlayerNumber:grid.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].grid.onLand = ^(Grid* grid) {
-		CGFloat pan = [layer panForPlayerNumber:grid.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"land.wav" pitch:1.0 pan:pan gain:1.0];
-	};
-	
-	_runners[0].grid.onGarbageRowAdded = ^(Grid* grid) {
-		CGFloat pan = [layer panForPlayerNumber:grid.playerNumber];
-		[[SimpleAudioEngine sharedEngine] playEffect:@"garbagebig.wav" pitch:1.0 pan:pan gain:1.0];
 	};
 	
 	_runners[0].onLiveBlockMove = ^(GridRunner* runner) {
@@ -347,12 +347,6 @@
 		_runners[1].onChainExploded = _runners[0].onChainExploded;
 		_runners[1].onMultipleChainsExploded = _runners[0].onMultipleChainsExploded;
 		_runners[1].onIncomingGarbageCleared = _runners[0].onIncomingGarbageCleared;
-		
-		_runners[1].grid.onBlockAdd = _runners[0].grid.onBlockAdd;
-		_runners[1].grid.onGarbageBlockLand = _runners[0].grid.onGarbageBlockLand;
-		_runners[1].grid.onGarbageRowAdded = _runners[0].grid.onGarbageRowAdded;
-		_runners[1].grid.onGarbageLand = _runners[0].grid.onGarbageLand;
-		_runners[1].grid.onLand = _runners[0].grid.onLand;
 		
 		// Only play the drop sound for the second player if it is human, or it
 		// gets maddeningly annoying

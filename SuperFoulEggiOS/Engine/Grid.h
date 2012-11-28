@@ -10,20 +10,21 @@
 @class Grid;
 @class BlockBase;
 
-/**
- * Signature of a closure used as an event callback.  The grid that raised the
- * event is passed as the parameter.  These events affect the grid as a whole,
- * such as a row of garbage being added to the grid or a block landing.
- */
-typedef void(^GridEvent)(Grid*);
+@protocol SZGridDelegate <NSObject>
+@required
 
-/**
- * Signature of a closure used as an event callback.  The grid and block that
- * raised the event are passed as the parameters.  These events are specific to
- * individual blocks, such as a block being added to the grid or a garbage block
- * landing.
- */
-typedef void(^GridBlockEvent)(Grid*, BlockBase*);
+- (void)didLandEggInGrid:(Grid *)grid;
+- (void)didLandGarbageEggInGrid:(Grid *)grid;
+- (void)didAddGarbageEggRowToGrid:(Grid *)grid;
+
+- (void)grid:(Grid *)grid didLandGarbageEgg:(BlockBase *)egg;
+- (void)grid:(Grid *)grid didAddEgg:(BlockBase *)egg;
+
+@optional
+
+- (void)grid:(Grid *)grid didRemoveEgg:(BlockBase *)egg;
+
+@end
 
 /**
  * Extends the GridBase class with events that fire whenever anything
@@ -35,71 +36,25 @@ typedef void(^GridBlockEvent)(Grid*, BlockBase*);
 	BlockBase* _liveBlocks[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live blocks in the grid. */
 	BOOL _hasLiveBlocks;						/**< True if the grid has player-controlled blocks; false if not. */
 	int _playerNumber;							/**< The zero-based number of the player controlling this grid. */
-	
-	GridEvent _onGarbageRowAdded;				/**< Event triggered when an entire row of garbage is added to the grid. */
-	GridEvent _onLand;							/**< Event triggered when any block lands. */
-	GridEvent _onGarbageLand;					/**< Event triggered when any garbage lands. */
-	
-	GridBlockEvent _onBlockAdd;					/**< Event triggered when a new block is added to the grid. */
-	GridBlockEvent _onBlockRemove;				/**< Event triggered when a block is removed from the grid. */
-	GridBlockEvent _onGarbageBlockLand;			/**< Event triggered when a single garbage block lands. */
 }
+
+@property (readwrite, assign) id <SZGridDelegate> delegate;
 
 /**
  * Check if the grid has live blocks.
  */
-@property(readonly) BOOL hasLiveBlocks;
+@property (readonly) BOOL hasLiveBlocks;
 
 /**
  * The 0-based number of the player controlling the grid.
  */
-@property(readonly) int playerNumber;
-
-/**
- * Event triggered when any garbage lands.
- */
-@property(readwrite, copy) GridEvent onGarbageLand;
-
-/**
- * Event triggered when an entire row of garbage is added to the grid.
- */
-@property(readwrite, copy) GridEvent onGarbageRowAdded;
-
-/**
- * Event triggered when any block lands.
- */
-@property(readwrite, copy) GridEvent onLand;
-
-/**
- * Event triggered when a new block is added to the grid.
- */
-@property(readwrite, copy) GridBlockEvent onBlockAdd;
-
-/**
- * Event triggered when a block is removed from the grid.
- */
-@property(readwrite, copy) GridBlockEvent onBlockRemove;
-
-/**
- * Event triggered when a single garbage block lands.
- */
-@property(readwrite, copy) GridBlockEvent onGarbageBlockLand;
+@property (readonly) int playerNumber;
 
 /**
  * Initialises a new instance of the class.
  * @param playerNumber The 0-based number of the player controlling the grid.
  */
 - (id)initWithPlayerNumber:(int)playerNumber;
-
-/**
- * Initialises a new instance of the class.
- */
-- (id)init;
-
-/**
- * Deallocates the instance of the class.
- */
-- (void)dealloc;
 
 /**
  * Add a block to the grid.  The grid assumes ownership of the block.

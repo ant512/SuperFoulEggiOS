@@ -38,7 +38,7 @@ typedef enum {
 	GameOverState = 3
 } GameState;
 
-@interface GameLayer : CCLayer {
+@interface GameLayer : CCLayer <SZGridDelegate> {
 	CCSpriteBatchNode* _redBlockSpriteSheet;
 	CCSpriteBatchNode* _blueBlockSpriteSheet;
 	CCSpriteBatchNode* _greenBlockSpriteSheet;

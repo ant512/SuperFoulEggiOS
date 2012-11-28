@@ -12,14 +12,6 @@
 @synthesize hasLiveBlocks = _hasLiveBlocks;
 @synthesize playerNumber = _playerNumber;
 
-@synthesize onBlockAdd = _onBlockAdd;
-@synthesize onBlockRemove = _onBlockRemove;
-@synthesize onGarbageBlockLand = _onGarbageBlockLand;
-
-@synthesize onGarbageLand = _onGarbageLand;
-@synthesize onGarbageRowAdded = _onGarbageRowAdded;
-@synthesize onLand = _onLand;
-
 - (id)initWithPlayerNumber:(int)playerNumber {
 	if ((self = [super init])) {
 		_hasLiveBlocks = NO;
@@ -38,23 +30,17 @@
 }
 
 - (void)dealloc {
-	[_onBlockAdd release];
-	[_onBlockRemove release];
-	[_onGarbageBlockLand release];
-	[_onGarbageLand release];
-	[_onGarbageRowAdded release];
-	[_onLand release];
-	
 	[super dealloc];
 }
 
 - (void)addBlock:(BlockBase*)block x:(int)x y:(int)y {
-	if (_onBlockAdd != nil) _onBlockAdd(self, block);
+	[_delegate grid:self didAddEgg:block];
 	[super addBlock:block x:x y:y];
 }
 
 - (void)removeBlockAtX:(int)x y:(int)y {
-	if (_onBlockRemove != nil) _onBlockRemove(self, [self blockAtX:x y:y]);
+	BlockBase *block = [self blockAtX:x y:y];
+	[_delegate grid:self didRemoveEgg:block];
 	[super removeBlockAtX:x y:y];
 }
 
@@ -355,7 +341,7 @@
 	}
 
 	if (hasLanded) {
-		if (_onLand != nil) _onLand(self);
+		[_delegate didLandEggInGrid:self];
 	}
 }
 
@@ -378,8 +364,8 @@
 
 			// Fire an event if the landed block is garbage
 			if ([block isKindOfClass:[GarbageBlock class]]) {
-				
-				if (_onGarbageBlockLand != nil) _onGarbageBlockLand(self, block);
+
+				[_delegate grid:self didLandGarbageEgg:block];
 
 				isGarbage = YES;
 			}
@@ -416,8 +402,8 @@
 
 					// Fire an event if the landed block is garbage
 					if ([block isKindOfClass:[GarbageBlock class]]) {
-						
-						if (_onGarbageBlockLand != nil) _onGarbageBlockLand(self, block);
+
+						[_delegate grid:self didLandGarbageEgg:block];
 
 						isGarbage = YES;
 					}
@@ -428,9 +414,9 @@
 
 	if (hasLanded) {
 		if (isGarbage) {
-			if (_onGarbageLand != nil) _onGarbageLand(self);
+			[_delegate didLandGarbageEggInGrid:self];
 		} else {
-			if (_onLand != nil) _onLand(self);
+			[_delegate didLandEggInGrid:self];
 		}
 	}
 
@@ -752,7 +738,7 @@
 	int y = columnHeights[0];
 
 	if (count >= GRID_WIDTH) {
-		if (_onGarbageRowAdded != nil) _onGarbageRowAdded(self);
+		[_delegate didAddGarbageEggRowToGrid:self];
 	}
 
 	while (count > 0) {
