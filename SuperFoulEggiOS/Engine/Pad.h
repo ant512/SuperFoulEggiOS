@@ -1,11 +1,6 @@
 #import <Foundation/NSObject.h>
 
 /**
- * Number of frames before a held-down key is considered to have repeated.
- */
-#define PAD_REPEAT_TIME 10
-
-/**
  * Model of a joypad, based on the layout of the Nintendo DS.  Implements
  * a singleton pattern so that the Pad is easily available everywhere.  The
  * state of the various joypad buttons needs to be managed with the pressXXX

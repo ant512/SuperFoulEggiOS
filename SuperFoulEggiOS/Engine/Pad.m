@@ -1,5 +1,10 @@
 #import "Pad.h"
 
+/**
+ * Number of frames before a held-down key is considered to have repeated.
+ */
+const int SZPadRepeatTime = 10;
+
 @implementation Pad
 
 - (BOOL)isUpNewPress { return _up == 1; }
@@ -41,18 +46,18 @@
 - (BOOL)isLHeld { return _l > 0; }
 - (BOOL)isRHeld { return _r > 0; }
 
-- (BOOL)isUpRepeat { return _up > 0 && _up % PAD_REPEAT_TIME == 0; }
-- (BOOL)isDownRepeat { return _down > 0 && _down % PAD_REPEAT_TIME == 0; }
-- (BOOL)isLeftRepeat { return _left > 0 && _left % PAD_REPEAT_TIME == 0; }
-- (BOOL)isRightRepeat { return _right > 0 && _right % PAD_REPEAT_TIME == 0; }
-- (BOOL)isARepeat { return _a > 0 && _a % PAD_REPEAT_TIME == 0; }
-- (BOOL)isBRepeat { return _b > 0 && _b % PAD_REPEAT_TIME == 0; }
-- (BOOL)isXRepeat { return _x > 0 && _x % PAD_REPEAT_TIME == 0; }
-- (BOOL)isYRepeat { return _y > 0 && _y % PAD_REPEAT_TIME == 0; }
-- (BOOL)isStartRepeat { return _start > 0 && _start % PAD_REPEAT_TIME == 0; }
-- (BOOL)isSelectRepeat { return _select > 0 && _select % PAD_REPEAT_TIME == 0; }
-- (BOOL)isLRepeat { return _l > 0 && _l % PAD_REPEAT_TIME == 0; }
-- (BOOL)isRRepeat { return _r > 0 && _r % PAD_REPEAT_TIME == 0; }
+- (BOOL)isUpRepeat { return _up > 0 && _up % SZPadRepeatTime == 0; }
+- (BOOL)isDownRepeat { return _down > 0 && _down % SZPadRepeatTime == 0; }
+- (BOOL)isLeftRepeat { return _left > 0 && _left % SZPadRepeatTime == 0; }
+- (BOOL)isRightRepeat { return _right > 0 && _right % SZPadRepeatTime == 0; }
+- (BOOL)isARepeat { return _a > 0 && _a % SZPadRepeatTime == 0; }
+- (BOOL)isBRepeat { return _b > 0 && _b % SZPadRepeatTime == 0; }
+- (BOOL)isXRepeat { return _x > 0 && _x % SZPadRepeatTime == 0; }
+- (BOOL)isYRepeat { return _y > 0 && _y % SZPadRepeatTime == 0; }
+- (BOOL)isStartRepeat { return _start > 0 && _start % SZPadRepeatTime == 0; }
+- (BOOL)isSelectRepeat { return _select > 0 && _select % SZPadRepeatTime == 0; }
+- (BOOL)isLRepeat { return _l > 0 && _l % SZPadRepeatTime == 0; }
+- (BOOL)isRRepeat { return _r > 0 && _r % SZPadRepeatTime == 0; }
 
 - (BOOL)isMostRecentDirectionVertical {
 	if (_up > 0 && (_up < _left || _up < _right)) return YES;
