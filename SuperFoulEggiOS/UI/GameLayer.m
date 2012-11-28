@@ -7,7 +7,7 @@
 
 #import "GameLayer.h"
 #import "PlayerOneController.h"
-#import "Pad.h"
+#import "SZPad.h"
 #import "SZPoint.h"
 
 #import "SZEggBase.h"
@@ -22,7 +22,7 @@
 #import "GridBottomLeftBlock.h"
 #import "GridBottomRightBlock.h"
 
-#import "Pad.h"
+#import "SZPad.h"
 #import "Settings.h"
 
 #import "GameTypeMenuLayer.h"
@@ -109,7 +109,7 @@
 	
 	if (_didDrag) return;
 	
-	[[Pad instanceTwo] pressA];
+	[[SZPad instanceTwo] pressA];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -121,7 +121,7 @@
 	
 	if (_didDrag) return;
 	
-	[[Pad instanceTwo] pressB];
+	[[SZPad instanceTwo] pressB];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -133,7 +133,7 @@
 	
 	if(_didDrag) return;
 	
-	[[Pad instanceTwo] pressDown];
+	[[SZPad instanceTwo] pressDown];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -498,8 +498,8 @@
 				break;
 		}
 		
-		[[Pad instanceOne] update];
-		[[Pad instanceTwo] update];
+		[[SZPad instanceOne] update];
+		[[SZPad instanceTwo] update];
 	}
 }
 
@@ -595,8 +595,8 @@
 	_state = SZGameStateActive;
 	_deathEffectTimer = 0;
 
-	[[Pad instanceOne] reset];
-	[[Pad instanceTwo] reset];
+	[[SZPad instanceOne] reset];
+	[[SZPad instanceTwo] reset];
 	[_blockFactory clear];
 
 	// Release all existing game objects
@@ -709,20 +709,20 @@
 }
 
 - (void)runGameOverState {
-	if ([[Pad instanceOne] isStartNewPress] ||
-		[[Pad instanceOne] isANewPress] ||
-		[[Pad instanceOne] isBNewPress] ||
-		[[Pad instanceTwo] isStartNewPress] ||
-		[[Pad instanceTwo] isANewPress] ||
-		[[Pad instanceTwo] isBNewPress] ||
-		[[Pad instanceTwo] isLeftNewPress] ||
-		[[Pad instanceTwo] isRightNewPress]) {
+	if ([[SZPad instanceOne] isStartNewPress] ||
+		[[SZPad instanceOne] isANewPress] ||
+		[[SZPad instanceOne] isBNewPress] ||
+		[[SZPad instanceTwo] isStartNewPress] ||
+		[[SZPad instanceTwo] isANewPress] ||
+		[[SZPad instanceTwo] isBNewPress] ||
+		[[SZPad instanceTwo] isLeftNewPress] ||
+		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
 	}
 }
 
 - (void)runPausedState {
-	if ([[Pad instanceOne] isStartNewPress] || [[Pad instanceTwo] isStartNewPress]) {
+	if ([[SZPad instanceOne] isStartNewPress] || [[SZPad instanceTwo] isStartNewPress]) {
 		[self resumeGame];
 	}
 }
@@ -730,7 +730,7 @@
 - (void)runActiveState {
 	
 	// Check for pause mode request
-	if ([[Pad instanceOne] isStartNewPress] || [[Pad instanceTwo] isStartNewPress]) {
+	if ([[SZPad instanceOne] isStartNewPress] || [[SZPad instanceTwo] isStartNewPress]) {
 		[self pauseGame];
 		return;
 	}
@@ -740,9 +740,9 @@
 		
 		if (_columnTarget > -1) {
 			if (block.x < _columnTarget) {
-				[[Pad instanceTwo] pressRight];
+				[[SZPad instanceTwo] pressRight];
 			} else if (block.x > _columnTarget) {
-				[[Pad instanceTwo] pressLeft];
+				[[SZPad instanceTwo] pressLeft];
 			}
 		}
 	} else {
@@ -753,10 +753,10 @@
 		[_runners[i] iterate];
 	}
 	
-	[[Pad instanceTwo] releaseLeft];
-	[[Pad instanceTwo] releaseRight];
-	[[Pad instanceTwo] releaseA];
-	[[Pad instanceTwo] releaseB];
+	[[SZPad instanceTwo] releaseLeft];
+	[[SZPad instanceTwo] releaseRight];
+	[[SZPad instanceTwo] releaseA];
+	[[SZPad instanceTwo] releaseB];
 	
 	if (_runners[1] == nil) {
 
@@ -991,7 +991,7 @@
 - (void)didGridRunnerCreateNextBlocks:(GridRunner *)gridRunner {
 	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
 
-	[[Pad instanceTwo] releaseDown];
+	[[SZPad instanceTwo] releaseDown];
 	_didDrag = NO;
 	_columnTarget = -1;
 	_dragStartColumn = -1;

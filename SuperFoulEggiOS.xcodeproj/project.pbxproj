@@ -165,7 +165,7 @@
 		C2B756381655DD3100DB1D43 /* GridRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756191655DD3100DB1D43 /* GridRunner.m */; };
 		C2B756391655DD3100DB1D43 /* NormalBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561B1655DD3100DB1D43 /* NormalBlock.m */; };
 		C2B7563A1655DD3100DB1D43 /* OrangeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */; };
-		C2B7563B1655DD3100DB1D43 /* Pad.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561F1655DD3100DB1D43 /* Pad.m */; };
+		C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561F1655DD3100DB1D43 /* SZPad.m */; };
 		C2B7563C1655DD3100DB1D43 /* PlayerOneController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756211655DD3100DB1D43 /* PlayerOneController.m */; };
 		C2B7563D1655DD3100DB1D43 /* PlayerTwoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756231655DD3100DB1D43 /* PlayerTwoController.m */; };
 		C2B7563E1655DD3100DB1D43 /* PurpleBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756251655DD3100DB1D43 /* PurpleBlock.m */; };
@@ -556,8 +556,8 @@
 		C2B7561B1655DD3100DB1D43 /* NormalBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NormalBlock.m; sourceTree = "<group>"; };
 		C2B7561C1655DD3100DB1D43 /* OrangeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrangeBlock.h; sourceTree = "<group>"; };
 		C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrangeBlock.m; sourceTree = "<group>"; };
-		C2B7561E1655DD3100DB1D43 /* Pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pad.h; sourceTree = "<group>"; };
-		C2B7561F1655DD3100DB1D43 /* Pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pad.m; sourceTree = "<group>"; };
+		C2B7561E1655DD3100DB1D43 /* SZPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPad.h; sourceTree = "<group>"; };
+		C2B7561F1655DD3100DB1D43 /* SZPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPad.m; sourceTree = "<group>"; };
 		C2B756201655DD3100DB1D43 /* PlayerOneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerOneController.h; sourceTree = "<group>"; };
 		C2B756211655DD3100DB1D43 /* PlayerOneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerOneController.m; sourceTree = "<group>"; };
 		C2B756221655DD3100DB1D43 /* PlayerTwoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerTwoController.h; sourceTree = "<group>"; };
@@ -1139,8 +1139,8 @@
 				C2B7561B1655DD3100DB1D43 /* NormalBlock.m */,
 				C2B7561C1655DD3100DB1D43 /* OrangeBlock.h */,
 				C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */,
-				C2B7561E1655DD3100DB1D43 /* Pad.h */,
-				C2B7561F1655DD3100DB1D43 /* Pad.m */,
+				C2B7561E1655DD3100DB1D43 /* SZPad.h */,
+				C2B7561F1655DD3100DB1D43 /* SZPad.m */,
 				C2B756201655DD3100DB1D43 /* PlayerOneController.h */,
 				C2B756211655DD3100DB1D43 /* PlayerOneController.m */,
 				C2B756221655DD3100DB1D43 /* PlayerTwoController.h */,
@@ -1539,7 +1539,7 @@
 				C2B756381655DD3100DB1D43 /* GridRunner.m in Sources */,
 				C2B756391655DD3100DB1D43 /* NormalBlock.m in Sources */,
 				C2B7563A1655DD3100DB1D43 /* OrangeBlock.m in Sources */,
-				C2B7563B1655DD3100DB1D43 /* Pad.m in Sources */,
+				C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */,
 				C2B7563C1655DD3100DB1D43 /* PlayerOneController.m in Sources */,
 				C2B7563D1655DD3100DB1D43 /* PlayerTwoController.m in Sources */,
 				C2B7563E1655DD3100DB1D43 /* PurpleBlock.m in Sources */,

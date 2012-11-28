@@ -1,30 +1,30 @@
 #import "PlayerTwoController.h"
-#import "Pad.h"
+#import "SZPad.h"
 
 @implementation PlayerTwoController
 
 - (BOOL)isLeftHeld {
-	return [Pad instanceTwo].isLeftNewPress || [Pad instanceTwo].isLeftRepeat;
+	return [SZPad instanceTwo].isLeftNewPress || [SZPad instanceTwo].isLeftRepeat;
 }
 
 - (BOOL)isRightHeld {
-	return [Pad instanceTwo].isRightNewPress || [Pad instanceTwo].isRightRepeat;
+	return [SZPad instanceTwo].isRightNewPress || [SZPad instanceTwo].isRightRepeat;
 }
 
 - (BOOL)isUpHeld {
-	return [Pad instanceTwo].isUpNewPress || [Pad instanceTwo].isUpRepeat;
+	return [SZPad instanceTwo].isUpNewPress || [SZPad instanceTwo].isUpRepeat;
 }
 
 - (BOOL)isDownHeld {
-	return [Pad instanceTwo].isDownHeld;
+	return [SZPad instanceTwo].isDownHeld;
 }
 
 - (BOOL)isRotateClockwiseHeld {
-	return [Pad instanceTwo].isANewPress;
+	return [SZPad instanceTwo].isANewPress;
 }
 
 - (BOOL)isRotateAntiClockwiseHeld {
-	return [Pad instanceTwo].isBNewPress;
+	return [SZPad instanceTwo].isBNewPress;
 }
 
 @end

@@ -7,7 +7,7 @@
  * and releaseXXX methods, and the update method needs to be called once per
  * frame to ensure that the internal logic runs correctly.
  */
-@interface Pad : NSObject {
+@interface SZPad : NSObject {
 @private
 	int _up;		/**< Is up held? */
 	int _down;		/**< Is down held? */
@@ -273,13 +273,13 @@
  * Get the Pad singleton instance for player 1.
  * @return The pad singleton instance for player 1.
  */
-+ (Pad*)instanceOne;
++ (SZPad*)instanceOne;
 
 /**
  * Get the Pad singleton instance for player 2.
  * @return The pad singleton instance for player 2.
  */
-+ (Pad*)instanceTwo;
++ (SZPad*)instanceTwo;
 
 - (id)init;
 - (void)update;

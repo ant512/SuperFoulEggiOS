@@ -1,11 +1,11 @@
-#import "Pad.h"
+#import "SZPad.h"
 
 /**
  * Number of frames before a held-down key is considered to have repeated.
  */
 const int SZPadRepeatTime = 10;
 
-@implementation Pad
+@implementation SZPad
 
 - (BOOL)isUpNewPress { return _up == 1; }
 - (BOOL)isDownNewPress { return _down == 1; }
@@ -65,24 +65,26 @@ const int SZPadRepeatTime = 10;
 	return NO;
 }
 
-+ (Pad*)instanceOne {
-	static Pad* _instanceOne;
++ (SZPad *)instanceOne {
+	static SZPad *_instanceOne = nil;
+	static dispatch_once_t onceToken;
 
-	@synchronized(self) {
-		if (!_instanceOne) _instanceOne = [[Pad alloc] init];
+	dispatch_once(&onceToken, ^{
+		_instanceOne = [[SZPad alloc] init];
+	});
 
-		return _instanceOne;
-	}
+	return _instanceOne;
 }
 
-+ (Pad*)instanceTwo {
-	static Pad* _instanceTwo;
-	
-	@synchronized(self) {
-		if (!_instanceTwo) _instanceTwo = [[Pad alloc] init];
-		
-		return _instanceTwo;
-	}
++ (SZPad *)instanceTwo {
+	static SZPad *_instanceTwo = nil;
+	static dispatch_once_t onceToken;
+
+	dispatch_once(&onceToken, ^{
+		_instanceTwo = [[SZPad alloc] init];
+	});
+
+	return _instanceTwo;
 }
 
 - (id)init {

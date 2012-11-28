@@ -2,7 +2,7 @@
 #import "SimpleAudioEngine.h"
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
-#import "Pad.h"
+#import "SZPad.h"
 #import "Settings.h"
 #import "CCDirector.h"
 #import "GameLayer.h"
