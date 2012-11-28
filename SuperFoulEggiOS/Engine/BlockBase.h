@@ -12,25 +12,25 @@ typedef void(^BlockEvent)(BlockBase*);
 /**
  * Bitmask of possible connections.
  */
-enum {
-	ConnectionNoneMask = 0,					/**< No connections. */
-	ConnectionTopMask = 1,					/**< Top connection. */
-	ConnectionLeftMask = 2,					/**< Left connection. */
-	ConnectionRightMask = 4,				/**< Right connection. */
-	ConnectionBottomMask = 8				/**< Bottom connection. */
+typedef NS_ENUM(NSUInteger, SZEggConnectionMask) {
+	SZEggConnectionMaskNone = 0,			/**< No connections. */
+	SZEggConnectionMaskTop = 1,				/**< Top connection. */
+	SZEggConnectionMaskLeft = 2,			/**< Left connection. */
+	SZEggConnectionMaskRight = 4,			/**< Right connection. */
+	SZEggConnectionMaskBottom = 8			/**< Bottom connection. */
 };
 
 /**
- * List of all possible block states.
+ * List of all possible egg states.
  */
-typedef enum {
-	BlockNormalState = 0,					/**< Block is doing nothing. */
-	BlockFallingState = 1,					/**< Block is falling down the grid. */
-	BlockLandingState = 2,					/**< Block is landing. */
-	BlockExplodingState = 3,				/**< Block is exploding. */
-	BlockExplodedState = 4,					/**< Block has exploded. */
-	BlockRecoveringFromGarbageHitState = 5	/**< Block is adjusting back to its standard co-ords. */
-} BlockState;
+typedef NS_ENUM(NSUInteger, SZEggState) {
+	SZEggStateNormal = 0,					/**< Block is doing nothing. */
+	SZEggStateFalling = 1,					/**< Block is falling down the grid. */
+	SZEggStateLanding = 2,					/**< Block is landing. */
+	SZEggStateExploding = 3,				/**< Block is exploding. */
+	SZEggStateExploded = 4,					/**< Block has exploded. */
+	SZEggStateRecoveringFromGarbageHit = 5	/**< Block is adjusting back to its standard co-ords. */
+};
 
 /**
  * Base class for all blocks that appear in the grid.
@@ -38,7 +38,7 @@ typedef enum {
 @interface BlockBase : NSObject {
 @private
 	int _connections;				/**< Bitmask of active connections. */
-	BlockState _state;				/**< Current state of the block. */
+	SZEggState _state;				/**< Current state of the block. */
 	BOOL _hasDroppedHalfBlock;		/**< True if the block has dropped half a grid square. */
 
 	int _x;							/**< The x co-ordinate of the block. */
@@ -56,62 +56,62 @@ typedef enum {
 /**
  * The x co-ordinate of the block.
  */
-@property(readonly) int x;
+@property (readonly) int x;
 
 /**
  * The y co-ordinate of the block.
  */
-@property(readonly) int y;
+@property (readonly) int y;
 
 /**
  * Event triggered when the block starts exploding.
  */
-@property(readwrite, copy) BlockEvent onStartExploding;
+@property (readwrite, copy) BlockEvent onStartExploding;
 
 /**
  * Event triggered when the block stops exploding.
  */
-@property(readwrite, copy) BlockEvent onStopExploding;
+@property (readwrite, copy) BlockEvent onStopExploding;
 
 /**
  * Event triggered when the block starts to land.
  */
-@property(readwrite, copy) BlockEvent onStartLanding;
+@property (readwrite, copy) BlockEvent onStartLanding;
 
 /**
  * Event triggered when the block stops landing.
  */
-@property(readwrite, copy) BlockEvent onStopLanding;
+@property (readwrite, copy) BlockEvent onStopLanding;
 
 /**
  * Event triggered when the block starts falling.
  */
-@property(readwrite, copy) BlockEvent onStartFalling;
+@property (readwrite, copy) BlockEvent onStartFalling;
 
 /**
  * Event triggered when the block moves.
  */
-@property(readwrite, copy) BlockEvent onMove;
+@property (readwrite, copy) BlockEvent onMove;
 
 /**
  * Event triggered when the block's connections change.
  */
-@property(readwrite, copy) BlockEvent onConnect;
+@property (readwrite, copy) BlockEvent onConnect;
 		
 /**
  * The current state of the block.
  */
-@property(readonly) BlockState state;
+@property (readonly) SZEggState state;
 
 /**
  * True if the block has dropped half a grid square.
  */
-@property(readonly) BOOL hasDroppedHalfBlock;
+@property (readonly) BOOL hasDroppedHalfBlock;
 
 /**
  * Bitmask of active connections.
  */
-@property(readonly) int connections;
+@property (readonly) int connections;
 
 /**
  * Initialises a new instance of the class.

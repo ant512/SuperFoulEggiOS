@@ -110,7 +110,7 @@
 - (void)update {
 
 	switch (_block.state) {
-		case BlockExplodingState:
+		case SZEggStateExploding:
 
 			// The block is exploding.  We run through the frames of explosion
 			// animation each time this method is called until we run out of
@@ -137,7 +137,7 @@
 			
 			break;
 
-		case BlockLandingState:
+		case SZEggStateLanding:
 
 			// The block is landing.  We run through the animation until we run
 			// out of frames.  At that point, the block is told that it is no
@@ -161,7 +161,7 @@
 			
 			break;
 		
-		case BlockRecoveringFromGarbageHitState:
+		case SZEggStateRecoveringFromGarbageHit:
 
 			// Block has been hit by a garbage block from above and is being
 			// eased back to its correct position.
@@ -192,7 +192,7 @@
 }
 
 - (void)hitWithGarbage {
-	if (_block.state != BlockNormalState && _block.state != BlockLandingState && _block.state != BlockRecoveringFromGarbageHitState) return;
+	if (_block.state != SZEggStateNormal && _block.state != SZEggStateLanding && _block.state != SZEggStateRecoveringFromGarbageHit) return;
 	
 	_timer = 0;
 

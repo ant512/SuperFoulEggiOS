@@ -19,9 +19,9 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		_state = BlockNormalState;
+		_state = SZEggStateNormal;
 		_hasDroppedHalfBlock = NO;
-		_connections = ConnectionNoneMask;
+		_connections = SZEggConnectionMaskNone;
 
 		_x = -1;
 		_y = -1;
@@ -42,47 +42,47 @@
 }
 
 - (BOOL)hasLeftConnection {
-	return _connections & ConnectionLeftMask;
+	return _connections & SZEggConnectionMaskLeft;
 }
 
 - (BOOL)hasRightConnection {
-	return _connections & ConnectionRightMask;
+	return _connections & SZEggConnectionMaskRight;
 }
 
 - (BOOL)hasTopConnection {
-	return _connections & ConnectionTopMask;
+	return _connections & SZEggConnectionMaskTop;
 }
 
 - (BOOL)hasBottomConnection {
-	return _connections & ConnectionBottomMask;
+	return _connections & SZEggConnectionMaskBottom;
 }
 
 - (void)startFalling {
-	if (_state == BlockFallingState) return;
+	if (_state == SZEggStateFalling) return;
 	
 	//NSAssert(_state == BlockNormalState, @"Cannot make blocks fall that aren't in the normal state.");
 
-	_state = BlockFallingState;
-	_connections = ConnectionNoneMask;
+	_state = SZEggStateFalling;
+	_connections = SZEggConnectionMaskNone;
 
 	if (_onStartFalling != nil) _onStartFalling(self);
 }
 
 - (void)stopExploding {
-	NSAssert(_state == BlockExplodingState, @"Cannot stop exploding blocks that aren't exploding.");
+	NSAssert(_state == SZEggStateExploding, @"Cannot stop exploding blocks that aren't exploding.");
 
-	_state = BlockExplodedState;
+	_state = SZEggStateExploded;
 
 	if (_onStopExploding != nil) _onStopExploding(self);
 }
 
 - (void)startExploding {
 	
-	if (_state == BlockExplodingState) return;
+	if (_state == SZEggStateExploding) return;
 	
-	NSAssert(_state == BlockNormalState, @"Cannot explode blocks that aren't at rest.");
+	NSAssert(_state == SZEggStateNormal, @"Cannot explode blocks that aren't at rest.");
 	
-	_state = BlockExplodingState;
+	_state = SZEggStateExploding;
 
 	if (_onStartExploding != nil) {
 		_onStartExploding(self);
@@ -95,9 +95,9 @@
 
 - (void)startLanding {
 
-	NSAssert(_state == BlockFallingState, @"Cannot start landing blocks that aren't falling.");
+	NSAssert(_state == SZEggStateFalling, @"Cannot start landing blocks that aren't falling.");
 
-	_state = BlockLandingState;
+	_state = SZEggStateLanding;
 
 	if (_onStartLanding != nil) {
 		_onStartLanding(self);
@@ -109,21 +109,21 @@
 }
 
 - (void)stopLanding {
-	NSAssert(_state == BlockLandingState, @"Cannot stop landing blocks that aren't landing.");
+	NSAssert(_state == SZEggStateLanding, @"Cannot stop landing blocks that aren't landing.");
 
-	_state = BlockNormalState;
+	_state = SZEggStateNormal;
 
 	if (_onStopLanding != nil) _onStopLanding(self);
 }
 
 - (void)startRecoveringFromGarbageHit {
-	_state = BlockRecoveringFromGarbageHitState;
+	_state = SZEggStateRecoveringFromGarbageHit;
 }
 
 - (void)stopRecoveringFromGarbageHit {
-	NSAssert(_state == BlockRecoveringFromGarbageHitState, @"Cannot stop a non-recovering block from recovering.");
+	NSAssert(_state == SZEggStateRecoveringFromGarbageHit, @"Cannot stop a non-recovering block from recovering.");
 
-	_state = BlockNormalState;
+	_state = SZEggStateNormal;
 }
 
 - (void)dropHalfBlock {

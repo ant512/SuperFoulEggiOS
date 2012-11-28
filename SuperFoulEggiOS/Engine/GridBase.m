@@ -87,7 +87,7 @@
 
 	for (int y = GRID_HEIGHT - GRID_ENTRY_Y + 1; y >= 0; --y) {
 		BlockBase* block = [self blockAtX:index y:y];
-		if (block != nil && block.state == BlockNormalState) {
+		if (block != nil && block.state == SZEggStateNormal) {
 			++height;
 		} else {
 			break;

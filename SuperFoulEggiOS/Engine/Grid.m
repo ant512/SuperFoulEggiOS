@@ -83,7 +83,7 @@
 
 				BlockBase* garbage = [self blockAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 				if (garbage != nil && [garbage isKindOfClass:[GarbageBlock class]]) {
-					if (garbage.state == BlockNormalState) {
+					if (garbage.state == SZEggStateNormal) {
 						[garbage startExploding];
 					}
 				}
@@ -316,7 +316,7 @@
 		if (blockBelow != nil) {
 
 			// Do not land if the block below is also falling
-			if (blockBelow.state != BlockFallingState) {
+			if (blockBelow.state != SZEggStateFalling) {
 				_hasLiveBlocks = NO;
 
 				[_liveBlocks[i] startLanding];
@@ -357,7 +357,7 @@
 	for (int x = 0; x < GRID_WIDTH; ++x) {
 		BlockBase* block = [self blockAtX:x y:GRID_HEIGHT - 1];
 
-		if (block != nil && block.state == BlockFallingState) {
+		if (block != nil && block.state == SZEggStateFalling) {
 
 			[block startLanding];
 			hasLanded = YES;
@@ -393,9 +393,9 @@
 				[block startFalling];
 
 				hasDropped = YES;
-			} else if (block.state == BlockFallingState) {
+			} else if (block.state == SZEggStateFalling) {
 
-				if ([self blockAtX:x y:y + 1].state != BlockFallingState) {
+				if ([self blockAtX:x y:y + 1].state != SZEggStateFalling) {
 
 					[block startLanding];
 					hasLanded = YES;
@@ -661,15 +661,15 @@
 			if (block == nil) continue;
 
 			switch (block.state) {
-				case BlockExplodedState:
+				case SZEggStateExploded:
 
 					[self removeBlockAtX:x y:y];
 					result = YES;
 					break;
 				
-				case BlockExplodingState:
-				case BlockLandingState:
-				case BlockRecoveringFromGarbageHitState:
+				case SZEggStateExploding:
+				case SZEggStateLanding:
+				case SZEggStateRecoveringFromGarbageHit:
 
 					// Hold up the grid until the block has finished whatever it is
 					// doing
