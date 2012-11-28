@@ -10,7 +10,7 @@
 #define BLOCK_LAND_FRAME_COUNT 7
 #define BLOCK_ANIMATION_SPEED 2
 
-@interface BlockSpriteConnector : NSObject <SZEggBaseDelegate> {
+@interface SZEggSpriteConnector : NSObject <SZEggBaseDelegate> {
 @private
 	SZEggBase* _block;		/**< The block in the grid that this connector joins with a sprite. */
 	CCSprite* _sprite;		/**< The sprite on screen that this connector joins with a block. */

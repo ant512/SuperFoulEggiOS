@@ -223,7 +223,7 @@
 	// its grid co-ordinates back to the real values.  At present the
 	// co-ords are being abused to make the sprite appear in the "next
 	// block" location
-	for (BlockSpriteConnector* connector in connectorArray) {
+	for (SZEggSpriteConnector* connector in connectorArray) {
 		if (connector.block == block) {
 			connector.gridX = gridX;
 			connector.gridY = GRID_Y;
@@ -247,7 +247,7 @@
 }
 
 - (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column {
-	for (BlockSpriteConnector* connector in _blockSpriteConnectors[playerNumber]) {
+	for (SZEggSpriteConnector* connector in _blockSpriteConnectors[playerNumber]) {
 		if (connector.block.x == column) {
 			[connector hitWithGarbage];
 		}
@@ -493,7 +493,7 @@
 	BOOL requiresIteration = NO;
 	
 	if (_deathEffectTimer % 8 == 0) {
-		for (BlockSpriteConnector* connector in _blockSpriteConnectors[loser]) {
+		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[loser]) {
 			
 			CCSprite* sprite = connector.sprite;
 			SZEggBase* block = connector.block;
@@ -614,7 +614,7 @@
 
 		if (_blockSpriteConnectors[i] == nil) continue;
 
-		for (BlockSpriteConnector* connector in _blockSpriteConnectors[i]) {
+		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[i]) {
 			if (connector.block.y < GRID_HEIGHT - 1) {
 				[connector.sprite setVisible:visible];
 			}
@@ -926,7 +926,7 @@
 		if (_blockSpriteConnectors[j] == nil) continue;
 
 		for (int i = 0; i < [_blockSpriteConnectors[j] count]; ++i) {
-			if (((BlockSpriteConnector*)[_blockSpriteConnectors[j] objectAtIndex:i]).isDead) {
+			if (((SZEggSpriteConnector*)[_blockSpriteConnectors[j] objectAtIndex:i]).isDead) {
 				[_blockSpriteConnectors[j] removeObjectAtIndex:i];
 				--i;
 			} else {
@@ -1044,7 +1044,7 @@
 	}
 	
 	// Connect the sprite and block together
-	BlockSpriteConnector* connector = [[BlockSpriteConnector alloc] initWithBlock:block sprite:sprite gridX:gridX gridY:gridY];
+	SZEggSpriteConnector* connector = [[SZEggSpriteConnector alloc] initWithBlock:block sprite:sprite gridX:gridX gridY:gridY];
 	[connectorArray addObject:connector];
 	[connector release];
 	

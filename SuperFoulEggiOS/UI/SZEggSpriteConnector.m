@@ -1,6 +1,6 @@
-#import "BlockSpriteConnector.h"
+#import "SZEggSpriteConnector.h"
 
-@implementation BlockSpriteConnector
+@implementation SZEggSpriteConnector
 
 @synthesize block = _block;
 @synthesize sprite = _sprite;

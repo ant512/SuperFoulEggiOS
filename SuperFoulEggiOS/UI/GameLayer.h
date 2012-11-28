@@ -12,7 +12,7 @@
 #import "ControllerProtocol.h"
 #import "BlockFactory.h"
 #import "GameLayer.h"
-#import "BlockSpriteConnector.h"
+#import "SZEggSpriteConnector.h"
 
 #define MAX_PLAYERS 2
 #define FRAME_RATE 60
