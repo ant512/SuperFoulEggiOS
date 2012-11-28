@@ -152,8 +152,6 @@
 		C2B755EE1655DCE400DB1D43 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = C2B755ED1655DCE400DB1D43 /* vec4.c */; };
 		C2B755F31655DCE400DB1D43 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F21655DCE400DB1D43 /* main.m */; };
 		C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F51655DCE400DB1D43 /* AppDelegate.m */; };
-		C2B755F91655DCE400DB1D43 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F81655DCE400DB1D43 /* HelloWorldLayer.m */; };
-		C2B755FC1655DCE400DB1D43 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755FB1655DCE400DB1D43 /* IntroLayer.m */; };
 		C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756041655DD3100DB1D43 /* SZEggBase.m */; };
 		C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756061655DD3100DB1D43 /* BlockFactory.m */; };
 		C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756081655DD3100DB1D43 /* BlueBlock.m */; };
@@ -531,10 +529,6 @@
 		C2B755F21655DCE400DB1D43 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2B755F41655DCE400DB1D43 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C2B755F51655DCE400DB1D43 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C2B755F71655DCE400DB1D43 /* HelloWorldLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelloWorldLayer.h; sourceTree = "<group>"; };
-		C2B755F81655DCE400DB1D43 /* HelloWorldLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelloWorldLayer.m; sourceTree = "<group>"; };
-		C2B755FA1655DCE400DB1D43 /* IntroLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
-		C2B755FB1655DCE400DB1D43 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		C2B756031655DD3100DB1D43 /* SZEggBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZEggBase.h; sourceTree = "<group>"; };
 		C2B756041655DD3100DB1D43 /* SZEggBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEggBase.m; sourceTree = "<group>"; };
 		C2B756051655DD3100DB1D43 /* BlockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockFactory.h; sourceTree = "<group>"; };
@@ -730,10 +724,6 @@
 				C2B756D01655DD8500DB1D43 /* UI */,
 				C2B755F41655DCE400DB1D43 /* AppDelegate.h */,
 				C2B755F51655DCE400DB1D43 /* AppDelegate.m */,
-				C2B755F71655DCE400DB1D43 /* HelloWorldLayer.h */,
-				C2B755F81655DCE400DB1D43 /* HelloWorldLayer.m */,
-				C2B755FA1655DCE400DB1D43 /* IntroLayer.h */,
-				C2B755FB1655DCE400DB1D43 /* IntroLayer.m */,
 				C2B7546B1655DCE100DB1D43 /* Resources */,
 				C2B754891655DCE100DB1D43 /* libs */,
 				C2B755F01655DCE400DB1D43 /* Supporting Files */,
@@ -1536,8 +1526,6 @@
 				C2B755EE1655DCE400DB1D43 /* vec4.c in Sources */,
 				C2B755F31655DCE400DB1D43 /* main.m in Sources */,
 				C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */,
-				C2B755F91655DCE400DB1D43 /* HelloWorldLayer.m in Sources */,
-				C2B755FC1655DCE400DB1D43 /* IntroLayer.m in Sources */,
 				C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */,
 				C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */,
 				C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */,
