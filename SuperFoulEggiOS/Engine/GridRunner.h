@@ -49,14 +49,14 @@
 /**
  * All possible states of the state machine.
  */
-typedef enum {
-	GridRunnerDropState = 0,					/**< Blocks are dropping automatically. */
-	GridRunnerDropGarbageState = 1,				/**< Garbage blocks are dropping. */
-	GridRunnerLiveState = 2,					/**< Live, user-controlled blocks are in play. */
-	GridRunnerLandingState = 3,					/**< Blocks are running their landing animations. */
-	GridRunnerExplodingState = 4,				/**< Blocks are running their exploding animations. */
-	GridRunnerDeadState = 5						/**< Game is over. */
-} GridRunnerState;
+typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
+	SZGridRunnerStateDrop = 0,					/**< Blocks are dropping automatically. */
+	SZGridRunnerStateDropGarbage = 1,			/**< Garbage blocks are dropping. */
+	SZGridRunnerStateLive = 2,					/**< Live, user-controlled blocks are in play. */
+	SZGridRunnerStateLanding = 3,				/**< Blocks are running their landing animations. */
+	SZGridRunnerStateExploding = 4,				/**< Blocks are running their exploding animations. */
+	SZGridRunnerStateDead = 5					/**< Game is over. */
+};
 
 /**
  * Signature of a closure used as an event callback.  The grid runner that
@@ -76,8 +76,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
  * currently and next as the game progresses.
  */
 @interface GridRunner : NSObject {
-	SZGrid* _grid;								/**< The grid the runner controls. */
-	GridRunnerState _state;						/**< The state of the state machine. */
+	SZGridRunnerState _state;						/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
 	id <ControllerProtocol> _controller;		/**< Controller that feeds user input to live blocks. */
 	BlockFactory* _blockFactory;				/**< Produces next blocks for the grid. */
@@ -109,67 +108,67 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
 /**
  * Number of garbage blocks to send to the other player.
  */
-@property(readonly) int outgoingGarbageCount;
+@property (readonly) int outgoingGarbageCount;
 
 /**
  * Number of garbage blocks sent from the other player.
  */
-@property(readonly) int incomingGarbageCount;
+@property (readonly) int incomingGarbageCount;
 
 /**
  * The zero-based number of the current player.
  */
-@property(readonly) int playerNumber;
+@property (readonly) int playerNumber;
 
 /**
  * The grid controlled by this grid runner.
  */
-@property(readonly, retain) SZGrid* grid;
+@property (readonly, retain) SZGrid* grid;
 
 /**
  * The controller used for input.
  */
-@property(readonly, retain) id <ControllerProtocol> controller;
+@property (readonly, retain) id <ControllerProtocol> controller;
 
 /**
  * Block callback triggered when the live block moves left or right.
  */
-@property(readwrite, copy) GridRunnerEvent onLiveBlockMove;
+@property (readwrite, copy) GridRunnerEvent onLiveBlockMove;
 
 /**
  * Block callback triggered when the live block rotates.
  */
-@property(readwrite, copy) GridRunnerEvent onLiveBlockRotate;
+@property (readwrite, copy) GridRunnerEvent onLiveBlockRotate;
 
 /**
  * Block callback triggered when the live block starts dropping.
  */
-@property(readwrite, copy) GridRunnerEvent onLiveBlockDropStart;
+@property (readwrite, copy) GridRunnerEvent onLiveBlockDropStart;
 
 /**
  * Block callback triggered when a new pair of live blocks is added.
  */
-@property(readwrite, copy) GridRunnerEvent onLiveBlockAdd;
+@property (readwrite, copy) GridRunnerEvent onLiveBlockAdd;
 
 /**
  * Block callback triggered when a new pair of next blocks is created.
  */
-@property(readwrite, copy) GridRunnerEvent onNextBlocksCreated;
+@property (readwrite, copy) GridRunnerEvent onNextBlocksCreated;
 
 /**
  * Block callback triggered when multiple chains have been exploded.
  */
-@property(readwrite, copy) GridRunnerEvent onMultipleChainsExploded;
+@property (readwrite, copy) GridRunnerEvent onMultipleChainsExploded;
 
 /**
  * Block callback triggered when incoming garbage count is reset to 0.
  */
-@property(readwrite, copy) GridRunnerEvent onIncomingGarbageCleared;
+@property (readwrite, copy) GridRunnerEvent onIncomingGarbageCleared;
 
 /**
  * Block callback triggered when a chain has exploded.
  */
-@property(readwrite, copy) GridRunnerChainEvent onChainExploded;
+@property (readwrite, copy) GridRunnerChainEvent onChainExploded;
 
 /**
  * Initialise a new instance of the class.

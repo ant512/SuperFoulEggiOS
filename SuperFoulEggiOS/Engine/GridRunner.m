@@ -5,7 +5,6 @@
 @synthesize outgoingGarbageCount = _outgoingGarbageCount;
 @synthesize incomingGarbageCount = _incomingGarbageCount;
 @synthesize playerNumber = _playerNumber;
-@synthesize grid = _grid;
 
 @synthesize controller = _controller;
 
@@ -27,7 +26,7 @@
 					speed:(int)speed {
 
 	if ((self = [super init])) {
-		_state = GridRunnerDropState;
+		_state = SZGridRunnerStateDrop;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
@@ -89,7 +88,7 @@
 		
 		// Blocks have stopped dropping, so we need to run the landing
 		// animations
-		_state = GridRunnerLandingState;
+		_state = SZGridRunnerStateLanding;
 	}
 }
 
@@ -105,7 +104,7 @@
 
 		// Eggs have stopped dropping, so we need to run the landing
 		// animations
-		_state = GridRunnerLandingState;
+		_state = SZGridRunnerStateLanding;
 	}
 }
 
@@ -147,7 +146,7 @@
 		_accumulatingGarbageCount += garbage;
 		
 		// We need to run the explosion animations next
-		_state = GridRunnerExplodingState;
+		_state = SZGridRunnerStateExploding;
 
 	} else if (_incomingGarbageCount > 0) {
 
@@ -155,7 +154,7 @@
 		[_grid addGarbage:_incomingGarbageCount];
 
 		// Switch back to the drop state
-		_state = GridRunnerDropGarbageState;
+		_state = SZGridRunnerStateDropGarbage;
 
 		_incomingGarbageCount = 0;
 		
@@ -169,7 +168,7 @@
 		if (!addedEggs) {
 
 			// Cannot add more blocks - game is over
-			_state = GridRunnerDeadState;
+			_state = SZGridRunnerStateDead;
 		} else {
 			
 			[_nextBlocks[0] release];
@@ -198,7 +197,7 @@
 
 			if (_onLiveBlockAdd != nil) _onLiveBlockAdd(self);
 
-			_state = GridRunnerLiveState;
+			_state = SZGridRunnerStateLive;
 		}
 	}
 }
@@ -260,7 +259,7 @@
 		// At least one of the blocks in the live pair has touched down.
 		// We need to drop the other block automatically
 		_droppingLiveBlocks = NO;
-		_state = GridRunnerDropState;
+		_state = SZGridRunnerStateDrop;
 	}
 }
 
@@ -272,15 +271,15 @@
 	++_timer;
 
 	switch (_state) {
-		case GridRunnerDropGarbageState:
+		case SZGridRunnerStateDropGarbage:
 			[self dropGarbage];
 			break;
 			
-		case GridRunnerDropState:
+		case SZGridRunnerStateDrop:
 			[self drop];
 			break;
 		
-		case GridRunnerLandingState:
+		case SZGridRunnerStateLanding:
 			
 			// Wait until blocks stop iterating
 			if (!iterated) {
@@ -289,23 +288,23 @@
 
 			break;
 
-		case GridRunnerExplodingState:
+		case SZGridRunnerStateExploding:
 
 			// Wait until blocks stop iterating
 			if (!iterated) {
 
 				// All iterations have finished - we need to drop any blocks
 				// that are now sat on holes in the grid
-				_state = GridRunnerDropState;
+				_state = SZGridRunnerStateDrop;
 			}
 
 			break;
 
-		case GridRunnerLiveState:
+		case SZGridRunnerStateLive:
 			[self live];
 			break;	
 
-		case GridRunnerDeadState:
+		case SZGridRunnerStateDead:
 			break;
 	}
 }
@@ -324,11 +323,11 @@
 }
 
 - (BOOL)canReceiveGarbage {
-	return _state == GridRunnerLiveState;
+	return _state == SZGridRunnerStateLive;
 }
 
 - (BOOL)isDead {
-	return _state == GridRunnerDeadState;
+	return _state == SZGridRunnerStateLive;
 }
 
 @end
