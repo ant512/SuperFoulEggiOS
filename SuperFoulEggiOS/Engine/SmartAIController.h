@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 
 #import "ControllerProtocol.h"
-#import "Grid.h"
+#import "SZGrid.h"
 #import "SZEggBase.h"
 #import "SZPoint.h"
 
@@ -10,7 +10,7 @@
  * controlling in order to determine what action to take next.
  */
 @interface SmartAIController : NSObject <ControllerProtocol> {
-	Grid* _grid;				/**< The Grid that the AI is controlling. */
+	SZGrid* _grid;				/**< The Grid that the AI is controlling. */
 	int _lastLiveBlockY;		/**< The last observed y co-ordinate of the first live block. */
 	int _targetX;				/**< The x co-ordinate the AI is trying to move the live block to. */
 	int _targetRotations;		/**< Number of clockwise rotations needed before correct live block
@@ -26,7 +26,7 @@
  * AI faster.
  * @param grid The grid that the AI will control.
  */
-- (id)initWithHesitation:(int)hesitation grid:(Grid*)grid;
+- (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid;
 
 /**
  * Deallocates the instance.

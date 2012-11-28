@@ -2,7 +2,7 @@
 
 #import "cocos2d.h"
 #import "SZEggBase.h"
-#import "Grid.h"
+#import "SZGrid.h"
 
 #define BLOCK_EXPLODE_START_FRAME 16
 #define BLOCK_EXPLODE_FRAME_COUNT 6

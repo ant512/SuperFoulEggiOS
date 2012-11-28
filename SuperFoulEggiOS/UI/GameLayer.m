@@ -258,22 +258,22 @@
 	return playerNumber == 0 ? -1.0 : 1.0;
 }
 
-- (void)didAddGarbageEggRowToGrid:(Grid *)grid {
+- (void)didAddGarbageEggRowToGrid:(SZGrid *)grid {
 	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"garbagebig.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didLandEggInGrid:(Grid *)grid {
+- (void)didLandEggInGrid:(SZGrid *)grid {
 	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"land.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didLandGarbageEggInGrid:(Grid *)grid {
+- (void)didLandGarbageEggInGrid:(SZGrid *)grid {
 	CGFloat pan = [self panForPlayerNumber:grid.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)grid:(Grid *)grid didAddEgg:(SZEggBase *)egg {
+- (void)grid:(SZGrid *)grid didAddEgg:(SZEggBase *)egg {
 	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
 
 		// No existing next block exists (this must be a garbage block) so
@@ -282,7 +282,7 @@
 	}
 }
 
-- (void)grid:(Grid *)grid didLandGarbageEgg:(SZEggBase *)egg {
+- (void)grid:(SZGrid *)grid didLandGarbageEgg:(SZEggBase *)egg {
 
 	// Offsets all of the blocks in the column so that the column appears to
 	// squash under the garbage weight.
@@ -734,7 +734,7 @@
 	_blockSpriteConnectors[0] = [[NSMutableArray alloc] init];
 	_incomingGarbageSprites[0] = [[NSMutableArray alloc] init];
 
-	Grid* grid = [[Grid alloc] initWithPlayerNumber:0];
+	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
 	id <ControllerProtocol> controller;
@@ -760,7 +760,7 @@
 		_blockSpriteConnectors[1] = [[NSMutableArray alloc] init];
 		_incomingGarbageSprites[1] = [[NSMutableArray alloc] init];
 
-		grid = [[Grid alloc] initWithPlayerNumber:1];
+		grid = [[SZGrid alloc] initWithPlayerNumber:1];
 		grid.delegate = self;
 		
 		if ([Settings sharedSettings].gameType == GameSinglePlayerType) {

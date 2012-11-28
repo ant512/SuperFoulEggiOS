@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-#import "Grid.h"
+#import "SZGrid.h"
 #import "ControllerProtocol.h"
 #import "SZEggBase.h"
 #import "BlockFactory.h"
@@ -76,7 +76,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
  * currently and next as the game progresses.
  */
 @interface GridRunner : NSObject {
-	Grid* _grid;								/**< The grid the runner controls. */
+	SZGrid* _grid;								/**< The grid the runner controls. */
 	GridRunnerState _state;						/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
 	id <ControllerProtocol> _controller;		/**< Controller that feeds user input to live blocks. */
@@ -124,7 +124,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
 /**
  * The grid controlled by this grid runner.
  */
-@property(readonly, retain) Grid* grid;
+@property(readonly, retain) SZGrid* grid;
 
 /**
  * The controller used for input.
@@ -182,7 +182,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
  * @param speed The auto drop speed.
  */
 - (id)initWithController:(id <ControllerProtocol>)controller
-					grid:(Grid*)grid
+					grid:(SZGrid*)grid
 					blockFactory:(BlockFactory*)blockFactory
 					playerNumber:(int)playerNumber
 					speed:(int)speed;

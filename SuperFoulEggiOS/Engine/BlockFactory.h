@@ -2,7 +2,7 @@
 #import <Foundation/NSArray.h>
 
 #import "SZEggBase.h"
-#import "Grid.h"
+#import "SZGrid.h"
 
 /**
  * Each time a new set of blocks is added to a grid, the grid asks an instance

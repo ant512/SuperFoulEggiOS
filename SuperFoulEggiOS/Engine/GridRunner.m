@@ -21,7 +21,7 @@
 @synthesize onIncomingGarbageCleared = _onIncomingGarbageCleared;
 
 - (id)initWithController:(id <ControllerProtocol>)controller
-					grid:(Grid*)grid
+					grid:(SZGrid*)grid
 					blockFactory:(BlockFactory*)blockFactory
 					playerNumber:(int)playerNumber
 					speed:(int)speed {
@@ -85,7 +85,7 @@
 	
 	_timer = 0;
 	
-	if (![_grid dropBlocks]) {
+	if (![_grid dropEggs]) {
 		
 		// Blocks have stopped dropping, so we need to run the landing
 		// animations
@@ -95,15 +95,15 @@
 
 - (void)drop {
 
-	// Blocks are dropping down the screen automatically
+	// Eggs are dropping down the screen automatically
 
 	if (_timer < AUTO_DROP_TIME) return;
 
 	_timer = 0;
 
-	if (![_grid dropBlocks]) {
+	if (![_grid dropEggs]) {
 
-		// Blocks have stopped dropping, so we need to run the landing
+		// Eggs have stopped dropping, so we need to run the landing
 		// animations
 		_state = GridRunnerLandingState;
 	}
@@ -111,14 +111,14 @@
 
 - (void)land {
 
-	// All animations have finished, so establish connections between blocks now
+	// All animations have finished, so establish connections between eggs now
 	// that they have landed
-	[_grid connectBlocks];
+	[_grid connectEggs];
 
 	// Attempt to explode any chains that exist in the grid
-	int blocks = [_grid explodeBlocks];
+	int eggs = [_grid explodeEggs];
 
-	if (blocks > 0) {
+	if (eggs > 0) {
 
 		if (_onChainExploded != nil) _onChainExploded(self, _chainMultiplier);
 		
@@ -132,7 +132,7 @@
 
 			// One block for the chain and one block for each block on
 			// top of the required minimum number
-			garbage = blocks - (CHAIN_LENGTH - 1);
+			garbage = eggs - (CHAIN_LENGTH - 1);
 		} else {
 
 			// If we're in a sequence of chains, we add 6 blocks each
@@ -141,7 +141,7 @@
 
 			// Add any additional blocks on top of the standard
 			// chain length
-			garbage += blocks - CHAIN_LENGTH;
+			garbage += eggs - CHAIN_LENGTH;
 		}
 
 		_accumulatingGarbageCount += garbage;
@@ -164,9 +164,9 @@
 
 		// Nothing exploded, so we can put a new live block into
 		// the grid
-		BOOL addedBlocks = [_grid addLiveBlocks:_nextBlocks[0] block2:_nextBlocks[1]];
+		BOOL addedEggs = [_grid addLiveEggs:_nextBlocks[0] egg2:_nextBlocks[1]];
 
-		if (!addedBlocks) {
+		if (!addedEggs) {
 
 			// Cannot add more blocks - game is over
 			_state = GridRunnerDeadState;
@@ -217,11 +217,11 @@
 
 		// Process user input
 		if ([_controller isLeftHeld]) {
-			if ([_grid moveLiveBlocksLeft]) {
+			if ([_grid moveLiveEggsLeft]) {
 				if (_onLiveBlockMove != nil) _onLiveBlockMove(self);
             }
 		} else if ([_controller isRightHeld]) {
-			if ([_grid moveLiveBlocksRight]) {
+			if ([_grid moveLiveEggsRight]) {
 				if (_onLiveBlockMove != nil) _onLiveBlockMove(self);
 			}
 		}
@@ -241,11 +241,11 @@
 		}
 		
 		if ([_controller isRotateClockwiseHeld]) {
-			if ([_grid rotateLiveBlocksClockwise]) {
+			if ([_grid rotateLiveEggsClockwise]) {
 				if (_onLiveBlockRotate != nil) _onLiveBlockRotate(self);
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
-			if ([_grid rotateLiveBlocksAntiClockwise]) {
+			if ([_grid rotateLiveEggsAntiClockwise]) {
 				if (_onLiveBlockRotate != nil) _onLiveBlockRotate(self);
 			}
 		}
@@ -253,7 +253,7 @@
 		// Drop live blocks if the timer has expired
 		if (_timer >= timeToDrop) {
 			_timer = 0;
-			[_grid dropLiveBlocks];
+			[_grid dropLiveEggs];
 		}
 	} else {
 

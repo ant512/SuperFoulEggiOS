@@ -159,7 +159,7 @@
 		C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756081655DD3100DB1D43 /* BlueBlock.m */; };
 		C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */; };
 		C2B756321655DD3100DB1D43 /* GreenBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560D1655DD3100DB1D43 /* GreenBlock.m */; };
-		C2B756331655DD3100DB1D43 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560F1655DD3100DB1D43 /* Grid.m */; };
+		C2B756331655DD3100DB1D43 /* SZGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560F1655DD3100DB1D43 /* SZGrid.m */; };
 		C2B756341655DD3100DB1D43 /* GridBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756111655DD3100DB1D43 /* GridBase.m */; };
 		C2B756351655DD3100DB1D43 /* GridBottomBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756131655DD3100DB1D43 /* GridBottomBlock.m */; };
 		C2B756361655DD3100DB1D43 /* GridBottomLeftBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756151655DD3100DB1D43 /* GridBottomLeftBlock.m */; };
@@ -546,8 +546,8 @@
 		C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GarbageBlock.m; sourceTree = "<group>"; };
 		C2B7560C1655DD3100DB1D43 /* GreenBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GreenBlock.h; sourceTree = "<group>"; };
 		C2B7560D1655DD3100DB1D43 /* GreenBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenBlock.m; sourceTree = "<group>"; };
-		C2B7560E1655DD3100DB1D43 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
-		C2B7560F1655DD3100DB1D43 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
+		C2B7560E1655DD3100DB1D43 /* SZGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGrid.h; sourceTree = "<group>"; };
+		C2B7560F1655DD3100DB1D43 /* SZGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGrid.m; sourceTree = "<group>"; };
 		C2B756101655DD3100DB1D43 /* GridBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridBase.h; sourceTree = "<group>"; };
 		C2B756111655DD3100DB1D43 /* GridBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridBase.m; sourceTree = "<group>"; };
 		C2B756121655DD3100DB1D43 /* GridBottomBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridBottomBlock.h; sourceTree = "<group>"; };
@@ -1133,8 +1133,8 @@
 				C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */,
 				C2B7560C1655DD3100DB1D43 /* GreenBlock.h */,
 				C2B7560D1655DD3100DB1D43 /* GreenBlock.m */,
-				C2B7560E1655DD3100DB1D43 /* Grid.h */,
-				C2B7560F1655DD3100DB1D43 /* Grid.m */,
+				C2B7560E1655DD3100DB1D43 /* SZGrid.h */,
+				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
 				C2B756101655DD3100DB1D43 /* GridBase.h */,
 				C2B756111655DD3100DB1D43 /* GridBase.m */,
 				C2B756121655DD3100DB1D43 /* GridBottomBlock.h */,
@@ -1543,7 +1543,7 @@
 				C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */,
 				C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */,
 				C2B756321655DD3100DB1D43 /* GreenBlock.m in Sources */,
-				C2B756331655DD3100DB1D43 /* Grid.m in Sources */,
+				C2B756331655DD3100DB1D43 /* SZGrid.m in Sources */,
 				C2B756341655DD3100DB1D43 /* GridBase.m in Sources */,
 				C2B756351655DD3100DB1D43 /* GridBottomBlock.m in Sources */,
 				C2B756361655DD3100DB1D43 /* GridBottomLeftBlock.m in Sources */,

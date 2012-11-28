@@ -16,40 +16,30 @@
 }
 
 /**
- * Initialises a new instance of the class.
- */
-- (id)init;
-
-/**
- * Deallocates the instance of the class.
- */
-- (void)dealloc;
-
-/**
  * Clears the grid of all blocks.
  */
 - (void)clear;
 
 /**
- * Gets the block at the specified co-ordinates.
- * @param x The x co-ordinate of the block to retrieve.
- * @param y The y co-ordinate of the block to retrieve.
+ * Gets the egg at the specified co-ordinates.
+ * @param x The x co-ordinate of the egg to retrieve.
+ * @param y The y co-ordinate of the egg to retrieve.
  */
-- (SZEggBase*)blockAtX:(int)x y:(int)y;
+- (SZEggBase*)eggAtX:(int)x y:(int)y;
 
 /**
- * Add a block to the grid.  The grid assumes ownership of the block.
- * @param x The x co-ordinate of the block.
- * @param y The y co-ordinate of the block.
+ * Add an egg to the grid.  The grid assumes ownership of the egg.
+ * @param x The x co-ordinate of the egg.
+ * @param y The y co-ordinate of the egg.
  */
-- (void)addBlock:(SZEggBase*)block x:(int)x y:(int)y;
+- (void)addEgg:(SZEggBase*)egg x:(int)x y:(int)y;
 
 /**
- * Removes and deallocates the block at the specified co-ordinates.
- * @param x The x co-ordinate of the block to remove.
- * @param y The y co-ordinate of the block to remove.
+ * Removes and deallocates the egg at the specified co-ordinates.
+ * @param x The x co-ordinate of the egg to remove.
+ * @param y The y co-ordinate of the egg to remove.
  */
-- (void)removeBlockAtX:(int)x y:(int)y;
+- (void)removeEggAtX:(int)x y:(int)y;
 
 /**
  * Gets the height of the specified column.
@@ -59,14 +49,14 @@
 - (int)heightOfColumnAtIndex:(int)index;
 
 /**
- * Moves the block at the specified source co-ordinates to the destination
+ * Moves the egg at the specified source co-ordinates to the destination
  * co-ordinates.
  * @param sourceX The source x co-ordinate.
  * @param sourceY The source y co-ordinate.
  * @param destinationX The destination x co-ordinate.
  * @param destinationY The destination y co-ordinate.
  */
-- (void)moveBlockFromSourceX:(int)sourceX sourceY:(int)sourceY toDestinationX:(int)destinationX destinationY:(int)destinationY;
+- (void)moveEggFromSourceX:(int)sourceX sourceY:(int)sourceY toDestinationX:(int)destinationX destinationY:(int)destinationY;
 
 /**
  * Checks if the specified co-ordinates fall inside the grid.

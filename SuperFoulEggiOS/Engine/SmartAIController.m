@@ -4,7 +4,7 @@
 
 @implementation SmartAIController
 
-- (id)initWithHesitation:(int)hesitation grid:(Grid*)grid {
+- (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid {
 	if ((self = [super init])) {
 		_grid = [grid retain];
 		_lastLiveBlockY = GRID_HEIGHT;
@@ -96,7 +96,7 @@
 	int exploded = 0;
 	int iteration = 1;
 	
-	Grid* gridCopy = [_grid copy];
+	SZGrid* gridCopy = [_grid copy];
 	
 	while (rotation > 0) {
 		[gridCopy rotateLiveEggsClockwise];
@@ -149,7 +149,7 @@
 	
 	// If the grid entry point is blocked, this move must have the lowest
 	// priority possible
-	if ([gridCopy blockAtX:2 y:0] != nil || [gridCopy blockAtX:3 y:0] != nil) {
+	if ([gridCopy eggAtX:2 y:0] != nil || [gridCopy eggAtX:3 y:0] != nil) {
 		score = INT_MIN;
 	}
 	
