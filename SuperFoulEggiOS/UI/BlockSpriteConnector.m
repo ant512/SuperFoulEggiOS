@@ -28,6 +28,41 @@
 	_yOffset = 0;
 }
 
+
+- (void)didEggConnect:(SZEggBase *)egg {
+	[self setSpriteFrame:egg.connections];
+}
+
+- (void)didEggMove:(SZEggBase *)egg {
+	[self updateSpritePosition];
+}
+
+- (void)didEggStartExploding:(SZEggBase *)egg {
+	[self resetTimer];
+}
+
+- (void)didEggStopExploding:(SZEggBase *)egg {
+	[self kill];
+}
+
+- (void)didEggStartFalling:(SZEggBase *)egg {
+	
+	// Prevent blocks in the grid from being displaced if their garbage
+	// hit bounce is interrupted
+	[self resetYOffset];
+
+	[self setSpriteFrame:egg.connections];
+}
+
+- (void)didEggStartLanding:(SZEggBase *)egg {
+	[self resetTimer];
+
+	[self setSpriteFrame:BLOCK_LAND_START_FRAME];
+}
+
+- (void)didEggStopLanding:(SZEggBase *)egg {
+}
+
 - (id)initWithBlock:(SZEggBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
 	if ((self = [super init])) {
 		_block = [block retain];
@@ -41,42 +76,7 @@
 		[self updateSpritePosition];
 		[self setSpriteFrame:0];
 		
-		__block BlockSpriteConnector* connector = self;
-
-		_block.onConnect = ^(SZEggBase* block) {
-			[connector setSpriteFrame:block.connections];
-		};
-
-		_block.onMove = ^(SZEggBase* block) {
-			[connector updateSpritePosition];
-		};
-
-		_block.onStopExploding = ^(SZEggBase* block) {
-			[connector kill];
-		};
-
-		_block.onStartExploding = ^(SZEggBase* block) {
-			[connector resetTimer];
-		};
-
-		_block.onStartLanding = ^(SZEggBase* block) {
-			[connector resetTimer];
-			
-			[connector setSpriteFrame:BLOCK_LAND_START_FRAME];
-		};
-
-		_block.onStopLanding = ^(SZEggBase* block) {
-			// Don't care about this
-		};
-
-		_block.onStartFalling = ^(SZEggBase* block) {
-
-			// Prevent blocks in the grid from being displaced if their garbage
-			// hit bounce is interrupted
-			[connector resetYOffset];
-			
-			[connector setSpriteFrame:block.connections];
-		};
+		block.delegate = self;
 	}
 	
 	return self;

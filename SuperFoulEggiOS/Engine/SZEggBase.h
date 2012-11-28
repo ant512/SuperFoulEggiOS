@@ -7,7 +7,17 @@
 
 @class SZEggBase;
 
-typedef void(^BlockEvent)(SZEggBase*);
+@protocol SZEggBaseDelegate <NSObject>
+
+- (void)didEggStartExploding:(SZEggBase *)egg;
+- (void)didEggStopExploding:(SZEggBase *)egg;
+- (void)didEggStartLanding:(SZEggBase *)egg;
+- (void)didEggStopLanding:(SZEggBase *)egg;
+- (void)didEggStartFalling:(SZEggBase *)egg;
+- (void)didEggMove:(SZEggBase *)egg;
+- (void)didEggConnect:(SZEggBase *)egg;
+
+@end
 
 /**
  * Bitmask of possible connections.
@@ -37,6 +47,8 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
  */
 @interface SZEggBase : NSObject
 
+@property (readwrite, assign) id <SZEggBaseDelegate> delegate;
+
 /**
  * The x co-ordinate of the egg.
  */
@@ -46,41 +58,6 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
  * The y co-ordinate of the egg.
  */
 @property (readonly) int y;
-
-/**
- * Event triggered when the egg starts exploding.
- */
-@property (readwrite, copy) BlockEvent onStartExploding;
-
-/**
- * Event triggered when the egg stops exploding.
- */
-@property (readwrite, copy) BlockEvent onStopExploding;
-
-/**
- * Event triggered when the egg starts to land.
- */
-@property (readwrite, copy) BlockEvent onStartLanding;
-
-/**
- * Event triggered when the egg stops landing.
- */
-@property (readwrite, copy) BlockEvent onStopLanding;
-
-/**
- * Event triggered when the egg starts falling.
- */
-@property (readwrite, copy) BlockEvent onStartFalling;
-
-/**
- * Event triggered when the egg moves.
- */
-@property (readwrite, copy) BlockEvent onMove;
-
-/**
- * Event triggered when the egg's connections change.
- */
-@property (readwrite, copy) BlockEvent onConnect;
 		
 /**
  * The current state of the egg.

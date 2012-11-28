@@ -16,13 +16,6 @@
 }
 
 - (void)dealloc {
-	[_onStartExploding release];
-	[_onStopExploding release];
-	[_onStartLanding release];
-	[_onStopLanding release];
-	[_onStartFalling release];
-	[_onMove release];
-	[_onConnect release];
 	[super dealloc];
 }
 
@@ -44,13 +37,11 @@
 
 - (void)startFalling {
 	if (_state == SZEggStateFalling) return;
-	
-	//NSAssert(_state == BlockNormalState, @"Cannot make blocks fall that aren't in the normal state.");
 
 	_state = SZEggStateFalling;
 	_connections = SZEggConnectionMaskNone;
 
-	if (_onStartFalling != nil) _onStartFalling(self);
+	[_delegate didEggStartFalling:self];
 }
 
 - (void)stopExploding {
@@ -58,7 +49,7 @@
 
 	_state = SZEggStateExploded;
 
-	if (_onStopExploding != nil) _onStopExploding(self);
+	[_delegate didEggStopExploding:self];
 }
 
 - (void)startExploding {
@@ -69,13 +60,10 @@
 	
 	_state = SZEggStateExploding;
 
-	if (_onStartExploding != nil) {
-		_onStartExploding(self);
-	} else {
-		// If we haven't got anything to listen to this event,
-		// we need to force the block to explode automatically
-		[self stopExploding];
-	}
+	[_delegate didEggStartExploding:self];
+
+	// Delegate should immediately tell the egg to stop exploding if it doesn't
+	// care about the event.
 }
 
 - (void)startLanding {
@@ -84,13 +72,9 @@
 
 	_state = SZEggStateLanding;
 
-	if (_onStartLanding != nil) {
-		_onStartLanding(self);
-	} else {
-		// If we haven't got anything to listen to this event,
-		// we need to force the block to land automatically
-		[self stopLanding];
-	}
+	[_delegate didEggStartLanding:self];
+	// Delegate should immediately tell the egg to stop landing if it doesn't
+	// care about the event.
 }
 
 - (void)stopLanding {
@@ -98,7 +82,7 @@
 
 	_state = SZEggStateNormal;
 
-	if (_onStopLanding != nil) _onStopLanding(self);
+	[_delegate didEggStopLanding:self];
 }
 
 - (void)startRecoveringFromGarbageHit {
@@ -121,7 +105,7 @@
 - (void)setConnectionTop:(BOOL)top right:(BOOL)right bottom:(BOOL)bottom left:(BOOL)left {
 	_connections = top | (left << 1) | (right << 2) | (bottom << 3);
 
-	if (_onConnect != nil) _onConnect(self);
+	[_delegate didEggConnect:self];
 }
 
 - (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left {
@@ -132,7 +116,7 @@
 	_x = x;
 	_y = y;
 
-	if (_onMove != nil) _onMove(self);
+	[_delegate didEggMove:self];
 }
 
 @end

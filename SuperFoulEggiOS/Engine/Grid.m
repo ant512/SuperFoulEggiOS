@@ -40,7 +40,11 @@
 
 - (void)removeBlockAtX:(int)x y:(int)y {
 	SZEggBase *block = [self blockAtX:x y:y];
-	[_delegate grid:self didRemoveEgg:block];
+
+	if ([_delegate respondsToSelector:@selector(grid:didRemoveEgg:)]) {
+		[_delegate grid:self didRemoveEgg:block];
+	}
+	
 	[super removeBlockAtX:x y:y];
 }
 

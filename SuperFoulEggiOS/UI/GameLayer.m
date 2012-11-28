@@ -735,6 +735,8 @@
 	_incomingGarbageSprites[0] = [[NSMutableArray alloc] init];
 
 	Grid* grid = [[Grid alloc] initWithPlayerNumber:0];
+	grid.delegate = self;
+	
 	id <ControllerProtocol> controller;
 	
 	// Use the second player control layout in a single-player game, as they
@@ -759,6 +761,7 @@
 		_incomingGarbageSprites[1] = [[NSMutableArray alloc] init];
 
 		grid = [[Grid alloc] initWithPlayerNumber:1];
+		grid.delegate = self;
 		
 		if ([Settings sharedSettings].gameType == GameSinglePlayerType) {
 			controller = [[SmartAIController alloc] initWithHesitation:(int)([Settings sharedSettings].aiType) grid:grid];
