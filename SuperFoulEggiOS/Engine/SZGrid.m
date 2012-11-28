@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 
-#import "Grid.h"
+#import "SZGrid.h"
 #import "GarbageBlock.h"
 #import "GridBottomBlock.h"
 #import "GridBottomLeftBlock.h"
 #import "GridBottomRightBlock.h"
 #import "SZPoint.h"
 
-@implementation Grid
+@implementation SZGrid
 
 - (id)initWithPlayerNumber:(int)playerNumber {
 	if ((self = [super init])) {
@@ -30,59 +30,59 @@
 	[super dealloc];
 }
 
-- (void)addBlock:(SZEggBase*)block x:(int)x y:(int)y {
-	[_delegate grid:self didAddEgg:block];
-	[super addBlock:block x:x y:y];
+- (void)addEgg:(SZEggBase*)egg x:(int)x y:(int)y {
+	[_delegate grid:self didAddEgg:egg];
+	[super addEgg:egg x:x y:y];
 }
 
-- (void)removeBlockAtX:(int)x y:(int)y {
-	SZEggBase *block = [self blockAtX:x y:y];
+- (void)removeEggAtX:(int)x y:(int)y {
+	SZEggBase *egg = [self eggAtX:x y:y];
 
 	if ([_delegate respondsToSelector:@selector(grid:didRemoveEgg:)]) {
-		[_delegate grid:self didRemoveEgg:block];
+		[_delegate grid:self didRemoveEgg:egg];
 	}
 	
-	[super removeBlockAtX:x y:y];
+	[super removeEggAtX:x y:y];
 }
 
 - (void)createBottomRow {
 
-	SZEggBase* block = [[GridBottomLeftBlock alloc] init];
-	[self addBlock:block x:0 y:GRID_HEIGHT - 1];
-	[block release];
+	SZEggBase* egg = [[GridBottomLeftBlock alloc] init];
+	[self addEgg:egg x:0 y:GRID_HEIGHT - 1];
+	[egg release];
 	
 	for (int i = 1; i < GRID_WIDTH - 1; ++i) {
-		block = [[GridBottomBlock alloc] init];
-		[self addBlock:block x:i y:GRID_HEIGHT - 1];
-		[block release];
+		egg = [[GridBottomBlock alloc] init];
+		[self addEgg:egg x:i y:GRID_HEIGHT - 1];
+		[egg release];
 	}
 	
-	block = [[GridBottomRightBlock alloc] init];
-	[self addBlock:block x:GRID_WIDTH - 1 y:GRID_HEIGHT - 1];
-	[block release];
+	egg = [[GridBottomRightBlock alloc] init];
+	[self addEgg:egg x:GRID_WIDTH - 1 y:GRID_HEIGHT - 1];
+	[egg release];
 }
 
-- (int)explodeBlocks {
+- (int)explodeEggs {
 	
-	int blocks = 0;
+	int eggs = 0;
 
 	NSMutableArray* chains = [self newPointChainsFromAllCoordinates];
 
-	// These are the co-ordinates of the 4 blocks adjacent to the current block
+	// These are the co-ordinates of the 4 eggs adjacent to the current egg
 	static int xCoords[4] = { -1, 1, 0, 0 };
 	static int yCoords[4] = { 0, 0, -1, 1 };
 
 	for (NSArray* chain in chains) {
-		blocks += [chain count];
+		eggs += [chain count];
 
 		for (SZPoint* point in chain) {
 			
-			[[self blockAtX:point.x y:point.y] startExploding];
+			[[self eggAtX:point.x y:point.y] startExploding];
 
 			// Remove any adjacent garbage
 			for (int i = 0; i < 4; ++i) {
 
-				SZEggBase* garbage = [self blockAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
+				SZEggBase* garbage = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 				if (garbage != nil && [garbage isKindOfClass:[GarbageBlock class]]) {
 					if (garbage.state == SZEggStateNormal) {
 						[garbage startExploding];
@@ -94,14 +94,14 @@
 
 	[chains release];
 
-	return blocks;
+	return eggs;
 }
 
 - (NSMutableArray*)newPointChainsFromAllCoordinates {
 
 	NSMutableArray* chains = [[NSMutableArray alloc] init];
 
-	// Array of bools remembers which blocks we've already examined so that we
+	// Array of bools remembers which eggs we've already examined so that we
 	// don't check them again and get stuck in a loop
 	BOOL checkedData[GRID_SIZE];
 
@@ -112,12 +112,12 @@
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 
-			// Skip if block already checked
+			// Skip if egg already checked
 			if (checkedData[x + (y * GRID_WIDTH)]) continue;
 
 			NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
 
-			// Only remember the chain if it has the minimum number of blocks in
+			// Only remember the chain if it has the minimum number of eggs in
 			// it at least
 			if ([chain count] >= CHAIN_LENGTH) {
 				[chains addObject:chain];
@@ -130,13 +130,13 @@
 	return chains;
 }
 
-- (SZEggBase*)liveBlock:(int)index {
-	NSAssert(index < 2, @"Only 2 live blocks are available.");
+- (SZEggBase*)liveEgg:(int)index {
+	NSAssert(index < 2, @"Only 2 live eggs are available.");
 	
 	return _liveEggs[index];
 }
 
-- (int)getPotentialExplodedBlockCount:(int)x y:(int)y block:(SZEggBase*)block checkedData:(BOOL*)checkedData {
+- (int)getPotentialExplodedEggCount:(int)x y:(int)y egg:(SZEggBase*)egg checkedData:(BOOL*)checkedData {
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 	
@@ -147,15 +147,15 @@
 	NSMutableArray* chain = [[NSMutableArray alloc] initWithCapacity:11];
 	NSMutableArray* singleChain = nil;
 
-	// These are the co-ordinates of the 4 blocks adjacent to the current block
+	// These are the co-ordinates of the 4 eggs adjacent to the current egg
 	static int xCoords[4] = { -1, 1, 0, 0 };
 	static int yCoords[4] = { 0, 0, -1, 1 };
 
-	// Analyze all adjacent blocks
+	// Analyze all adjacent eggs
 	for (int i = 0; i < 4; ++i) {
 
-		SZEggBase* gridBlock = [self blockAtX:x + xCoords[i] y:y + yCoords[i]];
-		if (gridBlock != nil && [gridBlock class] == [block class]) {
+		SZEggBase* gridEgg = [self eggAtX:x + xCoords[i] y:y + yCoords[i]];
+		if (gridEgg != nil && [gridEgg class] == [egg class]) {
 			singleChain = [self newPointChainFromCoordinatesX:x + xCoords[i] y:y + yCoords[i] checkedData:checkedData];
 
 			for (id point in singleChain) {
@@ -166,24 +166,24 @@
 		}
 	}
 
-	// Calculate how many garbage blocks will be exploded by the chain
+	// Calculate how many garbage eggs will be exploded by the chain
 	int garbageCount = 0;
 
 	if ([chain count] >= CHAIN_LENGTH) {
-		SZEggBase* gridBlock = nil;
+		SZEggBase* gridEgg = nil;
 
 		for (id item in chain) {
 
 			SZPoint* point = (SZPoint*)item;
 			
-			// Check all adjacent blocks to see if they are garbage
+			// Check all adjacent eggs to see if they are garbage
 			for (int i = 0; i < 4; ++i) {
 
-				gridBlock = [self blockAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
+				gridEgg = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 
-				if ((gridBlock != nil) && (!checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)])) {
+				if ((gridEgg != nil) && (!checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)])) {
 
-					if ([gridBlock isKindOfClass:[GarbageBlock class]]) {
+					if ([gridEgg isKindOfClass:[GarbageBlock class]]) {
 						checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)] = YES;
 						++garbageCount;
 					}
@@ -192,8 +192,8 @@
 		}
 	}
 
-	// Total length is the number of connected grid blocks found, plus the
-	// block we're trying to place, plus the number of garbage blocks that will
+	// Total length is the number of connected grid eggs found, plus the
+	// egg we're trying to place, plus the number of garbage eggs that will
 	// be exploded
 	int length = (int)[chain count] + 1 + garbageCount;
 
@@ -206,43 +206,43 @@
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 
-	// Stop if we've checked this block already
+	// Stop if we've checked this egg already
 	if (checkedData[x + (y * GRID_WIDTH)]) return nil;
 
 	int index = 0;
 
 	NSMutableArray* chain = [[NSMutableArray alloc] initWithCapacity:11];
 
-	// Add the start of the chain to the list of blocks that comprise the chain
+	// Add the start of the chain to the list of eggs that comprise the chain
 	SZPoint* startPoint = [[SZPoint alloc] initWithX:x y:y];
 
 	[chain addObject:startPoint];
 	[startPoint release];
 
-	// Ensure we don't check this block again
+	// Ensure we don't check this egg again
 	checkedData[x + (y * GRID_WIDTH)] = YES;
 
-	// Check the blocks that surround every block in the chain to see if they
+	// Check the eggs that surround every egg in the chain to see if they
 	// should be part of the chain.  If so, add them to the chain.
 	while (index < [chain count]) {
 
 		SZPoint* point = [chain objectAtIndex:index];
-		SZEggBase* block = [self blockAtX:point.x y:point.y];
+		SZEggBase* egg = [self eggAtX:point.x y:point.y];
 
-		if (block == nil) return chain;
+		if (egg == nil) return chain;
 
-		// Check if the block on the left of this is part of the chain.  Ignore
-		// the block if it has already been checked.
+		// Check if the egg on the left of this is part of the chain.  Ignore
+		// the egg if it has already been checked.
 		if (point.x - 1 >= 0 && !checkedData[point.x - 1 + (point.y * GRID_WIDTH)]) {
 
-			if ([block hasLeftConnection]) {
+			if ([egg hasLeftConnection]) {
 
-				// Block is part of the chain so remember its co-ordinates
+				// Egg is part of the chain so remember its co-ordinates
 				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x - 1 y:point.y];
 
 				[chain addObject:adjacentPoint];
 
-				// Now that we know this block is part of a chain we don't want
+				// Now that we know this egg is part of a chain we don't want
 				// to check it again
 				checkedData[adjacentPoint.x + (adjacentPoint.y * GRID_WIDTH)] = YES;
 
@@ -252,7 +252,7 @@
 
 		if (point.x + 1 < GRID_WIDTH && !checkedData[point.x + 1 + (point.y * GRID_WIDTH)]) {
 
-			if ([block hasRightConnection]) {
+			if ([egg hasRightConnection]) {
 
 				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x + 1 y:point.y];
 
@@ -266,7 +266,7 @@
 
 		if (point.y - 1 >= 0 && !checkedData[point.x + ((point.y - 1) * GRID_WIDTH)]) {
 
-			if ([block hasTopConnection]) {
+			if ([egg hasTopConnection]) {
 
 				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y - 1];
 
@@ -280,7 +280,7 @@
 
 		if (point.y + 1 < GRID_HEIGHT && !checkedData[point.x + ((point.y + 1) * GRID_WIDTH)]) {
 
-			if ([block hasBottomConnection]) {
+			if ([egg hasBottomConnection]) {
 
 				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y + 1];
 
@@ -298,26 +298,26 @@
 	return chain;
 }
 
-- (void)dropLiveBlocks {
+- (void)dropLiveEggs {
 
 	NSAssert(_hasLiveEggs, @"No live eggs in play.");
 
 	BOOL hasLanded = NO;
 
-	// Check both live blocks for collisions before we try to drop them.  This
+	// Check both live eggs for collisions before we try to drop them.  This
 	// prevents us from getting into a situation in which one of the pair drops
 	// and the other hits something
 	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
 
-		// Check if the block has landed on another.  We don't need to bother
-		// checking if the block is at the bottom of the grid because live
-		// blocks can never reach there - the row of bottom blocks prevents it
-		SZEggBase* blockBelow = [self blockAtX:_liveEggs[i].x y:_liveEggs[i].y + 1];
+		// Check if the egg has landed on another.  We don't need to bother
+		// checking if the egg is at the bottom of the grid because live
+		// eggs can never reach there - the row of bottom eggs prevents it
+		SZEggBase* eggBelow = [self eggAtX:_liveEggs[i].x y:_liveEggs[i].y + 1];
 
-		if (blockBelow != nil) {
+		if (eggBelow != nil) {
 
-			// Do not land if the block below is also falling
-			if (blockBelow.state != SZEggStateFalling) {
+			// Do not land if the egg below is also falling
+			if (eggBelow.state != SZEggStateFalling) {
 				_hasLiveEggs = NO;
 
 				[_liveEggs[i] startLanding];
@@ -329,12 +329,12 @@
 
 	if (_hasLiveEggs) {
 
-		// Blocks are still live - drop them to the next position.  Drop block
+		// Eggs are still live - drop them to the next position.  Drop egg
 		// 1 first as when vertical 1 is always below
 		for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
 
 			if (_liveEggs[i].hasDroppedHalfBlock) {
-				[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x destinationY:_liveEggs[i].y + 1];
+				[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x destinationY:_liveEggs[i].y + 1];
 			}
 			
 			[_liveEggs[i] dropHalfBlock];
@@ -346,7 +346,7 @@
 	}
 }
 
-- (BOOL)dropBlocks {
+- (BOOL)dropEggs {
 
 	NSAssert(!_hasLiveEggs, @"Live eggs are in play.");
 
@@ -356,17 +356,17 @@
 
 	// Everything on the bottom row should have landed
 	for (int x = 0; x < GRID_WIDTH; ++x) {
-		SZEggBase* block = [self blockAtX:x y:GRID_HEIGHT - 1];
+		SZEggBase* egg = [self eggAtX:x y:GRID_HEIGHT - 1];
 
-		if (block != nil && block.state == SZEggStateFalling) {
+		if (egg != nil && egg.state == SZEggStateFalling) {
 
-			[block startLanding];
+			[egg startLanding];
 			hasLanded = YES;
 
-			// Fire an event if the landed block is garbage
-			if ([block isKindOfClass:[GarbageBlock class]]) {
+			// Fire an event if the landed egg is garbage
+			if ([egg isKindOfClass:[GarbageBlock class]]) {
 
-				[_delegate grid:self didLandGarbageEgg:block];
+				[_delegate grid:self didLandGarbageEgg:egg];
 
 				isGarbage = YES;
 			}
@@ -378,33 +378,33 @@
 	for (int y = GRID_HEIGHT - 2; y >= 0; --y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			SZEggBase* block = [self blockAtX:x y:y];
+			SZEggBase* egg = [self eggAtX:x y:y];
 
-			// Ignore this block if it's empty
-			if (block == nil) continue;
+			// Ignore this egg if it's empty
+			if (egg == nil) continue;
 
-			// Drop the current block if the block below is empty
-			if ([self blockAtX:x y:y + 1] == nil) {
+			// Drop the current egg if the egg below is empty
+			if ([self eggAtX:x y:y + 1] == nil) {
 				
-				if (block.hasDroppedHalfBlock) {
-					[self moveBlockFromSourceX:x sourceY:y toDestinationX:x destinationY:y + 1];
+				if (egg.hasDroppedHalfBlock) {
+					[self moveEggFromSourceX:x sourceY:y toDestinationX:x destinationY:y + 1];
 				}
 				
-				[block dropHalfBlock];
-				[block startFalling];
+				[egg dropHalfBlock];
+				[egg startFalling];
 
 				hasDropped = YES;
-			} else if (block.state == SZEggStateFalling) {
+			} else if (egg.state == SZEggStateFalling) {
 
-				if ([self blockAtX:x y:y + 1].state != SZEggStateFalling) {
+				if ([self eggAtX:x y:y + 1].state != SZEggStateFalling) {
 
-					[block startLanding];
+					[egg startLanding];
 					hasLanded = YES;
 
-					// Fire an event if the landed block is garbage
-					if ([block isKindOfClass:[GarbageBlock class]]) {
+					// Fire an event if the landed egg is garbage
+					if ([egg isKindOfClass:[GarbageBlock class]]) {
 
-						[_delegate grid:self didLandGarbageEgg:block];
+						[_delegate grid:self didLandGarbageEgg:egg];
 
 						isGarbage = YES;
 					}
@@ -424,73 +424,73 @@
 	return hasDropped;
 }
 
-- (BOOL)moveLiveBlocksLeft {
+- (BOOL)moveLiveEggsLeft {
 	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
-	// 0 block should always be on the left or at the top
+	// 0 egg should always be on the left or at the top
 	if (_liveEggs[0].x == 0) return NO;
 
-	// Check the block to the left
-	if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
+	// Check the egg to the left
+	if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
-	// If we've dropped half a block we also need to check the block left and
+	// If we've dropped half a step we also need to check the egg left and
 	// down one
 	if (_liveEggs[0].hasDroppedHalfBlock) {
-		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
+		if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 	}
 
-	// Check 1 block if it is below the 0 block
+	// Check 1 egg if it is below the 0 egg
 	if (_liveEggs[0].x == _liveEggs[1].x) {
-		if ([self blockAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y] != nil) return NO;
+		if ([self eggAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y] != nil) return NO;
 
-		// Check the block left and down one if we've dropped a half block
+		// Check the egg left and down one if we've dropped a half step
 		if (_liveEggs[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y + 1] != nil) return NO;
+			if ([self eggAtX:_liveEggs[1].x - 1 y:_liveEggs[1].y + 1] != nil) return NO;
 		}
 	}
 
-	// Blocks can move
+	// Eggs can move
 	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-		[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x - 1 destinationY:_liveEggs[i].y];
+		[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x - 1 destinationY:_liveEggs[i].y];
 	}
 
 	return YES;
 }
 
-- (BOOL)moveLiveBlocksRight {
+- (BOOL)moveLiveEggsRight {
 	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// 1 egg should always be on the right or at the bottom
 	if (_liveEggs[1].x == GRID_WIDTH - 1) return NO;
 
 	// Check the egg to the right
-	if ([self blockAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y] != nil) return NO;
+	if ([self eggAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y] != nil) return NO;
 
 	// If we've dropped half a step we also need to check the egg right and
 	// down one
 	if (_liveEggs[1].hasDroppedHalfBlock) {
-		if ([self blockAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y + 1] != nil) return NO;
+		if ([self eggAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y + 1] != nil) return NO;
 	}
 
 	// Check 0 egg if it is above the 1 egg
 	if (_liveEggs[0].x == _liveEggs[1].x) {
-		if ([self blockAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y] != nil) return NO;
+		if ([self eggAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y] != nil) return NO;
 
 		// Check the egg right and down one if we've dropped a half egg
 		if (_liveEggs[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y + 1] != nil) return NO;
+			if ([self eggAtX:_liveEggs[0].x + 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 	}
 
-	// Blocks can move
+	// Eggs can move
 	for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
-		[self moveBlockFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x + 1 destinationY:_liveEggs[i].y];
+		[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x + 1 destinationY:_liveEggs[i].y];
 	}
 
 	return YES;
 }
 
-- (BOOL)rotateLiveBlocksClockwise {
+- (BOOL)rotateLiveEggsClockwise {
 	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// Determine whether to swap to a vertical or horizontal arrangement
@@ -502,21 +502,21 @@
 		// eggs eliminates the possibility of eggs being there
 
 		// Cannot swap if the egg below the egg on the right is populated
-		if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
+		if ([self eggAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
 
 		// Cannot swap if the egg 2 below the egg on the right is populated
 		// if we've dropped a half step
 		if (_liveEggs[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
+			if ([self eggAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
 		}
 
 		// Perform the rotation
 
 		// Move the right egg down one place
-		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
+		[self moveEggFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
 
 		// Move the left egg right one place
-		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x + 1 destinationY:_liveEggs[0].y];
+		[self moveEggFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x + 1 destinationY:_liveEggs[0].y];
 
 	} else {
 
@@ -526,18 +526,18 @@
 		if (_liveEggs[0].x == 0) return NO;
 
 		// Cannot swap if the egg to the left of the egg at the top is populated
-		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
+		if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
 		// Cannot swap if the egg below the egg on the left of the top egg
 		// is populated if we've dropped a half step
 		if (_liveEggs[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
+			if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 
 		// Perform the rotation
 
 		// Move the bottom egg up and left
-		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
+		[self moveEggFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
 
 		// 0 egg should always be on the left
 		SZEggBase* tmp = _liveEggs[0];
@@ -548,7 +548,7 @@
 	return YES;
 }
 
-- (BOOL)rotateLiveBlocksAntiClockwise {
+- (BOOL)rotateLiveEggsAntiClockwise {
 	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// Determine whether the eggs swap to a vertical or horizontal arrangement
@@ -560,18 +560,18 @@
 		// eggs eliminates the possibility of eggs being there
 
 		// Cannot swap if the egg below the egg on the right is populated
-		if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
+		if ([self eggAtX:_liveEggs[1].x y:_liveEggs[1].y + 1] != nil) return NO;
 
 		// Cannot swap if the egg 2 below the egg on the right is populated
 		// if we've dropped a half step
 		if (_liveEggs[1].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
+			if ([self eggAtX:_liveEggs[1].x y:_liveEggs[1].y + 2] != nil) return NO;
 		}
 
 		// Perform the rotation
 
 		// Move the left egg down and right
-		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
+		[self moveEggFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
 
 		// 0 egg should always be at the top
 		SZEggBase* tmp = _liveEggs[0];
@@ -586,66 +586,66 @@
 		if (_liveEggs[0].x == 0) return NO;
 
 		// Cannot swap if the egg to the left of the egg at the top is populated
-		if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
+		if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y] != nil) return NO;
 
 		// Cannot swap if the egg below the egg on the left of the top egg
 		// is populated if we've dropped a half step
 		if (_liveEggs[0].hasDroppedHalfBlock) {
-			if ([self blockAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
+			if ([self eggAtX:_liveEggs[0].x - 1 y:_liveEggs[0].y + 1] != nil) return NO;
 		}
 
 		// Perform the rotation
 
 		// Move the top egg left
-		[self moveBlockFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
+		[self moveEggFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
 
 		// Move the bottom egg up
-		[self moveBlockFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y - 1];
+		[self moveEggFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y - 1];
 	}
 
 	return YES;
 }
 
-- (BOOL)addLiveBlocks:(SZEggBase*)block1 block2:(SZEggBase*)block2 {
+- (BOOL)addLiveEggs:(SZEggBase*)egg1 egg2:(SZEggBase*)egg2 {
 
-	// Do not add more live blocks if we have blocks already.  However, return
+	// Do not add more live eggs if we have eggs already.  However, return
 	// true because we don't want to treat this as a special case; as far as
-	// any other code is concerned it did its job - live blocks are in play
+	// any other code is concerned it did its job - live eggs are in play
 	if (_hasLiveEggs) return YES;
 
-	// Cannot add live blocks if the grid positions already contain blocks
-	if ([self blockAtX:2 y:GRID_ENTRY_Y] != nil) return NO;
-	if ([self blockAtX:3 y:GRID_ENTRY_Y] != nil) return NO;
+	// Cannot add live eggs if the grid positions already contain eggs
+	if ([self eggAtX:2 y:GRID_ENTRY_Y] != nil) return NO;
+	if ([self eggAtX:3 y:GRID_ENTRY_Y] != nil) return NO;
 	
-	// Live blocks always appear at the same co-ordinates
-	[self addBlock:block1 x:2 y:GRID_ENTRY_Y];
-	[self addBlock:block2 x:3 y:GRID_ENTRY_Y];
+	// Live eggs always appear at the same co-ordinates
+	[self addEgg:egg1 x:2 y:GRID_ENTRY_Y];
+	[self addEgg:egg2 x:3 y:GRID_ENTRY_Y];
 
-	[block1 startFalling];
-	[block2 startFalling];
+	[egg1 startFalling];
+	[egg2 startFalling];
 
-	_liveEggs[0] = block1;
-	_liveEggs[1] = block2;
+	_liveEggs[0] = egg1;
+	_liveEggs[1] = egg2;
 
 	_hasLiveEggs = YES;
 
 	return YES;
 }
 
-- (void)connectBlocks {
+- (void)connectEggs {
 	
-	SZEggBase* block = nil;
+	SZEggBase* egg = nil;
 	
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
-			block = [self blockAtX:x y:y];
+			egg = [self eggAtX:x y:y];
 			
-			if (block == nil) continue;
-			
-			[block connect:[self blockAtX:x y:y - 1]
-					right:[self blockAtX:x + 1 y:y]
-					bottom:[self blockAtX:x y:y + 1]
-					left:[self blockAtX:x - 1 y:y]];
+			if (egg == nil) continue;
+
+			[egg connect:[self eggAtX:x y:y - 1]
+				   right:[self eggAtX:x + 1 y:y]
+				  bottom:[self eggAtX:x y:y + 1]
+					left:[self eggAtX:x - 1 y:y]];
 		}
 	}
 }
@@ -657,14 +657,14 @@
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			SZEggBase* block = [self blockAtX:x y:y];
+			SZEggBase* egg = [self eggAtX:x y:y];
 			
-			if (block == nil) continue;
+			if (egg == nil) continue;
 
-			switch (block.state) {
+			switch (egg.state) {
 				case SZEggStateExploded:
 
-					[self removeBlockAtX:x y:y];
+					[self removeEggAtX:x y:y];
 					result = YES;
 					break;
 				
@@ -672,8 +672,8 @@
 				case SZEggStateLanding:
 				case SZEggStateRecoveringFromGarbageHit:
 
-					// Hold up the grid until the block has finished whatever it is
-					// doing
+					// Hold up the grid until the egg has finished whatever it
+					// is doing.
 					result = YES;
 					break;
 					
@@ -750,26 +750,26 @@
 
 		for (int i = 0; i < activeColumns; ++i) {
 
-			// Find a free block
+			// Find a free egg
 			int garbageY = 0;
-			while ([self blockAtX:columns[i] y:garbageY] != nil && garbageY < GRID_HEIGHT - GRID_ENTRY_Y) {
+			while ([self eggAtX:columns[i] y:garbageY] != nil && garbageY < GRID_HEIGHT - GRID_ENTRY_Y) {
 				++garbageY;
 			}
 
-			// If we couldn't find a free block we'll try it in the next column
+			// If we couldn't find a free space we'll try it in the next column
 			// instead
 			if (garbageY == GRID_HEIGHT - GRID_ENTRY_Y) continue;
 
-			GarbageBlock* block = [[GarbageBlock alloc] init];
-			[self addBlock:block x:columns[i] y:garbageY];
-			[block release];
+			GarbageBlock* egg = [[GarbageBlock alloc] init];
+			[self addEgg:egg x:columns[i] y:garbageY];
+			[egg release];
 
 			--count;
 
 			if (count == 0) break;
 		}
 
-		// If we failed to place the block the grid must be full
+		// If we failed to place the egg the grid must be full
 		if (oldCount == count) return;
 
 		++y;
@@ -777,29 +777,29 @@
 }
 
 - (id)copy {
-	Grid* grid = [[Grid alloc] initWithPlayerNumber:_playerNumber];
+	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:_playerNumber];
 	
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			if ([self blockAtX:x y:y] == _liveEggs[0] || [self blockAtX:x y:y] == _liveEggs[1]) {
+			if ([self eggAtX:x y:y] == _liveEggs[0] || [self eggAtX:x y:y] == _liveEggs[1]) {
 				continue;
 			}
 			
-			Class blockClass = [[self blockAtX:x y:y] class];
-			SZEggBase* block = [[blockClass alloc] init];
-			[grid addBlock:block x:x y:y];
-			[block release];
+			Class eggClass = [[self eggAtX:x y:y] class];
+			SZEggBase* egg = [[eggClass alloc] init];
+			[grid addEgg:egg x:x y:y];
+			[egg release];
 		}
 	}
 	
 	if (_hasLiveEggs) {
-		SZEggBase* block1 = [[[_liveEggs[0] class] alloc] init];
-		SZEggBase* block2 = [[[_liveEggs[1] class] alloc] init];
+		SZEggBase* egg1 = [[[_liveEggs[0] class] alloc] init];
+		SZEggBase* egg2 = [[[_liveEggs[1] class] alloc] init];
 		
-		[grid addLiveBlocks:block1 block2:block2];
-		[block1 release];
-		[block2 release];
+		[grid addLiveEggs:egg1 egg2:egg2];
+		[egg1 release];
+		[egg2 release];
 	}
 	
 	return grid;
@@ -808,7 +808,7 @@
 - (int)score {
 	int score = 0;
 	
-	// Array of bools remembers which blocks we've already examined so that we
+	// Array of bools remembers which eggs we've already examined so that we
 	// don't check them again and get stuck in a loop
 	BOOL checkedData[GRID_SIZE];
 	
@@ -819,30 +819,30 @@
 	for (int y = 0; y < GRID_HEIGHT; ++y) {
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			
-			// Skip if block already checked
+			// Skip if egg already checked
 			if (checkedData[x + (y * GRID_WIDTH)]) continue;
 			
-			if ([self blockAtX:x y:y] == nil) {
+			if ([self eggAtX:x y:y] == nil) {
 				
-				// Empty blocks at the top are worth more than empty blocks at
+				// Empty eggs at the top are worth more than empty eggs at
 				// the bottom of the grid, which makes the AI favour filling
-				// blocks at the bottom of the grid.
+				// eggs at the bottom of the grid.
 				score += 6 * (GRID_HEIGHT - y);
 			} else {
 			
 				NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
 				
 				// Store the number of connections in the chain at the co-ords
-				// of each member block.  1 block in the chain = 0 connections,
-				// 2 blocks = 1 connection, etc.  The value is multiplied by
-				// the y co-ord of the block so that connections low in the grid
+				// of each member egg.  1 egg in the chain = 0 connections,
+				// 2 eggs = 1 connection, etc.  The value is multiplied by
+				// the y co-ord of the egg so that connections low in the grid
 				// are worth more than connections high in the grid.  This makes
 				// the AI try to make connections at the bottom of the grid,
 				// which is more likely to trigger sequences of chains.
 				
 				if ([chain count] == 1) {
 
-					// Penalise the score for single blocks left unattached
+					// Penalise the score for single eggs left unattached
 					score -= 8 * (GRID_HEIGHT - y);
 				} else {
 					for (SZPoint* point in chain) {

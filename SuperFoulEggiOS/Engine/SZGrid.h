@@ -2,27 +2,27 @@
 #import <Foundation/NSArray.h>
 
 #import "SZEggBase.h"
-#import "GridBase.h"
+#import "SZGridBase.h"
 
 #define CHAIN_LENGTH 4
 #define LIVE_BLOCK_COUNT 2
 
-@class Grid;
+@class SZGrid;
 @class SZEggBase;
 
 @protocol SZGridDelegate <NSObject>
 @required
 
-- (void)didLandEggInGrid:(Grid *)grid;
-- (void)didLandGarbageEggInGrid:(Grid *)grid;
-- (void)didAddGarbageEggRowToGrid:(Grid *)grid;
+- (void)didLandEggInGrid:(SZGrid *)grid;
+- (void)didLandGarbageEggInGrid:(SZGrid *)grid;
+- (void)didAddGarbageEggRowToGrid:(SZGrid *)grid;
 
-- (void)grid:(Grid *)grid didLandGarbageEgg:(SZEggBase *)egg;
-- (void)grid:(Grid *)grid didAddEgg:(SZEggBase *)egg;
+- (void)grid:(SZGrid *)grid didLandGarbageEgg:(SZEggBase *)egg;
+- (void)grid:(SZGrid *)grid didAddEgg:(SZEggBase *)egg;
 
 @optional
 
-- (void)grid:(Grid *)grid didRemoveEgg:(SZEggBase *)egg;
+- (void)grid:(SZGrid *)grid didRemoveEgg:(SZEggBase *)egg;
 
 @end
 
@@ -31,7 +31,7 @@
  * interesting happens, and a set of game-specific functions for manipulating
  * the eggs.
  */
-@interface Grid : GridBase {
+@interface SZGrid : SZGridBase {
 @private
 	SZEggBase* _liveEggs[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live eggs in the grid. */
 }

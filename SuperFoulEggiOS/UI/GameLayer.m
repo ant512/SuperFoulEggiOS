@@ -170,8 +170,8 @@
 
 	if (!_runners[0].grid.hasLiveEggs) return;
 
-	int block1X = [[_runners[0].grid liveBlock:0] x];
-	int block2X = [[_runners[0].grid liveBlock:1] x];
+	int block1X = [[_runners[0].grid liveEgg:0] x];
+	int block2X = [[_runners[0].grid liveEgg:1] x];
 
 	// Remember the left-most column.  We'll drag relative to this.
 	_dragStartColumn = block1X < block2X ? block1X : block2X;
@@ -842,7 +842,7 @@
 	}
 	
 	if (_runners[0].grid.hasLiveEggs) {
-		SZEggBase *block = [_runners[0].grid liveBlock:0];
+		SZEggBase *block = [_runners[0].grid liveEgg:0];
 		
 		if (_columnTarget > -1) {
 			if (block.x < _columnTarget) {

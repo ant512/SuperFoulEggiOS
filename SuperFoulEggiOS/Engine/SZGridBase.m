@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "GridBase.h"
+#import "SZGridBase.h"
 
-@implementation GridBase
+@implementation SZGridBase
 
 - (id)init {
 	if ((self = [super init])) {

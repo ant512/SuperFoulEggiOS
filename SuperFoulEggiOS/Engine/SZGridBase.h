@@ -10,7 +10,7 @@
 /**
  * Maintains the list of eggs that make up the playing grid.
  */
-@interface GridBase : NSObject {
+@interface SZGridBase : NSObject {
 @private
 	SZEggBase* _data[GRID_SIZE];	/**< The array of eggs that constitutes the grid. */
 }
