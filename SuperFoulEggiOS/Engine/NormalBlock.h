@@ -1,9 +1,9 @@
-#import "BlockBase.h"
+#import "EggBase.h"
 
-@interface NormalBlock : BlockBase {
+@interface NormalBlock : EggBase {
 
 }
 
-- (void)connect:(BlockBase*)top right:(BlockBase*)right bottom:(BlockBase*)bottom left:(BlockBase*)left;
+- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left;
 
 @end

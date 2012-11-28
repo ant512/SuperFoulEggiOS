@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSArray.h>
 
-#import "BlockBase.h"
+#import "EggBase.h"
 #import "Grid.h"
 
 /**
@@ -52,7 +52,7 @@
  * created.
  * @return The next block.
  */
-- (BlockBase*)newBlockForPlayerNumber:(int)playerNumber;
+- (EggBase*)newBlockForPlayerNumber:(int)playerNumber;
 
 /**
  * Adds a random block class to the block list.

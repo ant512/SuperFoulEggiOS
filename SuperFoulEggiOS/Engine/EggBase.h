@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 
 /**
- * Dimensions of a block.  Blocks are square.
+ * Dimensions of an egg.  Eggs are square.
  */
 #define BLOCK_SIZE 48
 
-@class BlockBase;
+@class EggBase;
 
-typedef void(^BlockEvent)(BlockBase*);
+typedef void(^BlockEvent)(EggBase*);
 
 /**
  * Bitmask of possible connections.
@@ -35,60 +35,60 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 /**
  * Base class for all blocks that appear in the grid.
  */
-@interface BlockBase : NSObject
+@interface EggBase : NSObject
 
 /**
- * The x co-ordinate of the block.
+ * The x co-ordinate of the egg.
  */
 @property (readonly) int x;
 
 /**
- * The y co-ordinate of the block.
+ * The y co-ordinate of the egg.
  */
 @property (readonly) int y;
 
 /**
- * Event triggered when the block starts exploding.
+ * Event triggered when the egg starts exploding.
  */
 @property (readwrite, copy) BlockEvent onStartExploding;
 
 /**
- * Event triggered when the block stops exploding.
+ * Event triggered when the egg stops exploding.
  */
 @property (readwrite, copy) BlockEvent onStopExploding;
 
 /**
- * Event triggered when the block starts to land.
+ * Event triggered when the egg starts to land.
  */
 @property (readwrite, copy) BlockEvent onStartLanding;
 
 /**
- * Event triggered when the block stops landing.
+ * Event triggered when the egg stops landing.
  */
 @property (readwrite, copy) BlockEvent onStopLanding;
 
 /**
- * Event triggered when the block starts falling.
+ * Event triggered when the egg starts falling.
  */
 @property (readwrite, copy) BlockEvent onStartFalling;
 
 /**
- * Event triggered when the block moves.
+ * Event triggered when the egg moves.
  */
 @property (readwrite, copy) BlockEvent onMove;
 
 /**
- * Event triggered when the block's connections change.
+ * Event triggered when the egg's connections change.
  */
 @property (readwrite, copy) BlockEvent onConnect;
 		
 /**
- * The current state of the block.
+ * The current state of the egg.
  */
 @property (readonly) SZEggState state;
 
 /**
- * True if the block has dropped half a grid square.
+ * True if the egg has dropped half a grid square.
  */
 @property (readonly) BOOL hasDroppedHalfBlock;
 
@@ -98,79 +98,79 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 @property (readonly) SZEggConnectionMask connections;
 
 /**
- * Check if the block is connected to the block on its left.
+ * Check if the egg is connected to the block on its left.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasLeftConnection;
 
 /**
- * Check if the block is connected to the block on its right.
+ * Check if the egg is connected to the block on its right.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasRightConnection;
 
 /**
- * Check if the block is connected to the block above.
+ * Check if the egg is connected to the block above.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasTopConnection;
 
 /**
- * Check if the block is connected to the block below.
+ * Check if the egg is connected to the block below.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasBottomConnection;
 
 /**
- * Inform the block that it is falling.
+ * Inform the egg that it is falling.
  */
 - (void)startFalling;
 
 /**
- * Inform the block that it is exploding.
+ * Inform the egg that it is exploding.
  */
 - (void)startExploding;
 
 /**
- * Inform the block that it is no longer exploding.
+ * Inform the egg that it is no longer exploding.
  */
 - (void)stopExploding;
 
 /**
- * Inform the block that it is landing.
+ * Inform the egg that it is landing.
  */
 - (void)startLanding;
 
 /**
- * Inform the block that it is no longer landing.
+ * Inform the egg that it is no longer landing.
  */
 - (void)stopLanding;
 
 /**
- * Inform the block that it is recovering from being hit by garbage.
+ * Inform the egg that it is recovering from being hit by garbage.
  */
 - (void)startRecoveringFromGarbageHit;
 
 /**
- * Inform the block that it is no longer recovering from being hit by garbage.
+ * Inform the egg that it is no longer recovering from being hit by garbage.
  */
 - (void)stopRecoveringFromGarbageHit;
 
 /**
- * Inform the block that it has dropped half a grid square.
- * @return True if the block has dropped half a grid square.
+ * Inform the egg that it has dropped half a grid square.
+ * @return True if the egg has dropped half a grid square.
  */
 - (void)dropHalfBlock;
 
 /**
- * Attempt to establish which of the surrounding blocks are of the same type as
+ * Attempt to establish which of the surrounding eggs are of the same type as
  * this and remember those connections.
  * @param top The block above this.
  * @param bottom The block below this.
  * @param right The block to the right of this.
  * @param left The block to the left of this.
  */
-- (void)connect:(BlockBase*)top right:(BlockBase*)right bottom:(BlockBase*)bottom left:(BlockBase*)left;
+- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left;
 
 /**
  * Sets the connections that the block has to the supplied parameters.

@@ -2,7 +2,7 @@
 
 #import "Grid.h"
 #import "ControllerProtocol.h"
-#import "BlockBase.h"
+#import "EggBase.h"
 #import "BlockFactory.h"
 
 /**
@@ -81,7 +81,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
 	int _timer;									/**< Frames since the last event took place. */
 	id <ControllerProtocol> _controller;		/**< Controller that feeds user input to live blocks. */
 	BlockFactory* _blockFactory;				/**< Produces next blocks for the grid. */
-	BlockBase* _nextBlocks[LIVE_BLOCK_COUNT];	/**< Array of 2 blocks that will be placed next. */
+	EggBase* _nextBlocks[LIVE_BLOCK_COUNT];	/**< Array of 2 blocks that will be placed next. */
 	int _playerNumber;							/**< Unique number of the player using this runner. */
 
 	int _speed;									/**< Current speed. */
@@ -204,7 +204,7 @@ typedef void(^GridRunnerChainEvent)(GridRunner*, int);
  * @param index The index of the block to retrieve.
  * @return The requested next block.
  */
-- (BlockBase*)nextBlock:(int)index;
+- (EggBase*)nextBlock:(int)index;
 
 /**
  * Increase the amount of incoming garbage blocks by the specified amount.

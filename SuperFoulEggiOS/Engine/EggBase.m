@@ -1,6 +1,6 @@
-#import "BlockBase.h"
+#import "EggBase.h"
 
-@implementation BlockBase
+@implementation EggBase
 
 - (id)init {
 	if ((self = [super init])) {
@@ -124,7 +124,7 @@
 	if (_onConnect != nil) _onConnect(self);
 }
 
-- (void)connect:(BlockBase*)top right:(BlockBase*)right bottom:(BlockBase*)bottom left:(BlockBase*)left {
+- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left {
 }
 
 - (void)setX:(int)x andY:(int)y {

@@ -2,7 +2,7 @@
 
 @implementation NormalBlock
 
-- (void)connect:(BlockBase*)top right:(BlockBase*)right bottom:(BlockBase*)bottom left:(BlockBase*)left {
+- (void)connect:(EggBase*)top right:(EggBase*)right bottom:(EggBase*)bottom left:(EggBase*)left {
 	
 	BOOL topSet = top != NULL && [top class] == [self class] && top.state == SZEggStateNormal;
 	BOOL rightSet = right != NULL && [right class] == [self class] && right.state == SZEggStateNormal;

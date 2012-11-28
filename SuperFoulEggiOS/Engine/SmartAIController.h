@@ -2,7 +2,7 @@
 
 #import "ControllerProtocol.h"
 #import "Grid.h"
-#import "BlockBase.h"
+#import "EggBase.h"
 #import "SZPoint.h"
 
 /**

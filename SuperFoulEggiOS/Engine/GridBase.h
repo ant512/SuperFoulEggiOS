@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-#import "BlockBase.h"
+#import "EggBase.h"
 
 #define GRID_WIDTH 6
 #define GRID_HEIGHT 16
@@ -12,7 +12,7 @@
  */
 @interface GridBase : NSObject {
 @private
-	BlockBase* _data[GRID_SIZE];	/**< The array of blocks that constitutes the grid. */
+	EggBase* _data[GRID_SIZE];	/**< The array of blocks that constitutes the grid. */
 }
 
 /**
@@ -35,14 +35,14 @@
  * @param x The x co-ordinate of the block to retrieve.
  * @param y The y co-ordinate of the block to retrieve.
  */
-- (BlockBase*)blockAtX:(int)x y:(int)y;
+- (EggBase*)blockAtX:(int)x y:(int)y;
 
 /**
  * Add a block to the grid.  The grid assumes ownership of the block.
  * @param x The x co-ordinate of the block.
  * @param y The y co-ordinate of the block.
  */
-- (void)addBlock:(BlockBase*)block x:(int)x y:(int)y;
+- (void)addBlock:(EggBase*)block x:(int)x y:(int)y;
 
 /**
  * Removes and deallocates the block at the specified co-ordinates.

@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "cocos2d.h"
-#import "BlockBase.h"
+#import "EggBase.h"
 #import "Grid.h"
 
 #define BLOCK_EXPLODE_START_FRAME 16
@@ -12,7 +12,7 @@
 
 @interface BlockSpriteConnector : NSObject {
 @private
-	BlockBase* _block;		/**< The block in the grid that this connector joins with a sprite. */
+	EggBase* _block;		/**< The block in the grid that this connector joins with a sprite. */
 	CCSprite* _sprite;		/**< The sprite on screen that this connector joins with a block. */
 	int _gridX;				/**< The x co-ordinate of the grid that contains the block. */
 	int _gridY;				/**< The y co-ordinate of the grid that contains the block. */
@@ -25,7 +25,7 @@
 /**
  * The block in the grid that this connector joins with a sprite.
  */
-@property(readonly, assign) BlockBase* block;
+@property(readonly, assign) EggBase* block;
 
 /**
  * The sprite on screen that this connector joins with a block.
@@ -55,7 +55,7 @@
  * @param gridX The x co-ordinate of the grid that contains the object's block.
  * @param gridY The y co-ordinate of the grid that contains the object's block.
  */
-- (id)initWithBlock:(BlockBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY;
+- (id)initWithBlock:(EggBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY;
 
 - (void)dealloc;
 - (void)kill;

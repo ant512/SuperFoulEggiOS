@@ -1,6 +1,6 @@
-#import "BlockBase.h"
+#import "EggBase.h"
 
-@interface GarbageBlock : BlockBase {
+@interface GarbageBlock : EggBase {
 
 }
 

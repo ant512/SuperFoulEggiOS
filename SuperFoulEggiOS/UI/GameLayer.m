@@ -10,7 +10,7 @@
 #import "Pad.h"
 #import "SZPoint.h"
 
-#import "BlockBase.h"
+#import "EggBase.h"
 #import "RedBlock.h"
 #import "GreenBlock.h"
 #import "BlueBlock.h"
@@ -214,7 +214,7 @@
 	}
 }
 
-- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(BlockBase*)block {
+- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(EggBase*)block {
 	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
 	
 	NSMutableArray* connectorArray = _blockSpriteConnectors[playerNumber];
@@ -238,7 +238,7 @@
 	return NO;
 }
 
-- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(BlockBase*)block {
+- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(EggBase*)block {
 	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
 	
 	NSMutableArray* connectorArray = _blockSpriteConnectors[playerNumber];
@@ -273,7 +273,7 @@
 	[[SimpleAudioEngine sharedEngine] playEffect:@"garbage.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)grid:(Grid *)grid didAddEgg:(BlockBase *)egg {
+- (void)grid:(Grid *)grid didAddEgg:(EggBase *)egg {
 	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
 
 		// No existing next block exists (this must be a garbage block) so
@@ -282,7 +282,7 @@
 	}
 }
 
-- (void)grid:(Grid *)grid didLandGarbageEgg:(BlockBase *)egg {
+- (void)grid:(Grid *)grid didLandGarbageEgg:(EggBase *)egg {
 
 	// Offsets all of the blocks in the column so that the column appears to
 	// squash under the garbage weight.
@@ -496,7 +496,7 @@
 		for (BlockSpriteConnector* connector in _blockSpriteConnectors[loser]) {
 			
 			CCSprite* sprite = connector.sprite;
-			BlockBase* block = connector.block;
+			EggBase* block = connector.block;
 			
 			// Don't drop the next block sprites
 			if (block == [_runners[loser] nextBlock:0] || block == [_runners[loser] nextBlock:1]) {
@@ -839,7 +839,7 @@
 	}
 	
 	if (_runners[0].grid.hasLiveBlocks) {
-		BlockBase *block = [_runners[0].grid liveBlock:0];
+		EggBase *block = [_runners[0].grid liveBlock:0];
 		
 		if (_columnTarget > -1) {
 			if (block.x < _columnTarget) {
@@ -1003,7 +1003,7 @@
 	[super dealloc];
 }
 
-- (void)createBlockSpriteConnector:(BlockBase*)block gridX:(int)gridX gridY:(int)gridY connectorArray:(NSMutableArray*)connectorArray {
+- (void)createBlockSpriteConnector:(EggBase*)block gridX:(int)gridX gridY:(int)gridY connectorArray:(NSMutableArray*)connectorArray {
 	
 	CCSprite* sprite = nil;
 	CCSpriteBatchNode* sheet = nil;
