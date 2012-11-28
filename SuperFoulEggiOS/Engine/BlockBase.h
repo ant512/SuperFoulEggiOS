@@ -35,22 +35,7 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 /**
  * Base class for all blocks that appear in the grid.
  */
-@interface BlockBase : NSObject {
-@private
-	SZEggState _state;				/**< Current state of the block. */
-	BOOL _hasDroppedHalfBlock;		/**< True if the block has dropped half a grid square. */
-
-	int _x;							/**< The x co-ordinate of the block. */
-	int _y;							/**< The y co-ordinate of the block. */
-
-	BlockEvent _onStartExploding;	/**< Event triggered when the block starts exploding. */
-	BlockEvent _onStopExploding;	/**< Event triggered when the block stops exploding. */
-	BlockEvent _onStartLanding;		/**< Event triggered when the block starts landing. */
-	BlockEvent _onStopLanding;		/**< Event triggered when the block stops landing. */
-	BlockEvent _onStartFalling;		/**< Event triggered when the block starts falling. */
-	BlockEvent _onMove;				/**< Event triggered when the block moves. */
-	BlockEvent _onConnect;			/**< Event triggered when the block's connections change. */
-}
+@interface BlockBase : NSObject
 
 /**
  * The x co-ordinate of the block.

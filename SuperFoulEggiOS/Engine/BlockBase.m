@@ -2,20 +2,6 @@
 
 @implementation BlockBase
 
-@synthesize state = _state;
-@synthesize hasDroppedHalfBlock = _hasDroppedHalfBlock;
-
-@synthesize x = _x;
-@synthesize y = _y;
-
-@synthesize onStartExploding = _onStartExploding;
-@synthesize onStopExploding = _onStopExploding;
-@synthesize onStartLanding = _onStartLanding;
-@synthesize onStopLanding = _onStopLanding;
-@synthesize onStartFalling = _onStartFalling;
-@synthesize onMove = _onMove;
-@synthesize onConnect = _onConnect;
-
 - (id)init {
 	if ((self = [super init])) {
 		_state = SZEggStateNormal;
