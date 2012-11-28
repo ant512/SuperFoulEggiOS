@@ -12,7 +12,7 @@ typedef void(^BlockEvent)(BlockBase*);
 /**
  * Bitmask of possible connections.
  */
-typedef NS_ENUM(NSUInteger, SZEggConnectionMask) {
+typedef NS_OPTIONS(NSUInteger, SZEggConnectionMask) {
 	SZEggConnectionMaskNone = 0,			/**< No connections. */
 	SZEggConnectionMaskTop = 1,				/**< Top connection. */
 	SZEggConnectionMaskLeft = 2,			/**< Left connection. */
@@ -37,7 +37,6 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
  */
 @interface BlockBase : NSObject {
 @private
-	int _connections;				/**< Bitmask of active connections. */
 	SZEggState _state;				/**< Current state of the block. */
 	BOOL _hasDroppedHalfBlock;		/**< True if the block has dropped half a grid square. */
 
@@ -111,17 +110,7 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 /**
  * Bitmask of active connections.
  */
-@property (readonly) int connections;
-
-/**
- * Initialises a new instance of the class.
- */
-- (id)init;
-
-/**
- * Deallocates the instance of the class.
- */
-- (void)dealloc;
+@property (readonly) SZEggConnectionMask connections;
 
 /**
  * Check if the block is connected to the block on its left.

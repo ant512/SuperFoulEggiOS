@@ -4,7 +4,6 @@
 
 @synthesize state = _state;
 @synthesize hasDroppedHalfBlock = _hasDroppedHalfBlock;
-@synthesize connections = _connections;
 
 @synthesize x = _x;
 @synthesize y = _y;
