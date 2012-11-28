@@ -8,15 +8,15 @@
 #define GRID_ENTRY_Y 3
 
 /**
- * Maintains the list of blocks that make up the playing grid.
+ * Maintains the list of eggs that make up the playing grid.
  */
 @interface GridBase : NSObject {
 @private
-	SZEggBase* _data[GRID_SIZE];	/**< The array of blocks that constitutes the grid. */
+	SZEggBase* _data[GRID_SIZE];	/**< The array of eggs that constitutes the grid. */
 }
 
 /**
- * Clears the grid of all blocks.
+ * Clears the grid of all eggs.
  */
 - (void)clear;
 
