@@ -23,8 +23,8 @@
 
 - (void)analyseGrid {
 	
-	SZEggBase* block1 = [_grid liveBlock:0];
-	SZEggBase* block2 = [_grid liveBlock:1];
+	SZEggBase* block1 = [_grid liveEgg:0];
+	SZEggBase* block2 = [_grid liveEgg:1];
 	
 	// If last observed y is greater than current live block y, we'll need
 	// to choose a new move
@@ -99,39 +99,39 @@
 	Grid* gridCopy = [_grid copy];
 	
 	while (rotation > 0) {
-		[gridCopy rotateLiveBlocksClockwise];
+		[gridCopy rotateLiveEggsClockwise];
 		--rotation;
 	}
 	
-	if ([gridCopy liveBlock:0].x > x) {
-		while ([gridCopy liveBlock:0].x > x) {
+	if ([gridCopy liveEgg:0].x > x) {
+		while ([gridCopy liveEgg:0].x > x) {
 			
 			// Give up if the block won't move
-			if (![gridCopy moveLiveBlocksLeft]) {
+			if (![gridCopy moveLiveEggsLeft]) {
 				[gridCopy release];
 				return 0;
 			}
 		}
-	} else if ([gridCopy liveBlock:0].x < x) {
-		while ([gridCopy liveBlock:0].x < x) {
+	} else if ([gridCopy liveEgg:0].x < x) {
+		while ([gridCopy liveEgg:0].x < x) {
 			
 			// Give up if the block won't move
-			if (![gridCopy moveLiveBlocksRight]) {
+			if (![gridCopy moveLiveEggsRight]) {
 				[gridCopy release];
 				return 0;
 			}
 		}
 	}
 	
-	while (gridCopy.hasLiveEggs) [gridCopy dropLiveBlocks];
+	while (gridCopy.hasLiveEggs) [gridCopy dropLiveEggs];
 	
 	do {
-		while ([gridCopy dropBlocks]);
+		while ([gridCopy dropEggs]);
 		while ([gridCopy iterate]);
 	
-		[gridCopy connectBlocks];
+		[gridCopy connectEggs];
 	
-		exploded = [gridCopy explodeBlocks];
+		exploded = [gridCopy explodeEggs];
 		while ([gridCopy iterate]);
 		
 		if (exploded > 0) {
@@ -171,7 +171,7 @@
 	// AI would be unbeatable.  I'm not going to fix the issue.
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveEgg:0];
 	
 	BOOL result = block1.x > _targetX;
 
@@ -183,7 +183,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveEgg:0];
 	
 	BOOL result = block1.x < _targetX;
 
@@ -199,7 +199,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveBlock:0];
+	SZEggBase* block1 = [_grid liveEgg:0];
 	
 	BOOL result = block1.x == _targetX;
 	
