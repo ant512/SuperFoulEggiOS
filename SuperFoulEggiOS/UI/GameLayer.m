@@ -224,7 +224,7 @@
 	// co-ords are being abused to make the sprite appear in the "next
 	// block" location
 	for (SZEggSpriteConnector* connector in connectorArray) {
-		if (connector.block == block) {
+		if (connector.egg == block) {
 			connector.gridX = gridX;
 			connector.gridY = GRID_Y;
 			
@@ -248,7 +248,7 @@
 
 - (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column {
 	for (SZEggSpriteConnector* connector in _blockSpriteConnectors[playerNumber]) {
-		if (connector.block.x == column) {
+		if (connector.egg.x == column) {
 			[connector hitWithGarbage];
 		}
 	}
@@ -496,7 +496,7 @@
 		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[loser]) {
 			
 			CCSprite* sprite = connector.sprite;
-			SZEggBase* block = connector.block;
+			SZEggBase* block = connector.egg;
 			
 			// Don't drop the next block sprites
 			if (block == [_runners[loser] nextBlock:0] || block == [_runners[loser] nextBlock:1]) {
@@ -615,7 +615,7 @@
 		if (_blockSpriteConnectors[i] == nil) continue;
 
 		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[i]) {
-			if (connector.block.y < GRID_HEIGHT - 1) {
+			if (connector.egg.y < GRID_HEIGHT - 1) {
 				[connector.sprite setVisible:visible];
 			}
 		}
@@ -1044,7 +1044,7 @@
 	}
 	
 	// Connect the sprite and block together
-	SZEggSpriteConnector* connector = [[SZEggSpriteConnector alloc] initWithBlock:block sprite:sprite gridX:gridX gridY:gridY];
+	SZEggSpriteConnector* connector = [[SZEggSpriteConnector alloc] initWithEgg:block sprite:sprite gridX:gridX gridY:gridY];
 	[connectorArray addObject:connector];
 	[connector release];
 	

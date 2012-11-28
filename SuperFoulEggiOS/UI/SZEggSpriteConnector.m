@@ -2,20 +2,33 @@
 
 @implementation SZEggSpriteConnector
 
-@synthesize block = _block;
-@synthesize sprite = _sprite;
-@synthesize isDead = _isDead;
-@synthesize gridX = _gridX;
-@synthesize gridY = _gridY;
+- (id)initWithEgg:(SZEggBase*)egg sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
+	if ((self = [super init])) {
+		_egg = [egg retain];
+		_sprite = [sprite retain];
+		_isDead = NO;
+		_timer = 0;
+		_yOffset = 0;
+		_gridX = gridX;
+		_gridY = gridY;
+
+		[self updateSpritePosition];
+		[self setSpriteFrame:0];
+
+		egg.delegate = self;
+	}
+
+	return self;
+}
 
 - (void)kill {
 	[_sprite.parent removeChild:_sprite cleanup:YES];
 	
 	[_sprite release];
-	[_block release];
+	[_egg release];
 	
 	_sprite = nil;
-	_block = nil;
+	_egg = nil;
 	
 	_isDead = YES;
 }
@@ -47,7 +60,7 @@
 
 - (void)didEggStartFalling:(SZEggBase *)egg {
 	
-	// Prevent blocks in the grid from being displaced if their garbage
+	// Prevent eggs in the grid from being displaced if their garbage
 	// hit bounce is interrupted
 	[self resetYOffset];
 
@@ -63,29 +76,10 @@
 - (void)didEggStopLanding:(SZEggBase *)egg {
 }
 
-- (id)initWithBlock:(SZEggBase*)block sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
-	if ((self = [super init])) {
-		_block = [block retain];
-		_sprite = [sprite retain];
-		_isDead = NO;
-		_timer = 0;
-		_yOffset = 0;
-		_gridX = gridX;
-		_gridY = gridY;
-
-		[self updateSpritePosition];
-		[self setSpriteFrame:0];
-		
-		block.delegate = self;
-	}
-	
-	return self;
-}
-
 - (void)dealloc {
 	[_sprite removeFromParentAndCleanup:YES];
 	[_sprite release];
-	[_block release];
+	[_egg release];
 	[super dealloc];
 }
 
@@ -93,11 +87,11 @@
 
 	// Co-ords are adjusted so that the sprite is relative to the containing
 	// grid
-	int x = _gridX + (_block.x * BLOCK_SIZE) + (BLOCK_SIZE / 2);
-	int y = _gridY + (GRID_HEIGHT * BLOCK_SIZE) - (BLOCK_SIZE / 2) - ((_block.y * BLOCK_SIZE) + _yOffset);
+	int x = _gridX + (_egg.x * BLOCK_SIZE) + (BLOCK_SIZE / 2);
+	int y = _gridY + (GRID_HEIGHT * BLOCK_SIZE) - (BLOCK_SIZE / 2) - ((_egg.y * BLOCK_SIZE) + _yOffset);
 
 	// Add an extra half block's height if the block has fallen a half block
-	y -= _block.hasDroppedHalfBlock ? BLOCK_SIZE / 2 : 0;
+	y -= _egg.hasDroppedHalfBlock ? BLOCK_SIZE / 2 : 0;
 
 	_sprite.position = ccp(x, y);
 }
@@ -109,7 +103,7 @@
 
 - (void)update {
 
-	switch (_block.state) {
+	switch (_egg.state) {
 		case SZEggStateExploding:
 
 			// The block is exploding.  We run through the frames of explosion
@@ -125,7 +119,7 @@
 				} else if (_frame == BLOCK_EXPLODE_START_FRAME + BLOCK_EXPLODE_FRAME_COUNT - 1) {
 
 					// Reached the end of the explosion frames
-					[_block stopExploding];
+					[_egg stopExploding];
 				} else {
 
 					// Move to the next explosion frame
@@ -147,7 +141,7 @@
 
 				// Reached the end of the landing animation, so tell the block
 				// it has finished landing
-				[_block stopLanding];
+				[_egg stopLanding];
 			} else if (_timer % BLOCK_ANIMATION_SPEED == 0) {
 
 				// List of landing animation frames
@@ -174,7 +168,7 @@
 					
 					_yOffset = offsets[_timer / 2];
 				} else {
-					[_block stopRecoveringFromGarbageHit];
+					[_egg stopRecoveringFromGarbageHit];
 				}
 			
 				[self updateSpritePosition];
@@ -192,11 +186,11 @@
 }
 
 - (void)hitWithGarbage {
-	if (_block.state != SZEggStateNormal && _block.state != SZEggStateLanding && _block.state != SZEggStateRecoveringFromGarbageHit) return;
+	if (_egg.state != SZEggStateNormal && _egg.state != SZEggStateLanding && _egg.state != SZEggStateRecoveringFromGarbageHit) return;
 	
 	_timer = 0;
 
-	[_block startRecoveringFromGarbageHit];
+	[_egg startRecoveringFromGarbageHit];
 }
 
 @end
