@@ -6,18 +6,18 @@
 #import "SZEggFactory.h"
 #import "SZEngineConstants.h"
 
-@class GridRunner;
+@class SZGridRunner;
 
 @protocol SZGridRunnerDelegate <NSObject>
 
-- (void)didGridRunnerMoveLiveEggs:(GridRunner *)gridRunner;
-- (void)didGridRunnerRotateLiveEggs:(GridRunner *)gridRunner;
-- (void)didGridRunnerStartDroppingLiveEggs:(GridRunner *)gridRunner;
-- (void)didGridRunnerAddLiveEggs:(GridRunner *)gridRunner;
-- (void)didGridRunnerCreateNextEggs:(GridRunner *)gridRunner;
-- (void)didGridRunnerExplodeMultipleChains:(GridRunner *)gridRunner;
-- (void)didGridRunnerClearIncomingGarbage:(GridRunner *)gridRunner;
-- (void)didGridRunnerExplodeChain:(GridRunner *)gridRunner sequence:(int)sequence;
+- (void)didGridRunnerMoveLiveEggs:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerRotateLiveEggs:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerAddLiveEggs:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerCreateNextEggs:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerExplodeMultipleChains:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerClearIncomingGarbage:(SZGridRunner *)gridRunner;
+- (void)didGridRunnerExplodeChain:(SZGridRunner *)gridRunner sequence:(int)sequence;
 
 @end
 
@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * Controls a grid.  Maintains a state machine that tracks what should happen
  * currently and next as the game progresses.
  */
-@interface GridRunner : NSObject {
+@interface SZGridRunner : NSObject {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
 	SZEggFactory* _eggFactory;					/**< Produces next eggs for the grid. */

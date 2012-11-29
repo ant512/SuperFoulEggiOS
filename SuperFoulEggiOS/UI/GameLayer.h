@@ -1,14 +1,14 @@
 #import "cocos2d.h"
 
 #import "SZGrid.h"
-#import "GridRunner.h"
+#import "SZGridRunner.h"
 #import "SmartAIController.h"
 #import "SZGameController.h"
 #import "SZEggFactory.h"
 #import "SZPlayerOneController.h"
 #import "SZPlayerTwoController.h"
 #import "SZGrid.h"
-#import "GridRunner.h"
+#import "SZGridRunner.h"
 #import "SZEggFactory.h"
 #import "GameLayer.h"
 #import "SZEggSpriteConnector.h"
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	SZEggFactory* _eggFactory;
 	SZGameState _state;
 	
-	GridRunner* _runners[MAX_PLAYERS];
+	SZGridRunner* _runners[MAX_PLAYERS];
 	NSMutableArray* _blockSpriteConnectors[MAX_PLAYERS];
 	NSMutableArray* _incomingGarbageSprites[MAX_PLAYERS];
 	int _gameWins[MAX_PLAYERS];

@@ -204,7 +204,7 @@
 	_dragStartX = -1;
 }
 
-- (void)createNextBlockSpriteConnectorPairForRunner:(GridRunner*)runner {
+- (void)createNextBlockSpriteConnectorPairForRunner:(SZGridRunner*)runner {
 
 	int gridX = runner.playerNumber == 0 ? NEXT_BLOCK_1_X : NEXT_BLOCK_2_X;
 	
@@ -644,7 +644,7 @@
 		controller = [[SZPlayerTwoController alloc] init];
 	}
 	
-	_runners[0] = [[GridRunner alloc] initWithController:controller
+	_runners[0] = [[SZGridRunner alloc] initWithController:controller
 													grid:grid
 											  eggFactory:_eggFactory
 											playerNumber:0
@@ -667,7 +667,7 @@
 			controller = [[SZPlayerTwoController alloc] init];
 		}
 		
-		_runners[1] = [[GridRunner alloc] initWithController:controller
+		_runners[1] = [[SZGridRunner alloc] initWithController:controller
 														grid:grid
 												  eggFactory:_eggFactory
 												playerNumber:1
@@ -833,7 +833,7 @@
 	}
 }
 
-- (void)updateIncomingGarbageDisplayForRunner:(GridRunner*)runner {
+- (void)updateIncomingGarbageDisplayForRunner:(SZGridRunner*)runner {
 	
 	int playerNumber = runner.playerNumber;
 	
@@ -983,15 +983,15 @@
 
 #pragma mark - SZGridRunnerDelegate
 
-- (void)didGridRunnerAddLiveEggs:(GridRunner *)gridRunner {
+- (void)didGridRunnerAddLiveEggs:(SZGridRunner *)gridRunner {
 
 }
 
-- (void)didGridRunnerClearIncomingGarbage:(GridRunner *)gridRunner {
+- (void)didGridRunnerClearIncomingGarbage:(SZGridRunner *)gridRunner {
 	[self updateIncomingGarbageDisplayForRunner:gridRunner];
 }
 
-- (void)didGridRunnerCreateNextEggs:(GridRunner *)gridRunner {
+- (void)didGridRunnerCreateNextEggs:(SZGridRunner *)gridRunner {
 	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
 
 	if (gridRunner.playerNumber == 0) {
@@ -1003,28 +1003,28 @@
 	}
 }
 
-- (void)didGridRunnerExplodeChain:(GridRunner *)gridRunner sequence:(int)sequence {
+- (void)didGridRunnerExplodeChain:(SZGridRunner *)gridRunner sequence:(int)sequence {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"chain.wav" pitch:(1.0 + (sequence * 0.05)) pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerExplodeMultipleChains:(GridRunner *)gridRunner {
+- (void)didGridRunnerExplodeMultipleChains:(SZGridRunner *)gridRunner {
 	NSString* filename = gridRunner.playerNumber == 0 ? @"multichain1.wav" : @"multichain2.wav";
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:filename pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerMoveLiveEggs:(GridRunner *)gridRunner {
+- (void)didGridRunnerMoveLiveEggs:(SZGridRunner *)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"move.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerRotateLiveEggs:(GridRunner *)gridRunner {
+- (void)didGridRunnerRotateLiveEggs:(SZGridRunner *)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerStartDroppingLiveEggs:(GridRunner *)gridRunner {
+- (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner {
 
 	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 
