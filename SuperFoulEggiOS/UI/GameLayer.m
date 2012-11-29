@@ -87,7 +87,7 @@
 		
 		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 		
-		_blockFactory = [[BlockFactory alloc] initWithPlayerCount:players blockColourCount:[Settings sharedSettings].blockColours];
+		_blockFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].blockColours];
 		
 		// TODO: Are these pointers already equal to nil?
 		for (int i = 0; i < MAX_PLAYERS; ++i) {

@@ -3,7 +3,7 @@
 #import "SZGrid.h"
 #import "SZGameController.h"
 #import "SZEggBase.h"
-#import "BlockFactory.h"
+#import "SZEggFactory.h"
 
 @class GridRunner;
 
@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 @interface GridRunner : NSObject {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
-	BlockFactory* _blockFactory;				/**< Produces next blocks for the grid. */
+	SZEggFactory* _blockFactory;				/**< Produces next blocks for the grid. */
 	SZEggBase* _nextBlocks[LIVE_BLOCK_COUNT];	/**< Array of 2 blocks that will be placed next. */
 
 	int _speed;									/**< Current speed. */
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  */
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
-					blockFactory:(BlockFactory*)blockFactory
+					blockFactory:(SZEggFactory*)blockFactory
 					playerNumber:(int)playerNumber
 					speed:(int)speed;
 
