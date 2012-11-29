@@ -45,7 +45,7 @@
 }
 
 - (void)stopExploding {
-	NSAssert(_state == SZEggStateExploding, @"Cannot stop exploding blocks that aren't exploding.");
+	NSAssert(_state == SZEggStateExploding, @"Cannot stop exploding eggs that aren't exploding.");
 
 	_state = SZEggStateExploded;
 
@@ -56,7 +56,7 @@
 	
 	if (_state == SZEggStateExploding) return;
 	
-	NSAssert(_state == SZEggStateNormal, @"Cannot explode blocks that aren't at rest.");
+	NSAssert(_state == SZEggStateNormal, @"Cannot explode eggs that aren't at rest.");
 	
 	_state = SZEggStateExploding;
 
@@ -69,7 +69,7 @@
 
 - (void)startLanding {
 
-	NSAssert(_state == SZEggStateFalling, @"Cannot start landing blocks that aren't falling.");
+	NSAssert(_state == SZEggStateFalling, @"Cannot start landing eggs that aren't falling.");
 
 	_state = SZEggStateLanding;
 
@@ -81,7 +81,7 @@
 }
 
 - (void)stopLanding {
-	NSAssert(_state == SZEggStateLanding, @"Cannot stop landing blocks that aren't landing.");
+	NSAssert(_state == SZEggStateLanding, @"Cannot stop landing eggs that aren't landing.");
 
 	_state = SZEggStateNormal;
 
@@ -93,7 +93,7 @@
 }
 
 - (void)stopRecoveringFromGarbageHit {
-	NSAssert(_state == SZEggStateRecoveringFromGarbageHit, @"Cannot stop a non-recovering block from recovering.");
+	NSAssert(_state == SZEggStateRecoveringFromGarbageHit, @"Cannot stop a non-recovering egg from recovering.");
 
 	_state = SZEggStateNormal;
 }
