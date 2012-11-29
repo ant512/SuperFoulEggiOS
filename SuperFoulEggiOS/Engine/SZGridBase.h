@@ -1,18 +1,14 @@
 #import <Foundation/NSObject.h>
 
 #import "SZEggBase.h"
-
-#define GRID_WIDTH 6
-#define GRID_HEIGHT 16
-#define GRID_SIZE 96
-#define GRID_ENTRY_Y 3
+#import "SZEngineConstants.h"
 
 /**
  * Maintains the list of eggs that make up the playing grid.
  */
 @interface SZGridBase : NSObject {
 @private
-	SZEggBase* _data[GRID_SIZE];	/**< The array of eggs that constitutes the grid. */
+	SZEggBase* _data[SZGridSize];	/**< The array of eggs that constitutes the grid. */
 }
 
 /**

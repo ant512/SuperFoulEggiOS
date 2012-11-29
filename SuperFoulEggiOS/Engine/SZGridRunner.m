@@ -133,14 +133,14 @@ const int SZDropSpeedMultiplier = 4;
 
 			// One egg for the chain and one egg for each egg on top of the
 			// required minimum number
-			garbage = eggs - (CHAIN_LENGTH - 1);
+			garbage = eggs - (SZChainLength - 1);
 		} else {
 
 			// If we're in a sequence of chains, we add 6 eggs each sequence
 			garbage = SZChainSequenceGarbageBonus;
 
 			// Add any additional eggs on top of the standard chain length
-			garbage += eggs - CHAIN_LENGTH;
+			garbage += eggs - SZChainLength;
 		}
 
 		_accumulatingGarbageCount += garbage;

@@ -7,7 +7,7 @@
 - (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid {
 	if ((self = [super init])) {
 		_grid = [grid retain];
-		_lastLiveEggY = GRID_HEIGHT;
+		_lastLiveEggY = SZGridHeight;
 		_targetX = 0;
 		_targetRotations = 0;
 		_hesitation = hesitation;
@@ -38,13 +38,13 @@
 	
 	int bestScore = INT_MIN;
 	
-	int *scores = malloc(sizeof(int) * GRID_WIDTH * 4);
+	int *scores = malloc(sizeof(int) * SZGridWidth * 4);
 	
 	// We can multithread the AI so that it can analyse GRID_WIDTH * 4 grids
 	// simultaneously.
 	dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 	
-	dispatch_apply(GRID_WIDTH * 4, queue, ^(size_t i) {
+	dispatch_apply(SZGridWidth * 4, queue, ^(size_t i) {
 		int x = i / 4;
 		int rotation = i % 4;
 			
@@ -57,10 +57,10 @@
 		
 		// Compensate for the fact that horizontal rotations can lead to us
 		// checking illegal co-ordinates
-		if (rotation == 0 && x >= GRID_WIDTH - 1) {
+		if (rotation == 0 && x >= SZGridWidth - 1) {
 			scores[i] = INT_MIN;
 			return;
-		} else if (rotation == 2 && x >= GRID_WIDTH - 1) {
+		} else if (rotation == 2 && x >= SZGridWidth - 1) {
 			scores[i] = INT_MIN;
 			return;
 		}
@@ -68,7 +68,7 @@
 		scores[i] = [self scoreShapeX:x rotation:rotation];
 	});
 	
-	for (int i = 0; i < GRID_WIDTH * 4; ++i) {
+	for (int i = 0; i < SZGridWidth * 4; ++i) {
 
 		int x = i / 4;
 		int rotation = i % 4;

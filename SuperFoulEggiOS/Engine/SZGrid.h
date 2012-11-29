@@ -5,8 +5,6 @@
 #import "SZGridBase.h"
 #import "SZEngineConstants.h"
 
-#define CHAIN_LENGTH 4
-
 @class SZGrid;
 @class SZEggBase;
 

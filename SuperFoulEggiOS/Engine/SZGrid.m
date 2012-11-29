@@ -49,17 +49,17 @@
 - (void)createBottomRow {
 
 	SZEggBase* egg = [[SZGridBottomLeftEgg alloc] init];
-	[self addEgg:egg x:0 y:GRID_HEIGHT - 1];
+	[self addEgg:egg x:0 y:SZGridHeight - 1];
 	[egg release];
 	
-	for (int i = 1; i < GRID_WIDTH - 1; ++i) {
+	for (int i = 1; i < SZGridWidth - 1; ++i) {
 		egg = [[SZGridBottomEgg alloc] init];
-		[self addEgg:egg x:i y:GRID_HEIGHT - 1];
+		[self addEgg:egg x:i y:SZGridHeight - 1];
 		[egg release];
 	}
 	
 	egg = [[SZGridBottomRightEgg alloc] init];
-	[self addEgg:egg x:GRID_WIDTH - 1 y:GRID_HEIGHT - 1];
+	[self addEgg:egg x:SZGridWidth - 1 y:SZGridHeight - 1];
 	[egg release];
 }
 
@@ -104,23 +104,23 @@
 
 	// Array of bools remembers which eggs we've already examined so that we
 	// don't check them again and get stuck in a loop
-	BOOL checkedData[GRID_SIZE];
+	BOOL checkedData[SZGridSize];
 
-	for (int i = 0; i < GRID_SIZE; ++i) {
+	for (int i = 0; i < SZGridSize; ++i) {
 		checkedData[i] = NO;
 	}
 
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 
 			// Skip if egg already checked
-			if (checkedData[x + (y * GRID_WIDTH)]) continue;
+			if (checkedData[x + (y * SZGridWidth)]) continue;
 
 			NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
 
 			// Only remember the chain if it has the minimum number of eggs in
 			// it at least
-			if ([chain count] >= CHAIN_LENGTH) {
+			if ([chain count] >= SZChainLength) {
 				[chains addObject:chain];
 			}
 			
@@ -141,7 +141,7 @@
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 	
-	checkedData[x + (y * GRID_WIDTH)] = YES;
+	checkedData[x + (y * SZGridWidth)] = YES;
 
 	// Set initial capacity to 11 as it is highly unlikely that longer chains
 	// can be created
@@ -170,7 +170,7 @@
 	// Calculate how many garbage eggs will be exploded by the chain
 	int garbageCount = 0;
 
-	if ([chain count] >= CHAIN_LENGTH) {
+	if ([chain count] >= SZChainLength) {
 		SZEggBase* gridEgg = nil;
 
 		for (id item in chain) {
@@ -182,10 +182,10 @@
 
 				gridEgg = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 
-				if ((gridEgg != nil) && (!checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)])) {
+				if ((gridEgg != nil) && (!checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * SZGridWidth)])) {
 
 					if ([gridEgg isKindOfClass:[SZGarbageEgg class]]) {
-						checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)] = YES;
+						checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * SZGridWidth)] = YES;
 						++garbageCount;
 					}
 				}
@@ -208,7 +208,7 @@
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 
 	// Stop if we've checked this egg already
-	if (checkedData[x + (y * GRID_WIDTH)]) return nil;
+	if (checkedData[x + (y * SZGridWidth)]) return nil;
 
 	int index = 0;
 
@@ -221,7 +221,7 @@
 	[startPoint release];
 
 	// Ensure we don't check this egg again
-	checkedData[x + (y * GRID_WIDTH)] = YES;
+	checkedData[x + (y * SZGridWidth)] = YES;
 
 	// Check the eggs that surround every egg in the chain to see if they
 	// should be part of the chain.  If so, add them to the chain.
@@ -234,7 +234,7 @@
 
 		// Check if the egg on the left of this is part of the chain.  Ignore
 		// the egg if it has already been checked.
-		if (point.x - 1 >= 0 && !checkedData[point.x - 1 + (point.y * GRID_WIDTH)]) {
+		if (point.x - 1 >= 0 && !checkedData[point.x - 1 + (point.y * SZGridWidth)]) {
 
 			if ([egg hasLeftConnection]) {
 
@@ -245,13 +245,13 @@
 
 				// Now that we know this egg is part of a chain we don't want
 				// to check it again
-				checkedData[adjacentPoint.x + (adjacentPoint.y * GRID_WIDTH)] = YES;
+				checkedData[adjacentPoint.x + (adjacentPoint.y * SZGridWidth)] = YES;
 
 				[adjacentPoint release];
 			}
 		}
 
-		if (point.x + 1 < GRID_WIDTH && !checkedData[point.x + 1 + (point.y * GRID_WIDTH)]) {
+		if (point.x + 1 < SZGridWidth && !checkedData[point.x + 1 + (point.y * SZGridWidth)]) {
 
 			if ([egg hasRightConnection]) {
 
@@ -259,13 +259,13 @@
 
 				[chain addObject:adjacentPoint];
 
-				checkedData[adjacentPoint.x + (adjacentPoint.y * GRID_WIDTH)] = YES;
+				checkedData[adjacentPoint.x + (adjacentPoint.y * SZGridWidth)] = YES;
 
 				[adjacentPoint release];
 			}
 		}
 
-		if (point.y - 1 >= 0 && !checkedData[point.x + ((point.y - 1) * GRID_WIDTH)]) {
+		if (point.y - 1 >= 0 && !checkedData[point.x + ((point.y - 1) * SZGridWidth)]) {
 
 			if ([egg hasTopConnection]) {
 
@@ -273,13 +273,13 @@
 
 				[chain addObject:adjacentPoint];
 
-				checkedData[adjacentPoint.x + (adjacentPoint.y * GRID_WIDTH)] = YES;
+				checkedData[adjacentPoint.x + (adjacentPoint.y * SZGridWidth)] = YES;
 
 				[adjacentPoint release];
 			}
 		}
 
-		if (point.y + 1 < GRID_HEIGHT && !checkedData[point.x + ((point.y + 1) * GRID_WIDTH)]) {
+		if (point.y + 1 < SZGridHeight && !checkedData[point.x + ((point.y + 1) * SZGridWidth)]) {
 
 			if ([egg hasBottomConnection]) {
 
@@ -287,7 +287,7 @@
 
 				[chain addObject:adjacentPoint];
 
-				checkedData[adjacentPoint.x + (adjacentPoint.y * GRID_WIDTH)] = YES;
+				checkedData[adjacentPoint.x + (adjacentPoint.y * SZGridWidth)] = YES;
 
 				[adjacentPoint release];
 			}
@@ -356,8 +356,8 @@
 	BOOL isGarbage = NO;
 
 	// Everything on the bottom row should have landed
-	for (int x = 0; x < GRID_WIDTH; ++x) {
-		SZEggBase* egg = [self eggAtX:x y:GRID_HEIGHT - 1];
+	for (int x = 0; x < SZGridWidth; ++x) {
+		SZEggBase* egg = [self eggAtX:x y:SZGridHeight - 1];
 
 		if (egg != nil && egg.state == SZEggStateFalling) {
 
@@ -376,8 +376,8 @@
 
 	// Drop starts at the second row from the bottom of the grid as there's no
 	// point in dropping the bottom row
-	for (int y = GRID_HEIGHT - 2; y >= 0; --y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = SZGridHeight - 2; y >= 0; --y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			
 			SZEggBase* egg = [self eggAtX:x y:y];
 
@@ -462,7 +462,7 @@
 	NSAssert(_hasLiveEggs, @"No live eggs in play");
 
 	// 1 egg should always be on the right or at the bottom
-	if (_liveEggs[1].x == GRID_WIDTH - 1) return NO;
+	if (_liveEggs[1].x == SZGridWidth - 1) return NO;
 
 	// Check the egg to the right
 	if ([self eggAtX:_liveEggs[1].x + 1 y:_liveEggs[1].y] != nil) return NO;
@@ -615,12 +615,12 @@
 	if (_hasLiveEggs) return YES;
 
 	// Cannot add live eggs if the grid positions already contain eggs
-	if ([self eggAtX:2 y:GRID_ENTRY_Y] != nil) return NO;
-	if ([self eggAtX:3 y:GRID_ENTRY_Y] != nil) return NO;
+	if ([self eggAtX:2 y:SZGridEntryY] != nil) return NO;
+	if ([self eggAtX:3 y:SZGridEntryY] != nil) return NO;
 	
 	// Live eggs always appear at the same co-ordinates
-	[self addEgg:egg1 x:2 y:GRID_ENTRY_Y];
-	[self addEgg:egg2 x:3 y:GRID_ENTRY_Y];
+	[self addEgg:egg1 x:2 y:SZGridEntryY];
+	[self addEgg:egg2 x:3 y:SZGridEntryY];
 
 	[egg1 startFalling];
 	[egg2 startFalling];
@@ -637,8 +637,8 @@
 	
 	SZEggBase* egg = nil;
 	
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			egg = [self eggAtX:x y:y];
 			
 			if (egg == nil) continue;
@@ -655,8 +655,8 @@
 
 	BOOL result = NO;
 
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			
 			SZEggBase* egg = [self eggAtX:x y:y];
 			
@@ -688,16 +688,16 @@
 }
 
 - (void)addGarbage:(int)count {
-	int columnHeights[GRID_WIDTH];
-	int columns[GRID_WIDTH];
+	int columnHeights[SZGridWidth];
+	int columns[SZGridWidth];
 	int items = 0;
 
-	for (int i = 0; i < GRID_WIDTH; ++i) {
+	for (int i = 0; i < SZGridWidth; ++i) {
 		columnHeights[i] = -1;
 	}
 
 	// Add all column heights to the array in sorted order
-	for (int i = 0; i < GRID_WIDTH; ++i) {
+	for (int i = 0; i < SZGridWidth; ++i) {
 		int height = [self heightOfColumnAtIndex:i];
 		int insertPoint = 0;
 
@@ -739,7 +739,7 @@
 	int activeColumns = 1;
 	int y = columnHeights[0];
 
-	if (count >= GRID_WIDTH) {
+	if (count >= SZGridWidth) {
 		[_delegate didAddGarbageEggRowToGrid:self];
 	}
 
@@ -747,19 +747,19 @@
 
 		int oldCount = count;
 
-		while (activeColumns < GRID_WIDTH && columnHeights[activeColumns] <= y) ++activeColumns;
+		while (activeColumns < SZGridWidth && columnHeights[activeColumns] <= y) ++activeColumns;
 
 		for (int i = 0; i < activeColumns; ++i) {
 
 			// Find a free egg
 			int garbageY = 0;
-			while ([self eggAtX:columns[i] y:garbageY] != nil && garbageY < GRID_HEIGHT - GRID_ENTRY_Y) {
+			while ([self eggAtX:columns[i] y:garbageY] != nil && garbageY < SZGridHeight - SZGridEntryY) {
 				++garbageY;
 			}
 
 			// If we couldn't find a free space we'll try it in the next column
 			// instead
-			if (garbageY == GRID_HEIGHT - GRID_ENTRY_Y) continue;
+			if (garbageY == SZGridHeight - SZGridEntryY) continue;
 
 			SZGarbageEgg* egg = [[SZGarbageEgg alloc] init];
 			[self addEgg:egg x:columns[i] y:garbageY];
@@ -780,8 +780,8 @@
 - (id)copy {
 	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:_playerNumber];
 	
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			
 			if ([self eggAtX:x y:y] == _liveEggs[0] || [self eggAtX:x y:y] == _liveEggs[1]) {
 				continue;
@@ -811,24 +811,24 @@
 	
 	// Array of bools remembers which eggs we've already examined so that we
 	// don't check them again and get stuck in a loop
-	BOOL checkedData[GRID_SIZE];
+	BOOL checkedData[SZGridSize];
 	
-	for (int i = 0; i < GRID_SIZE; ++i) {
+	for (int i = 0; i < SZGridSize; ++i) {
 		checkedData[i] = NO;
 	}
 	
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			
 			// Skip if egg already checked
-			if (checkedData[x + (y * GRID_WIDTH)]) continue;
+			if (checkedData[x + (y * SZGridWidth)]) continue;
 			
 			if ([self eggAtX:x y:y] == nil) {
 				
 				// Empty eggs at the top are worth more than empty eggs at
 				// the bottom of the grid, which makes the AI favour filling
 				// eggs at the bottom of the grid.
-				score += 6 * (GRID_HEIGHT - y);
+				score += 6 * (SZGridHeight - y);
 			} else {
 			
 				NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
@@ -844,7 +844,7 @@
 				if ([chain count] == 1) {
 
 					// Penalise the score for single eggs left unattached
-					score -= 8 * (GRID_HEIGHT - y);
+					score -= 8 * (SZGridHeight - y);
 				} else {
 					for (SZPoint* point in chain) {
 						score += (1 << ([chain count])) * point.y;

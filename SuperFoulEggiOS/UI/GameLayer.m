@@ -512,7 +512,7 @@
 		if (_eggSpriteConnectors[i] == nil) continue;
 
 		for (SZEggSpriteConnector* connector in _eggSpriteConnectors[i]) {
-			if (connector.egg.y < GRID_HEIGHT - 1) {
+			if (connector.egg.y < SZGridHeight - 1) {
 				[connector.sprite setVisible:visible];
 			}
 		}
@@ -679,11 +679,11 @@
 	}
 
 	[_runners[0].grid createBottomRow];
-	[_runners[0].grid addGarbage:GRID_WIDTH * [SZSettings sharedSettings].height];
+	[_runners[0].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height];
 
 	if (_runners[1] != nil) {
 		[_runners[1].grid createBottomRow];
-		[_runners[1].grid addGarbage:GRID_WIDTH * [SZSettings sharedSettings].height];
+		[_runners[1].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height];
 	}
 	
 	if ([SZSettings sharedSettings].gameType == SZGameTypePractice) {
@@ -700,8 +700,8 @@
 	CCSpriteBatchNode* sheet = _gridBottomBlockSpriteSheet;
 	CCSprite* sprite;
 	
-	for (int y = 0; y < GRID_HEIGHT; ++y) {
-		for (int x = 0; x < GRID_WIDTH; ++x) {
+	for (int y = 0; y < SZGridHeight; ++y) {
+		for (int x = 0; x < SZGridWidth; ++x) {
 			sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottom00.png"];
 			
 			sprite.position = ccp((x * SZEggSize) + GRID_2_X + 24, (y * SZEggSize) + 24);
