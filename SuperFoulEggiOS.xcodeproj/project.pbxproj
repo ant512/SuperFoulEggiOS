@@ -1117,16 +1117,11 @@
 			children = (
 				C2D3366F166728EE00B518F8 /* Controllers */,
 				C2D3366E166728BE00B518F8 /* Eggs */,
+				C2D3367416672B1C00B518F8 /* Grid */,
 				C2B756051655DD3100DB1D43 /* SZEggFactory.h */,
 				C2B756061655DD3100DB1D43 /* SZEggFactory.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
 				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
-				C2B7560E1655DD3100DB1D43 /* SZGrid.h */,
-				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
-				C2B756101655DD3100DB1D43 /* SZGridBase.h */,
-				C2B756111655DD3100DB1D43 /* SZGridBase.m */,
-				C2B756181655DD3100DB1D43 /* SZGridRunner.h */,
-				C2B756191655DD3100DB1D43 /* SZGridRunner.m */,
 				C2B7562A1655DD3100DB1D43 /* SZPoint.h */,
 				C2B7562B1655DD3100DB1D43 /* SZPoint.m */,
 			);
@@ -1223,22 +1218,13 @@
 		C2B756D01655DD8500DB1D43 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C2D3367616672B2C00B518F8 /* Layers */,
 				C2B756D51655DD8500DB1D43 /* SZUIConstants.h */,
 				C2B756D61655DD8500DB1D43 /* SZUIConstants.m */,
 				C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */,
 				C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */,
-				C2B756D71655DD8500DB1D43 /* SZGameLayer.h */,
-				C2B756D81655DD8500DB1D43 /* SZGameLayer.m */,
-				C2B756D91655DD8500DB1D43 /* SZGameOptionsMenuLayer.h */,
-				C2B756DA1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m */,
-				C2B756DB1655DD8500DB1D43 /* SZGameTypeMenuLayer.h */,
-				C2B756DC1655DD8500DB1D43 /* SZGameTypeMenuLayer.m */,
-				C2B756DF1655DD8500DB1D43 /* SZMenuRectLayer.h */,
-				C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */,
 				C2B756E11655DD8500DB1D43 /* SZSettings.h */,
 				C2B756E21655DD8500DB1D43 /* SZSettings.m */,
-				C2B756E51655DD8500DB1D43 /* SZTitleScreenLayer.h */,
-				C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1288,6 +1274,36 @@
 				C2B756291655DD3100DB1D43 /* SZSmartAIController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		C2D3367416672B1C00B518F8 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				C2B7560E1655DD3100DB1D43 /* SZGrid.h */,
+				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
+				C2B756101655DD3100DB1D43 /* SZGridBase.h */,
+				C2B756111655DD3100DB1D43 /* SZGridBase.m */,
+				C2B756181655DD3100DB1D43 /* SZGridRunner.h */,
+				C2B756191655DD3100DB1D43 /* SZGridRunner.m */,
+			);
+			name = Grid;
+			sourceTree = "<group>";
+		};
+		C2D3367616672B2C00B518F8 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				C2B756D71655DD8500DB1D43 /* SZGameLayer.h */,
+				C2B756D81655DD8500DB1D43 /* SZGameLayer.m */,
+				C2B756D91655DD8500DB1D43 /* SZGameOptionsMenuLayer.h */,
+				C2B756DA1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m */,
+				C2B756DB1655DD8500DB1D43 /* SZGameTypeMenuLayer.h */,
+				C2B756DC1655DD8500DB1D43 /* SZGameTypeMenuLayer.m */,
+				C2B756DF1655DD8500DB1D43 /* SZMenuRectLayer.h */,
+				C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */,
+				C2B756E51655DD8500DB1D43 /* SZTitleScreenLayer.h */,
+				C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */,
+			);
+			name = Layers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

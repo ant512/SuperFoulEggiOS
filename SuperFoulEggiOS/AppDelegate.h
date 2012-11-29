@@ -1,11 +1,3 @@
-//
-//  AppDelegate.h
-//  SuperFoulEggiOS
-//
-//  Created by Antony Dzeryn on 15/11/2012.
-//  Copyright Antony Dzeryn 2012. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 
