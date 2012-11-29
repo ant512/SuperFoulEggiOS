@@ -1,5 +1,12 @@
 #import "SZEggSpriteConnector.h"
 
+#define SZBlockLandFrameCount 7
+
+const int SZBlockExplodeStartFrame = 16;
+const int SZBlockExplodeFrameCount = 6;
+const int SZBlockLandStartFrame = 22;
+const int SZBlockAnimationSpeed = 2;
+
 @implementation SZEggSpriteConnector
 
 - (id)initWithEgg:(SZEggBase*)egg sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
@@ -70,7 +77,7 @@
 - (void)didEggStartLanding:(SZEggBase *)egg {
 	[self resetTimer];
 
-	[self setSpriteFrame:BLOCK_LAND_START_FRAME];
+	[self setSpriteFrame:SZBlockLandStartFrame];
 }
 
 - (void)didEggStopLanding:(SZEggBase *)egg {
@@ -112,11 +119,11 @@
 			// exploding.  The block's explosion stopped event will fire and
 			// this object and its components will eventually be deallocated
 
-			if (_timer % BLOCK_ANIMATION_SPEED == 0) {
+			if (_timer % SZBlockAnimationSpeed == 0) {
 				
-				if (_frame < BLOCK_EXPLODE_START_FRAME || _frame >= BLOCK_EXPLODE_START_FRAME + BLOCK_EXPLODE_FRAME_COUNT) {
-					[self setSpriteFrame:BLOCK_EXPLODE_START_FRAME];
-				} else if (_frame == BLOCK_EXPLODE_START_FRAME + BLOCK_EXPLODE_FRAME_COUNT - 1) {
+				if (_frame < SZBlockExplodeStartFrame || _frame >= SZBlockExplodeStartFrame + SZBlockExplodeFrameCount) {
+					[self setSpriteFrame:SZBlockExplodeStartFrame];
+				} else if (_frame == SZBlockExplodeStartFrame + SZBlockExplodeFrameCount - 1) {
 
 					// Reached the end of the explosion frames
 					[_egg stopExploding];
@@ -137,18 +144,18 @@
 			// out of frames.  At that point, the block is told that it is no
 			// longer landing.
 
-			if (_timer == BLOCK_LAND_FRAME_COUNT * BLOCK_ANIMATION_SPEED) {
+			if (_timer == SZBlockLandFrameCount * SZBlockAnimationSpeed) {
 
 				// Reached the end of the landing animation, so tell the block
 				// it has finished landing
 				[_egg stopLanding];
-			} else if (_timer % BLOCK_ANIMATION_SPEED == 0) {
+			} else if (_timer % SZBlockAnimationSpeed == 0) {
 
 				// List of landing animation frames
-				static int landingSequence[BLOCK_LAND_FRAME_COUNT] = { 0, 22, 23, 22, 23, 22, 0 };
+				static int landingSequence[SZBlockLandFrameCount] = { 0, 22, 23, 22, 23, 22, 0 };
 
 				// Move to the frame appropriate to the current timer
-				[self setSpriteFrame:landingSequence[_timer / BLOCK_ANIMATION_SPEED]];
+				[self setSpriteFrame:landingSequence[_timer / SZBlockAnimationSpeed]];
 			}
 			
 			++_timer;

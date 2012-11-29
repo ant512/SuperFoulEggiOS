@@ -4,12 +4,6 @@
 #import "SZEggBase.h"
 #import "SZGrid.h"
 
-#define BLOCK_EXPLODE_START_FRAME 16
-#define BLOCK_EXPLODE_FRAME_COUNT 6
-#define BLOCK_LAND_START_FRAME 22
-#define BLOCK_LAND_FRAME_COUNT 7
-#define BLOCK_ANIMATION_SPEED 2
-
 @interface SZEggSpriteConnector : NSObject <SZEggBaseDelegate> {
 @private
 	int _timer;				/**< Used to control animations. */
