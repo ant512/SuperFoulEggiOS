@@ -128,6 +128,13 @@ const int SZGrid2ScoresY = 285;
 	
 	if (_didDrag) return;
 	
+	CGPoint point = [gesture locationInView:[CCDirector sharedDirector].view];
+	
+	if (_state == SZGameStatePaused || (point.x > 950 && point.y > 700)) {
+		[[SZPad instanceTwo] pressStart];
+		return;
+	}
+	
 	[[SZPad instanceTwo] pressA];
 	_columnTarget = -1;
 	
@@ -744,6 +751,8 @@ const int SZGrid2ScoresY = 285;
 	if ([[SZPad instanceOne] isStartNewPress] || [[SZPad instanceTwo] isStartNewPress]) {
 		[self resumeGame];
 	}
+	
+	[[SZPad instanceTwo] releaseStart];
 }
 
 - (void)runActiveState {
