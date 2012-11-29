@@ -1115,51 +1115,20 @@
 		C2B756021655DD3100DB1D43 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				C2D3366F166728EE00B518F8 /* Controllers */,
+				C2D3366E166728BE00B518F8 /* Eggs */,
 				C2B756051655DD3100DB1D43 /* SZEggFactory.h */,
 				C2B756061655DD3100DB1D43 /* SZEggFactory.m */,
-				C2B756071655DD3100DB1D43 /* SZBlueEgg.h */,
-				C2B756081655DD3100DB1D43 /* SZBlueEgg.m */,
-				C2B756091655DD3100DB1D43 /* SZGameController.h */,
-				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
-				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
 				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
-				C2B7560A1655DD3100DB1D43 /* SZGarbageEgg.h */,
-				C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */,
-				C2B7560C1655DD3100DB1D43 /* SZGreenEgg.h */,
-				C2B7560D1655DD3100DB1D43 /* SZGreenEgg.m */,
 				C2B7560E1655DD3100DB1D43 /* SZGrid.h */,
 				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
 				C2B756101655DD3100DB1D43 /* SZGridBase.h */,
 				C2B756111655DD3100DB1D43 /* SZGridBase.m */,
-				C2B756121655DD3100DB1D43 /* SZGridBottomEgg.h */,
-				C2B756131655DD3100DB1D43 /* SZGridBottomEgg.m */,
-				C2B756141655DD3100DB1D43 /* SZGridBottomLeftEgg.h */,
-				C2B756151655DD3100DB1D43 /* SZGridBottomLeftEgg.m */,
-				C2B756161655DD3100DB1D43 /* SZGridBottomRightEgg.h */,
-				C2B756171655DD3100DB1D43 /* SZGridBottomRightEgg.m */,
 				C2B756181655DD3100DB1D43 /* SZGridRunner.h */,
 				C2B756191655DD3100DB1D43 /* SZGridRunner.m */,
-				C2B7561A1655DD3100DB1D43 /* SZStandardEgg.h */,
-				C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */,
-				C2B7561C1655DD3100DB1D43 /* SZOrangeEgg.h */,
-				C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */,
-				C2B7561E1655DD3100DB1D43 /* SZPad.h */,
-				C2B7561F1655DD3100DB1D43 /* SZPad.m */,
-				C2B756201655DD3100DB1D43 /* SZPlayerOneController.h */,
-				C2B756211655DD3100DB1D43 /* SZPlayerOneController.m */,
-				C2B756221655DD3100DB1D43 /* SZPlayerTwoController.h */,
-				C2B756231655DD3100DB1D43 /* SZPlayerTwoController.m */,
-				C2B756241655DD3100DB1D43 /* SZPurpleEgg.h */,
-				C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */,
-				C2B756261655DD3100DB1D43 /* SZRedEgg.h */,
-				C2B756271655DD3100DB1D43 /* SZRedEgg.m */,
-				C2B756281655DD3100DB1D43 /* SZSmartAIController.h */,
-				C2B756291655DD3100DB1D43 /* SZSmartAIController.m */,
 				C2B7562A1655DD3100DB1D43 /* SZPoint.h */,
 				C2B7562B1655DD3100DB1D43 /* SZPoint.m */,
-				C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */,
-				C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -1272,6 +1241,53 @@
 				C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		C2D3366E166728BE00B518F8 /* Eggs */ = {
+			isa = PBXGroup;
+			children = (
+				C2B756071655DD3100DB1D43 /* SZBlueEgg.h */,
+				C2B756081655DD3100DB1D43 /* SZBlueEgg.m */,
+				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
+				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
+				C2B7560A1655DD3100DB1D43 /* SZGarbageEgg.h */,
+				C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */,
+				C2B7560C1655DD3100DB1D43 /* SZGreenEgg.h */,
+				C2B7560D1655DD3100DB1D43 /* SZGreenEgg.m */,
+				C2B756121655DD3100DB1D43 /* SZGridBottomEgg.h */,
+				C2B756131655DD3100DB1D43 /* SZGridBottomEgg.m */,
+				C2B756141655DD3100DB1D43 /* SZGridBottomLeftEgg.h */,
+				C2B756151655DD3100DB1D43 /* SZGridBottomLeftEgg.m */,
+				C2B756161655DD3100DB1D43 /* SZGridBottomRightEgg.h */,
+				C2B756171655DD3100DB1D43 /* SZGridBottomRightEgg.m */,
+				C2B7561A1655DD3100DB1D43 /* SZStandardEgg.h */,
+				C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */,
+				C2B7561C1655DD3100DB1D43 /* SZOrangeEgg.h */,
+				C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */,
+				C2B756241655DD3100DB1D43 /* SZPurpleEgg.h */,
+				C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */,
+				C2B756261655DD3100DB1D43 /* SZRedEgg.h */,
+				C2B756271655DD3100DB1D43 /* SZRedEgg.m */,
+				C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */,
+				C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */,
+			);
+			name = Eggs;
+			sourceTree = "<group>";
+		};
+		C2D3366F166728EE00B518F8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C2B756091655DD3100DB1D43 /* SZGameController.h */,
+				C2B7561E1655DD3100DB1D43 /* SZPad.h */,
+				C2B7561F1655DD3100DB1D43 /* SZPad.m */,
+				C2B756201655DD3100DB1D43 /* SZPlayerOneController.h */,
+				C2B756211655DD3100DB1D43 /* SZPlayerOneController.m */,
+				C2B756221655DD3100DB1D43 /* SZPlayerTwoController.h */,
+				C2B756231655DD3100DB1D43 /* SZPlayerTwoController.m */,
+				C2B756281655DD3100DB1D43 /* SZSmartAIController.h */,
+				C2B756291655DD3100DB1D43 /* SZSmartAIController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
