@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	CCSpriteBatchNode* _orangeNumberSpriteSheet;
 	CCSpriteBatchNode* _purpleNumberSpriteSheet;
 	
-	SZEggFactory* _blockFactory;
+	SZEggFactory* _eggFactory;
 	SZGameState _state;
 	
 	GridRunner* _runners[MAX_PLAYERS];

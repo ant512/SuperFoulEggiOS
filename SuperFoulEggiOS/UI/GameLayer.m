@@ -87,7 +87,7 @@
 		
 		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 		
-		_blockFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].blockColours];
+		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].blockColours];
 		
 		// TODO: Are these pointers already equal to nil?
 		for (int i = 0; i < MAX_PLAYERS; ++i) {
@@ -600,7 +600,7 @@
 
 	[[SZPad instanceOne] reset];
 	[[SZPad instanceTwo] reset];
-	[_blockFactory clear];
+	[_eggFactory clear];
 
 	// Release all existing game objects
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
@@ -646,7 +646,7 @@
 	
 	_runners[0] = [[GridRunner alloc] initWithController:controller
 													grid:grid
-											blockFactory:_blockFactory
+											  eggFactory:_eggFactory
 											playerNumber:0
 												   speed:[Settings sharedSettings].speed];
 	_runners[0].delegate = self;
@@ -669,7 +669,7 @@
 		
 		_runners[1] = [[GridRunner alloc] initWithController:controller
 														grid:grid
-												blockFactory:_blockFactory
+												  eggFactory:_eggFactory
 												playerNumber:1
 													   speed:[Settings sharedSettings].speed];
 		_runners[1].delegate = self;
@@ -890,7 +890,7 @@
 
 - (void)dealloc {
 	
-	[_blockFactory release];
+	[_eggFactory release];
 	
 	[self unloadSounds];
 	

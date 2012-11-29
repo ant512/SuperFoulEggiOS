@@ -39,7 +39,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 @interface GridRunner : NSObject {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
-	SZEggFactory* _blockFactory;				/**< Produces next blocks for the grid. */
+	SZEggFactory* _eggFactory;					/**< Produces next eggs for the grid. */
 	SZEggBase* _nextBlocks[LIVE_BLOCK_COUNT];	/**< Array of 2 blocks that will be placed next. */
 
 	int _speed;									/**< Current speed. */
@@ -82,16 +82,15 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 /**
  * Initialise a new instance of the class.
  * @param controller A controller object that will provide input for the
- * movement of live blocks.
+ * movement of live eggs.
  * @param grid Grid to run.
- * @param blockFactory The block factory to use to produce next blocks for the
- * grid.
+ * @param eggFactory The egg factory to use to produce next eggs for the grid.
  * @param playerNumber The unique number of the player using this runner.
  * @param speed The auto drop speed.
  */
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
-					blockFactory:(SZEggFactory*)blockFactory
+					eggFactory:(SZEggFactory*)eggFactory
 					playerNumber:(int)playerNumber
 					speed:(int)speed;
 

@@ -33,7 +33,7 @@ const int SZDropSpeedMultiplier = 4;
 
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
-					blockFactory:(SZEggFactory*)blockFactory
+					eggFactory:(SZEggFactory*)eggFactory
 					playerNumber:(int)playerNumber
 					speed:(int)speed {
 
@@ -42,7 +42,7 @@ const int SZDropSpeedMultiplier = 4;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
-		_blockFactory = blockFactory;
+		_eggFactory = eggFactory;
 		_playerNumber = playerNumber;
 
 		_speed = speed;
@@ -55,7 +55,7 @@ const int SZDropSpeedMultiplier = 4;
 
 		// Ensure we have some initial blocks to add to the grid
 		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-			_nextBlocks[i] = [_blockFactory newEggForPlayerNumber:_playerNumber];
+			_nextBlocks[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
 		}
 	}
 	
@@ -181,7 +181,7 @@ const int SZDropSpeedMultiplier = 4;
 			// Fetch the next blocks from the block factory and remember
 			// them
 			for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-				_nextBlocks[i] = [_blockFactory newEggForPlayerNumber:_playerNumber];
+				_nextBlocks[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
 			}
 
 			[_delegate didGridRunnerCreateNextBlocks:self];
