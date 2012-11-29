@@ -299,7 +299,7 @@
 }
 
 - (BOOL)isDead {
-	return _state == SZGridRunnerStateLive;
+	return _state == SZGridRunnerStateDead;
 }
 
 @end

@@ -133,7 +133,7 @@
 
 		case SZEggStateLanding:
 
-			// The block is landing.  We run through the animation until we run
+			// The egg is landing.  We run through the animation until we run
 			// out of frames.  At that point, the block is told that it is no
 			// longer landing.
 

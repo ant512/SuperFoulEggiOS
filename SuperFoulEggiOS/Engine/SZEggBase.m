@@ -60,10 +60,11 @@
 	
 	_state = SZEggStateExploding;
 
-	[_delegate didEggStartExploding:self];
-
-	// Delegate should immediately tell the egg to stop exploding if it doesn't
-	// care about the event.
+	if (_delegate) {
+		[_delegate didEggStartExploding:self];
+	} else {
+		[self stopExploding];
+	}
 }
 
 - (void)startLanding {
@@ -72,9 +73,11 @@
 
 	_state = SZEggStateLanding;
 
-	[_delegate didEggStartLanding:self];
-	// Delegate should immediately tell the egg to stop landing if it doesn't
-	// care about the event.
+	if (_delegate) {
+		[_delegate didEggStartLanding:self];
+	} else {
+		[self stopLanding];
+	}
 }
 
 - (void)stopLanding {

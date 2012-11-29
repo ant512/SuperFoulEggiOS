@@ -78,6 +78,7 @@
 		UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleMovePan:)];
 
 		pan.minimumNumberOfTouches = 1;
+		pan.maximumNumberOfTouches = 1;
 
 		[self addGestureRecognizer:pan];
 		[pan release];
@@ -991,11 +992,13 @@
 - (void)didGridRunnerCreateNextBlocks:(GridRunner *)gridRunner {
 	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
 
-	[[SZPad instanceTwo] releaseDown];
-	_didDrag = NO;
-	_columnTarget = -1;
-	_dragStartColumn = -1;
-	_dragStartX = -1;
+	if (gridRunner.playerNumber == 0) {
+		[[SZPad instanceTwo] releaseDown];
+		_didDrag = NO;
+		_columnTarget = -1;
+		_dragStartColumn = -1;
+		_dragStartX = -1;
+	}
 }
 
 - (void)didGridRunnerExplodeChain:(GridRunner *)gridRunner sequence:(int)sequence {
@@ -1026,7 +1029,7 @@
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 
 	// Never play the drop sound for the AI player as it is irritating.
-	if (gridRunner.playerNumber == 0 || players > 1) {
+	if (gridRunner.playerNumber == 0 || (gridRunner.playerNumber == 1 && players == 1)) {
 		[[SimpleAudioEngine sharedEngine] playEffect:@"drop.wav" pitch:1.0 pan:pan gain:1.0];
 	}
 }
