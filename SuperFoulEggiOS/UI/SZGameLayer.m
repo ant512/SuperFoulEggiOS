@@ -89,7 +89,6 @@
 		
 		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[SZSettings sharedSettings].eggColours];
 		
-		// TODO: Are these pointers already equal to nil?
 		for (int i = 0; i < MAX_PLAYERS; ++i) {
 			_matchWins[i] = 0;
 			_gameWins[i] = 0;
