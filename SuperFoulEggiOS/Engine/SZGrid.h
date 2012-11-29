@@ -3,9 +3,9 @@
 
 #import "SZEggBase.h"
 #import "SZGridBase.h"
+#import "SZEngineConstants.h"
 
 #define CHAIN_LENGTH 4
-#define LIVE_BLOCK_COUNT 2
 
 @class SZGrid;
 @class SZEggBase;
@@ -33,7 +33,7 @@
  */
 @interface SZGrid : SZGridBase {
 @private
-	SZEggBase* _liveEggs[LIVE_BLOCK_COUNT];	/**< The co-ordinates of the two live eggs in the grid. */
+	SZEggBase* _liveEggs[SZLiveEggCount];	/**< The co-ordinates of the two live eggs in the grid. */
 }
 
 @property (readwrite, assign) id <SZGridDelegate> delegate;

@@ -1,4 +1,9 @@
 /**
+ * We have to use a define because we use this to initialise arrays.
+ */
+#define SZLiveEggCount 2
+
+/**
  * The number of garbage blocks represented by the face boulder.
  */
 extern const int SZGarbageFaceBoulderValue;

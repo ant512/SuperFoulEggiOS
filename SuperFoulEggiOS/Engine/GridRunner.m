@@ -1,7 +1,8 @@
 #import "GridRunner.h"
+#import "SZEngineConstants.h"
 
 /**
- * Number of iterations before blocks drop when automatic dropping mode is
+ * Number of iterations before eggs drop when automatic dropping mode is
  * active.
  */
 const int SZAutoDropTime = 2;
@@ -12,20 +13,20 @@ const int SZAutoDropTime = 2;
 const int SZChainSequenceGarbageBonus = 6;
 
 /**
- * The maximum speed at which live blocks can be forced to drop, measured in
+ * The maximum speed at which live eggs can be forced to drop, measured in
  * iterations.
  */
 const int SZMaximumDropSpeed = 2;
 
 /**
- * The minimum speed at which live blocks can be forced to drop, measured in
+ * The minimum speed at which live eggs can be forced to drop, measured in
  * iterations.
  */
 const int SZMinimumDropSpeed = 38;
 
 /**
  * The current drop speed is multiplied by this to produce the number of
- * iterations required until the live blocks are forced to drop.
+ * iterations required until the live eggs are forced to drop.
  */
 const int SZDropSpeedMultiplier = 4;
 
@@ -53,9 +54,9 @@ const int SZDropSpeedMultiplier = 4;
 
 		_droppingLiveEggs = NO;
 
-		// Ensure we have some initial blocks to add to the grid
-		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-			_nextBlocks[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
+		// Ensure we have some initial eggs to add to the grid
+		for (int i = 0; i < SZLiveEggCount; ++i) {
+			_nextEggs[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
 		}
 	}
 	
@@ -63,8 +64,8 @@ const int SZDropSpeedMultiplier = 4;
 }
 
 - (void)dealloc {
-	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-		[_nextBlocks[i] release];
+	for (int i = 0; i < SZLiveEggCount; ++i) {
+		[_nextEggs[i] release];
 	}
 
 	[_grid release];
@@ -73,21 +74,21 @@ const int SZDropSpeedMultiplier = 4;
 	[super dealloc];
 }
 
-- (SZEggBase*)nextBlock:(int)index {
+- (SZEggBase*)nextEgg:(int)index {
 	NSAssert(index < 2, @"Index must be less than 2.");
 	
-	return _nextBlocks[index];
+	return _nextEggs[index];
 }
 
 - (void)dropGarbage {
 	
-	// Garbage blocks are dropping down the screen
+	// Garbage eggs are dropping down the screen
 	
 	_timer = 0;
 	
 	if (![_grid dropEggs]) {
 		
-		// Blocks have stopped dropping, so we need to run the landing
+		// Eggs have stopped dropping, so we need to run the landing
 		// animations
 		_state = SZGridRunnerStateLanding;
 	}
@@ -130,17 +131,15 @@ const int SZDropSpeedMultiplier = 4;
 
 		if (_chainMultiplier == 1) {
 
-			// One block for the chain and one block for each block on
-			// top of the required minimum number
+			// One egg for the chain and one egg for each egg on top of the
+			// required minimum number
 			garbage = eggs - (CHAIN_LENGTH - 1);
 		} else {
 
-			// If we're in a sequence of chains, we add 6 blocks each
-			// sequence
+			// If we're in a sequence of chains, we add 6 eggs each sequence
 			garbage = SZChainSequenceGarbageBonus;
 
-			// Add any additional blocks on top of the standard
-			// chain length
+			// Add any additional eggs on top of the standard chain length
 			garbage += eggs - CHAIN_LENGTH;
 		}
 
@@ -151,7 +150,7 @@ const int SZDropSpeedMultiplier = 4;
 
 	} else if (_incomingGarbageCount > 0) {
 
-		// Add any incoming garbage blocks
+		// Add any incoming garbage eggs
 		[_grid addGarbage:_incomingGarbageCount];
 
 		// Switch back to the drop state
@@ -162,29 +161,27 @@ const int SZDropSpeedMultiplier = 4;
 		[_delegate didGridRunnerClearIncomingGarbage:self];
 	} else {
 
-		// Nothing exploded, so we can put a new live block into
-		// the grid
-		BOOL addedEggs = [_grid addLiveEggs:_nextBlocks[0] egg2:_nextBlocks[1]];
+		// Nothing exploded, so we can put a new live egg into the grid
+		BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
 
 		if (!addedEggs) {
 
-			// Cannot add more blocks - game is over
+			// Cannot add more eggs - game is over
 			_state = SZGridRunnerStateDead;
 		} else {
 			
-			[_nextBlocks[0] release];
-			[_nextBlocks[1] release];
+			[_nextEggs[0] release];
+			[_nextEggs[1] release];
 			
-			_nextBlocks[0] = nil;
-			_nextBlocks[1] = nil;
+			_nextEggs[0] = nil;
+			_nextEggs[1] = nil;
 
-			// Fetch the next blocks from the block factory and remember
-			// them
-			for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
-				_nextBlocks[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
+			// Fetch the next eggs from the egg factory and remember them
+			for (int i = 0; i < SZLiveEggCount; ++i) {
+				_nextEggs[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
 			}
 
-			[_delegate didGridRunnerCreateNextBlocks:self];
+			[_delegate didGridRunnerCreateNextEggs:self];
 
 			if (_chainMultiplier > 1) {
 				[_delegate didGridRunnerExplodeMultipleChains:self];
@@ -192,11 +189,11 @@ const int SZDropSpeedMultiplier = 4;
 
 			_chainMultiplier = 0;
 
-			// Queue up outgoing blocks for the other player
+			// Queue up outgoing eggs for the other player
 			_outgoingGarbageCount += _accumulatingGarbageCount;
 			_accumulatingGarbageCount = 0;
 
-			[_delegate didGridRunnerAddLiveBlocks:self];
+			[_delegate didGridRunnerAddLiveEggs:self];
 
 			_state = SZGridRunnerStateLive;
 		}
@@ -209,7 +206,7 @@ const int SZDropSpeedMultiplier = 4;
 
 	if ([_grid hasLiveEggs]) {
 
-		// Work out how many frames we need to wait until the blocks drop
+		// Work out how many frames we need to wait until the eggs drop
 		// automatically
 		int timeToDrop = SZMinimumDropSpeed - (SZDropSpeedMultiplier * _speed);
 
@@ -218,23 +215,23 @@ const int SZDropSpeedMultiplier = 4;
 		// Process user input
 		if ([_controller isLeftHeld]) {
 			if ([_grid moveLiveEggsLeft]) {
-				[_delegate didGridRunnerMoveLiveBlocks:self];
+				[_delegate didGridRunnerMoveLiveEggs:self];
             }
 		} else if ([_controller isRightHeld]) {
 			if ([_grid moveLiveEggsRight]) {
-				[_delegate didGridRunnerMoveLiveBlocks:self];
+				[_delegate didGridRunnerMoveLiveEggs:self];
 			}
 		}
 
 		if ([_controller isDownHeld] && (_timer % 2 == 0)) {
 
-			// Force blocks to drop
+			// Force eggs to drop
 			_timer = timeToDrop;
 
 			if (!_droppingLiveEggs) {
 				_droppingLiveEggs = YES;
 
-				[_delegate didGridRunnerStartDroppingLiveBlocks:self];
+				[_delegate didGridRunnerStartDroppingLiveEggs:self];
 			}
 		} else if (![_controller isDownHeld]) {
 			_droppingLiveEggs = NO;
@@ -242,23 +239,23 @@ const int SZDropSpeedMultiplier = 4;
 		
 		if ([_controller isRotateClockwiseHeld]) {
 			if ([_grid rotateLiveEggsClockwise]) {
-				[_delegate didGridRunnerRotateLiveBlocks:self];
+				[_delegate didGridRunnerRotateLiveEggs:self];
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
 			if ([_grid rotateLiveEggsAntiClockwise]) {
-				[_delegate didGridRunnerRotateLiveBlocks:self];
+				[_delegate didGridRunnerRotateLiveEggs:self];
 			}
 		}
 
-		// Drop live blocks if the timer has expired
+		// Drop live eggs if the timer has expired
 		if (_timer >= timeToDrop) {
 			_timer = 0;
 			[_grid dropLiveEggs];
 		}
 	} else {
 
-		// At least one of the blocks in the live pair has touched down.
-		// We need to drop the other block automatically
+		// At least one of the eggs in the live pair has touched down.
+		// We need to drop the other egg automatically
 		_droppingLiveEggs = NO;
 		_state = SZGridRunnerStateDrop;
 	}
@@ -266,7 +263,7 @@ const int SZDropSpeedMultiplier = 4;
 
 - (void)iterate {
 
-	// Returns true if any blocks have any logic still in progress
+	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];
 
 	++_timer;
@@ -282,7 +279,7 @@ const int SZDropSpeedMultiplier = 4;
 		
 		case SZGridRunnerStateLanding:
 			
-			// Wait until blocks stop iterating
+			// Wait until eggs stop iterating
 			if (!iterated) {
 				[self land];
 			}
@@ -291,11 +288,11 @@ const int SZDropSpeedMultiplier = 4;
 
 		case SZGridRunnerStateExploding:
 
-			// Wait until blocks stop iterating
+			// Wait until eggs stop iterating
 			if (!iterated) {
 
-				// All iterations have finished - we need to drop any blocks
-				// that are now sat on holes in the grid
+				// All iterations have finished - we need to drop any eggs that
+				// are now sat on holes in the grid
 				_state = SZGridRunnerStateDrop;
 			}
 

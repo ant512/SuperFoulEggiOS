@@ -212,7 +212,7 @@
 	
 	// Create a new sprite for both next blocks
 	for (int i = 0; i < 2; ++i) {
-		[self createBlockSpriteConnector:[runner nextBlock:i] gridX:gridX gridY:NEXT_BLOCK_Y connectorArray:connectorArray];
+		[self createBlockSpriteConnector:[runner nextEgg:i] gridX:gridX gridY:NEXT_BLOCK_Y connectorArray:connectorArray];
 		gridX += BLOCK_SIZE;
 	}
 }
@@ -396,7 +396,7 @@
 			SZEggBase* block = connector.egg;
 			
 			// Don't drop the next block sprites
-			if (block == [_runners[loser] nextBlock:0] || block == [_runners[loser] nextBlock:1]) {
+			if (block == [_runners[loser] nextEgg:0] || block == [_runners[loser] nextEgg:1]) {
 				continue;
 			}
 			
@@ -983,7 +983,7 @@
 
 #pragma mark - SZGridRunnerDelegate
 
-- (void)didGridRunnerAddLiveBlocks:(GridRunner *)gridRunner {
+- (void)didGridRunnerAddLiveEggs:(GridRunner *)gridRunner {
 
 }
 
@@ -991,7 +991,7 @@
 	[self updateIncomingGarbageDisplayForRunner:gridRunner];
 }
 
-- (void)didGridRunnerCreateNextBlocks:(GridRunner *)gridRunner {
+- (void)didGridRunnerCreateNextEggs:(GridRunner *)gridRunner {
 	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
 
 	if (gridRunner.playerNumber == 0) {
@@ -1014,17 +1014,17 @@
 	[[SimpleAudioEngine sharedEngine] playEffect:filename pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerMoveLiveBlocks:(GridRunner *)gridRunner {
+- (void)didGridRunnerMoveLiveEggs:(GridRunner *)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"move.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerRotateLiveBlocks:(GridRunner *)gridRunner {
+- (void)didGridRunnerRotateLiveEggs:(GridRunner *)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerStartDroppingLiveBlocks:(GridRunner *)gridRunner {
+- (void)didGridRunnerStartDroppingLiveEggs:(GridRunner *)gridRunner {
 
 	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
 

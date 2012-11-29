@@ -4,16 +4,17 @@
 #import "SZGameController.h"
 #import "SZEggBase.h"
 #import "SZEggFactory.h"
+#import "SZEngineConstants.h"
 
 @class GridRunner;
 
 @protocol SZGridRunnerDelegate <NSObject>
 
-- (void)didGridRunnerMoveLiveBlocks:(GridRunner *)gridRunner;
-- (void)didGridRunnerRotateLiveBlocks:(GridRunner *)gridRunner;
-- (void)didGridRunnerStartDroppingLiveBlocks:(GridRunner *)gridRunner;
-- (void)didGridRunnerAddLiveBlocks:(GridRunner *)gridRunner;
-- (void)didGridRunnerCreateNextBlocks:(GridRunner *)gridRunner;
+- (void)didGridRunnerMoveLiveEggs:(GridRunner *)gridRunner;
+- (void)didGridRunnerRotateLiveEggs:(GridRunner *)gridRunner;
+- (void)didGridRunnerStartDroppingLiveEggs:(GridRunner *)gridRunner;
+- (void)didGridRunnerAddLiveEggs:(GridRunner *)gridRunner;
+- (void)didGridRunnerCreateNextEggs:(GridRunner *)gridRunner;
 - (void)didGridRunnerExplodeMultipleChains:(GridRunner *)gridRunner;
 - (void)didGridRunnerClearIncomingGarbage:(GridRunner *)gridRunner;
 - (void)didGridRunnerExplodeChain:(GridRunner *)gridRunner sequence:(int)sequence;
@@ -24,11 +25,11 @@
  * All possible states of the state machine.
  */
 typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
-	SZGridRunnerStateDrop = 0,					/**< Blocks are dropping automatically. */
-	SZGridRunnerStateDropGarbage = 1,			/**< Garbage blocks are dropping. */
-	SZGridRunnerStateLive = 2,					/**< Live, user-controlled blocks are in play. */
-	SZGridRunnerStateLanding = 3,				/**< Blocks are running their landing animations. */
-	SZGridRunnerStateExploding = 4,				/**< Blocks are running their exploding animations. */
+	SZGridRunnerStateDrop = 0,					/**< Eggs are dropping automatically. */
+	SZGridRunnerStateDropGarbage = 1,			/**< Garbage eggs are dropping. */
+	SZGridRunnerStateLive = 2,					/**< Live, user-controlled eggs are in play. */
+	SZGridRunnerStateLanding = 3,				/**< Eggs are running their landing animations. */
+	SZGridRunnerStateExploding = 4,				/**< Eggs are running their exploding animations. */
 	SZGridRunnerStateDead = 5					/**< Game is over. */
 };
 
@@ -40,27 +41,27 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
 	SZEggFactory* _eggFactory;					/**< Produces next eggs for the grid. */
-	SZEggBase* _nextBlocks[LIVE_BLOCK_COUNT];	/**< Array of 2 blocks that will be placed next. */
+	SZEggBase* _nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
 
 	int _speed;									/**< Current speed. */
 	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
 
-	int _accumulatingGarbageCount;				/**< Outgoing garbage blocks that accumulate during chain
+	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
 													 sequences.  At the end of a sequence they are moved to the
 													 _outgoinggGarbageCount member. */
 
-	BOOL _droppingLiveEggs;					/**< True if live blocks are dropping automatically. */
+	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
 }
 
 @property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
 
 /**
- * Number of garbage blocks to send to the other player.
+ * Number of garbage eggs to send to the other player.
  */
 @property (readonly) int outgoingGarbageCount;
 
 /**
- * Number of garbage blocks sent from the other player.
+ * Number of garbage eggs sent from the other player.
  */
 @property (readonly) int incomingGarbageCount;
 
@@ -107,22 +108,22 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 - (void)iterate;
 
 /**
- * Get the specified next block.  Valid indices are 0 and 1.
- * @param index The index of the block to retrieve.
- * @return The requested next block.
+ * Get the specified next egg.  Valid indices are 0 and 1.
+ * @param index The index of the egg to retrieve.
+ * @return The requested next egg.
  */
-- (SZEggBase*)nextBlock:(int)index;
+- (SZEggBase*)nextEgg:(int)index;
 
 /**
- * Increase the amount of incoming garbage blocks by the specified amount.
+ * Increase the amount of incoming garbage eggs by the specified amount.
  * Garbage can only be added when the grid runner is in its "live" state.
- * @param count The number of incoming garbage blocks to increase by.
+ * @param count The number of incoming garbage eggs to increase by.
  * @return True if the garbage was added; false if not.
  */
 - (BOOL)addIncomingGarbage:(int)count;
 
 /**
- * Resets the number of outgoing garbage blocks to 0.
+ * Resets the number of outgoing garbage eggs to 0.
  */
 - (void)clearOutgoingGarbageCount;
 
@@ -133,17 +134,17 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 - (BOOL)isDead;
 
 /**
- * Drops blocks in the grid.  Called when the grid is in drop mode.
+ * Drops eggs in the grid.  Called when the grid is in drop mode.
  */
 - (void)drop;
 
 /**
- * Lands blocks in the grid.  Called when the grid is in land mode.
+ * Lands eggs in the grid.  Called when the grid is in land mode.
  */
 - (void)land;
 
 /**
- * Process live blocks in the grid.  Called when the grid is in live mode.
+ * Process live eggs in the grid.  Called when the grid is in live mode.
  */
 - (void)live;
 

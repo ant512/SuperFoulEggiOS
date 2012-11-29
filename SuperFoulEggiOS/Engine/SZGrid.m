@@ -6,6 +6,7 @@
 #import "SZGridBottomLeftEgg.h"
 #import "SZGridBottomRightEgg.h"
 #import "SZPoint.h"
+#import "SZEngineConstants.h"
 
 @implementation SZGrid
 
@@ -14,7 +15,7 @@
 		_hasLiveEggs = NO;
 		_playerNumber = playerNumber;
 		
-		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
+		for (int i = 0; i < SZLiveEggCount; ++i) {
 			_liveEggs[i] = nil;
 		}
 	}
@@ -307,7 +308,7 @@
 	// Check both live eggs for collisions before we try to drop them.  This
 	// prevents us from getting into a situation in which one of the pair drops
 	// and the other hits something
-	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
+	for (int i = 0; i < SZLiveEggCount; ++i) {
 
 		// Check if the egg has landed on another.  We don't need to bother
 		// checking if the egg is at the bottom of the grid because live
@@ -331,7 +332,7 @@
 
 		// Eggs are still live - drop them to the next position.  Drop egg
 		// 1 first as when vertical 1 is always below
-		for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
+		for (int i = SZLiveEggCount - 1; i >= 0; --i) {
 
 			if (_liveEggs[i].hasDroppedHalfBlock) {
 				[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x destinationY:_liveEggs[i].y + 1];
@@ -450,7 +451,7 @@
 	}
 
 	// Eggs can move
-	for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
+	for (int i = 0; i < SZLiveEggCount; ++i) {
 		[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x - 1 destinationY:_liveEggs[i].y];
 	}
 
@@ -483,7 +484,7 @@
 	}
 
 	// Eggs can move
-	for (int i = LIVE_BLOCK_COUNT - 1; i >= 0; --i) {
+	for (int i = SZLiveEggCount - 1; i >= 0; --i) {
 		[self moveEggFromSourceX:_liveEggs[i].x sourceY:_liveEggs[i].y toDestinationX:_liveEggs[i].x + 1 destinationY:_liveEggs[i].y];
 	}
 
