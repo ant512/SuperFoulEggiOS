@@ -85,9 +85,9 @@
 		[self addGestureRecognizer:pan];
 		[pan release];
 		
-		int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
+		int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 		
-		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].blockColours];
+		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].eggColours];
 		
 		// TODO: Are these pointers already equal to nil?
 		for (int i = 0; i < MAX_PLAYERS; ++i) {
@@ -579,7 +579,7 @@
 - (void)createWinLabels {
 	
 	// Practice games do not need labels
-	if ([Settings sharedSettings].gameType == GamePracticeType) return;
+	if ([Settings sharedSettings].gameType == SZGameTypePractice) return;
 	
 	[_orangeNumberSpriteSheet removeAllChildrenWithCleanup:YES];
 	[_purpleNumberSpriteSheet removeAllChildrenWithCleanup:YES];
@@ -626,7 +626,7 @@
 	[_playerTagSpriteSheet removeAllChildrenWithCleanup:YES];
 
 	// Create new game objects
-	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
+	int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 	
 	_blockSpriteConnectors[0] = [[NSMutableArray alloc] init];
 	_incomingGarbageSprites[0] = [[NSMutableArray alloc] init];
@@ -638,7 +638,7 @@
 	
 	// Use the second player control layout in a single-player game, as they
 	// are slightly more intuitive than the first player controls
-	if ([Settings sharedSettings].gameType == GameTwoPlayerType) {
+	if ([Settings sharedSettings].gameType == SZGameTypeTwoPlayer) {
 		controller = [[SZPlayerOneController alloc] init];
 	} else {
 		controller = [[SZPlayerTwoController alloc] init];
@@ -661,7 +661,7 @@
 		grid = [[SZGrid alloc] initWithPlayerNumber:1];
 		grid.delegate = self;
 		
-		if ([Settings sharedSettings].gameType == GameSinglePlayerType) {
+		if ([Settings sharedSettings].gameType == SZGameTypeSinglePlayer) {
 			controller = [[SmartAIController alloc] initWithHesitation:(int)([Settings sharedSettings].aiType) grid:grid];
 		} else {
 			controller = [[SZPlayerTwoController alloc] init];
@@ -686,7 +686,7 @@
 		[_runners[1].grid addGarbage:GRID_WIDTH * [Settings sharedSettings].height];
 	}
 	
-	if ([Settings sharedSettings].gameType == GamePracticeType) {
+	if ([Settings sharedSettings].gameType == SZGameTypePractice) {
 		[self blankSecondGrid];
 	} else {
 		// Add CPU tag to second grid
@@ -1026,7 +1026,7 @@
 
 - (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner {
 
-	int players = [Settings sharedSettings].gameType == GamePracticeType ? 1 : 2;
+	int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 

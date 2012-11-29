@@ -71,27 +71,27 @@
 		//[self addOption:@"2 Player"];
 		
 		switch ([Settings sharedSettings].gameType) {
-			case GamePracticeType:
+			case SZGameTypePractice:
 				[_rectLayer.selectedRectangleIndexes setObject:@0 atIndexedSubscript:0];
 
 				break;
-			case GameSinglePlayerType:
+			case SZGameTypeSinglePlayer:
 				switch ([Settings sharedSettings].aiType) {
-					case AIEasyType:
+					case SZAITypeEasy:
 						[_rectLayer.selectedRectangleIndexes setObject:@1 atIndexedSubscript:0];
 						break;
-					case AIMediumType:
+					case SZAITypeMedium:
 						[_rectLayer.selectedRectangleIndexes setObject:@2 atIndexedSubscript:0];
 						break;
-					case AIHardType:
+					case SZAITypeHard:
 						[_rectLayer.selectedRectangleIndexes setObject:@3 atIndexedSubscript:0];
 						break;
-					case AIInsaneType:
+					case SZAITypeInsane:
 						[_rectLayer.selectedRectangleIndexes setObject:@4 atIndexedSubscript:0];
 						break;
 				}
 				break;
-			case GameTwoPlayerType:
+			case SZGameTypeTwoPlayer:
 				[_rectLayer.selectedRectangleIndexes setObject:@5 atIndexedSubscript:0];
 				break;
 		}
@@ -163,26 +163,26 @@
 		
 		switch ([_rectLayer selectedIndexInGroup:0]) {
 			case 0:
-				[Settings sharedSettings].gameType = GamePracticeType;
+				[Settings sharedSettings].gameType = SZGameTypePractice;
 				break;
 			case 1:
-				[Settings sharedSettings].gameType = GameSinglePlayerType;
-				[Settings sharedSettings].aiType = AIEasyType;
+				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[Settings sharedSettings].aiType = SZAITypeEasy;
 				break;
 			case 2:
-				[Settings sharedSettings].gameType = GameSinglePlayerType;
-				[Settings sharedSettings].aiType = AIMediumType;
+				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[Settings sharedSettings].aiType = SZAITypeMedium;
 				break;
 			case 3:
-				[Settings sharedSettings].gameType = GameSinglePlayerType;
-				[Settings sharedSettings].aiType = AIHardType;
+				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[Settings sharedSettings].aiType = SZAITypeHard;
 				break;
 			case 4:
-				[Settings sharedSettings].gameType = GameSinglePlayerType;
-				[Settings sharedSettings].aiType = AIInsaneType;
+				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[Settings sharedSettings].aiType = SZAITypeInsane;
 				break;
 			case 5:
-				[Settings sharedSettings].gameType = GameTwoPlayerType;
+				[Settings sharedSettings].gameType = SZGameTypeTwoPlayer;
 				break;
 		}
 		

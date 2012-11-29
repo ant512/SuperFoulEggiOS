@@ -107,7 +107,7 @@
 		
 		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].speed] atIndexedSubscript:0];
 		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].height] atIndexedSubscript:1];
-		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].blockColours - 4] atIndexedSubscript:2];
+		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].eggColours - 4] atIndexedSubscript:2];
 		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:([Settings sharedSettings].gamesPerMatch - 3) / 2] atIndexedSubscript:3];
 	}
 	
@@ -194,7 +194,7 @@
 		
 		[Settings sharedSettings].speed = [_rectLayer selectedIndexInGroup:0];
 		[Settings sharedSettings].height = [_rectLayer selectedIndexInGroup:1];
-		[Settings sharedSettings].blockColours = [_rectLayer selectedIndexInGroup:2] + 4;
+		[Settings sharedSettings].eggColours = [_rectLayer selectedIndexInGroup:2] + 4;
 		[Settings sharedSettings].gamesPerMatch = ([_rectLayer selectedIndexInGroup:3] * 2) + 3;
 
 		if (_rectLayer.selectedGroupIndex == 4) {

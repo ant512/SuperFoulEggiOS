@@ -18,52 +18,27 @@
 
 #define DEFAULT_KEY_CODE_QUIT 0x1B
 
-typedef enum {
-	AIInsaneType = 0,
-	AIHardType = 2,
-	AIMediumType = 3,
-	AIEasyType = 6
-} AIType;
+typedef NS_ENUM(NSUInteger, SZAIType) {
+	SZAITypeInsane = 0,
+	SZAITypeHard = 2,
+	SZAITypeMedium = 3,
+	SZAITypeEasy = 6
+};
 
-typedef enum {
-	GamePracticeType = 0,
-	GameSinglePlayerType = 1,
-	GameTwoPlayerType = 2,
-} GameType;
+typedef NS_ENUM(NSUInteger, SZGameType) {
+	SZGameTypePractice = 0,
+	SZGameTypeSinglePlayer = 1,
+	SZGameTypeTwoPlayer = 2,
+};
 
-@interface Settings : NSObject {
-	AIType _aiType;
-	GameType _gameType;
-	int _height;
-	int _speed;
-	int _gamesPerMatch;
-	int _blockColours;
-	
-	unichar _keyCodeOneLeft;
-	unichar _keyCodeOneRight;
-    unichar _keyCodeOneUp;
-    unichar _keyCodeOneDown;
-    unichar _keyCodeOneA;
-    unichar _keyCodeOneB;
-    unichar _keyCodeOneStart;
-	
-	unichar _keyCodeTwoLeft;
-    unichar _keyCodeTwoRight;
-	unichar _keyCodeTwoUp;
-	unichar _keyCodeTwoDown;
-	unichar _keyCodeTwoA;
-	unichar _keyCodeTwoB;
-	unichar _keyCodeTwoStart;
-	
-	unichar _keyCodeQuit;
-}
+@interface Settings : NSObject
 
-@property(readwrite) AIType aiType;
-@property(readwrite) GameType gameType;
+@property(readwrite) SZAIType aiType;
+@property(readwrite) SZGameType gameType;
 @property(readwrite) int height;
 @property(readwrite) int speed;
 @property(readwrite) int gamesPerMatch;
-@property(readwrite) int blockColours;
+@property(readwrite) int eggColours;
 
 @property(readwrite) unichar keyCodeOneLeft;
 @property(readwrite) unichar keyCodeOneRight;

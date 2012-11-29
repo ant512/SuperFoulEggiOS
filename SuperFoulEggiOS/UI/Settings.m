@@ -2,47 +2,23 @@
 
 @implementation Settings
 
-@synthesize aiType = _aiType;
-@synthesize gameType = _gameType;
-@synthesize height = _height;
-@synthesize speed = _speed;
-@synthesize gamesPerMatch = _gamesPerMatch;
-@synthesize blockColours = _blockColours;
-
-@synthesize keyCodeOneLeft = _keyCodeOneLeft;
-@synthesize keyCodeOneRight = _keyCodeOneRight;
-@synthesize keyCodeOneUp = _keyCodeOneUp;
-@synthesize keyCodeOneDown = _keyCodeOneDown;
-@synthesize keyCodeOneA = _keyCodeOneA;
-@synthesize keyCodeOneB = _keyCodeOneB;
-@synthesize keyCodeOneStart = _keyCodeOneStart;
-
-@synthesize keyCodeTwoLeft = _keyCodeTwoLeft;
-@synthesize keyCodeTwoRight = _keyCodeTwoRight;
-@synthesize keyCodeTwoUp = _keyCodeTwoUp;
-@synthesize keyCodeTwoDown = _keyCodeTwoDown;
-@synthesize keyCodeTwoA = _keyCodeTwoA;
-@synthesize keyCodeTwoB = _keyCodeTwoB;
-@synthesize keyCodeTwoStart = _keyCodeTwoStart;
-
-@synthesize keyCodeQuit = _keyCodeQuit;
-
 + (Settings*)sharedSettings {
-	static Settings* _sharedSettings;
-
-	@synchronized(self) {
-		if (!_sharedSettings) _sharedSettings = [[Settings alloc] init];
-
-		return _sharedSettings;
-	}
+	static Settings *sharedSettings = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		sharedSettings = [[Settings alloc] init];
+	});
+	
+	return sharedSettings;
 }
 
 - (id)init {
 	if ((self = [super init])) {
 		
-		_aiType = [[NSUserDefaults standardUserDefaults] objectForKey:@"AIType"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"AIType"] intValue] : AIHardType;
+		_aiType = [[NSUserDefaults standardUserDefaults] objectForKey:@"AIType"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"AIType"] intValue] : SZAITypeHard;
 		
-		_gameType = [[NSUserDefaults standardUserDefaults] objectForKey:@"GameType"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"GameType"] intValue] : GameSinglePlayerType;
+		_gameType = [[NSUserDefaults standardUserDefaults] objectForKey:@"GameType"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"GameType"] intValue] : SZGameTypeSinglePlayer;
 		
 		_height = [[NSUserDefaults standardUserDefaults] objectForKey:@"Height"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"Height"] intValue] : 0;
 		
@@ -50,7 +26,7 @@
 		
 		_gamesPerMatch = [[NSUserDefaults standardUserDefaults] objectForKey:@"GamesPerMatch"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"GamesPerMatch"] intValue] : 3;
 		
-		_blockColours = [[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] intValue] : 4;
+		_eggColours = [[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] intValue] : 4;
 		
 		_keyCodeOneLeft = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyCodeOneLeft"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"KeyCodeOneLeft"] intValue] : DEFAULT_KEY_CODE_ONE_LEFT;
 		
@@ -105,7 +81,7 @@
 	[[NSUserDefaults standardUserDefaults] setObject:@(_height) forKey:@"Height"];
 	[[NSUserDefaults standardUserDefaults] setObject:@(_speed) forKey:@"Speed"];
 	[[NSUserDefaults standardUserDefaults] setObject:@(_gamesPerMatch) forKey:@"GamesPerMatch"];
-	[[NSUserDefaults standardUserDefaults] setObject:@(_blockColours) forKey:@"BlockColours"];
+	[[NSUserDefaults standardUserDefaults] setObject:@(_eggColours) forKey:@"EggColours"];
 	
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
