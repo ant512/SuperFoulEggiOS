@@ -22,6 +22,8 @@
 #import "GridBottomLeftBlock.h"
 #import "GridBottomRightBlock.h"
 
+#import "SZEngineConstants.h"
+
 #import "SZPad.h"
 #import "Settings.h"
 
@@ -846,11 +848,11 @@
 	
 	if (garbage == 0) return;
 	
-	int faceBoulders = garbage / GARBAGE_FACE_BOULDER_VALUE;
-	garbage -= faceBoulders * GARBAGE_FACE_BOULDER_VALUE;
+	int faceBoulders = garbage / SZGarbageFaceBoulderValue;
+	garbage -= faceBoulders * SZGarbageFaceBoulderValue;
 	
-	int largeBoulders = garbage / GARBAGE_LARGE_BOULDER_VALUE;
-	garbage -= largeBoulders * GARBAGE_LARGE_BOULDER_VALUE;
+	int largeBoulders = garbage / SZGarbageLargeBoulderValue;
+	garbage -= largeBoulders * SZGarbageLargeBoulderValue;
 	
 	int spriteY = [[CCDirector sharedDirector] winSize].height - 1;
 	int spriteX = playerNumber == 0 ? 0 : [[CCDirector sharedDirector] winSize].width - BLOCK_SIZE;

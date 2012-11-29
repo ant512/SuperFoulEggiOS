@@ -1,5 +1,34 @@
 #import "GridRunner.h"
 
+/**
+ * Number of iterations before blocks drop when automatic dropping mode is
+ * active.
+ */
+const int SZAutoDropTime = 2;
+
+/**
+ * The bonus given for each successive chain sequenced together.
+ */
+const int SZChainSequenceGarbageBonus = 6;
+
+/**
+ * The maximum speed at which live blocks can be forced to drop, measured in
+ * iterations.
+ */
+const int SZMaximumDropSpeed = 2;
+
+/**
+ * The minimum speed at which live blocks can be forced to drop, measured in
+ * iterations.
+ */
+const int SZMinimumDropSpeed = 38;
+
+/**
+ * The current drop speed is multiplied by this to produce the number of
+ * iterations required until the live blocks are forced to drop.
+ */
+const int SZDropSpeedMultiplier = 4;
+
 @implementation GridRunner
 
 - (id)initWithController:(id <ControllerProtocol>)controller
@@ -22,7 +51,7 @@
 		_incomingGarbageCount = 0;
 		_accumulatingGarbageCount = 0;
 
-		_droppingLiveBlocks = NO;
+		_droppingLiveEggs = NO;
 
 		// Ensure we have some initial blocks to add to the grid
 		for (int i = 0; i < LIVE_BLOCK_COUNT; ++i) {
@@ -68,7 +97,7 @@
 
 	// Eggs are dropping down the screen automatically
 
-	if (_timer < AUTO_DROP_TIME) return;
+	if (_timer < SZAutoDropTime) return;
 
 	_timer = 0;
 
@@ -108,7 +137,7 @@
 
 			// If we're in a sequence of chains, we add 6 blocks each
 			// sequence
-			garbage = CHAIN_SEQUENCE_GARBAGE_BONUS;
+			garbage = SZChainSequenceGarbageBonus;
 
 			// Add any additional blocks on top of the standard
 			// chain length
@@ -182,9 +211,9 @@
 
 		// Work out how many frames we need to wait until the blocks drop
 		// automatically
-		int timeToDrop = MINIMUM_DROP_SPEED - (DROP_SPEED_MULTIPLIER * _speed);
+		int timeToDrop = SZMinimumDropSpeed - (SZDropSpeedMultiplier * _speed);
 
-		if (timeToDrop < MAXIMUM_DROP_SPEED) timeToDrop = MAXIMUM_DROP_SPEED;
+		if (timeToDrop < SZMaximumDropSpeed) timeToDrop = SZMaximumDropSpeed;
 
 		// Process user input
 		if ([_controller isLeftHeld]) {
@@ -202,13 +231,13 @@
 			// Force blocks to drop
 			_timer = timeToDrop;
 
-			if (!_droppingLiveBlocks) {
-				_droppingLiveBlocks = YES;
+			if (!_droppingLiveEggs) {
+				_droppingLiveEggs = YES;
 
 				[_delegate didGridRunnerStartDroppingLiveBlocks:self];
 			}
 		} else if (![_controller isDownHeld]) {
-			_droppingLiveBlocks = NO;
+			_droppingLiveEggs = NO;
 		}
 		
 		if ([_controller isRotateClockwiseHeld]) {
@@ -230,7 +259,7 @@
 
 		// At least one of the blocks in the live pair has touched down.
 		// We need to drop the other block automatically
-		_droppingLiveBlocks = NO;
+		_droppingLiveEggs = NO;
 		_state = SZGridRunnerStateDrop;
 	}
 }

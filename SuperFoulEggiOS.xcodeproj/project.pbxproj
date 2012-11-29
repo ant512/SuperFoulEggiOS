@@ -36,6 +36,7 @@
 		C213BFDB16594EEC0009C13E /* incoming-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDA16594EEC0009C13E /* incoming-ipadhd.plist */; };
 		C213BFDD1659501D0009C13E /* message-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDC1659501D0009C13E /* message-ipadhd.plist */; };
 		C213BFDF165950990009C13E /* playertags-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDE165950990009C13E /* playertags-ipadhd.plist */; };
+		C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */; };
 		C2B754591655DCE100DB1D43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B754581655DCE100DB1D43 /* QuartzCore.framework */; };
 		C2B7545B1655DCE100DB1D43 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */; };
 		C2B7545D1655DCE100DB1D43 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545C1655DCE100DB1D43 /* OpenAL.framework */; };
@@ -274,6 +275,8 @@
 		C213BFDA16594EEC0009C13E /* incoming-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "incoming-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDC1659501D0009C13E /* message-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "message-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDE165950990009C13E /* playertags-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "playertags-ipadhd.plist"; sourceTree = "<group>"; };
+		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
+		C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEngineConstants.m; sourceTree = "<group>"; };
 		C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEggiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B754581655DCE100DB1D43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1112,13 +1115,15 @@
 		C2B756021655DD3100DB1D43 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
-				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
 				C2B756051655DD3100DB1D43 /* BlockFactory.h */,
 				C2B756061655DD3100DB1D43 /* BlockFactory.m */,
 				C2B756071655DD3100DB1D43 /* BlueBlock.h */,
 				C2B756081655DD3100DB1D43 /* BlueBlock.m */,
 				C2B756091655DD3100DB1D43 /* ControllerProtocol.h */,
+				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
+				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
+				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
+				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
 				C2B7560A1655DD3100DB1D43 /* GarbageBlock.h */,
 				C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */,
 				C2B7560C1655DD3100DB1D43 /* GreenBlock.h */,
@@ -1249,10 +1254,10 @@
 		C2B756D01655DD8500DB1D43 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */,
-				C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */,
 				C2B756D51655DD8500DB1D43 /* Constants.h */,
 				C2B756D61655DD8500DB1D43 /* Constants.m */,
+				C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */,
+				C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */,
 				C2B756D71655DD8500DB1D43 /* GameLayer.h */,
 				C2B756D81655DD8500DB1D43 /* GameLayer.m */,
 				C2B756D91655DD8500DB1D43 /* GameOptionsMenuLayer.h */,
@@ -1556,6 +1561,7 @@
 				C2B756F11655DD8500DB1D43 /* Settings.m in Sources */,
 				C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */,
 				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
+				C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
