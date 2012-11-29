@@ -18,9 +18,9 @@
 #import "SZYellowEgg.h"
 #import "SZOrangeEgg.h"
 #import "SZGarbageEgg.h"
-#import "GridBottomBlock.h"
-#import "GridBottomLeftBlock.h"
-#import "GridBottomRightBlock.h"
+#import "SZGridBottomEgg.h"
+#import "SZGridBottomLeftEgg.h"
+#import "SZGridBottomRightEgg.h"
 
 #import "SZEngineConstants.h"
 
@@ -929,13 +929,13 @@
 	} else if ([block isKindOfClass:[SZGarbageEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"grey00.png"];
 		sheet = _garbageBlockSpriteSheet;
-	} else if ([block isKindOfClass:[GridBottomBlock class]]) {
+	} else if ([block isKindOfClass:[SZGridBottomEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottom00.png"];
 		sheet = _gridBottomBlockSpriteSheet;
-	} else if ([block isKindOfClass:[GridBottomLeftBlock class]]) {
+	} else if ([block isKindOfClass:[SZGridBottomLeftEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottomleft00.png"];
 		sheet = _gridBottomLeftBlockSpriteSheet;
-	} else if ([block isKindOfClass:[GridBottomRightBlock class]]) {
+	} else if ([block isKindOfClass:[SZGridBottomRightEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottomright00.png"];
 		sheet = _gridBottomRightBlockSpriteSheet;
 	}

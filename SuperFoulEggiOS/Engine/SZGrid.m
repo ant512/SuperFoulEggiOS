@@ -2,9 +2,9 @@
 
 #import "SZGrid.h"
 #import "SZGarbageEgg.h"
-#import "GridBottomBlock.h"
-#import "GridBottomLeftBlock.h"
-#import "GridBottomRightBlock.h"
+#import "SZGridBottomEgg.h"
+#import "SZGridBottomLeftEgg.h"
+#import "SZGridBottomRightEgg.h"
 #import "SZPoint.h"
 
 @implementation SZGrid
@@ -47,17 +47,17 @@
 
 - (void)createBottomRow {
 
-	SZEggBase* egg = [[GridBottomLeftBlock alloc] init];
+	SZEggBase* egg = [[SZGridBottomLeftEgg alloc] init];
 	[self addEgg:egg x:0 y:GRID_HEIGHT - 1];
 	[egg release];
 	
 	for (int i = 1; i < GRID_WIDTH - 1; ++i) {
-		egg = [[GridBottomBlock alloc] init];
+		egg = [[SZGridBottomEgg alloc] init];
 		[self addEgg:egg x:i y:GRID_HEIGHT - 1];
 		[egg release];
 	}
 	
-	egg = [[GridBottomRightBlock alloc] init];
+	egg = [[SZGridBottomRightEgg alloc] init];
 	[self addEgg:egg x:GRID_WIDTH - 1 y:GRID_HEIGHT - 1];
 	[egg release];
 }
