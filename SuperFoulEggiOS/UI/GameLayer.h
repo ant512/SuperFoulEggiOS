@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	SZGameState _state;
 	
 	SZGridRunner* _runners[MAX_PLAYERS];
-	NSMutableArray* _blockSpriteConnectors[MAX_PLAYERS];
+	NSMutableArray* _eggSpriteConnectors[MAX_PLAYERS];
 	NSMutableArray* _incomingGarbageSprites[MAX_PLAYERS];
 	int _gameWins[MAX_PLAYERS];
 	int _matchWins[MAX_PLAYERS];

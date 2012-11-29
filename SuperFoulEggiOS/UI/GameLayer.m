@@ -208,7 +208,7 @@
 
 	int gridX = runner.playerNumber == 0 ? NEXT_BLOCK_1_X : NEXT_BLOCK_2_X;
 	
-	NSMutableArray* connectorArray = _blockSpriteConnectors[runner.playerNumber];
+	NSMutableArray* connectorArray = _eggSpriteConnectors[runner.playerNumber];
 	
 	// Create a new sprite for both next blocks
 	for (int i = 0; i < 2; ++i) {
@@ -220,7 +220,7 @@
 - (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(SZEggBase*)block {
 	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
 	
-	NSMutableArray* connectorArray = _blockSpriteConnectors[playerNumber];
+	NSMutableArray* connectorArray = _eggSpriteConnectors[playerNumber];
 	
 	// If there is already a connector for this block, we need to adjust
 	// its grid co-ordinates back to the real values.  At present the
@@ -244,13 +244,13 @@
 - (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(SZEggBase*)block {
 	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
 	
-	NSMutableArray* connectorArray = _blockSpriteConnectors[playerNumber];
+	NSMutableArray* connectorArray = _eggSpriteConnectors[playerNumber];
 
 	[self createBlockSpriteConnector:block gridX:gridX gridY:GRID_Y connectorArray:connectorArray];
 }
 
 - (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column {
-	for (SZEggSpriteConnector* connector in _blockSpriteConnectors[playerNumber]) {
+	for (SZEggSpriteConnector* connector in _eggSpriteConnectors[playerNumber]) {
 		if (connector.egg.x == column) {
 			[connector hitWithGarbage];
 		}
@@ -390,7 +390,7 @@
 	BOOL requiresIteration = NO;
 	
 	if (_deathEffectTimer % 8 == 0) {
-		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[loser]) {
+		for (SZEggSpriteConnector* connector in _eggSpriteConnectors[loser]) {
 			
 			CCSprite* sprite = connector.sprite;
 			SZEggBase* block = connector.egg;
@@ -509,9 +509,9 @@
 - (void)setBlocksVisible:(BOOL)visible {
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
 
-		if (_blockSpriteConnectors[i] == nil) continue;
+		if (_eggSpriteConnectors[i] == nil) continue;
 
-		for (SZEggSpriteConnector* connector in _blockSpriteConnectors[i]) {
+		for (SZEggSpriteConnector* connector in _eggSpriteConnectors[i]) {
 			if (connector.egg.y < GRID_HEIGHT - 1) {
 				[connector.sprite setVisible:visible];
 			}
@@ -607,8 +607,8 @@
 		[_runners[i] release];
 		_runners[i] = nil;
 
-		[_blockSpriteConnectors[i] release];
-		_blockSpriteConnectors[i] = nil;
+		[_eggSpriteConnectors[i] release];
+		_eggSpriteConnectors[i] = nil;
 
 		if (_incomingGarbageSprites[i] != nil) {
 			for (CCSprite* sprite in _incomingGarbageSprites[i]) {
@@ -628,7 +628,7 @@
 	// Create new game objects
 	int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 	
-	_blockSpriteConnectors[0] = [[NSMutableArray alloc] init];
+	_eggSpriteConnectors[0] = [[NSMutableArray alloc] init];
 	_incomingGarbageSprites[0] = [[NSMutableArray alloc] init];
 
 	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:0];
@@ -655,7 +655,7 @@
 	[controller release];
 
 	if (players > 1) {
-		_blockSpriteConnectors[1] = [[NSMutableArray alloc] init];
+		_eggSpriteConnectors[1] = [[NSMutableArray alloc] init];
 		_incomingGarbageSprites[1] = [[NSMutableArray alloc] init];
 
 		grid = [[SZGrid alloc] initWithPlayerNumber:1];
@@ -820,14 +820,14 @@
 	
 	for (int j = 0; j < MAX_PLAYERS; ++j) {
 
-		if (_blockSpriteConnectors[j] == nil) continue;
+		if (_eggSpriteConnectors[j] == nil) continue;
 
-		for (int i = 0; i < [_blockSpriteConnectors[j] count]; ++i) {
-			if (((SZEggSpriteConnector*)[_blockSpriteConnectors[j] objectAtIndex:i]).isDead) {
-				[_blockSpriteConnectors[j] removeObjectAtIndex:i];
+		for (int i = 0; i < [_eggSpriteConnectors[j] count]; ++i) {
+			if (((SZEggSpriteConnector*)[_eggSpriteConnectors[j] objectAtIndex:i]).isDead) {
+				[_eggSpriteConnectors[j] removeObjectAtIndex:i];
 				--i;
 			} else {
-				[[_blockSpriteConnectors[j] objectAtIndex:i] update];
+				[[_eggSpriteConnectors[j] objectAtIndex:i] update];
 			}
 		}
 	}
@@ -896,7 +896,7 @@
 	
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
 		[_runners[i] release];
-		[_blockSpriteConnectors[i] release];
+		[_eggSpriteConnectors[i] release];
 		[_incomingGarbageSprites[i] release];
 	}
 	
