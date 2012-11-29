@@ -1,11 +1,11 @@
 #import "SZEggSpriteConnector.h"
 
-#define SZBlockLandFrameCount 7
+#define SZEggLandFrameCount 7
 
-const int SZBlockExplodeStartFrame = 16;
-const int SZBlockExplodeFrameCount = 6;
-const int SZBlockLandStartFrame = 22;
-const int SZBlockAnimationSpeed = 2;
+const int SZEggExplodeStartFrame = 16;
+const int SZEggExplodeFrameCount = 6;
+const int SZEggLandStartFrame = 22;
+const int SZEggAnimationSpeed = 2;
 
 @implementation SZEggSpriteConnector
 
@@ -77,7 +77,7 @@ const int SZBlockAnimationSpeed = 2;
 - (void)didEggStartLanding:(SZEggBase *)egg {
 	[self resetTimer];
 
-	[self setSpriteFrame:SZBlockLandStartFrame];
+	[self setSpriteFrame:SZEggLandStartFrame];
 }
 
 - (void)didEggStopLanding:(SZEggBase *)egg {
@@ -97,7 +97,7 @@ const int SZBlockAnimationSpeed = 2;
 	int x = _gridX + (_egg.x * SZEggSize) + (SZEggSize / 2);
 	int y = _gridY + (SZGridHeight * SZEggSize) - (SZEggSize / 2) - ((_egg.y * SZEggSize) + _yOffset);
 
-	// Add an extra half block's height if the block has fallen a half block
+	// Add an extra half egg's height if the egg has fallen a half block
 	y -= _egg.hasDroppedHalfBlock ? SZEggSize / 2 : 0;
 
 	_sprite.position = ccp(x, y);
@@ -113,17 +113,17 @@ const int SZBlockAnimationSpeed = 2;
 	switch (_egg.state) {
 		case SZEggStateExploding:
 
-			// The block is exploding.  We run through the frames of explosion
+			// The egg is exploding.  We run through the frames of explosion
 			// animation each time this method is called until we run out of
-			// frames, whereupon we tell the block that it has finished
-			// exploding.  The block's explosion stopped event will fire and
+			// frames, whereupon we tell the egg that it has finished
+			// exploding.  The egg's explosion stopped event will fire and
 			// this object and its components will eventually be deallocated
 
-			if (_timer % SZBlockAnimationSpeed == 0) {
+			if (_timer % SZEggAnimationSpeed == 0) {
 				
-				if (_frame < SZBlockExplodeStartFrame || _frame >= SZBlockExplodeStartFrame + SZBlockExplodeFrameCount) {
-					[self setSpriteFrame:SZBlockExplodeStartFrame];
-				} else if (_frame == SZBlockExplodeStartFrame + SZBlockExplodeFrameCount - 1) {
+				if (_frame < SZEggExplodeStartFrame || _frame >= SZEggExplodeStartFrame + SZEggExplodeFrameCount) {
+					[self setSpriteFrame:SZEggExplodeStartFrame];
+				} else if (_frame == SZEggExplodeStartFrame + SZEggExplodeFrameCount - 1) {
 
 					// Reached the end of the explosion frames
 					[_egg stopExploding];
@@ -141,21 +141,21 @@ const int SZBlockAnimationSpeed = 2;
 		case SZEggStateLanding:
 
 			// The egg is landing.  We run through the animation until we run
-			// out of frames.  At that point, the block is told that it is no
+			// out of frames.  At that point, the egg is told that it is no
 			// longer landing.
 
-			if (_timer == SZBlockLandFrameCount * SZBlockAnimationSpeed) {
+			if (_timer == SZEggLandFrameCount * SZEggAnimationSpeed) {
 
-				// Reached the end of the landing animation, so tell the block
-				// it has finished landing
+				// Reached the end of the landing animation, so tell the egg it
+				// has finished landing
 				[_egg stopLanding];
-			} else if (_timer % SZBlockAnimationSpeed == 0) {
+			} else if (_timer % SZEggAnimationSpeed == 0) {
 
 				// List of landing animation frames
-				static int landingSequence[SZBlockLandFrameCount] = { 0, 22, 23, 22, 23, 22, 0 };
+				static int landingSequence[SZEggLandFrameCount] = { 0, 22, 23, 22, 23, 22, 0 };
 
 				// Move to the frame appropriate to the current timer
-				[self setSpriteFrame:landingSequence[_timer / SZBlockAnimationSpeed]];
+				[self setSpriteFrame:landingSequence[_timer / SZEggAnimationSpeed]];
 			}
 			
 			++_timer;
@@ -164,8 +164,8 @@ const int SZBlockAnimationSpeed = 2;
 		
 		case SZEggStateRecoveringFromGarbageHit:
 
-			// Block has been hit by a garbage block from above and is being
-			// eased back to its correct position.
+			// Egg has been hit by a garbage egg from above and is being eased
+			// back to its correct position.
 			
 			if (_timer % 2 == 0) {
 				
@@ -187,7 +187,7 @@ const int SZBlockAnimationSpeed = 2;
 
 		default:
 
-			// Block isn't doing anything interesting
+			// Egg isn't doing anything interesting
 			break;
 	}
 }
