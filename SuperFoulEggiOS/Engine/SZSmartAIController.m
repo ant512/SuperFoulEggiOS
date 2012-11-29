@@ -1,13 +1,13 @@
 #import <Foundation/NSArray.h>
 
-#import "SmartAIController.h"
+#import "SZSmartAIController.h"
 
-@implementation SmartAIController
+@implementation SZSmartAIController
 
 - (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid {
 	if ((self = [super init])) {
 		_grid = [grid retain];
-		_lastLiveBlockY = GRID_HEIGHT;
+		_lastLiveEggY = GRID_HEIGHT;
 		_targetX = 0;
 		_targetRotations = 0;
 		_hesitation = hesitation;
@@ -23,18 +23,18 @@
 
 - (void)analyseGrid {
 	
-	SZEggBase* block1 = [_grid liveEgg:0];
-	SZEggBase* block2 = [_grid liveEgg:1];
+	SZEggBase* egg1 = [_grid liveEgg:0];
+	SZEggBase* egg2 = [_grid liveEgg:1];
 	
-	// If last observed y is greater than current live block y, we'll need
+	// If last observed y is greater than current live egg y, we'll need
 	// to choose a new move
-	if (_lastLiveBlockY <= block1.y) {
-		_lastLiveBlockY = block1.y < block2.y ? block1.y : block2.y;
+	if (_lastLiveEggY <= egg1.y) {
+		_lastLiveEggY = egg1.y < egg2.y ? egg1.y : egg2.y;
 
 		return;
 	}
 	
-	_lastLiveBlockY = block1.y < block2.y ? block1.y : block2.y;
+	_lastLiveEggY = egg1.y < egg2.y ? egg1.y : egg2.y;
 	
 	int bestScore = INT_MIN;
 	
@@ -48,9 +48,9 @@
 		int x = i / 4;
 		int rotation = i % 4;
 			
-		// Skip rotations 2 and 3 if blocks are the same colour, as they
+		// Skip rotations 2 and 3 if eggs are the same colour, as they
 		// are identical to rotations 0 and 1
-		if ([block1 isKindOfClass:[block2 class]] && rotation > 1) {
+		if ([egg1 isKindOfClass:[egg2 class]] && rotation > 1) {
 			scores[i] = INT_MIN;
 			return;
 		}
@@ -106,7 +106,7 @@
 	if ([gridCopy liveEgg:0].x > x) {
 		while ([gridCopy liveEgg:0].x > x) {
 			
-			// Give up if the block won't move
+			// Give up if the egg won't move
 			if (![gridCopy moveLiveEggsLeft]) {
 				[gridCopy release];
 				return 0;
@@ -115,7 +115,7 @@
 	} else if ([gridCopy liveEgg:0].x < x) {
 		while ([gridCopy liveEgg:0].x < x) {
 			
-			// Give up if the block won't move
+			// Give up if the egg won't move
 			if (![gridCopy moveLiveEggsRight]) {
 				[gridCopy release];
 				return 0;
@@ -162,8 +162,8 @@
 	[self analyseGrid];
 	
 	// We rotate before we move.  This can produce a situation at the top of the
-	// grid wherein the AI rotates a block and then can't move the rotated shape
-	// to its chosen destination because another block is in the way.  It
+	// grid wherein the AI rotates a egg and then can't move the rotated shape
+	// to its chosen destination because another egg is in the way.  It
 	// shouldn't really get into this situation because the moves are all
 	// simulated, but it seems to do so anyway.  The AI will just bash the shape
 	// up against the blocking area until it hits the bottom.  At this point in
@@ -171,9 +171,9 @@
 	// AI would be unbeatable.  I'm not going to fix the issue.
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveEgg:0];
+	SZEggBase* egg1 = [_grid liveEgg:0];
 	
-	BOOL result = block1.x > _targetX;
+	BOOL result = egg1.x > _targetX;
 
 	return _hesitation == 0 ? result : result && (rand() % _hesitation == 0);
 }
@@ -183,9 +183,9 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveEgg:0];
+	SZEggBase* egg1 = [_grid liveEgg:0];
 	
-	BOOL result = block1.x < _targetX;
+	BOOL result = egg1.x < _targetX;
 
 	return _hesitation == 0 ? result : result && (rand() % _hesitation == 0);
 }
@@ -199,9 +199,9 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* block1 = [_grid liveEgg:0];
+	SZEggBase* egg1 = [_grid liveEgg:0];
 	
-	BOOL result = block1.x == _targetX;
+	BOOL result = egg1.x == _targetX;
 	
 	return _hesitation == 0 ? result : result && (rand() % _hesitation == 0);
 }

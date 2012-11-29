@@ -2,7 +2,7 @@
 
 #import "SZGrid.h"
 #import "SZGridRunner.h"
-#import "SmartAIController.h"
+#import "SZSmartAIController.h"
 #import "SZGameController.h"
 #import "SZEggFactory.h"
 #import "SZPlayerOneController.h"

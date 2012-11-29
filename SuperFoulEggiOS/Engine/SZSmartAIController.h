@@ -9,11 +9,11 @@
  * Artificial intelligence controller.  Analyses the state of the grid it is
  * controlling in order to determine what action to take next.
  */
-@interface SmartAIController : NSObject <SZGameController> {
+@interface SZSmartAIController : NSObject <SZGameController> {
 	SZGrid* _grid;				/**< The Grid that the AI is controlling. */
-	int _lastLiveBlockY;		/**< The last observed y co-ordinate of the first live block. */
-	int _targetX;				/**< The x co-ordinate the AI is trying to move the live block to. */
-	int _targetRotations;		/**< Number of clockwise rotations needed before correct live block
+	int _lastLiveEggY;			/**< The last observed y co-ordinate of the first live egg. */
+	int _targetX;				/**< The x co-ordinate the AI is trying to move the live egg to. */
+	int _targetRotations;		/**< Number of clockwise rotations needed before correct live egg
 									 orientation is achieved. */
 	int _hesitation;			/**< Chance that the AI will hesitate (larger value = more likely;
 									 0 = no hesitation). */
@@ -36,23 +36,21 @@
 /**
  * Analyses the state of the grid and determines what action to take.  Called
  * every time the AI has the opportunity to move, but the grid is only analysed
- * when a new pair of blocks has been added to the grid.  The analysis is very
+ * when a new pair of eggs has been added to the grid.  The analysis is very
  * simple.  For every possible end position for this pair (every location and
  * rotation that the pair can end up in when they land), score the position.
- * Score is simply the number of blocks that connect to the landed live block.
+ * Score is simply the number of eggs that connect to the landed live egg.
  * Choose the best position and remember the rotation/location.  Whenever the
  * opportunity to move is given, move towards the desired position.
  */
 - (void)analyseGrid;
 
 /**
- * Determines the total number of connections between blocks created by placing
- * the two blocks at the specified co-ordinates.
- * @param block1 The first block to score.
- * @param block2 The second block to score.
- * @param point1 The location of the first block.
- * @param point2 The location of the second block.
- * @return The total number of connections.
+ * Determines the score obtained by placing the current shape at the given x
+ * co-ordinate using the specified rotation.
+ * @param x The x co-ordinate for the shape.
+ * @param rotation The rotation of the shape.
+ * @return The score for the co-ordinate/rotation pair.
  */
 - (int)scoreShapeX:(int)x rotation:(int)rotation;
 

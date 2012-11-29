@@ -171,7 +171,7 @@
 		C2B7563D1655DD3100DB1D43 /* SZPlayerTwoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756231655DD3100DB1D43 /* SZPlayerTwoController.m */; };
 		C2B7563E1655DD3100DB1D43 /* SZPurpleEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */; };
 		C2B7563F1655DD3100DB1D43 /* SZRedEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756271655DD3100DB1D43 /* SZRedEgg.m */; };
-		C2B756401655DD3100DB1D43 /* SmartAIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756291655DD3100DB1D43 /* SmartAIController.m */; };
+		C2B756401655DD3100DB1D43 /* SZSmartAIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756291655DD3100DB1D43 /* SZSmartAIController.m */; };
 		C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562B1655DD3100DB1D43 /* SZPoint.m */; };
 		C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */; };
 		C2B7568C1655DD6A00DB1D43 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = C2B756431655DD6900DB1D43 /* Credits.html */; };
@@ -570,8 +570,8 @@
 		C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPurpleEgg.m; sourceTree = "<group>"; };
 		C2B756261655DD3100DB1D43 /* SZRedEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZRedEgg.h; sourceTree = "<group>"; };
 		C2B756271655DD3100DB1D43 /* SZRedEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZRedEgg.m; sourceTree = "<group>"; };
-		C2B756281655DD3100DB1D43 /* SmartAIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartAIController.h; sourceTree = "<group>"; };
-		C2B756291655DD3100DB1D43 /* SmartAIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartAIController.m; sourceTree = "<group>"; };
+		C2B756281655DD3100DB1D43 /* SZSmartAIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZSmartAIController.h; sourceTree = "<group>"; };
+		C2B756291655DD3100DB1D43 /* SZSmartAIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSmartAIController.m; sourceTree = "<group>"; };
 		C2B7562A1655DD3100DB1D43 /* SZPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPoint.h; sourceTree = "<group>"; };
 		C2B7562B1655DD3100DB1D43 /* SZPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPoint.m; sourceTree = "<group>"; };
 		C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZYellowEgg.m; sourceTree = "<group>"; };
@@ -1154,8 +1154,8 @@
 				C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */,
 				C2B756261655DD3100DB1D43 /* SZRedEgg.h */,
 				C2B756271655DD3100DB1D43 /* SZRedEgg.m */,
-				C2B756281655DD3100DB1D43 /* SmartAIController.h */,
-				C2B756291655DD3100DB1D43 /* SmartAIController.m */,
+				C2B756281655DD3100DB1D43 /* SZSmartAIController.h */,
+				C2B756291655DD3100DB1D43 /* SZSmartAIController.m */,
 				C2B7562A1655DD3100DB1D43 /* SZPoint.h */,
 				C2B7562B1655DD3100DB1D43 /* SZPoint.m */,
 				C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */,
@@ -1549,7 +1549,7 @@
 				C2B7563D1655DD3100DB1D43 /* SZPlayerTwoController.m in Sources */,
 				C2B7563E1655DD3100DB1D43 /* SZPurpleEgg.m in Sources */,
 				C2B7563F1655DD3100DB1D43 /* SZRedEgg.m in Sources */,
-				C2B756401655DD3100DB1D43 /* SmartAIController.m in Sources */,
+				C2B756401655DD3100DB1D43 /* SZSmartAIController.m in Sources */,
 				C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */,
 				C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */,
 				C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */,

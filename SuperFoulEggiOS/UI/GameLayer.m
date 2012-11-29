@@ -662,7 +662,7 @@
 		grid.delegate = self;
 		
 		if ([SZSettings sharedSettings].gameType == SZGameTypeSinglePlayer) {
-			controller = [[SmartAIController alloc] initWithHesitation:(int)([SZSettings sharedSettings].aiType) grid:grid];
+			controller = [[SZSmartAIController alloc] initWithHesitation:(int)([SZSettings sharedSettings].aiType) grid:grid];
 		} else {
 			controller = [[SZPlayerTwoController alloc] init];
 		}
