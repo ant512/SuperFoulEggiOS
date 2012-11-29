@@ -236,12 +236,12 @@
 		C2B756CF1655DD6A00DB1D43 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = C2B7568B1655DD6A00DB1D43 /* win.wav */; };
 		C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */; };
 		C2B756EB1655DD8500DB1D43 /* SZUIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D61655DD8500DB1D43 /* SZUIConstants.m */; };
-		C2B756EC1655DD8500DB1D43 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D81655DD8500DB1D43 /* GameLayer.m */; };
-		C2B756ED1655DD8500DB1D43 /* GameOptionsMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DA1655DD8500DB1D43 /* GameOptionsMenuLayer.m */; };
-		C2B756EE1655DD8500DB1D43 /* GameTypeMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DC1655DD8500DB1D43 /* GameTypeMenuLayer.m */; };
-		C2B756F01655DD8500DB1D43 /* MenuRectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E01655DD8500DB1D43 /* MenuRectLayer.m */; };
+		C2B756EC1655DD8500DB1D43 /* SZGameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D81655DD8500DB1D43 /* SZGameLayer.m */; };
+		C2B756ED1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DA1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m */; };
+		C2B756EE1655DD8500DB1D43 /* SZGameTypeMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DC1655DD8500DB1D43 /* SZGameTypeMenuLayer.m */; };
+		C2B756F01655DD8500DB1D43 /* SZMenuRectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */; };
 		C2B756F11655DD8500DB1D43 /* SZSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E21655DD8500DB1D43 /* SZSettings.m */; };
-		C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */; };
+		C2B756F31655DD8500DB1D43 /* SZTitleScreenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -640,18 +640,18 @@
 		C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEggSpriteConnector.m; sourceTree = "<group>"; };
 		C2B756D51655DD8500DB1D43 /* SZUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZUIConstants.h; sourceTree = "<group>"; };
 		C2B756D61655DD8500DB1D43 /* SZUIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZUIConstants.m; sourceTree = "<group>"; };
-		C2B756D71655DD8500DB1D43 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
-		C2B756D81655DD8500DB1D43 /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
-		C2B756D91655DD8500DB1D43 /* GameOptionsMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOptionsMenuLayer.h; sourceTree = "<group>"; };
-		C2B756DA1655DD8500DB1D43 /* GameOptionsMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOptionsMenuLayer.m; sourceTree = "<group>"; };
-		C2B756DB1655DD8500DB1D43 /* GameTypeMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTypeMenuLayer.h; sourceTree = "<group>"; };
-		C2B756DC1655DD8500DB1D43 /* GameTypeMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTypeMenuLayer.m; sourceTree = "<group>"; };
-		C2B756DF1655DD8500DB1D43 /* MenuRectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuRectLayer.h; sourceTree = "<group>"; };
-		C2B756E01655DD8500DB1D43 /* MenuRectLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuRectLayer.m; sourceTree = "<group>"; };
+		C2B756D71655DD8500DB1D43 /* SZGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGameLayer.h; sourceTree = "<group>"; };
+		C2B756D81655DD8500DB1D43 /* SZGameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGameLayer.m; sourceTree = "<group>"; };
+		C2B756D91655DD8500DB1D43 /* SZGameOptionsMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGameOptionsMenuLayer.h; sourceTree = "<group>"; };
+		C2B756DA1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGameOptionsMenuLayer.m; sourceTree = "<group>"; };
+		C2B756DB1655DD8500DB1D43 /* SZGameTypeMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGameTypeMenuLayer.h; sourceTree = "<group>"; };
+		C2B756DC1655DD8500DB1D43 /* SZGameTypeMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGameTypeMenuLayer.m; sourceTree = "<group>"; };
+		C2B756DF1655DD8500DB1D43 /* SZMenuRectLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMenuRectLayer.h; sourceTree = "<group>"; };
+		C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMenuRectLayer.m; sourceTree = "<group>"; };
 		C2B756E11655DD8500DB1D43 /* SZSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZSettings.h; sourceTree = "<group>"; };
 		C2B756E21655DD8500DB1D43 /* SZSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSettings.m; sourceTree = "<group>"; };
-		C2B756E51655DD8500DB1D43 /* TitleScreenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScreenLayer.h; sourceTree = "<group>"; };
-		C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScreenLayer.m; sourceTree = "<group>"; };
+		C2B756E51655DD8500DB1D43 /* SZTitleScreenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTitleScreenLayer.h; sourceTree = "<group>"; };
+		C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTitleScreenLayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1258,18 +1258,18 @@
 				C2B756D61655DD8500DB1D43 /* SZUIConstants.m */,
 				C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */,
 				C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */,
-				C2B756D71655DD8500DB1D43 /* GameLayer.h */,
-				C2B756D81655DD8500DB1D43 /* GameLayer.m */,
-				C2B756D91655DD8500DB1D43 /* GameOptionsMenuLayer.h */,
-				C2B756DA1655DD8500DB1D43 /* GameOptionsMenuLayer.m */,
-				C2B756DB1655DD8500DB1D43 /* GameTypeMenuLayer.h */,
-				C2B756DC1655DD8500DB1D43 /* GameTypeMenuLayer.m */,
-				C2B756DF1655DD8500DB1D43 /* MenuRectLayer.h */,
-				C2B756E01655DD8500DB1D43 /* MenuRectLayer.m */,
+				C2B756D71655DD8500DB1D43 /* SZGameLayer.h */,
+				C2B756D81655DD8500DB1D43 /* SZGameLayer.m */,
+				C2B756D91655DD8500DB1D43 /* SZGameOptionsMenuLayer.h */,
+				C2B756DA1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m */,
+				C2B756DB1655DD8500DB1D43 /* SZGameTypeMenuLayer.h */,
+				C2B756DC1655DD8500DB1D43 /* SZGameTypeMenuLayer.m */,
+				C2B756DF1655DD8500DB1D43 /* SZMenuRectLayer.h */,
+				C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */,
 				C2B756E11655DD8500DB1D43 /* SZSettings.h */,
 				C2B756E21655DD8500DB1D43 /* SZSettings.m */,
-				C2B756E51655DD8500DB1D43 /* TitleScreenLayer.h */,
-				C2B756E61655DD8500DB1D43 /* TitleScreenLayer.m */,
+				C2B756E51655DD8500DB1D43 /* SZTitleScreenLayer.h */,
+				C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1554,12 +1554,12 @@
 				C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */,
 				C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */,
 				C2B756EB1655DD8500DB1D43 /* SZUIConstants.m in Sources */,
-				C2B756EC1655DD8500DB1D43 /* GameLayer.m in Sources */,
-				C2B756ED1655DD8500DB1D43 /* GameOptionsMenuLayer.m in Sources */,
-				C2B756EE1655DD8500DB1D43 /* GameTypeMenuLayer.m in Sources */,
-				C2B756F01655DD8500DB1D43 /* MenuRectLayer.m in Sources */,
+				C2B756EC1655DD8500DB1D43 /* SZGameLayer.m in Sources */,
+				C2B756ED1655DD8500DB1D43 /* SZGameOptionsMenuLayer.m in Sources */,
+				C2B756EE1655DD8500DB1D43 /* SZGameTypeMenuLayer.m in Sources */,
+				C2B756F01655DD8500DB1D43 /* SZMenuRectLayer.m in Sources */,
 				C2B756F11655DD8500DB1D43 /* SZSettings.m in Sources */,
-				C2B756F31655DD8500DB1D43 /* TitleScreenLayer.m in Sources */,
+				C2B756F31655DD8500DB1D43 /* SZTitleScreenLayer.m in Sources */,
 				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
 				C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */,
 			);

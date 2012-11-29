@@ -2,7 +2,7 @@
 
 #import "cocos2d.h"
 
-@interface TitleScreenLayer : CCLayer
+@interface SZTitleScreenLayer : CCLayer
 
 + (CCScene*)scene;
 - (id)init;

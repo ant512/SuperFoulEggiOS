@@ -10,7 +10,7 @@
 #import "SZGrid.h"
 #import "SZGridRunner.h"
 #import "SZEggFactory.h"
-#import "GameLayer.h"
+#import "SZGameLayer.h"
 #import "SZEggSpriteConnector.h"
 
 #define MAX_PLAYERS 2
@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	SZGameStateGameOver = 3
 };
 
-@interface GameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {
+@interface SZGameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {
 	CCSpriteBatchNode* _redBlockSpriteSheet;
 	CCSpriteBatchNode* _blueBlockSpriteSheet;
 	CCSpriteBatchNode* _greenBlockSpriteSheet;

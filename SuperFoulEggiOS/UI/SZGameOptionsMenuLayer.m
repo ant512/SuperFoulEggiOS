@@ -1,19 +1,19 @@
-#import "GameOptionsMenuLayer.h"
-#import "GameTypeMenuLayer.h"
+#import "SZGameOptionsMenuLayer.h"
+#import "SZGameTypeMenuLayer.h"
 #import "SimpleAudioEngine.h"
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
 #import "SZSettings.h"
 #import "CCDirector.h"
-#import "GameLayer.h"
-#import "MenuRectLayer.h"
-#import "GameOptionsMenuLayer.h"
+#import "SZGameLayer.h"
+#import "SZMenuRectLayer.h"
+#import "SZGameOptionsMenuLayer.h"
 #import "SZUIConstants.h"
 
 #import <Foundation/Foundation.h>
 
-@implementation GameOptionsMenuLayer
+@implementation SZGameOptionsMenuLayer
 
 + (CCScene *)scene {
 	
@@ -21,7 +21,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	GameOptionsMenuLayer *layer = [GameOptionsMenuLayer node];
+	SZGameOptionsMenuLayer *layer = [SZGameOptionsMenuLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild:layer];
@@ -90,7 +90,7 @@
 		
 		[self loadBackground];
 		
-		_rectLayer = [[MenuRectLayer alloc] init];
+		_rectLayer = [[SZMenuRectLayer alloc] init];
 		[self addChild:_rectLayer];
 		
 		[self addOptionRangeFrom:0 to:9 step:1 atY:650 withTitle:@"Speed"];
@@ -198,10 +198,10 @@
 		[SZSettings sharedSettings].gamesPerMatch = ([_rectLayer selectedIndexInGroup:3] * 2) + 3;
 
 		if (_rectLayer.selectedGroupIndex == 4) {
-			[[CCDirector sharedDirector] replaceScene:[GameTypeMenuLayer scene]];
+			[[CCDirector sharedDirector] replaceScene:[SZGameTypeMenuLayer scene]];
 		} else if (_rectLayer.selectedGroupIndex == 5) {
 			[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[GameLayer scene]]];
+			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[SZGameLayer scene]]];
 		}
 	}
 	

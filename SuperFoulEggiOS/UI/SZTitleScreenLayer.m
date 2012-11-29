@@ -1,13 +1,13 @@
-#import "TitleScreenLayer.h"
+#import "SZTitleScreenLayer.h"
 #import "SimpleAudioEngine.h"
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
 #import "SZSettings.h"
 #import "CCDirector.h"
-#import "GameTypeMenuLayer.h"
+#import "SZGameTypeMenuLayer.h"
 
-@implementation TitleScreenLayer
+@implementation SZTitleScreenLayer
 
 + (CCScene *)scene {
 	
@@ -15,7 +15,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	TitleScreenLayer *layer = [TitleScreenLayer node];
+	SZTitleScreenLayer *layer = [SZTitleScreenLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -51,7 +51,7 @@
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:1.0f scene:[GameTypeMenuLayer scene]]];
+	[[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:1.0f scene:[SZGameTypeMenuLayer scene]]];
 }
 
 @end

@@ -1,6 +1,6 @@
-#import "MenuRectLayer.h"
+#import "SZMenuRectLayer.h"
 
-@implementation MenuRectLayer
+@implementation SZMenuRectLayer
 
 @synthesize rectangleGroups = _rectangleGroups;
 @synthesize selectedRectangleIndexes = _selectedRectangleIndexes;

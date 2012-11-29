@@ -1,10 +1,10 @@
 #import "CCLayer.h"
 
 #import "cocos2d.h"
-#import "MenuRectLayer.h"
+#import "SZMenuRectLayer.h"
 
-@interface GameOptionsMenuLayer : CCLayer {
-	MenuRectLayer *_rectLayer;
+@interface SZGameOptionsMenuLayer : CCLayer {
+	SZMenuRectLayer *_rectLayer;
 	NSMutableArray *_options;
 }
 

@@ -1,16 +1,16 @@
-#import "GameTypeMenuLayer.h"
+#import "SZGameTypeMenuLayer.h"
 #import "SimpleAudioEngine.h"
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
 #import "SZSettings.h"
 #import "CCDirector.h"
-#import "GameLayer.h"
-#import "MenuRectLayer.h"
-#import "GameOptionsMenuLayer.h"
+#import "SZGameLayer.h"
+#import "SZMenuRectLayer.h"
+#import "SZGameOptionsMenuLayer.h"
 #import "SZUIConstants.h"
 
-@implementation GameTypeMenuLayer
+@implementation SZGameTypeMenuLayer
 
 @synthesize title = _title;
 
@@ -20,7 +20,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	GameTypeMenuLayer *layer = [GameTypeMenuLayer node];
+	SZGameTypeMenuLayer *layer = [SZGameTypeMenuLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild:layer];
@@ -58,7 +58,7 @@
 		
 		[self loadBackground];
 		
-		_rectLayer = [[MenuRectLayer alloc] init];
+		_rectLayer = [[SZMenuRectLayer alloc] init];
 		[self addChild:_rectLayer];
 		
 		[self addCentredShadowedLabelWithString:_title atY:self.boundingBox.size.height - 100];
@@ -186,7 +186,7 @@
 				break;
 		}
 		
-		[[CCDirector sharedDirector] replaceScene:[GameOptionsMenuLayer scene]];
+		[[CCDirector sharedDirector] replaceScene:[SZGameOptionsMenuLayer scene]];
 	}
 	
 	[[SZSettings sharedSettings] save];

@@ -5,7 +5,7 @@
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 
-#import "GameLayer.h"
+#import "SZGameLayer.h"
 #import "SZPlayerOneController.h"
 #import "SZPad.h"
 #import "SZPoint.h"
@@ -27,11 +27,11 @@
 #import "SZPad.h"
 #import "SZSettings.h"
 
-#import "GameTypeMenuLayer.h"
+#import "SZGameTypeMenuLayer.h"
 
 #import "CCNode+SFGestureRecognizers.h"
 
-@implementation GameLayer
+@implementation SZGameLayer
 
 + (CCScene *)scene {
 	
@@ -39,7 +39,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	GameLayer *layer = [GameLayer node];
+	SZGameLayer *layer = [SZGameLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
