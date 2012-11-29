@@ -1,6 +1,6 @@
 #import "SZEggBase.h"
 
-@interface NormalBlock : SZEggBase {
+@interface SZStandardEgg : SZEggBase {
 
 }
 

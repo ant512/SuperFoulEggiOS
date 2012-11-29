@@ -1,6 +1,6 @@
-#import "NormalBlock.h"
+#import "SZStandardEgg.h"
 
-@interface YellowBlock : NormalBlock {
+@interface YellowBlock : SZStandardEgg {
 
 }
 
