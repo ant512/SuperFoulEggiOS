@@ -11,13 +11,13 @@
 #import "SZPoint.h"
 
 #import "SZEggBase.h"
-#import "RedBlock.h"
-#import "GreenBlock.h"
-#import "BlueBlock.h"
-#import "PurpleBlock.h"
-#import "YellowBlock.h"
-#import "OrangeBlock.h"
-#import "GarbageBlock.h"
+#import "SZRedEgg.h"
+#import "SZGreenEgg.h"
+#import "SZBlueEgg.h"
+#import "SZPurpleEgg.h"
+#import "SZYellowEgg.h"
+#import "SZOrangeEgg.h"
+#import "SZGarbageEgg.h"
 #import "GridBottomBlock.h"
 #import "GridBottomLeftBlock.h"
 #import "GridBottomRightBlock.h"
@@ -908,25 +908,25 @@
 	CCSprite* sprite = nil;
 	CCSpriteBatchNode* sheet = nil;
 	
-	if ([block isKindOfClass:[RedBlock class]]) {
+	if ([block isKindOfClass:[SZRedEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"red00.png"];
 		sheet = _redBlockSpriteSheet;
-	} else if ([block isKindOfClass:[GreenBlock class]]) {
+	} else if ([block isKindOfClass:[SZGreenEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"green00.png"];
 		sheet = _greenBlockSpriteSheet;
-	} else if ([block isKindOfClass:[BlueBlock class]]) {
+	} else if ([block isKindOfClass:[SZBlueEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"blue00.png"];
 		sheet = _blueBlockSpriteSheet;
-	} else if ([block isKindOfClass:[YellowBlock class]]) {
+	} else if ([block isKindOfClass:[SZYellowEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"yellow00.png"];
 		sheet = _yellowBlockSpriteSheet;
-	} else if ([block isKindOfClass:[OrangeBlock class]]) {
+	} else if ([block isKindOfClass:[SZOrangeEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"orange00.png"];
 		sheet = _orangeBlockSpriteSheet;
-	} else if ([block isKindOfClass:[PurpleBlock class]]) {
+	} else if ([block isKindOfClass:[SZPurpleEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"purple00.png"];
 		sheet = _purpleBlockSpriteSheet;
-	} else if ([block isKindOfClass:[GarbageBlock class]]) {
+	} else if ([block isKindOfClass:[SZGarbageEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"grey00.png"];
 		sheet = _garbageBlockSpriteSheet;
 	} else if ([block isKindOfClass:[GridBottomBlock class]]) {

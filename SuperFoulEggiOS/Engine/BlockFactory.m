@@ -1,10 +1,10 @@
 #import "BlockFactory.h"
-#import "RedBlock.h"
-#import "BlueBlock.h"
-#import "GreenBlock.h"
-#import "YellowBlock.h"
-#import "OrangeBlock.h"
-#import "PurpleBlock.h"
+#import "SZRedEgg.h"
+#import "SZBlueEgg.h"
+#import "SZGreenEgg.h"
+#import "SZYellowEgg.h"
+#import "SZOrangeEgg.h"
+#import "SZPurpleEgg.h"
 
 @implementation BlockFactory
 
@@ -67,21 +67,21 @@
 
 	switch (type) {
 		case 0:
-			return [RedBlock class];
+			return [SZRedEgg class];
 		case 1:
-			return [BlueBlock class];
+			return [SZBlueEgg class];
 		case 2:
-			return [YellowBlock class];
+			return [SZYellowEgg class];
 		case 3:
-			return [PurpleBlock class];
+			return [SZPurpleEgg class];
 		case 4:
-			return [GreenBlock class];
+			return [SZGreenEgg class];
 		case 5:
-			return [OrangeBlock class];
+			return [SZOrangeEgg class];
 	}
 	
 	// Included to silence compiler warning
-	return [RedBlock class];
+	return [SZRedEgg class];
 }
 
 - (SZEggBase*)newBlockForPlayerNumber:(int)playerNumber {

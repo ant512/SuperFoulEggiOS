@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SZGrid.h"
-#import "GarbageBlock.h"
+#import "SZGarbageEgg.h"
 #import "GridBottomBlock.h"
 #import "GridBottomLeftBlock.h"
 #import "GridBottomRightBlock.h"
@@ -83,7 +83,7 @@
 			for (int i = 0; i < 4; ++i) {
 
 				SZEggBase* garbage = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
-				if (garbage != nil && [garbage isKindOfClass:[GarbageBlock class]]) {
+				if (garbage != nil && [garbage isKindOfClass:[SZGarbageEgg class]]) {
 					if (garbage.state == SZEggStateNormal) {
 						[garbage startExploding];
 					}
@@ -183,7 +183,7 @@
 
 				if ((gridEgg != nil) && (!checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)])) {
 
-					if ([gridEgg isKindOfClass:[GarbageBlock class]]) {
+					if ([gridEgg isKindOfClass:[SZGarbageEgg class]]) {
 						checkedData[point.x + xCoords[i] + ((point.y + yCoords[i]) * GRID_WIDTH)] = YES;
 						++garbageCount;
 					}
@@ -364,7 +364,7 @@
 			hasLanded = YES;
 
 			// Fire an event if the landed egg is garbage
-			if ([egg isKindOfClass:[GarbageBlock class]]) {
+			if ([egg isKindOfClass:[SZGarbageEgg class]]) {
 
 				[_delegate grid:self didLandGarbageEgg:egg];
 
@@ -402,7 +402,7 @@
 					hasLanded = YES;
 
 					// Fire an event if the landed egg is garbage
-					if ([egg isKindOfClass:[GarbageBlock class]]) {
+					if ([egg isKindOfClass:[SZGarbageEgg class]]) {
 
 						[_delegate grid:self didLandGarbageEgg:egg];
 
@@ -760,7 +760,7 @@
 			// instead
 			if (garbageY == GRID_HEIGHT - GRID_ENTRY_Y) continue;
 
-			GarbageBlock* egg = [[GarbageBlock alloc] init];
+			SZGarbageEgg* egg = [[SZGarbageEgg alloc] init];
 			[self addEgg:egg x:columns[i] y:garbageY];
 			[egg release];
 

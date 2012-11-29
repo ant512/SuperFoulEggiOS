@@ -155,9 +155,9 @@
 		C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B755F51655DCE400DB1D43 /* AppDelegate.m */; };
 		C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756041655DD3100DB1D43 /* SZEggBase.m */; };
 		C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756061655DD3100DB1D43 /* BlockFactory.m */; };
-		C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756081655DD3100DB1D43 /* BlueBlock.m */; };
-		C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */; };
-		C2B756321655DD3100DB1D43 /* GreenBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560D1655DD3100DB1D43 /* GreenBlock.m */; };
+		C2B756301655DD3100DB1D43 /* SZBlueEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756081655DD3100DB1D43 /* SZBlueEgg.m */; };
+		C2B756311655DD3100DB1D43 /* SZGarbageEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */; };
+		C2B756321655DD3100DB1D43 /* SZGreenEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560D1655DD3100DB1D43 /* SZGreenEgg.m */; };
 		C2B756331655DD3100DB1D43 /* SZGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7560F1655DD3100DB1D43 /* SZGrid.m */; };
 		C2B756341655DD3100DB1D43 /* SZGridBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756111655DD3100DB1D43 /* SZGridBase.m */; };
 		C2B756351655DD3100DB1D43 /* GridBottomBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756131655DD3100DB1D43 /* GridBottomBlock.m */; };
@@ -165,15 +165,15 @@
 		C2B756371655DD3100DB1D43 /* GridBottomRightBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756171655DD3100DB1D43 /* GridBottomRightBlock.m */; };
 		C2B756381655DD3100DB1D43 /* GridRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756191655DD3100DB1D43 /* GridRunner.m */; };
 		C2B756391655DD3100DB1D43 /* SZStandardEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */; };
-		C2B7563A1655DD3100DB1D43 /* OrangeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */; };
+		C2B7563A1655DD3100DB1D43 /* SZOrangeEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */; };
 		C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561F1655DD3100DB1D43 /* SZPad.m */; };
 		C2B7563C1655DD3100DB1D43 /* PlayerOneController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756211655DD3100DB1D43 /* PlayerOneController.m */; };
 		C2B7563D1655DD3100DB1D43 /* PlayerTwoController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756231655DD3100DB1D43 /* PlayerTwoController.m */; };
-		C2B7563E1655DD3100DB1D43 /* PurpleBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756251655DD3100DB1D43 /* PurpleBlock.m */; };
-		C2B7563F1655DD3100DB1D43 /* RedBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756271655DD3100DB1D43 /* RedBlock.m */; };
+		C2B7563E1655DD3100DB1D43 /* SZPurpleEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */; };
+		C2B7563F1655DD3100DB1D43 /* SZRedEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756271655DD3100DB1D43 /* SZRedEgg.m */; };
 		C2B756401655DD3100DB1D43 /* SmartAIController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756291655DD3100DB1D43 /* SmartAIController.m */; };
 		C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562B1655DD3100DB1D43 /* SZPoint.m */; };
-		C2B756421655DD3100DB1D43 /* YellowBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562D1655DD3100DB1D43 /* YellowBlock.m */; };
+		C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */; };
 		C2B7568C1655DD6A00DB1D43 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = C2B756431655DD6900DB1D43 /* Credits.html */; };
 		C2B7568E1655DD6A00DB1D43 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B756451655DD6900DB1D43 /* Default-Landscape~ipad.png */; };
 		C2B756931655DD6A00DB1D43 /* font_0.png in Resources */ = {isa = PBXBuildFile; fileRef = C2B7564D1655DD6900DB1D43 /* font_0.png */; };
@@ -277,6 +277,7 @@
 		C213BFDE165950990009C13E /* playertags-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "playertags-ipadhd.plist"; sourceTree = "<group>"; };
 		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
 		C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEngineConstants.m; sourceTree = "<group>"; };
+		C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZYellowEgg.h; sourceTree = "<group>"; };
 		C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEggiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B754581655DCE100DB1D43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -536,13 +537,13 @@
 		C2B756041655DD3100DB1D43 /* SZEggBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEggBase.m; sourceTree = "<group>"; };
 		C2B756051655DD3100DB1D43 /* BlockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockFactory.h; sourceTree = "<group>"; };
 		C2B756061655DD3100DB1D43 /* BlockFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockFactory.m; sourceTree = "<group>"; };
-		C2B756071655DD3100DB1D43 /* BlueBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueBlock.h; sourceTree = "<group>"; };
-		C2B756081655DD3100DB1D43 /* BlueBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueBlock.m; sourceTree = "<group>"; };
+		C2B756071655DD3100DB1D43 /* SZBlueEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZBlueEgg.h; sourceTree = "<group>"; };
+		C2B756081655DD3100DB1D43 /* SZBlueEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZBlueEgg.m; sourceTree = "<group>"; };
 		C2B756091655DD3100DB1D43 /* ControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerProtocol.h; sourceTree = "<group>"; };
-		C2B7560A1655DD3100DB1D43 /* GarbageBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GarbageBlock.h; sourceTree = "<group>"; };
-		C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GarbageBlock.m; sourceTree = "<group>"; };
-		C2B7560C1655DD3100DB1D43 /* GreenBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GreenBlock.h; sourceTree = "<group>"; };
-		C2B7560D1655DD3100DB1D43 /* GreenBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GreenBlock.m; sourceTree = "<group>"; };
+		C2B7560A1655DD3100DB1D43 /* SZGarbageEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGarbageEgg.h; sourceTree = "<group>"; };
+		C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGarbageEgg.m; sourceTree = "<group>"; };
+		C2B7560C1655DD3100DB1D43 /* SZGreenEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGreenEgg.h; sourceTree = "<group>"; };
+		C2B7560D1655DD3100DB1D43 /* SZGreenEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGreenEgg.m; sourceTree = "<group>"; };
 		C2B7560E1655DD3100DB1D43 /* SZGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGrid.h; sourceTree = "<group>"; };
 		C2B7560F1655DD3100DB1D43 /* SZGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGrid.m; sourceTree = "<group>"; };
 		C2B756101655DD3100DB1D43 /* SZGridBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGridBase.h; sourceTree = "<group>"; };
@@ -557,24 +558,23 @@
 		C2B756191655DD3100DB1D43 /* GridRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridRunner.m; sourceTree = "<group>"; };
 		C2B7561A1655DD3100DB1D43 /* SZStandardEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZStandardEgg.h; sourceTree = "<group>"; };
 		C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZStandardEgg.m; sourceTree = "<group>"; };
-		C2B7561C1655DD3100DB1D43 /* OrangeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrangeBlock.h; sourceTree = "<group>"; };
-		C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrangeBlock.m; sourceTree = "<group>"; };
+		C2B7561C1655DD3100DB1D43 /* SZOrangeEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZOrangeEgg.h; sourceTree = "<group>"; };
+		C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZOrangeEgg.m; sourceTree = "<group>"; };
 		C2B7561E1655DD3100DB1D43 /* SZPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPad.h; sourceTree = "<group>"; };
 		C2B7561F1655DD3100DB1D43 /* SZPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPad.m; sourceTree = "<group>"; };
 		C2B756201655DD3100DB1D43 /* PlayerOneController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerOneController.h; sourceTree = "<group>"; };
 		C2B756211655DD3100DB1D43 /* PlayerOneController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerOneController.m; sourceTree = "<group>"; };
 		C2B756221655DD3100DB1D43 /* PlayerTwoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerTwoController.h; sourceTree = "<group>"; };
 		C2B756231655DD3100DB1D43 /* PlayerTwoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerTwoController.m; sourceTree = "<group>"; };
-		C2B756241655DD3100DB1D43 /* PurpleBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurpleBlock.h; sourceTree = "<group>"; };
-		C2B756251655DD3100DB1D43 /* PurpleBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurpleBlock.m; sourceTree = "<group>"; };
-		C2B756261655DD3100DB1D43 /* RedBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedBlock.h; sourceTree = "<group>"; };
-		C2B756271655DD3100DB1D43 /* RedBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedBlock.m; sourceTree = "<group>"; };
+		C2B756241655DD3100DB1D43 /* SZPurpleEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPurpleEgg.h; sourceTree = "<group>"; };
+		C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPurpleEgg.m; sourceTree = "<group>"; };
+		C2B756261655DD3100DB1D43 /* SZRedEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZRedEgg.h; sourceTree = "<group>"; };
+		C2B756271655DD3100DB1D43 /* SZRedEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZRedEgg.m; sourceTree = "<group>"; };
 		C2B756281655DD3100DB1D43 /* SmartAIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartAIController.h; sourceTree = "<group>"; };
 		C2B756291655DD3100DB1D43 /* SmartAIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartAIController.m; sourceTree = "<group>"; };
 		C2B7562A1655DD3100DB1D43 /* SZPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZPoint.h; sourceTree = "<group>"; };
 		C2B7562B1655DD3100DB1D43 /* SZPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZPoint.m; sourceTree = "<group>"; };
-		C2B7562C1655DD3100DB1D43 /* YellowBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YellowBlock.h; sourceTree = "<group>"; };
-		C2B7562D1655DD3100DB1D43 /* YellowBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YellowBlock.m; sourceTree = "<group>"; };
+		C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZYellowEgg.m; sourceTree = "<group>"; };
 		C2B756431655DD6900DB1D43 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Credits.html; path = Resources/Credits.html; sourceTree = "<group>"; };
 		C2B756451655DD6900DB1D43 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		C2B7564D1655DD6900DB1D43 /* font_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = font_0.png; path = Resources/font_0.png; sourceTree = "<group>"; };
@@ -1117,17 +1117,17 @@
 			children = (
 				C2B756051655DD3100DB1D43 /* BlockFactory.h */,
 				C2B756061655DD3100DB1D43 /* BlockFactory.m */,
-				C2B756071655DD3100DB1D43 /* BlueBlock.h */,
-				C2B756081655DD3100DB1D43 /* BlueBlock.m */,
+				C2B756071655DD3100DB1D43 /* SZBlueEgg.h */,
+				C2B756081655DD3100DB1D43 /* SZBlueEgg.m */,
 				C2B756091655DD3100DB1D43 /* ControllerProtocol.h */,
 				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
 				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
 				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
-				C2B7560A1655DD3100DB1D43 /* GarbageBlock.h */,
-				C2B7560B1655DD3100DB1D43 /* GarbageBlock.m */,
-				C2B7560C1655DD3100DB1D43 /* GreenBlock.h */,
-				C2B7560D1655DD3100DB1D43 /* GreenBlock.m */,
+				C2B7560A1655DD3100DB1D43 /* SZGarbageEgg.h */,
+				C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */,
+				C2B7560C1655DD3100DB1D43 /* SZGreenEgg.h */,
+				C2B7560D1655DD3100DB1D43 /* SZGreenEgg.m */,
 				C2B7560E1655DD3100DB1D43 /* SZGrid.h */,
 				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
 				C2B756101655DD3100DB1D43 /* SZGridBase.h */,
@@ -1142,24 +1142,24 @@
 				C2B756191655DD3100DB1D43 /* GridRunner.m */,
 				C2B7561A1655DD3100DB1D43 /* SZStandardEgg.h */,
 				C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */,
-				C2B7561C1655DD3100DB1D43 /* OrangeBlock.h */,
-				C2B7561D1655DD3100DB1D43 /* OrangeBlock.m */,
+				C2B7561C1655DD3100DB1D43 /* SZOrangeEgg.h */,
+				C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */,
 				C2B7561E1655DD3100DB1D43 /* SZPad.h */,
 				C2B7561F1655DD3100DB1D43 /* SZPad.m */,
 				C2B756201655DD3100DB1D43 /* PlayerOneController.h */,
 				C2B756211655DD3100DB1D43 /* PlayerOneController.m */,
 				C2B756221655DD3100DB1D43 /* PlayerTwoController.h */,
 				C2B756231655DD3100DB1D43 /* PlayerTwoController.m */,
-				C2B756241655DD3100DB1D43 /* PurpleBlock.h */,
-				C2B756251655DD3100DB1D43 /* PurpleBlock.m */,
-				C2B756261655DD3100DB1D43 /* RedBlock.h */,
-				C2B756271655DD3100DB1D43 /* RedBlock.m */,
+				C2B756241655DD3100DB1D43 /* SZPurpleEgg.h */,
+				C2B756251655DD3100DB1D43 /* SZPurpleEgg.m */,
+				C2B756261655DD3100DB1D43 /* SZRedEgg.h */,
+				C2B756271655DD3100DB1D43 /* SZRedEgg.m */,
 				C2B756281655DD3100DB1D43 /* SmartAIController.h */,
 				C2B756291655DD3100DB1D43 /* SmartAIController.m */,
 				C2B7562A1655DD3100DB1D43 /* SZPoint.h */,
 				C2B7562B1655DD3100DB1D43 /* SZPoint.m */,
-				C2B7562C1655DD3100DB1D43 /* YellowBlock.h */,
-				C2B7562D1655DD3100DB1D43 /* YellowBlock.m */,
+				C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */,
+				C2B7562D1655DD3100DB1D43 /* SZYellowEgg.m */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -1533,9 +1533,9 @@
 				C2B755F61655DCE400DB1D43 /* AppDelegate.m in Sources */,
 				C2B7562E1655DD3100DB1D43 /* SZEggBase.m in Sources */,
 				C2B7562F1655DD3100DB1D43 /* BlockFactory.m in Sources */,
-				C2B756301655DD3100DB1D43 /* BlueBlock.m in Sources */,
-				C2B756311655DD3100DB1D43 /* GarbageBlock.m in Sources */,
-				C2B756321655DD3100DB1D43 /* GreenBlock.m in Sources */,
+				C2B756301655DD3100DB1D43 /* SZBlueEgg.m in Sources */,
+				C2B756311655DD3100DB1D43 /* SZGarbageEgg.m in Sources */,
+				C2B756321655DD3100DB1D43 /* SZGreenEgg.m in Sources */,
 				C2B756331655DD3100DB1D43 /* SZGrid.m in Sources */,
 				C2B756341655DD3100DB1D43 /* SZGridBase.m in Sources */,
 				C2B756351655DD3100DB1D43 /* GridBottomBlock.m in Sources */,
@@ -1543,15 +1543,15 @@
 				C2B756371655DD3100DB1D43 /* GridBottomRightBlock.m in Sources */,
 				C2B756381655DD3100DB1D43 /* GridRunner.m in Sources */,
 				C2B756391655DD3100DB1D43 /* SZStandardEgg.m in Sources */,
-				C2B7563A1655DD3100DB1D43 /* OrangeBlock.m in Sources */,
+				C2B7563A1655DD3100DB1D43 /* SZOrangeEgg.m in Sources */,
 				C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */,
 				C2B7563C1655DD3100DB1D43 /* PlayerOneController.m in Sources */,
 				C2B7563D1655DD3100DB1D43 /* PlayerTwoController.m in Sources */,
-				C2B7563E1655DD3100DB1D43 /* PurpleBlock.m in Sources */,
-				C2B7563F1655DD3100DB1D43 /* RedBlock.m in Sources */,
+				C2B7563E1655DD3100DB1D43 /* SZPurpleEgg.m in Sources */,
+				C2B7563F1655DD3100DB1D43 /* SZRedEgg.m in Sources */,
 				C2B756401655DD3100DB1D43 /* SmartAIController.m in Sources */,
 				C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */,
-				C2B756421655DD3100DB1D43 /* YellowBlock.m in Sources */,
+				C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */,
 				C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */,
 				C2B756EB1655DD8500DB1D43 /* Constants.m in Sources */,
 				C2B756EC1655DD8500DB1D43 /* GameLayer.m in Sources */,
