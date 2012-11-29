@@ -1,7 +1,7 @@
-#import "PlayerTwoController.h"
+#import "SZPlayerTwoController.h"
 #import "SZPad.h"
 
-@implementation PlayerTwoController
+@implementation SZPlayerTwoController
 
 - (BOOL)isLeftHeld {
 	return [SZPad instanceTwo].isLeftNewPress || [SZPad instanceTwo].isLeftRepeat;

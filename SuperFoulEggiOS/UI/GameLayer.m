@@ -6,7 +6,7 @@
 #import "CocosDenshion.h"
 
 #import "GameLayer.h"
-#import "PlayerOneController.h"
+#import "SZPlayerOneController.h"
 #import "SZPad.h"
 #import "SZPoint.h"
 
@@ -639,9 +639,9 @@
 	// Use the second player control layout in a single-player game, as they
 	// are slightly more intuitive than the first player controls
 	if ([Settings sharedSettings].gameType == GameTwoPlayerType) {
-		controller = [[PlayerOneController alloc] init];
+		controller = [[SZPlayerOneController alloc] init];
 	} else {
-		controller = [[PlayerTwoController alloc] init];
+		controller = [[SZPlayerTwoController alloc] init];
 	}
 	
 	_runners[0] = [[GridRunner alloc] initWithController:controller
@@ -664,7 +664,7 @@
 		if ([Settings sharedSettings].gameType == GameSinglePlayerType) {
 			controller = [[SmartAIController alloc] initWithHesitation:(int)([Settings sharedSettings].aiType) grid:grid];
 		} else {
-			controller = [[PlayerTwoController alloc] init];
+			controller = [[SZPlayerTwoController alloc] init];
 		}
 		
 		_runners[1] = [[GridRunner alloc] initWithController:controller
