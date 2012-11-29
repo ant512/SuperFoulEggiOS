@@ -48,7 +48,7 @@ const int SZDefaultKeyCodeQuit = 0x1B;
 		
 		_gamesPerMatch = [[NSUserDefaults standardUserDefaults] objectForKey:@"GamesPerMatch"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"GamesPerMatch"] intValue] : 3;
 		
-		_eggColours = [[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"BlockColours"] intValue] : 4;
+		_eggColours = [[NSUserDefaults standardUserDefaults] objectForKey:@"EggColours"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"EggColours"] intValue] : 4;
 		
 		_keyCodeOneLeft = [[NSUserDefaults standardUserDefaults] objectForKey:@"KeyCodeOneLeft"] ? [[[NSUserDefaults standardUserDefaults] objectForKey:@"KeyCodeOneLeft"] intValue] : SZDefaultKeyCodeOneLeft;
 		

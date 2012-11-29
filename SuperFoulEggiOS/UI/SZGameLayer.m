@@ -31,6 +31,23 @@
 
 #import "CCNode+SFGestureRecognizers.h"
 
+const int SZFrameRate = 60;
+const int SZGrid1X = 80;
+const int SZGrid2X = 656;
+const int SZGridY = 0;
+
+const int SZNextEgg1X = 440;
+const int SZNextEgg2X = 578;
+const int SZNextEggY = -280;
+const int SZGrid2TagX = 569;
+const int SZGrid2TagY = 462;
+const int SZGrid1MatchScoreX = 476;
+const int SZGrid1GameScoreX = 563;
+const int SZGrid1ScoresY = 363;
+const int SZGrid2MatchScoreX = 509;
+const int SZGrid2GameScoreX = 602;
+const int SZGrid2ScoresY = 285;
+
 @implementation SZGameLayer
 
 + (CCScene *)scene {
@@ -89,7 +106,7 @@
 		
 		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[SZSettings sharedSettings].eggColours];
 		
-		for (int i = 0; i < MAX_PLAYERS; ++i) {
+		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
 			_gameWins[i] = 0;
 		}
@@ -172,11 +189,11 @@
 
 	if (!_runners[0].grid.hasLiveEggs) return;
 
-	int block1X = [[_runners[0].grid liveEgg:0] x];
-	int block2X = [[_runners[0].grid liveEgg:1] x];
+	int egg1X = [[_runners[0].grid liveEgg:0] x];
+	int egg2X = [[_runners[0].grid liveEgg:1] x];
 
 	// Remember the left-most column.  We'll drag relative to this.
-	_dragStartColumn = block1X < block2X ? block1X : block2X;
+	_dragStartColumn = egg1X < egg2X ? egg1X : egg2X;
 	_dragStartX = point.x;
 }
 
@@ -203,32 +220,32 @@
 	_dragStartX = -1;
 }
 
-- (void)createNextBlockSpriteConnectorPairForRunner:(SZGridRunner*)runner {
+- (void)createNextEggSpriteConnectorPairForRunner:(SZGridRunner*)runner {
 
-	int gridX = runner.playerNumber == 0 ? NEXT_BLOCK_1_X : NEXT_BLOCK_2_X;
+	int gridX = runner.playerNumber == 0 ? SZNextEgg1X : SZNextEgg2X;
 	
 	NSMutableArray* connectorArray = _eggSpriteConnectors[runner.playerNumber];
 	
-	// Create a new sprite for both next blocks
+	// Create a new sprite for both next eggs
 	for (int i = 0; i < 2; ++i) {
-		[self createBlockSpriteConnector:[runner nextEgg:i] gridX:gridX gridY:NEXT_BLOCK_Y connectorArray:connectorArray];
+		[self createEggSpriteConnector:[runner nextEgg:i] gridX:gridX gridY:SZNextEggY connectorArray:connectorArray];
 		gridX += SZEggSize;
 	}
 }
 
-- (BOOL)moveNextBlockToGridForPlayer:(int)playerNumber block:(SZEggBase*)block {
-	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
+- (BOOL)moveNextEggToGridForPlayer:(int)playerNumber egg:(SZEggBase*)egg {
+	int gridX = playerNumber == 0 ? SZGrid1X : SZGrid2X;
 	
 	NSMutableArray* connectorArray = _eggSpriteConnectors[playerNumber];
 	
-	// If there is already a connector for this block, we need to adjust
+	// If there is already a connector for this egg, we need to adjust
 	// its grid co-ordinates back to the real values.  At present the
 	// co-ords are being abused to make the sprite appear in the "next
-	// block" location
+	// egg" location
 	for (SZEggSpriteConnector* connector in connectorArray) {
-		if (connector.egg == block) {
+		if (connector.egg == egg) {
 			connector.gridX = gridX;
-			connector.gridY = GRID_Y;
+			connector.gridY = SZGridY;
 			
 			[connector updateSpritePosition];
 			
@@ -236,16 +253,16 @@
 		}
 	}
 
-	// No existing block exists (this must be a garbage block)
+	// No existing egg exists (this must be a garbage egg)
 	return NO;
 }
 
-- (void)addBlockSpriteConnectorForPlayer:(int)playerNumber block:(SZEggBase*)block {
-	int gridX = playerNumber == 0 ? GRID_1_X : GRID_2_X;
+- (void)addEggSpriteConnectorForPlayer:(int)playerNumber egg:(SZEggBase*)egg {
+	int gridX = playerNumber == 0 ? SZGrid1X : SZGrid2X;
 	
 	NSMutableArray* connectorArray = _eggSpriteConnectors[playerNumber];
 
-	[self createBlockSpriteConnector:block gridX:gridX gridY:GRID_Y connectorArray:connectorArray];
+	[self createEggSpriteConnector:egg gridX:gridX gridY:SZGridY connectorArray:connectorArray];
 }
 
 - (void)hitColumnWithGarbageForPlayerNumber:(int)playerNumber column:(int)column {
@@ -311,16 +328,16 @@
 	[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"purplenumbers.plist"];
 	
 	// Create sprite sheets from cached definitions
-	_redBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"red.png"];
-	_greenBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"green.png"];
-	_blueBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"blue.png"];
-	_yellowBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"yellow.png"];
-	_orangeBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"orange.png"];
-	_purpleBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"purple.png"];
-	_garbageBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"grey.png"];
-	_gridBottomBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottom.png"];
-	_gridBottomLeftBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottomleft.png"];
-	_gridBottomRightBlockSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottomright.png"];
+	_redEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"red.png"];
+	_greenEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"green.png"];
+	_blueEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"blue.png"];
+	_yellowEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"yellow.png"];
+	_orangeEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"orange.png"];
+	_purpleEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"purple.png"];
+	_garbageEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"grey.png"];
+	_gridBottomEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottom.png"];
+	_gridBottomLeftEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottomleft.png"];
+	_gridBottomRightEggSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"gridbottomright.png"];
 	_incomingSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"incoming.png"];
 	_messageSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"message.png"];
 	_playerTagSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"playertags.png"];
@@ -328,16 +345,16 @@
 	_purpleNumberSpriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"purplenumbers.png"];
 	
 	// Disable anti-aliasing on all sprite sheets
-	[_redBlockSpriteSheet.texture setAliasTexParameters];
-	[_greenBlockSpriteSheet.texture setAliasTexParameters];
-	[_blueBlockSpriteSheet.texture setAliasTexParameters];
-	[_yellowBlockSpriteSheet.texture setAliasTexParameters];
-	[_orangeBlockSpriteSheet.texture setAliasTexParameters];
-	[_purpleBlockSpriteSheet.texture setAliasTexParameters];
-	[_garbageBlockSpriteSheet.texture setAliasTexParameters];
-	[_gridBottomBlockSpriteSheet.texture setAliasTexParameters];
-	[_gridBottomLeftBlockSpriteSheet.texture setAliasTexParameters];
-	[_gridBottomRightBlockSpriteSheet.texture setAliasTexParameters];
+	[_redEggSpriteSheet.texture setAliasTexParameters];
+	[_greenEggSpriteSheet.texture setAliasTexParameters];
+	[_blueEggSpriteSheet.texture setAliasTexParameters];
+	[_yellowEggSpriteSheet.texture setAliasTexParameters];
+	[_orangeEggSpriteSheet.texture setAliasTexParameters];
+	[_purpleEggSpriteSheet.texture setAliasTexParameters];
+	[_garbageEggSpriteSheet.texture setAliasTexParameters];
+	[_gridBottomEggSpriteSheet.texture setAliasTexParameters];
+	[_gridBottomLeftEggSpriteSheet.texture setAliasTexParameters];
+	[_gridBottomRightEggSpriteSheet.texture setAliasTexParameters];
 	[_incomingSpriteSheet.texture setAliasTexParameters];
 	[_messageSpriteSheet.texture setAliasTexParameters];
 	[_playerTagSpriteSheet.texture setAliasTexParameters];
@@ -345,16 +362,16 @@
 	[_purpleNumberSpriteSheet.texture setAliasTexParameters];
 	
 	// Add sprite sheets to the layer
-	[self addChild:_redBlockSpriteSheet];
-	[self addChild:_greenBlockSpriteSheet];
-	[self addChild:_blueBlockSpriteSheet];
-	[self addChild:_yellowBlockSpriteSheet];
-	[self addChild:_orangeBlockSpriteSheet];
-	[self addChild:_purpleBlockSpriteSheet];
-	[self addChild:_garbageBlockSpriteSheet];
-	[self addChild:_gridBottomBlockSpriteSheet];
-	[self addChild:_gridBottomLeftBlockSpriteSheet];
-	[self addChild:_gridBottomRightBlockSpriteSheet];
+	[self addChild:_redEggSpriteSheet];
+	[self addChild:_greenEggSpriteSheet];
+	[self addChild:_blueEggSpriteSheet];
+	[self addChild:_yellowEggSpriteSheet];
+	[self addChild:_orangeEggSpriteSheet];
+	[self addChild:_purpleEggSpriteSheet];
+	[self addChild:_garbageEggSpriteSheet];
+	[self addChild:_gridBottomEggSpriteSheet];
+	[self addChild:_gridBottomLeftEggSpriteSheet];
+	[self addChild:_gridBottomRightEggSpriteSheet];
 	[self addChild:_incomingSpriteSheet];
 	[self addChild:_messageSpriteSheet];
 	[self addChild:_playerTagSpriteSheet];
@@ -392,23 +409,23 @@
 		for (SZEggSpriteConnector* connector in _eggSpriteConnectors[loser]) {
 			
 			CCSprite* sprite = connector.sprite;
-			SZEggBase* block = connector.egg;
+			SZEggBase* egg = connector.egg;
 			
-			// Don't drop the next block sprites
-			if (block == [_runners[loser] nextEgg:0] || block == [_runners[loser] nextEgg:1]) {
+			// Don't drop the next egg sprites
+			if (egg == [_runners[loser] nextEgg:0] || egg == [_runners[loser] nextEgg:1]) {
 				continue;
 			}
 			
 			// Drop the middle two columns first, then columns 1 and 4, then
 			// the outer columns last.  Use the value of the timer to determine
 			// which columns should be dropping
-			if ((_deathEffectTimer > 0 && (block.x == 2 || block.x == 3)) ||
-				(_deathEffectTimer > 8 && (block.x == 1 || block.x == 4)) ||
+			if ((_deathEffectTimer > 0 && (egg.x == 2 || egg.x == 3)) ||
+				(_deathEffectTimer > 8 && (egg.x == 1 || egg.x == 4)) ||
 				(_deathEffectTimer > 16)) {
 				sprite.position = ccp(sprite.position.x, sprite.position.y - (SZEggSize / 2));
 			}
 			
-			// Need to keep iterating if any blocks are still on-screen
+			// Need to keep iterating if any eggs are still on-screen
 			if (sprite.position.y > -SZEggSize / 2) {
 				requiresIteration = YES;
 			}
@@ -431,7 +448,7 @@
 				[[SimpleAudioEngine sharedEngine] playEffect:@"lose.wav"];
 				
 				CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"winner.png"];
-				sprite.position = ccp(GRID_2_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+				sprite.position = ccp(SZGrid2X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 				[_messageSpriteSheet addChild:sprite];
 				
 				++_matchWins[1];
@@ -440,7 +457,7 @@
 			}
 
 			CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"pressakey.png"];
-			sprite.position = ccp(GRID_1_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+			sprite.position = ccp(SZGrid1X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 			[_messageSpriteSheet addChild:sprite];
 
 		} else {
@@ -452,7 +469,7 @@
 				[[SimpleAudioEngine sharedEngine] playEffect:@"win.wav"];
 				
 				CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"winner.png"];
-				sprite.position = ccp(GRID_1_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+				sprite.position = ccp(SZGrid1X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 				[_messageSpriteSheet addChild:sprite];
 				
 				++_matchWins[0];
@@ -461,7 +478,7 @@
 			}
 			
 			CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"pressakey.png"];
-			sprite.position = ccp(GRID_2_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+			sprite.position = ccp(SZGrid2X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 			[_messageSpriteSheet addChild:sprite];
 		}
 
@@ -475,7 +492,7 @@
 	
 	// ccTime is measured in fractions of a second; we need it in frames per
 	// second, using 60fps as the framerate
-	int frames = (int)(round(2.0f * dt * FRAME_RATE) / 2.0f);
+	int frames = (int)(round(2.0f * dt * SZFrameRate) / 2.0f);
 	
 	// Ensure that at least one frame will be processed
 	if (frames == 0) frames = 1;
@@ -505,8 +522,8 @@
 	}
 }
 
-- (void)setBlocksVisible:(BOOL)visible {
-	for (int i = 0; i < MAX_PLAYERS; ++i) {
+- (void)setEggsVisible:(BOOL)visible {
+	for (int i = 0; i < SZMaximumPlayers; ++i) {
 
 		if (_eggSpriteConnectors[i] == nil) continue;
 
@@ -525,16 +542,16 @@
 	
 	// Show "paused" message on both grids
 	CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"paused.png"];
-	sprite.position = ccp(GRID_1_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+	sprite.position = ccp(SZGrid1X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 	[_messageSpriteSheet addChild:sprite];
 	
 	if (_runners[1] != nil) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"paused.png"];
-		sprite.position = ccp(GRID_2_X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
+		sprite.position = ccp(SZGrid2X + (sprite.contentSize.width / 2), ([[CCDirector sharedDirector] winSize].height - sprite.contentSize.height) / 2);
 		[_messageSpriteSheet addChild:sprite];
 	}
 	
-	[self setBlocksVisible:NO];
+	[self setEggsVisible:NO];
 }
 
 - (void)resumeGame {
@@ -545,7 +562,7 @@
 		[_messageSpriteSheet removeChildAtIndex:0 cleanup:YES];
 	}
 
-	[self setBlocksVisible:YES];
+	[self setEggsVisible:YES];
 }
 
 - (void)createSpritesForNumber:(int)number colour:(NSString*)colour x:(int)x y:(int)y {
@@ -584,12 +601,12 @@
 	[_purpleNumberSpriteSheet removeAllChildrenWithCleanup:YES];
 	
 	// Labels for player 1
-	[self createSpritesForNumber:_matchWins[0] colour:@"orange" x:GRID_1_MATCH_SCORE_X y:GRID_1_SCORES_Y];
-	[self createSpritesForNumber:_gameWins[0] colour:@"orange" x:GRID_1_GAME_SCORE_X y:GRID_1_SCORES_Y];
+	[self createSpritesForNumber:_matchWins[0] colour:@"orange" x:SZGrid1MatchScoreX y:SZGrid1ScoresY];
+	[self createSpritesForNumber:_gameWins[0] colour:@"orange" x:SZGrid1GameScoreX y:SZGrid1ScoresY];
 	
 	// Labels for player 2
-	[self createSpritesForNumber:_matchWins[1] colour:@"purple" x:GRID_2_MATCH_SCORE_X y:GRID_2_SCORES_Y];
-	[self createSpritesForNumber:_gameWins[1] colour:@"purple" x:GRID_2_GAME_SCORE_X y:GRID_2_SCORES_Y];
+	[self createSpritesForNumber:_matchWins[1] colour:@"purple" x:SZGrid2MatchScoreX y:SZGrid2ScoresY];
+	[self createSpritesForNumber:_gameWins[1] colour:@"purple" x:SZGrid2GameScoreX y:SZGrid2ScoresY];
 }
 
 - (void)resetGame {
@@ -602,7 +619,7 @@
 	[_eggFactory clear];
 
 	// Release all existing game objects
-	for (int i = 0; i < MAX_PLAYERS; ++i) {
+	for (int i = 0; i < SZMaximumPlayers; ++i) {
 		[_runners[i] release];
 		_runners[i] = nil;
 
@@ -621,7 +638,7 @@
 	}
 	
 	[_messageSpriteSheet removeAllChildrenWithCleanup:YES];
-	[_gridBottomBlockSpriteSheet removeAllChildrenWithCleanup:YES];
+	[_gridBottomEggSpriteSheet removeAllChildrenWithCleanup:YES];
 	[_playerTagSpriteSheet removeAllChildrenWithCleanup:YES];
 
 	// Create new game objects
@@ -690,20 +707,20 @@
 	} else {
 		// Add CPU tag to second grid
 		CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"cpu.png"];
-		sprite.position = ccp(GRID_2_TAG_X + 0.5, GRID_2_TAG_Y + 0.5);
+		sprite.position = ccp(SZGrid2TagX + 0.5, SZGrid2TagY + 0.5);
 		[_playerTagSpriteSheet addChild:sprite];
 	}
 }
 
 - (void)blankSecondGrid {
-	CCSpriteBatchNode* sheet = _gridBottomBlockSpriteSheet;
+	CCSpriteBatchNode* sheet = _gridBottomEggSpriteSheet;
 	CCSprite* sprite;
 	
 	for (int y = 0; y < SZGridHeight; ++y) {
 		for (int x = 0; x < SZGridWidth; ++x) {
 			sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottom00.png"];
 			
-			sprite.position = ccp((x * SZEggSize) + GRID_2_X + 24, (y * SZEggSize) + 24);
+			sprite.position = ccp((x * SZEggSize) + SZGrid2X + 24, (y * SZEggSize) + 24);
 			
 			[sheet addChild:sprite];
 		}
@@ -738,12 +755,12 @@
 	}
 	
 	if (_runners[0].grid.hasLiveEggs) {
-		SZEggBase *block = [_runners[0].grid liveEgg:0];
+		SZEggBase *egg = [_runners[0].grid liveEgg:0];
 		
 		if (_columnTarget > -1) {
-			if (block.x < _columnTarget) {
+			if (egg.x < _columnTarget) {
 				[[SZPad instanceTwo] pressRight];
-			} else if (block.x > _columnTarget) {
+			} else if (egg.x > _columnTarget) {
 				[[SZPad instanceTwo] pressLeft];
 			}
 		}
@@ -751,7 +768,7 @@
 		_columnTarget = -1;
 	}
 	
-	for (int i = 0; i < MAX_PLAYERS; ++i) {
+	for (int i = 0; i < SZMaximumPlayers; ++i) {
 		[_runners[i] iterate];
 	}
 	
@@ -812,12 +829,12 @@
 		}
 	}
 		
-	[self updateBlockSpriteConnectors];
+	[self updateEggSpriteConnectors];
 }
 
-- (void)updateBlockSpriteConnectors {
+- (void)updateEggSpriteConnectors {
 	
-	for (int j = 0; j < MAX_PLAYERS; ++j) {
+	for (int j = 0; j < SZMaximumPlayers; ++j) {
 
 		if (_eggSpriteConnectors[j] == nil) continue;
 
@@ -893,7 +910,7 @@
 	
 	[self unloadSounds];
 	
-	for (int i = 0; i < MAX_PLAYERS; ++i) {
+	for (int i = 0; i < SZMaximumPlayers; ++i) {
 		[_runners[i] release];
 		[_eggSpriteConnectors[i] release];
 		[_incomingGarbageSprites[i] release];
@@ -902,45 +919,45 @@
 	[super dealloc];
 }
 
-- (void)createBlockSpriteConnector:(SZEggBase*)block gridX:(int)gridX gridY:(int)gridY connectorArray:(NSMutableArray*)connectorArray {
+- (void)createEggSpriteConnector:(SZEggBase*)egg gridX:(int)gridX gridY:(int)gridY connectorArray:(NSMutableArray*)connectorArray {
 	
 	CCSprite* sprite = nil;
 	CCSpriteBatchNode* sheet = nil;
 	
-	if ([block isKindOfClass:[SZRedEgg class]]) {
+	if ([egg isKindOfClass:[SZRedEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"red00.png"];
-		sheet = _redBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZGreenEgg class]]) {
+		sheet = _redEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZGreenEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"green00.png"];
-		sheet = _greenBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZBlueEgg class]]) {
+		sheet = _greenEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZBlueEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"blue00.png"];
-		sheet = _blueBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZYellowEgg class]]) {
+		sheet = _blueEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZYellowEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"yellow00.png"];
-		sheet = _yellowBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZOrangeEgg class]]) {
+		sheet = _yellowEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZOrangeEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"orange00.png"];
-		sheet = _orangeBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZPurpleEgg class]]) {
+		sheet = _orangeEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZPurpleEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"purple00.png"];
-		sheet = _purpleBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZGarbageEgg class]]) {
+		sheet = _purpleEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZGarbageEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"grey00.png"];
-		sheet = _garbageBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZGridBottomEgg class]]) {
+		sheet = _garbageEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZGridBottomEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottom00.png"];
-		sheet = _gridBottomBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZGridBottomLeftEgg class]]) {
+		sheet = _gridBottomEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZGridBottomLeftEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottomleft00.png"];
-		sheet = _gridBottomLeftBlockSpriteSheet;
-	} else if ([block isKindOfClass:[SZGridBottomRightEgg class]]) {
+		sheet = _gridBottomLeftEggSpriteSheet;
+	} else if ([egg isKindOfClass:[SZGridBottomRightEgg class]]) {
 		sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottomright00.png"];
-		sheet = _gridBottomRightBlockSpriteSheet;
+		sheet = _gridBottomRightEggSpriteSheet;
 	}
 	
-	// Connect the sprite and block together
-	SZEggSpriteConnector* connector = [[SZEggSpriteConnector alloc] initWithEgg:block sprite:sprite gridX:gridX gridY:gridY];
+	// Connect the sprite and egg together
+	SZEggSpriteConnector* connector = [[SZEggSpriteConnector alloc] initWithEgg:egg sprite:sprite gridX:gridX gridY:gridY];
 	[connectorArray addObject:connector];
 	[connector release];
 	
@@ -965,17 +982,17 @@
 }
 
 - (void)grid:(SZGrid *)grid didAddEgg:(SZEggBase *)egg {
-	if (![self moveNextBlockToGridForPlayer:grid.playerNumber block:egg]) {
+	if (![self moveNextEggToGridForPlayer:grid.playerNumber egg:egg]) {
 
-		// No existing next block exists (this must be a garbage block) so
-		// create the connector
-		[self addBlockSpriteConnectorForPlayer:grid.playerNumber block:egg];
+		// No existing next egg exists (this must be a garbage egg) so create
+		// the connector
+		[self addEggSpriteConnectorForPlayer:grid.playerNumber egg:egg];
 	}
 }
 
 - (void)grid:(SZGrid *)grid didLandGarbageEgg:(SZEggBase *)egg {
 
-	// Offsets all of the blocks in the column so that the column appears to
+	// Offsets all of the eggs in the column so that the column appears to
 	// squash under the garbage weight.
 	[self hitColumnWithGarbageForPlayerNumber:grid.playerNumber column:egg.x];
 }
@@ -991,7 +1008,7 @@
 }
 
 - (void)didGridRunnerCreateNextEggs:(SZGridRunner *)gridRunner {
-	[self createNextBlockSpriteConnectorPairForRunner:gridRunner];
+	[self createNextEggSpriteConnectorPairForRunner:gridRunner];
 
 	if (gridRunner.playerNumber == 0) {
 		[[SZPad instanceTwo] releaseDown];
