@@ -1,23 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#define DEFAULT_KEY_CODE_ONE_LEFT 0x64
-#define DEFAULT_KEY_CODE_ONE_RIGHT 0x67
-#define DEFAULT_KEY_CODE_ONE_UP 0x72
-#define DEFAULT_KEY_CODE_ONE_DOWN 0x66
-#define DEFAULT_KEY_CODE_ONE_A 0x73
-#define DEFAULT_KEY_CODE_ONE_B 0x61
-#define DEFAULT_KEY_CODE_ONE_START 0x20
-
-#define DEFAULT_KEY_CODE_TWO_LEFT 0xF702
-#define DEFAULT_KEY_CODE_TWO_RIGHT 0xF703
-#define DEFAULT_KEY_CODE_TWO_UP 0xF700
-#define DEFAULT_KEY_CODE_TWO_DOWN 0xF701
-#define DEFAULT_KEY_CODE_TWO_A 0x2E
-#define DEFAULT_KEY_CODE_TWO_B 0x2C
-#define DEFAULT_KEY_CODE_TWO_START 0x0D
-
-#define DEFAULT_KEY_CODE_QUIT 0x1B
-
 typedef NS_ENUM(NSUInteger, SZAIType) {
 	SZAITypeInsane = 0,
 	SZAITypeHard = 2,
@@ -31,7 +13,7 @@ typedef NS_ENUM(NSUInteger, SZGameType) {
 	SZGameTypeTwoPlayer = 2,
 };
 
-@interface Settings : NSObject
+@interface SZSettings : NSObject
 
 @property(readwrite) SZAIType aiType;
 @property(readwrite) SZGameType gameType;
@@ -58,7 +40,7 @@ typedef NS_ENUM(NSUInteger, SZGameType) {
 
 @property(readwrite) unichar keyCodeQuit;
 
-+ (Settings*)sharedSettings;
++ (SZSettings*)sharedSettings;
 - (id)init;
 - (void)save;
 

@@ -4,7 +4,7 @@
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
-#import "Settings.h"
+#import "SZSettings.h"
 #import "CCDirector.h"
 #import "GameLayer.h"
 #import "MenuRectLayer.h"
@@ -105,10 +105,10 @@
 			[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"title.mp3"];
 		}
 		
-		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].speed] atIndexedSubscript:0];
-		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].height] atIndexedSubscript:1];
-		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[Settings sharedSettings].eggColours - 4] atIndexedSubscript:2];
-		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:([Settings sharedSettings].gamesPerMatch - 3) / 2] atIndexedSubscript:3];
+		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[SZSettings sharedSettings].speed] atIndexedSubscript:0];
+		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[SZSettings sharedSettings].height] atIndexedSubscript:1];
+		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:[SZSettings sharedSettings].eggColours - 4] atIndexedSubscript:2];
+		[_rectLayer.selectedRectangleIndexes setObject:[NSNumber numberWithInt:([SZSettings sharedSettings].gamesPerMatch - 3) / 2] atIndexedSubscript:3];
 	}
 	
 	return self;
@@ -192,10 +192,10 @@
 
 		[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav"];
 		
-		[Settings sharedSettings].speed = [_rectLayer selectedIndexInGroup:0];
-		[Settings sharedSettings].height = [_rectLayer selectedIndexInGroup:1];
-		[Settings sharedSettings].eggColours = [_rectLayer selectedIndexInGroup:2] + 4;
-		[Settings sharedSettings].gamesPerMatch = ([_rectLayer selectedIndexInGroup:3] * 2) + 3;
+		[SZSettings sharedSettings].speed = [_rectLayer selectedIndexInGroup:0];
+		[SZSettings sharedSettings].height = [_rectLayer selectedIndexInGroup:1];
+		[SZSettings sharedSettings].eggColours = [_rectLayer selectedIndexInGroup:2] + 4;
+		[SZSettings sharedSettings].gamesPerMatch = ([_rectLayer selectedIndexInGroup:3] * 2) + 3;
 
 		if (_rectLayer.selectedGroupIndex == 4) {
 			[[CCDirector sharedDirector] replaceScene:[GameTypeMenuLayer scene]];
@@ -205,7 +205,7 @@
 		}
 	}
 	
-	[[Settings sharedSettings] save];
+	[[SZSettings sharedSettings] save];
 }
 
 @end

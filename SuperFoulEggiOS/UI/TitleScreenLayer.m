@@ -3,7 +3,7 @@
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
-#import "Settings.h"
+#import "SZSettings.h"
 #import "CCDirector.h"
 #import "GameTypeMenuLayer.h"
 

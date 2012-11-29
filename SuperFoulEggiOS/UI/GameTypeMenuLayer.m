@@ -3,7 +3,7 @@
 #import "CDAudioManager.h"
 #import "CocosDenshion.h"
 #import "SZPad.h"
-#import "Settings.h"
+#import "SZSettings.h"
 #import "CCDirector.h"
 #import "GameLayer.h"
 #import "MenuRectLayer.h"
@@ -70,13 +70,13 @@
 		[self addOption:@"Insane"];
 		//[self addOption:@"2 Player"];
 		
-		switch ([Settings sharedSettings].gameType) {
+		switch ([SZSettings sharedSettings].gameType) {
 			case SZGameTypePractice:
 				[_rectLayer.selectedRectangleIndexes setObject:@0 atIndexedSubscript:0];
 
 				break;
 			case SZGameTypeSinglePlayer:
-				switch ([Settings sharedSettings].aiType) {
+				switch ([SZSettings sharedSettings].aiType) {
 					case SZAITypeEasy:
 						[_rectLayer.selectedRectangleIndexes setObject:@1 atIndexedSubscript:0];
 						break;
@@ -163,33 +163,33 @@
 		
 		switch ([_rectLayer selectedIndexInGroup:0]) {
 			case 0:
-				[Settings sharedSettings].gameType = SZGameTypePractice;
+				[SZSettings sharedSettings].gameType = SZGameTypePractice;
 				break;
 			case 1:
-				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
-				[Settings sharedSettings].aiType = SZAITypeEasy;
+				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[SZSettings sharedSettings].aiType = SZAITypeEasy;
 				break;
 			case 2:
-				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
-				[Settings sharedSettings].aiType = SZAITypeMedium;
+				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[SZSettings sharedSettings].aiType = SZAITypeMedium;
 				break;
 			case 3:
-				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
-				[Settings sharedSettings].aiType = SZAITypeHard;
+				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[SZSettings sharedSettings].aiType = SZAITypeHard;
 				break;
 			case 4:
-				[Settings sharedSettings].gameType = SZGameTypeSinglePlayer;
-				[Settings sharedSettings].aiType = SZAITypeInsane;
+				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
+				[SZSettings sharedSettings].aiType = SZAITypeInsane;
 				break;
 			case 5:
-				[Settings sharedSettings].gameType = SZGameTypeTwoPlayer;
+				[SZSettings sharedSettings].gameType = SZGameTypeTwoPlayer;
 				break;
 		}
 		
 		[[CCDirector sharedDirector] replaceScene:[GameOptionsMenuLayer scene]];
 	}
 	
-	[[Settings sharedSettings] save];
+	[[SZSettings sharedSettings] save];
 }
 
 @end

@@ -25,7 +25,7 @@
 #import "SZEngineConstants.h"
 
 #import "SZPad.h"
-#import "Settings.h"
+#import "SZSettings.h"
 
 #import "GameTypeMenuLayer.h"
 
@@ -85,9 +85,9 @@
 		[self addGestureRecognizer:pan];
 		[pan release];
 		
-		int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
+		int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 		
-		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[Settings sharedSettings].eggColours];
+		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[SZSettings sharedSettings].eggColours];
 		
 		// TODO: Are these pointers already equal to nil?
 		for (int i = 0; i < MAX_PLAYERS; ++i) {
@@ -421,7 +421,7 @@
 	if (!requiresIteration) {
 		_state = SZGameStateGameOver;
 		
-		int requiredWins = ([Settings sharedSettings].gamesPerMatch / 2) + 1;
+		int requiredWins = ([SZSettings sharedSettings].gamesPerMatch / 2) + 1;
 		
 		if (loser == 0) {
 			++_gameWins[1];
@@ -579,7 +579,7 @@
 - (void)createWinLabels {
 	
 	// Practice games do not need labels
-	if ([Settings sharedSettings].gameType == SZGameTypePractice) return;
+	if ([SZSettings sharedSettings].gameType == SZGameTypePractice) return;
 	
 	[_orangeNumberSpriteSheet removeAllChildrenWithCleanup:YES];
 	[_purpleNumberSpriteSheet removeAllChildrenWithCleanup:YES];
@@ -626,7 +626,7 @@
 	[_playerTagSpriteSheet removeAllChildrenWithCleanup:YES];
 
 	// Create new game objects
-	int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
+	int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 	
 	_blockSpriteConnectors[0] = [[NSMutableArray alloc] init];
 	_incomingGarbageSprites[0] = [[NSMutableArray alloc] init];
@@ -638,7 +638,7 @@
 	
 	// Use the second player control layout in a single-player game, as they
 	// are slightly more intuitive than the first player controls
-	if ([Settings sharedSettings].gameType == SZGameTypeTwoPlayer) {
+	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
 		controller = [[SZPlayerOneController alloc] init];
 	} else {
 		controller = [[SZPlayerTwoController alloc] init];
@@ -648,7 +648,7 @@
 													grid:grid
 											  eggFactory:_eggFactory
 											playerNumber:0
-												   speed:[Settings sharedSettings].speed];
+												   speed:[SZSettings sharedSettings].speed];
 	_runners[0].delegate = self;
 	
 	[grid release];
@@ -661,8 +661,8 @@
 		grid = [[SZGrid alloc] initWithPlayerNumber:1];
 		grid.delegate = self;
 		
-		if ([Settings sharedSettings].gameType == SZGameTypeSinglePlayer) {
-			controller = [[SmartAIController alloc] initWithHesitation:(int)([Settings sharedSettings].aiType) grid:grid];
+		if ([SZSettings sharedSettings].gameType == SZGameTypeSinglePlayer) {
+			controller = [[SmartAIController alloc] initWithHesitation:(int)([SZSettings sharedSettings].aiType) grid:grid];
 		} else {
 			controller = [[SZPlayerTwoController alloc] init];
 		}
@@ -671,7 +671,7 @@
 														grid:grid
 												  eggFactory:_eggFactory
 												playerNumber:1
-													   speed:[Settings sharedSettings].speed];
+													   speed:[SZSettings sharedSettings].speed];
 		_runners[1].delegate = self;
 
 		[grid release];
@@ -679,14 +679,14 @@
 	}
 
 	[_runners[0].grid createBottomRow];
-	[_runners[0].grid addGarbage:GRID_WIDTH * [Settings sharedSettings].height];
+	[_runners[0].grid addGarbage:GRID_WIDTH * [SZSettings sharedSettings].height];
 
 	if (_runners[1] != nil) {
 		[_runners[1].grid createBottomRow];
-		[_runners[1].grid addGarbage:GRID_WIDTH * [Settings sharedSettings].height];
+		[_runners[1].grid addGarbage:GRID_WIDTH * [SZSettings sharedSettings].height];
 	}
 	
-	if ([Settings sharedSettings].gameType == SZGameTypePractice) {
+	if ([SZSettings sharedSettings].gameType == SZGameTypePractice) {
 		[self blankSecondGrid];
 	} else {
 		// Add CPU tag to second grid
@@ -1026,7 +1026,7 @@
 
 - (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner {
 
-	int players = [Settings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
+	int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 
