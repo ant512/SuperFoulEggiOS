@@ -8,7 +8,7 @@
 #import "GameLayer.h"
 #import "MenuRectLayer.h"
 #import "GameOptionsMenuLayer.h"
-#import "Constants.h"
+#import "SZUIConstants.h"
 
 @implementation GameTypeMenuLayer
 

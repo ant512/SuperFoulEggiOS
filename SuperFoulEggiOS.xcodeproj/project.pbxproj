@@ -235,7 +235,7 @@
 		C2B756CE1655DD6A00DB1D43 /* title.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2B7568A1655DD6A00DB1D43 /* title.mp3 */; };
 		C2B756CF1655DD6A00DB1D43 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = C2B7568B1655DD6A00DB1D43 /* win.wav */; };
 		C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */; };
-		C2B756EB1655DD8500DB1D43 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D61655DD8500DB1D43 /* Constants.m */; };
+		C2B756EB1655DD8500DB1D43 /* SZUIConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D61655DD8500DB1D43 /* SZUIConstants.m */; };
 		C2B756EC1655DD8500DB1D43 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756D81655DD8500DB1D43 /* GameLayer.m */; };
 		C2B756ED1655DD8500DB1D43 /* GameOptionsMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DA1655DD8500DB1D43 /* GameOptionsMenuLayer.m */; };
 		C2B756EE1655DD8500DB1D43 /* GameTypeMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756DC1655DD8500DB1D43 /* GameTypeMenuLayer.m */; };
@@ -638,8 +638,8 @@
 		C2B7568B1655DD6A00DB1D43 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 		C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZEggSpriteConnector.h; sourceTree = "<group>"; };
 		C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEggSpriteConnector.m; sourceTree = "<group>"; };
-		C2B756D51655DD8500DB1D43 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		C2B756D61655DD8500DB1D43 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		C2B756D51655DD8500DB1D43 /* SZUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZUIConstants.h; sourceTree = "<group>"; };
+		C2B756D61655DD8500DB1D43 /* SZUIConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZUIConstants.m; sourceTree = "<group>"; };
 		C2B756D71655DD8500DB1D43 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		C2B756D81655DD8500DB1D43 /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
 		C2B756D91655DD8500DB1D43 /* GameOptionsMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOptionsMenuLayer.h; sourceTree = "<group>"; };
@@ -1254,8 +1254,8 @@
 		C2B756D01655DD8500DB1D43 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				C2B756D51655DD8500DB1D43 /* Constants.h */,
-				C2B756D61655DD8500DB1D43 /* Constants.m */,
+				C2B756D51655DD8500DB1D43 /* SZUIConstants.h */,
+				C2B756D61655DD8500DB1D43 /* SZUIConstants.m */,
 				C2B756D31655DD8500DB1D43 /* SZEggSpriteConnector.h */,
 				C2B756D41655DD8500DB1D43 /* SZEggSpriteConnector.m */,
 				C2B756D71655DD8500DB1D43 /* GameLayer.h */,
@@ -1553,7 +1553,7 @@
 				C2B756411655DD3100DB1D43 /* SZPoint.m in Sources */,
 				C2B756421655DD3100DB1D43 /* SZYellowEgg.m in Sources */,
 				C2B756EA1655DD8500DB1D43 /* SZEggSpriteConnector.m in Sources */,
-				C2B756EB1655DD8500DB1D43 /* Constants.m in Sources */,
+				C2B756EB1655DD8500DB1D43 /* SZUIConstants.m in Sources */,
 				C2B756EC1655DD8500DB1D43 /* GameLayer.m in Sources */,
 				C2B756ED1655DD8500DB1D43 /* GameOptionsMenuLayer.m in Sources */,
 				C2B756EE1655DD8500DB1D43 /* GameTypeMenuLayer.m in Sources */,
