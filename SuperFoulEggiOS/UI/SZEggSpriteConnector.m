@@ -87,17 +87,17 @@
 
 	// Co-ords are adjusted so that the sprite is relative to the containing
 	// grid
-	int x = _gridX + (_egg.x * BLOCK_SIZE) + (BLOCK_SIZE / 2);
-	int y = _gridY + (GRID_HEIGHT * BLOCK_SIZE) - (BLOCK_SIZE / 2) - ((_egg.y * BLOCK_SIZE) + _yOffset);
+	int x = _gridX + (_egg.x * SZEggSize) + (SZEggSize / 2);
+	int y = _gridY + (GRID_HEIGHT * SZEggSize) - (SZEggSize / 2) - ((_egg.y * SZEggSize) + _yOffset);
 
 	// Add an extra half block's height if the block has fallen a half block
-	y -= _egg.hasDroppedHalfBlock ? BLOCK_SIZE / 2 : 0;
+	y -= _egg.hasDroppedHalfBlock ? SZEggSize / 2 : 0;
 
 	_sprite.position = ccp(x, y);
 }
 
 - (void)setSpriteFrame:(int)frame {
-	[_sprite setTextureRect:CGRectMake((frame % 5) * BLOCK_SIZE, (frame / 5) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)];
+	[_sprite setTextureRect:CGRectMake((frame % 5) * SZEggSize, (frame / 5) * SZEggSize, SZEggSize, SZEggSize)];
 	_frame = frame;
 }
 

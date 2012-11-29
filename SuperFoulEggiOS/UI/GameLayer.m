@@ -185,7 +185,7 @@
 	
 	if (_dragStartColumn == -1) return;
 	
-	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / BLOCK_SIZE);
+	int newColumnTarget = _dragStartColumn + ((point.x - _dragStartX) / SZEggSize);
 
 	if (newColumnTarget == _dragStartColumn && !_didDrag) {
 
@@ -213,7 +213,7 @@
 	// Create a new sprite for both next blocks
 	for (int i = 0; i < 2; ++i) {
 		[self createBlockSpriteConnector:[runner nextEgg:i] gridX:gridX gridY:NEXT_BLOCK_Y connectorArray:connectorArray];
-		gridX += BLOCK_SIZE;
+		gridX += SZEggSize;
 	}
 }
 
@@ -406,11 +406,11 @@
 			if ((_deathEffectTimer > 0 && (block.x == 2 || block.x == 3)) ||
 				(_deathEffectTimer > 8 && (block.x == 1 || block.x == 4)) ||
 				(_deathEffectTimer > 16)) {
-				sprite.position = ccp(sprite.position.x, sprite.position.y - (BLOCK_SIZE / 2));
+				sprite.position = ccp(sprite.position.x, sprite.position.y - (SZEggSize / 2));
 			}
 			
 			// Need to keep iterating if any blocks are still on-screen
-			if (sprite.position.y > -BLOCK_SIZE / 2) {
+			if (sprite.position.y > -SZEggSize / 2) {
 				requiresIteration = YES;
 			}
 		}
@@ -704,7 +704,7 @@
 		for (int x = 0; x < GRID_WIDTH; ++x) {
 			sprite = [CCSprite spriteWithSpriteFrameName:@"gridbottom00.png"];
 			
-			sprite.position = ccp((x * BLOCK_SIZE) + GRID_2_X + 24, (y * BLOCK_SIZE) + 24);
+			sprite.position = ccp((x * SZEggSize) + GRID_2_X + 24, (y * SZEggSize) + 24);
 			
 			[sheet addChild:sprite];
 		}
@@ -855,11 +855,11 @@
 	garbage -= largeBoulders * SZGarbageLargeBoulderValue;
 	
 	int spriteY = [[CCDirector sharedDirector] winSize].height - 1;
-	int spriteX = playerNumber == 0 ? 0 : [[CCDirector sharedDirector] winSize].width - BLOCK_SIZE;
+	int spriteX = playerNumber == 0 ? 0 : [[CCDirector sharedDirector] winSize].width - SZEggSize;
 	
 	for (int i = 0; i < faceBoulders; ++i) {
 		CCSprite* boulder = [CCSprite spriteWithSpriteFrameName:@"incoming2.png"];
-		boulder.position = ccp(spriteX + (BLOCK_SIZE / 2), spriteY - ([boulder contentSize].height / 2));
+		boulder.position = ccp(spriteX + (SZEggSize / 2), spriteY - ([boulder contentSize].height / 2));
 		[_incomingSpriteSheet addChild:boulder];
 		
 		spriteY -= [boulder contentSize].height + 1;
@@ -869,7 +869,7 @@
 	
 	for (int i = 0; i < largeBoulders; ++i) {
 		CCSprite* boulder = [CCSprite spriteWithSpriteFrameName:@"incoming1.png"];
-		boulder.position = ccp(spriteX + (BLOCK_SIZE / 2), spriteY - ([boulder contentSize].height / 2));
+		boulder.position = ccp(spriteX + (SZEggSize / 2), spriteY - ([boulder contentSize].height / 2));
 		[_incomingSpriteSheet addChild:boulder];
 		
 		spriteY -= [boulder contentSize].height + 1;
@@ -879,7 +879,7 @@
 	
 	for (int i = 0; i < garbage; ++i) {
 		CCSprite* boulder = [CCSprite spriteWithSpriteFrameName:@"incoming0.png"];
-		boulder.position = ccp(spriteX + (BLOCK_SIZE / 2), spriteY - ([boulder contentSize].height / 2));
+		boulder.position = ccp(spriteX + (SZEggSize / 2), spriteY - ([boulder contentSize].height / 2));
 		[_incomingSpriteSheet addChild:boulder];
 		
 		spriteY -= [boulder contentSize].height + 1;

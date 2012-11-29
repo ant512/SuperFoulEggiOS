@@ -1,10 +1,5 @@
 #import <Foundation/Foundation.h>
 
-/**
- * Dimensions of an egg.  Eggs are square.
- */
-#define BLOCK_SIZE 48
-
 @class SZEggBase;
 
 @protocol SZEggBaseDelegate <NSObject>
@@ -34,12 +29,12 @@ typedef NS_OPTIONS(NSUInteger, SZEggConnectionMask) {
  * List of all possible egg states.
  */
 typedef NS_ENUM(NSUInteger, SZEggState) {
-	SZEggStateNormal = 0,					/**< Block is doing nothing. */
-	SZEggStateFalling = 1,					/**< Block is falling down the grid. */
-	SZEggStateLanding = 2,					/**< Block is landing. */
-	SZEggStateExploding = 3,				/**< Block is exploding. */
-	SZEggStateExploded = 4,					/**< Block has exploded. */
-	SZEggStateRecoveringFromGarbageHit = 5	/**< Block is adjusting back to its standard co-ords. */
+	SZEggStateNormal = 0,					/**< Egg is doing nothing. */
+	SZEggStateFalling = 1,					/**< Egg is falling down the grid. */
+	SZEggStateLanding = 2,					/**< Egg is landing. */
+	SZEggStateExploding = 3,				/**< Egg is exploding. */
+	SZEggStateExploded = 4,					/**< Egg has exploded. */
+	SZEggStateRecoveringFromGarbageHit = 5	/**< Egg is adjusting back to its standard co-ords. */
 };
 
 /**
@@ -75,25 +70,25 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 @property (readonly) SZEggConnectionMask connections;
 
 /**
- * Check if the egg is connected to the block on its left.
+ * Check if the egg is connected to the egg on its left.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasLeftConnection;
 
 /**
- * Check if the egg is connected to the block on its right.
+ * Check if the egg is connected to the egg on its right.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasRightConnection;
 
 /**
- * Check if the egg is connected to the block above.
+ * Check if the egg is connected to the egg above.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasTopConnection;
 
 /**
- * Check if the egg is connected to the block below.
+ * Check if the egg is connected to the egg below.
  * @return True if a connection exists; false if not.
  */
 - (BOOL)hasBottomConnection;
@@ -142,15 +137,15 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 /**
  * Attempt to establish which of the surrounding eggs are of the same type as
  * this and remember those connections.
- * @param top The block above this.
- * @param bottom The block below this.
- * @param right The block to the right of this.
- * @param left The block to the left of this.
+ * @param top The egg above this.
+ * @param bottom The egg below this.
+ * @param right The egg to the right of this.
+ * @param left The egg to the left of this.
  */
 - (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left;
 
 /**
- * Sets the connections that the block has to the supplied parameters.
+ * Sets the connections that the egg has to the supplied parameters.
  * @param top The state of the top connection.
  * @param right The state of the right connection.
  * @param bottom The state of the bottom connection.
@@ -159,8 +154,8 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
 - (void)setConnectionTop:(BOOL)top right:(BOOL)right bottom:(BOOL)bottom left:(BOOL)left;
 
 /**
- * Sets the co-ordinates of the block.  The co-ordinates should be changed every
- * time the block is moved in the grid.
+ * Sets the co-ordinates of the egg.  The co-ordinates should be changed every
+ * time the egg is moved in the grid.
  * @param x The new x co-ordinate.
  * @param y The new y co-ordinate.
  */
