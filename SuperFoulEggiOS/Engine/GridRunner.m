@@ -31,7 +31,7 @@ const int SZDropSpeedMultiplier = 4;
 
 @implementation GridRunner
 
-- (id)initWithController:(id <ControllerProtocol>)controller
+- (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
 					blockFactory:(BlockFactory*)blockFactory
 					playerNumber:(int)playerNumber

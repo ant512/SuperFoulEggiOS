@@ -539,7 +539,7 @@
 		C2B756061655DD3100DB1D43 /* BlockFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockFactory.m; sourceTree = "<group>"; };
 		C2B756071655DD3100DB1D43 /* SZBlueEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZBlueEgg.h; sourceTree = "<group>"; };
 		C2B756081655DD3100DB1D43 /* SZBlueEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZBlueEgg.m; sourceTree = "<group>"; };
-		C2B756091655DD3100DB1D43 /* ControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerProtocol.h; sourceTree = "<group>"; };
+		C2B756091655DD3100DB1D43 /* SZGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGameController.h; sourceTree = "<group>"; };
 		C2B7560A1655DD3100DB1D43 /* SZGarbageEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGarbageEgg.h; sourceTree = "<group>"; };
 		C2B7560B1655DD3100DB1D43 /* SZGarbageEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGarbageEgg.m; sourceTree = "<group>"; };
 		C2B7560C1655DD3100DB1D43 /* SZGreenEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGreenEgg.h; sourceTree = "<group>"; };
@@ -1119,7 +1119,7 @@
 				C2B756061655DD3100DB1D43 /* BlockFactory.m */,
 				C2B756071655DD3100DB1D43 /* SZBlueEgg.h */,
 				C2B756081655DD3100DB1D43 /* SZBlueEgg.m */,
-				C2B756091655DD3100DB1D43 /* ControllerProtocol.h */,
+				C2B756091655DD3100DB1D43 /* SZGameController.h */,
 				C2B756031655DD3100DB1D43 /* SZEggBase.h */,
 				C2B756041655DD3100DB1D43 /* SZEggBase.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,

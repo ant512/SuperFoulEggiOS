@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-#import "ControllerProtocol.h"
+#import "SZGameController.h"
 #import "SZGrid.h"
 #import "SZEggBase.h"
 #import "SZPoint.h"
@@ -9,7 +9,7 @@
  * Artificial intelligence controller.  Analyses the state of the grid it is
  * controlling in order to determine what action to take next.
  */
-@interface SmartAIController : NSObject <ControllerProtocol> {
+@interface SmartAIController : NSObject <SZGameController> {
 	SZGrid* _grid;				/**< The Grid that the AI is controlling. */
 	int _lastLiveBlockY;		/**< The last observed y co-ordinate of the first live block. */
 	int _targetX;				/**< The x co-ordinate the AI is trying to move the live block to. */

@@ -634,7 +634,7 @@
 	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	id <ControllerProtocol> controller;
+	id <SZGameController> controller;
 	
 	// Use the second player control layout in a single-player game, as they
 	// are slightly more intuitive than the first player controls

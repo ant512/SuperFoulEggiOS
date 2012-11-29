@@ -1,7 +1,7 @@
 #import <Foundation/NSObject.h>
 
 #import "SZGrid.h"
-#import "ControllerProtocol.h"
+#import "SZGameController.h"
 #import "SZEggBase.h"
 #import "BlockFactory.h"
 
@@ -77,7 +77,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 /**
  * The controller used for input.
  */
-@property (readonly, retain) id <ControllerProtocol> controller;
+@property (readonly, retain) id <SZGameController> controller;
 
 /**
  * Initialise a new instance of the class.
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * @param playerNumber The unique number of the player using this runner.
  * @param speed The auto drop speed.
  */
-- (id)initWithController:(id <ControllerProtocol>)controller
+- (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
 					blockFactory:(BlockFactory*)blockFactory
 					playerNumber:(int)playerNumber

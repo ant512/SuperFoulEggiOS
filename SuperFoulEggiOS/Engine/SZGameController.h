@@ -1,6 +1,6 @@
 #import <Foundation/NSObject.h>
 
-@protocol ControllerProtocol <NSObject>
+@protocol SZGameController <NSObject>
 
 - (BOOL)isLeftHeld;
 - (BOOL)isRightHeld;

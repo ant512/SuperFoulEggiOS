@@ -1,12 +1,12 @@
 #import <Foundation/NSObject.h>
 
-#import "ControllerProtocol.h"
+#import "SZGameController.h"
 
 /**
  * Controller that reads the state of the Pad singleton in order to determine
  * what the human player is doing.
  */
-@interface SZPlayerTwoController : NSObject <ControllerProtocol> {
+@interface SZPlayerTwoController : NSObject <SZGameController> {
 }
 
 /**
