@@ -29,12 +29,16 @@
 }
 
 /**
- * Initialise a new SZEggFactory object.
+ * Shared factory singleton instance.
+ */
++ (SZEggFactory *)sharedFactory;
+
+/**
+ * Sets the player and egg colour counts and resets the factory.
  * @param playerCount The number of players in the game.
  * @param eggColourCount The number of egg colours available.
- * @return A newly initialised object.
  */
-- (id)initWithPlayerCount:(int)playerCount eggColourCount:(int)eggColourCount;
+- (void)setPlayerCount:(int)playerCount andEggColourCount:(int)eggColourCount;
 
 /**
  * Deallocates the object.
@@ -58,6 +62,12 @@
  * Adds a random egg class to the egg list.
  */
 - (void)addRandomEggClass;
+
+/**
+ * Adds an egg class to the egg list based on the supplied value.
+ * @param value Represents the type of egg class to add.
+ */
+- (void)addEggClassFromInt:(int)value;
 
 /**
  * Removes all egg classes from the egg list that have been used by all players.

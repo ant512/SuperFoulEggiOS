@@ -4,12 +4,10 @@
 #import "SZGridRunner.h"
 #import "SZSmartAIController.h"
 #import "SZGameController.h"
-#import "SZEggFactory.h"
 #import "SZPlayerOneController.h"
 #import "SZPlayerTwoController.h"
 #import "SZGrid.h"
 #import "SZGridRunner.h"
-#import "SZEggFactory.h"
 #import "SZGameLayer.h"
 #import "SZEggSpriteConnector.h"
 #import "SZUIConstants.h"
@@ -37,8 +35,7 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	CCSpriteBatchNode* _playerTagSpriteSheet;
 	CCSpriteBatchNode* _orangeNumberSpriteSheet;
 	CCSpriteBatchNode* _purpleNumberSpriteSheet;
-	
-	SZEggFactory* _eggFactory;
+
 	SZGameState _state;
 	
 	SZGridRunner* _runners[SZMaximumPlayers];

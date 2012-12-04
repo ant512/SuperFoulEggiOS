@@ -1,10 +1,11 @@
 #import "SZNetworkSession.h"
 #import "SZEngineConstants.h"
+#import "SZEggFactory.h"
 
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
-	SZMessageTypeRequestNextEgg = 2
+	SZMessageTypeNewEgg = 2
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -24,6 +25,11 @@ typedef struct {
 	SZMessage message;
 	SZRemoteMoveType moveType;
 } SZMoveMessage;
+
+typedef struct {
+	SZMessage message;
+	char eggColour;
+} SZNewEggMessage;
 
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
@@ -104,11 +110,16 @@ static NSString * const SZDisplayName = @"Player";
 		case SZMessageTypeMove:
 			[self parseMoveMessage:(SZMoveMessage *)[data bytes]];
 			break;
-		case SZMessageTypeRequestNextEgg:
+		case SZMessageTypeNewEgg:
+			[self parseNewEggMessage:(SZNewEggMessage *)[data bytes]];
 			break;
 		case SZMessageTypeNone:
 			break;
 	}
+}
+
+- (void)parseNewEggMessage:(SZNewEggMessage *)message {
+	[[SZEggFactory sharedFactory] addEggClassFromInt:message->eggColour];
 }
 
 - (void)parseMoveMessage:(SZMoveMessage *)moveMessage {
@@ -180,6 +191,13 @@ static NSString * const SZDisplayName = @"Player";
 	message.moveType = SZRemoteMoveTypeRotateAnticlockwise;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+}
+
+- (void)sendNewEgg:(char)eggColour {
+	SZNewEggMessage message;
+
+	message.message.messageType = SZMessageTypeNewEgg;
+	message.eggColour = eggColour;
 }
 
 @end

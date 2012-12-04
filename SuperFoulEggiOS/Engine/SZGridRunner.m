@@ -1,6 +1,7 @@
 #import "SZGridRunner.h"
 #import "SZEngineConstants.h"
 #import "SZNetworkSession.h"
+#import "SZEggFactory.h"
 
 /**
  * Number of iterations before eggs drop when automatic dropping mode is
@@ -35,7 +36,6 @@ const int SZDropSpeedMultiplier = 4;
 
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
-			  eggFactory:(SZEggFactory*)eggFactory
 			playerNumber:(int)playerNumber
 				   speed:(int)speed
 				isRemote:(BOOL)isRemote {
@@ -45,7 +45,6 @@ const int SZDropSpeedMultiplier = 4;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
-		_eggFactory = [eggFactory retain];
 		_playerNumber = playerNumber;
 		
 		_speed = speed;
@@ -60,7 +59,7 @@ const int SZDropSpeedMultiplier = 4;
 		
 		// Ensure we have some initial eggs to add to the grid
 		for (int i = 0; i < SZLiveEggCount; ++i) {
-			_nextEggs[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
+			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 		}
 
 		if (_isRemote) {
@@ -102,7 +101,6 @@ const int SZDropSpeedMultiplier = 4;
 	
 	[_grid release];
 	[_controller release];
-	[_eggFactory release];
 	
 	[super dealloc];
 }
@@ -211,7 +209,7 @@ const int SZDropSpeedMultiplier = 4;
 			
 			// Fetch the next eggs from the egg factory and remember them
 			for (int i = 0; i < SZLiveEggCount; ++i) {
-				_nextEggs[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
+				_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 			}
 			
 			[_delegate didGridRunnerCreateNextEggs:self];

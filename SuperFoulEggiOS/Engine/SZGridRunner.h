@@ -3,7 +3,6 @@
 #import "SZGrid.h"
 #import "SZGameController.h"
 #import "SZEggBase.h"
-#import "SZEggFactory.h"
 #import "SZEngineConstants.h"
 
 @class SZGridRunner;
@@ -40,7 +39,6 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 @interface SZGridRunner : NSObject {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
-	SZEggFactory* _eggFactory;					/**< Produces next eggs for the grid. */
 	SZEggBase* _nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
 
 	int _speed;									/**< Current speed. */
@@ -86,15 +84,13 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * @param controller A controller object that will provide input for the
  * movement of live eggs.
  * @param grid Grid to run.
- * @param eggFactory The egg factory to use to produce next eggs for the grid.
  * @param playerNumber The unique number of the player using this runner.
  * @param speed The auto drop speed.
  */
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid*)grid
-					eggFactory:(SZEggFactory*)eggFactory
-					playerNumber:(int)playerNumber
-					speed:(int)speed
+			playerNumber:(int)playerNumber
+				   speed:(int)speed
 				isRemote:(BOOL)isRemote;
 
 /**

@@ -13,5 +13,6 @@
 - (void)sendLiveBlockDrop;
 - (void)sendLiveBlockRotateClockwise;
 - (void)sendLiveBlockRotateAnticlockwise;
+- (void)sendNewEgg:(char)eggColour;
 
 @end

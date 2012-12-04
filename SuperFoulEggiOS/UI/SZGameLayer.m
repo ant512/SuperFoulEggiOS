@@ -9,6 +9,7 @@
 #import "SZPlayerOneController.h"
 #import "SZPad.h"
 #import "SZPoint.h"
+#import "SZEggFactory.h"
 
 #import "SZEggBase.h"
 #import "SZRedEgg.h"
@@ -103,8 +104,8 @@ const int SZGrid2ScoresY = 285;
 		[pan release];
 		
 		int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
-		
-		_eggFactory = [[SZEggFactory alloc] initWithPlayerCount:players eggColourCount:[SZSettings sharedSettings].eggColours];
+
+		[[SZEggFactory sharedFactory] setPlayerCount:players andEggColourCount:[SZSettings sharedSettings].eggColours];
 		
 		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
@@ -623,7 +624,7 @@ const int SZGrid2ScoresY = 285;
 
 	[[SZPad instanceOne] reset];
 	[[SZPad instanceTwo] reset];
-	[_eggFactory clear];
+	[[SZEggFactory sharedFactory] clear];
 
 	// Release all existing game objects
 	for (int i = 0; i < SZMaximumPlayers; ++i) {
@@ -661,7 +662,6 @@ const int SZGrid2ScoresY = 285;
 	
 	_runners[0] = [[SZGridRunner alloc] initWithController:controller
 													  grid:grid
-												eggFactory:_eggFactory
 											  playerNumber:0
 													 speed:[SZSettings sharedSettings].speed
 												  isRemote:NO];
@@ -685,7 +685,6 @@ const int SZGrid2ScoresY = 285;
 		
 		_runners[1] = [[SZGridRunner alloc] initWithController:controller
 														  grid:grid
-													eggFactory:_eggFactory
 												  playerNumber:1
 														 speed:[SZSettings sharedSettings].speed
 													  isRemote:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
@@ -911,8 +910,6 @@ const int SZGrid2ScoresY = 285;
 }
 
 - (void)dealloc {
-	
-	[_eggFactory release];
 	
 	[self unloadSounds];
 	

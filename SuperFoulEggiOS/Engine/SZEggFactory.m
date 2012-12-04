@@ -9,18 +9,32 @@
 
 @implementation SZEggFactory
 
-- (id)initWithPlayerCount:(int)playerCount eggColourCount:(int)eggColourCount {
-	if ((self = [super init])) {
-		_playerCount = playerCount;
-		_eggColourCount = eggColourCount;
-		
-		_eggList = [[NSMutableArray alloc] init];
-		_playerEggListIndices = malloc(sizeof(int) * playerCount);
-		
-		[self clear];
++ (SZEggFactory *)sharedFactory {
+	static SZEggFactory *sharedFactory = nil;
+	static dispatch_once_t onceToken;
+
+	dispatch_once(&onceToken, ^{
+		sharedFactory = [[SZEggFactory alloc] init];
+	});
+
+	return sharedFactory;
+}
+
+- (void)setPlayerCount:(int)playerCount andEggColourCount:(int)eggColourCount {
+	_playerCount = playerCount;
+	_eggColourCount = eggColourCount;
+
+	if (_playerEggListIndices) {		
+		free(_playerEggListIndices);
 	}
-	
-	return self;
+
+	_playerEggListIndices = malloc(sizeof(int) * playerCount);
+
+	[_eggList release];
+
+	_eggList = [[NSMutableArray alloc] init];
+
+	[self clear];
 }
 
 - (void)dealloc {
@@ -40,6 +54,10 @@
 
 - (void)addRandomEggClass {
 	[_eggList addObject:[self randomEggClass]];
+}
+
+- (void)addEggClassFromInt:(int)value {
+	[_eggList addObject:[self eggClassFromInt:value]];
 }
 
 - (void)expireUsedEggClasses {
@@ -63,10 +81,8 @@
 	}
 }
 
-- (Class)randomEggClass {
-	int type = rand() % _eggColourCount;
-
-	switch (type) {
+- (Class)eggClassFromInt:(int)value {
+	switch (value) {
 		case 0:
 			return [SZRedEgg class];
 		case 1:
@@ -80,9 +96,17 @@
 		case 5:
 			return [SZOrangeEgg class];
 	}
-	
+
 	// Included to silence compiler warning
 	return [SZRedEgg class];
+}
+
+- (Class)randomEggClass {
+	int type = rand() % _eggColourCount;
+
+	[[SZNetworkSession sharedSession] sendNewEgg:type];
+
+	return [self eggClassFromInt:type];
 }
 
 - (SZEggBase*)newEggForPlayerNumber:(int)playerNumber {
