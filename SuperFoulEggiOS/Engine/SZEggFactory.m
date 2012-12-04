@@ -5,6 +5,7 @@
 #import "SZYellowEgg.h"
 #import "SZOrangeEgg.h"
 #import "SZPurpleEgg.h"
+#import "SZNetworkSession.h"
 
 @implementation SZEggFactory
 

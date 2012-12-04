@@ -9,6 +9,7 @@
 #import "SZMenuRectLayer.h"
 #import "SZGameOptionsMenuLayer.h"
 #import "SZUIConstants.h"
+#import "SZNetworkSession.h"
 
 @implementation SZGameTypeMenuLayer
 
@@ -68,7 +69,7 @@
 		[self addOption:@"Medium"];
 		[self addOption:@"Hard"];
 		[self addOption:@"Insane"];
-		//[self addOption:@"2 Player"];
+		[self addOption:@"2 Player"];
 		
 		switch ([SZSettings sharedSettings].gameType) {
 			case SZGameTypePractice:
@@ -182,6 +183,7 @@
 				[SZSettings sharedSettings].aiType = SZAITypeInsane;
 				break;
 			case 5:
+				[[SZNetworkSession sharedSession] start];
 				[SZSettings sharedSettings].gameType = SZGameTypeTwoPlayer;
 				break;
 		}

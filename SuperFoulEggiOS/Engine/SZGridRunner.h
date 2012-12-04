@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 													 _outgoinggGarbageCount member. */
 
 	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
+	BOOL _isRemote;
 }
 
 @property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
@@ -93,7 +94,8 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 					grid:(SZGrid*)grid
 					eggFactory:(SZEggFactory*)eggFactory
 					playerNumber:(int)playerNumber
-					speed:(int)speed;
+					speed:(int)speed
+				isRemote:(BOOL)isRemote;
 
 /**
  * Deallocates the object.

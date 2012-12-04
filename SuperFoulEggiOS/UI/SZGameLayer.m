@@ -131,11 +131,11 @@ const int SZGrid2ScoresY = 285;
 	CGPoint point = [gesture locationInView:[CCDirector sharedDirector].view];
 	
 	if (_state == SZGameStatePaused || (point.x > 950 && point.y > 700)) {
-		[[SZPad instanceTwo] pressStart];
+		[[SZPad instanceOne] pressStart];
 		return;
 	}
 	
-	[[SZPad instanceTwo] pressA];
+	[[SZPad instanceOne] pressA];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -147,7 +147,7 @@ const int SZGrid2ScoresY = 285;
 	
 	if (_didDrag) return;
 	
-	[[SZPad instanceTwo] pressB];
+	[[SZPad instanceOne] pressB];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -158,8 +158,8 @@ const int SZGrid2ScoresY = 285;
 - (void)handleDropSwipe:(UISwipeGestureRecognizer *)gesture {
 	
 	if(_didDrag) return;
-	
-	[[SZPad instanceTwo] pressDown];
+
+	[[SZPad instanceOne] pressDown];
 	_columnTarget = -1;
 	
 	_didDrag = NO;
@@ -657,21 +657,14 @@ const int SZGrid2ScoresY = 285;
 	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	id <SZGameController> controller;
-	
-	// Use the second player control layout in a single-player game, as they
-	// are slightly more intuitive than the first player controls
-	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
-		controller = [[SZPlayerOneController alloc] init];
-	} else {
-		controller = [[SZPlayerTwoController alloc] init];
-	}
+	id <SZGameController> controller = [[SZPlayerOneController alloc] init];
 	
 	_runners[0] = [[SZGridRunner alloc] initWithController:controller
-													grid:grid
-											  eggFactory:_eggFactory
-											playerNumber:0
-												   speed:[SZSettings sharedSettings].speed];
+													  grid:grid
+												eggFactory:_eggFactory
+											  playerNumber:0
+													 speed:[SZSettings sharedSettings].speed
+												  isRemote:NO];
 	_runners[0].delegate = self;
 	
 	[grid release];
@@ -691,10 +684,11 @@ const int SZGrid2ScoresY = 285;
 		}
 		
 		_runners[1] = [[SZGridRunner alloc] initWithController:controller
-														grid:grid
-												  eggFactory:_eggFactory
-												playerNumber:1
-													   speed:[SZSettings sharedSettings].speed];
+														  grid:grid
+													eggFactory:_eggFactory
+												  playerNumber:1
+														 speed:[SZSettings sharedSettings].speed
+													  isRemote:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
 		_runners[1].delegate = self;
 
 		[grid release];
@@ -738,6 +732,8 @@ const int SZGrid2ScoresY = 285;
 	if ([[SZPad instanceOne] isStartNewPress] ||
 		[[SZPad instanceOne] isANewPress] ||
 		[[SZPad instanceOne] isBNewPress] ||
+		[[SZPad instanceOne] isLeftNewPress] ||
+		[[SZPad instanceOne] isRightNewPress] ||
 		[[SZPad instanceTwo] isStartNewPress] ||
 		[[SZPad instanceTwo] isANewPress] ||
 		[[SZPad instanceTwo] isBNewPress] ||
@@ -752,6 +748,7 @@ const int SZGrid2ScoresY = 285;
 		[self resumeGame];
 	}
 	
+	[[SZPad instanceOne] releaseStart];
 	[[SZPad instanceTwo] releaseStart];
 }
 
@@ -768,9 +765,9 @@ const int SZGrid2ScoresY = 285;
 		
 		if (_columnTarget > -1) {
 			if (egg.x < _columnTarget) {
-				[[SZPad instanceTwo] pressRight];
+				[[SZPad instanceOne] pressRight];
 			} else if (egg.x > _columnTarget) {
-				[[SZPad instanceTwo] pressLeft];
+				[[SZPad instanceOne] pressLeft];
 			}
 		}
 	} else {
@@ -781,10 +778,10 @@ const int SZGrid2ScoresY = 285;
 		[_runners[i] iterate];
 	}
 	
-	[[SZPad instanceTwo] releaseLeft];
-	[[SZPad instanceTwo] releaseRight];
-	[[SZPad instanceTwo] releaseA];
-	[[SZPad instanceTwo] releaseB];
+	[[SZPad instanceOne] releaseLeft];
+	[[SZPad instanceOne] releaseRight];
+	[[SZPad instanceOne] releaseA];
+	[[SZPad instanceOne] releaseB];
 	
 	if (_runners[1] == nil) {
 
@@ -1020,7 +1017,7 @@ const int SZGrid2ScoresY = 285;
 	[self createNextEggSpriteConnectorPairForRunner:gridRunner];
 
 	if (gridRunner.playerNumber == 0) {
-		[[SZPad instanceTwo] releaseDown];
+		[[SZPad instanceOne] releaseDown];
 		_didDrag = NO;
 		_columnTarget = -1;
 		_dragStartColumn = -1;

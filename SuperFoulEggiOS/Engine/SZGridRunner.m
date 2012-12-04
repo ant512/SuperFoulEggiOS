@@ -1,5 +1,6 @@
 #import "SZGridRunner.h"
 #import "SZEngineConstants.h"
+#import "SZNetworkSession.h"
 
 /**
  * Number of iterations before eggs drop when automatic dropping mode is
@@ -36,7 +37,8 @@ const int SZDropSpeedMultiplier = 4;
 					grid:(SZGrid*)grid
 			  eggFactory:(SZEggFactory*)eggFactory
 			playerNumber:(int)playerNumber
-				   speed:(int)speed {
+				   speed:(int)speed
+				isRemote:(BOOL)isRemote {
 	
 	if ((self = [super init])) {
 		_state = SZGridRunnerStateDrop;
@@ -53,14 +55,44 @@ const int SZDropSpeedMultiplier = 4;
 		_accumulatingGarbageCount = 0;
 		
 		_droppingLiveEggs = NO;
+
+		_isRemote = isRemote;
 		
 		// Ensure we have some initial eggs to add to the grid
 		for (int i = 0; i < SZLiveEggCount; ++i) {
 			_nextEggs[i] = [_eggFactory newEggForPlayerNumber:_playerNumber];
 		}
+
+		if (_isRemote) {
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveLeft) name:SZRemoteMoveLeftNotification object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveRight) name:SZRemoteMoveRightNotification object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteDrop) name:SZRemoteDropNotification object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateClockwise) name:SZRemoteRotateClockwiseNotification object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateAnticlockwise) name:SZRemoteRotateAnticlockwiseNotification object:nil];
+		}
 	}
 	
 	return self;
+}
+
+- (void)receiveRemoteMoveLeft {
+	[_grid moveLiveEggsLeft];
+}
+
+- (void)receiveRemoteMoveRight {
+	[_grid moveLiveEggsRight];
+}
+
+- (void)receiveRemoteDrop {
+	[_grid dropLiveEggs];
+}
+
+- (void)receiveRemoteRotateClockwise {
+	[_grid rotateLiveEggsClockwise];
+}
+
+- (void)receiveRemoteRotateAnticlockwise {
+	[_grid rotateLiveEggsAntiClockwise];
 }
 
 - (void)dealloc {
@@ -164,7 +196,7 @@ const int SZDropSpeedMultiplier = 4;
 		
 		// Nothing exploded, so we can put a new live egg into the grid
 		BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
-		
+
 		if (!addedEggs) {
 			
 			// Cannot add more eggs - game is over
@@ -217,10 +249,18 @@ const int SZDropSpeedMultiplier = 4;
 		if ([_controller isLeftHeld]) {
 			if ([_grid moveLiveEggsLeft]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
+
+				if (!_isRemote) {
+					[[SZNetworkSession sharedSession] sendLiveBlockMoveLeft];
+				}
             }
 		} else if ([_controller isRightHeld]) {
 			if ([_grid moveLiveEggsRight]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
+
+				if (!_isRemote) {
+					[[SZNetworkSession sharedSession] sendLiveBlockMoveRight];
+				}
 			}
 		}
 		
@@ -241,17 +281,29 @@ const int SZDropSpeedMultiplier = 4;
 		if ([_controller isRotateClockwiseHeld]) {
 			if ([_grid rotateLiveEggsClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
+
+				if (!_isRemote) {
+					[[SZNetworkSession sharedSession] sendLiveBlockRotateClockwise];
+				}
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
 			if ([_grid rotateLiveEggsAntiClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
+
+				if (!_isRemote) {
+					[[SZNetworkSession sharedSession] sendLiveBlockRotateAnticlockwise];
+				}
 			}
 		}
 		
 		// Drop live eggs if the timer has expired
 		if (_timer >= timeToDrop) {
 			_timer = 0;
-			[_grid dropLiveEggs];
+			
+			if (!_isRemote) {
+				[_grid dropLiveEggs];
+				[[SZNetworkSession sharedSession] sendLiveBlockDrop];
+			}
 		}
 	} else {
 		

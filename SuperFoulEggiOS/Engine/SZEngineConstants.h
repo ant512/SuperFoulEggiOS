@@ -24,3 +24,9 @@ extern const int SZGridWidth;
 extern const int SZGridHeight;
 extern const int SZGridEntryY;
 extern const int SZChainLength;
+
+extern NSString * const SZRemoteMoveLeftNotification;
+extern NSString * const SZRemoteMoveRightNotification;
+extern NSString * const SZRemoteDropNotification;
+extern NSString * const SZRemoteRotateClockwiseNotification;
+extern NSString * const SZRemoteRotateAnticlockwiseNotification;

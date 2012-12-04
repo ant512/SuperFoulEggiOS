@@ -36,6 +36,7 @@
 		C213BFDB16594EEC0009C13E /* incoming-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDA16594EEC0009C13E /* incoming-ipadhd.plist */; };
 		C213BFDD1659501D0009C13E /* message-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDC1659501D0009C13E /* message-ipadhd.plist */; };
 		C213BFDF165950990009C13E /* playertags-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDE165950990009C13E /* playertags-ipadhd.plist */; };
+		C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C254C332166D76B700FE081C /* SZNetworkSession.m */; };
 		C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */; };
 		C2B754591655DCE100DB1D43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B754581655DCE100DB1D43 /* QuartzCore.framework */; };
 		C2B7545B1655DCE100DB1D43 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */; };
@@ -275,6 +276,8 @@
 		C213BFDA16594EEC0009C13E /* incoming-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "incoming-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDC1659501D0009C13E /* message-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "message-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDE165950990009C13E /* playertags-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "playertags-ipadhd.plist"; sourceTree = "<group>"; };
+		C254C331166D76B700FE081C /* SZNetworkSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZNetworkSession.h; sourceTree = "<group>"; };
+		C254C332166D76B700FE081C /* SZNetworkSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZNetworkSession.m; sourceTree = "<group>"; };
 		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
 		C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEngineConstants.m; sourceTree = "<group>"; };
 		C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZYellowEgg.h; sourceTree = "<group>"; };
@@ -1122,6 +1125,8 @@
 				C2B756061655DD3100DB1D43 /* SZEggFactory.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
 				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
+				C254C331166D76B700FE081C /* SZNetworkSession.h */,
+				C254C332166D76B700FE081C /* SZNetworkSession.m */,
 				C2B7562A1655DD3100DB1D43 /* SZPoint.h */,
 				C2B7562B1655DD3100DB1D43 /* SZPoint.m */,
 			);
@@ -1594,6 +1599,7 @@
 				C2B756F31655DD8500DB1D43 /* SZTitleScreenLayer.m in Sources */,
 				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
 				C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */,
+				C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
