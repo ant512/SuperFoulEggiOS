@@ -104,6 +104,23 @@
 - (Class)randomEggClass {
 	int type = rand() % _eggColourCount;
 
+	// This could be problematic.  We've got two (or potentially, many) peers
+	// connected together.  Neither one is a server.  When one peer runs out of
+	// eggs in its factory it creates a new egg and sends the colour to its
+	// peers.  What happens if both peers need a new egg at exactly the same
+	// time?  They'll both create new eggs and send the transmissions to each
+	// other.  They'll become out of sync.  This is especially problematic at
+	// startup, as we want both games to start simultaneously.
+	//
+	// Potential fix: one of the peers is designated to be the server.  When a
+	// grid runner needs a new egg it switches to a new "waiting for new eggs"
+	// state.  It the peer is the server it just creates a new local egg.  If
+	// not, it sends a request to the server and asks for a new egg.  When the
+	// response comes back, the egg is added to the factory and the grid runner
+	// switches back to its "live blocks" state.
+	//
+	// We probably want to switch from peers to client/server.
+
 	[[SZNetworkSession sharedSession] sendNewEgg:type];
 
 	return [self eggClassFromInt:type];
