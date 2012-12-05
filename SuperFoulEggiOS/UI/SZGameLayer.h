@@ -16,7 +16,8 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	SZGameStateActive = 0,
 	SZGameStatePaused = 1,
 	SZGameStateGameOverEffect = 2,
-	SZGameStateGameOver = 3
+	SZGameStateGameOver = 3,
+	SZGameStateWaitingForNetwork = 4
 };
 
 @interface SZGameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {

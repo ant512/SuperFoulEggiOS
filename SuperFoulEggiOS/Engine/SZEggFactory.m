@@ -126,7 +126,13 @@
 	return [self eggClassFromInt:type];
 }
 
-- (SZEggBase*)newEggForPlayerNumber:(int)playerNumber {
+- (BOOL)hasEggsForPlayer:(int)playerNumber count:(int)count {
+	int index = _playerEggListIndices[playerNumber] + count;
+
+	return (index < _eggList.count);
+}
+
+- (SZEggBase *)newEggForPlayerNumber:(int)playerNumber {
 	int index = _playerEggListIndices[playerNumber]++;
 
 	// If the player is requesting a egg past the end of the egg list,

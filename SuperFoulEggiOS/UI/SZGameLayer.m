@@ -27,6 +27,7 @@
 
 #import "SZPad.h"
 #import "SZSettings.h"
+#import "SZNetworkSession.h"
 
 #import "SZGameTypeMenuLayer.h"
 
@@ -72,6 +73,8 @@ const int SZGrid2ScoresY = 285;
 		sranddev();
 		
 		self.touchEnabled = YES;
+
+		_state = SZGameStateWaitingForNetwork;
 		
 		UITapGestureRecognizer *clockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleClockwiseRotateTap:)];
 		
@@ -496,6 +499,12 @@ const int SZGrid2ScoresY = 285;
 	++_deathEffectTimer;
 }
 
+- (void)runNetworkWaitState {
+	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
+
+	if ([SZNetworkSession sharedSession].isRunning) _state = SZGameStateActive;
+}
+
 - (void)update:(ccTime)dt {
 	
 	// ccTime is measured in fractions of a second; we need it in frames per
@@ -522,6 +531,10 @@ const int SZGrid2ScoresY = 285;
 				
 			case SZGameStateGameOver:
 				[self runGameOverState];
+				break;
+
+			case SZGameStateWaitingForNetwork:
+				[self runNetworkWaitState];
 				break;
 		}
 		

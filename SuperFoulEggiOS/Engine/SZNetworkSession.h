@@ -5,6 +5,9 @@
 	GKSession *_session;
 }
 
+@property (readonly) BOOL isServer;
+@property (readonly) BOOL isRunning;
+
 + (SZNetworkSession *)sharedSession;
 
 - (void)start;

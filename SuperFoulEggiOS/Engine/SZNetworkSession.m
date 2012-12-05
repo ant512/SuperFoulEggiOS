@@ -5,7 +5,8 @@
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
-	SZMessageTypeNewEgg = 2
+	SZMessageTypeNewEgg = 2,
+	SZMessageTypeGameStart = 3
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -30,6 +31,12 @@ typedef struct {
 	SZMessage message;
 	char eggColour;
 } SZNewEggMessage;
+
+typedef struct {
+	SZMessage message;
+	char eggColour1;
+	char eggColour2;
+} SZGameStartMessage;
 
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
@@ -89,6 +96,17 @@ static NSString * const SZDisplayName = @"Player";
 			[session connectToPeer:peerID withTimeout:20];
 			break;
 		case GKPeerStateConnected:
+
+			_isServer = ([peerID compare:_session.peerID] == NSOrderedAscending);
+
+			if (_isServer) {
+				_isRunning = YES;
+
+				
+
+				//[self sendGameStartWithEggColour1:[SZEggFactory sharedFactory] add eggColour2:<#(int)#>]
+			}
+
 			break;
 		case GKPeerStateConnecting:
 			break;
@@ -112,6 +130,8 @@ static NSString * const SZDisplayName = @"Player";
 			break;
 		case SZMessageTypeNewEgg:
 			[self parseNewEggMessage:(SZNewEggMessage *)[data bytes]];
+			break;
+		case SZMessageTypeGameStart:
 			break;
 		case SZMessageTypeNone:
 			break;
@@ -198,6 +218,18 @@ static NSString * const SZDisplayName = @"Player";
 
 	message.message.messageType = SZMessageTypeNewEgg;
 	message.eggColour = eggColour;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+}
+
+- (void)sendGameStartWithEggColour1:(int)eggColour1 eggColour2:(int)eggColour2 {
+	SZGameStartMessage message;
+
+	message.message.messageType = SZMessageTypeGameStart;
+	message.eggColour1 = eggColour1;
+	message.eggColour2 = eggColour2;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
 @end

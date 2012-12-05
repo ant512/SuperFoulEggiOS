@@ -41,7 +41,7 @@ const int SZDropSpeedMultiplier = 4;
 				isRemote:(BOOL)isRemote {
 	
 	if ((self = [super init])) {
-		_state = SZGridRunnerStateDrop;
+		_state = SZGridRunnerStateRequestingNewEgg;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
@@ -56,11 +56,6 @@ const int SZDropSpeedMultiplier = 4;
 		_droppingLiveEggs = NO;
 
 		_isRemote = isRemote;
-		
-		// Ensure we have some initial eggs to add to the grid
-		for (int i = 0; i < SZLiveEggCount; ++i) {
-			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
-		}
 
 		if (_isRemote) {
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveLeft) name:SZRemoteMoveLeftNotification object:nil];
@@ -200,33 +195,18 @@ const int SZDropSpeedMultiplier = 4;
 			// Cannot add more eggs - game is over
 			_state = SZGridRunnerStateDead;
 		} else {
-			
-			[_nextEggs[0] release];
-			[_nextEggs[1] release];
-			
-			_nextEggs[0] = nil;
-			_nextEggs[1] = nil;
-			
-			// Fetch the next eggs from the egg factory and remember them
-			for (int i = 0; i < SZLiveEggCount; ++i) {
-				_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
-			}
-			
-			[_delegate didGridRunnerCreateNextEggs:self];
-			
+
 			if (_chainMultiplier > 1) {
 				[_delegate didGridRunnerExplodeMultipleChains:self];
 			}
-			
+
 			_chainMultiplier = 0;
-			
+
 			// Queue up outgoing eggs for the other player
 			_outgoingGarbageCount += _accumulatingGarbageCount;
 			_accumulatingGarbageCount = 0;
-			
-			[_delegate didGridRunnerAddLiveEggs:self];
-			
-			_state = SZGridRunnerStateLive;
+
+			_state = SZGridRunnerStateRequestingNewEgg;
 		}
 	}
 }
@@ -320,6 +300,33 @@ const int SZDropSpeedMultiplier = 4;
 	++_timer;
 	
 	switch (_state) {
+		case SZGridRunnerStateRequestingNewEgg:
+			[[SZEggFactory sharedFactory] addRandomEggClass];
+			[[SZEggFactory sharedFactory] addRandomEggClass];
+			_state = SZGridRunnerStateWaitingForNewEgg;
+			break;
+
+		case SZGridRunnerStateWaitingForNewEgg:
+			if ([[SZEggFactory sharedFactory] hasEggsForPlayer:_playerNumber count:SZLiveEggCount]) {
+
+				[_nextEggs[0] release];
+				[_nextEggs[1] release];
+
+				_nextEggs[0] = nil;
+				_nextEggs[1] = nil;
+
+				// Fetch the next eggs from the egg factory and remember them
+				for (int i = 0; i < SZLiveEggCount; ++i) {
+					_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
+				}
+
+				[_delegate didGridRunnerCreateNextEggs:self];
+				[_delegate didGridRunnerAddLiveEggs:self];
+
+				_state = SZGridRunnerStateLive;
+			}
+			break;
+
 		case SZGridRunnerStateDropGarbage:
 			[self dropGarbage];
 			break;

@@ -50,6 +50,8 @@
  */
 - (void)clear;
 
+- (BOOL)hasEggsForPlayer:(int)playerNumber count:(int)count;
+
 /**
  * Creates and returns the next egg for the specified grid.
  * @param playerNumber The number of the player for whom the egg is being

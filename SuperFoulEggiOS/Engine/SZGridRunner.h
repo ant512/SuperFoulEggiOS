@@ -29,7 +29,9 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 	SZGridRunnerStateLive = 2,					/**< Live, user-controlled eggs are in play. */
 	SZGridRunnerStateLanding = 3,				/**< Eggs are running their landing animations. */
 	SZGridRunnerStateExploding = 4,				/**< Eggs are running their exploding animations. */
-	SZGridRunnerStateDead = 5					/**< Game is over. */
+	SZGridRunnerStateDead = 5,					/**< Game is over. */
+	SZGridRunnerStateRequestingNewEgg = 6,
+	SZGridRunnerStateWaitingForNewEgg = 7		/**< Waiting for an egg to be created in the egg factory. */
 };
 
 /**
