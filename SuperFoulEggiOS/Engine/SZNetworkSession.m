@@ -1,6 +1,7 @@
 #import "SZNetworkSession.h"
 #import "SZEngineConstants.h"
 #import "SZEggFactory.h"
+#import "SZEggBase.h"
 
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
@@ -31,12 +32,6 @@ typedef struct {
 	SZMessage message;
 	char eggColour;
 } SZNewEggMessage;
-
-typedef struct {
-	SZMessage message;
-	char eggColour1;
-	char eggColour2;
-} SZGameStartMessage;
 
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
@@ -102,9 +97,13 @@ static NSString * const SZDisplayName = @"Player";
 			if (_isServer) {
 				_isRunning = YES;
 
-				
+				SZEggBase *egg1 = [[SZEggFactory sharedFactory] newEggForPlayerNumber:2];
+				SZEggBase *egg2 = [[SZEggFactory sharedFactory] newEggForPlayerNumber:2];
 
-				//[self sendGameStartWithEggColour1:[SZEggFactory sharedFactory] add eggColour2:<#(int)#>]
+				[self sendNewEgg:egg1];
+				[self sendNewEgg:egg2];
+
+				[self sendGameStart];
 			}
 
 			break;
@@ -132,6 +131,9 @@ static NSString * const SZDisplayName = @"Player";
 			[self parseNewEggMessage:(SZNewEggMessage *)[data bytes]];
 			break;
 		case SZMessageTypeGameStart:
+
+			_isRunning = YES;
+
 			break;
 		case SZMessageTypeNone:
 			break;
@@ -139,7 +141,7 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)parseNewEggMessage:(SZNewEggMessage *)message {
-	[[SZEggFactory sharedFactory] addEggClassFromInt:message->eggColour];
+	[[SZEggFactory sharedFactory] addEggClassFromColour:message->eggColour];
 }
 
 - (void)parseMoveMessage:(SZMoveMessage *)moveMessage {
@@ -213,21 +215,21 @@ static NSString * const SZDisplayName = @"Player";
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendNewEgg:(char)eggColour {
+- (void)sendNewEgg:(SZEggBase *)egg {
 	SZNewEggMessage message;
 
+	SZEggColour colour = [[SZEggFactory sharedFactory] colourOfEgg:egg];
+
 	message.message.messageType = SZMessageTypeNewEgg;
-	message.eggColour = eggColour;
+	message.eggColour = colour;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendGameStartWithEggColour1:(int)eggColour1 eggColour2:(int)eggColour2 {
-	SZGameStartMessage message;
+- (void)sendGameStart {
+	SZMessage message;
 
-	message.message.messageType = SZMessageTypeGameStart;
-	message.eggColour1 = eggColour1;
-	message.eggColour2 = eggColour2;
+	message.messageType = SZMessageTypeGameStart;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

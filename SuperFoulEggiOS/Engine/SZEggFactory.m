@@ -5,6 +5,7 @@
 #import "SZYellowEgg.h"
 #import "SZOrangeEgg.h"
 #import "SZPurpleEgg.h"
+#import "SZGarbageEgg.h"
 #import "SZNetworkSession.h"
 
 @implementation SZEggFactory
@@ -56,8 +57,8 @@
 	[_eggList addObject:[self randomEggClass]];
 }
 
-- (void)addEggClassFromInt:(int)value {
-	[_eggList addObject:[self eggClassFromInt:value]];
+- (void)addEggClassFromColour:(SZEggColour)value {
+	[_eggList addObject:[self eggClassFromColour:value]];
 }
 
 - (void)expireUsedEggClasses {
@@ -81,20 +82,24 @@
 	}
 }
 
-- (Class)eggClassFromInt:(int)value {
+- (Class)eggClassFromColour:(SZEggColour)value {
 	switch (value) {
-		case 0:
+		case SZEggColourRed:
 			return [SZRedEgg class];
-		case 1:
+		case SZEggColourBlue:
 			return [SZBlueEgg class];
-		case 2:
+		case SZEggColourYellow:
 			return [SZYellowEgg class];
-		case 3:
+		case SZEggColourPurple:
 			return [SZPurpleEgg class];
-		case 4:
+		case SZEggColourGreen:
 			return [SZGreenEgg class];
-		case 5:
+		case SZEggColourOrange:
 			return [SZOrangeEgg class];
+		case SZEggColourGarbage:
+			return [SZGarbageEgg class];
+		case SZEggColourNone:
+			return nil;
 	}
 
 	// Included to silence compiler warning
@@ -102,28 +107,8 @@
 }
 
 - (Class)randomEggClass {
-	int type = rand() % _eggColourCount;
-
-	// This could be problematic.  We've got two (or potentially, many) peers
-	// connected together.  Neither one is a server.  When one peer runs out of
-	// eggs in its factory it creates a new egg and sends the colour to its
-	// peers.  What happens if both peers need a new egg at exactly the same
-	// time?  They'll both create new eggs and send the transmissions to each
-	// other.  They'll become out of sync.  This is especially problematic at
-	// startup, as we want both games to start simultaneously.
-	//
-	// Potential fix: one of the peers is designated to be the server.  When a
-	// grid runner needs a new egg it switches to a new "waiting for new eggs"
-	// state.  It the peer is the server it just creates a new local egg.  If
-	// not, it sends a request to the server and asks for a new egg.  When the
-	// response comes back, the egg is added to the factory and the grid runner
-	// switches back to its "live blocks" state.
-	//
-	// We probably want to switch from peers to client/server.
-
-	[[SZNetworkSession sharedSession] sendNewEgg:type];
-
-	return [self eggClassFromInt:type];
+	int colour = rand() % _eggColourCount;
+	return [self eggClassFromColour:colour];
 }
 
 - (BOOL)hasEggsForPlayer:(int)playerNumber count:(int)count {
@@ -132,10 +117,30 @@
 	return (index < _eggList.count);
 }
 
+- (SZEggColour)colourOfEgg:(SZEggBase *)egg {
+	if ([egg class] == [SZRedEgg class]) {
+		return SZEggColourRed;
+	} else if ([egg class] == [SZOrangeEgg class]) {
+		return SZEggColourOrange;
+	} else if ([egg class] == [SZBlueEgg class]) {
+		return SZEggColourBlue;
+	} else if ([egg class] == [SZGreenEgg class]) {
+		return SZEggColourGreen;
+	} else if ([egg class] == [SZYellowEgg class]) {
+		return SZEggColourYellow;
+	} else if ([egg class] == [SZPurpleEgg class]) {
+		return SZEggColourPurple;
+	} else if ([egg class] == [SZRedEgg class]) {
+		return SZEggColourGarbage;
+	}
+
+	return SZEggColourNone;
+}
+
 - (SZEggBase *)newEggForPlayerNumber:(int)playerNumber {
 	int index = _playerEggListIndices[playerNumber]++;
 
-	// If the player is requesting a egg past the end of the egg list,
+	// If the player is requesting an egg past the end of the egg list,
 	// we need to append a new pair before we can return it
 	if (index == [_eggList count]) {
 		[self addRandomEggClass];

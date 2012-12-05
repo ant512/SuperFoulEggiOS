@@ -4,6 +4,17 @@
 #import "SZEggBase.h"
 #import "SZGrid.h"
 
+typedef NS_ENUM(NSUInteger, SZEggColour) {
+	SZEggColourRed = 0,
+	SZEggColourBlue = 1,
+	SZEggColourYellow = 2,
+	SZEggColourPurple = 3,
+	SZEggColourGreen = 4,
+	SZEggColourOrange = 5,
+	SZEggColourGarbage = 6,
+	SZEggColourNone = 7
+};
+
 /**
  * Each time a new set of eggs is added to a grid, the grid asks an instance
  * of this class for the eggs.  All grids must share the same SZEggFactory
@@ -66,10 +77,10 @@
 - (void)addRandomEggClass;
 
 /**
- * Adds an egg class to the egg list based on the supplied value.
- * @param value Represents the type of egg class to add.
+ * Adds an egg class to the egg list based on the supplied colour.
+ * @param colour Represents the type of egg class to add.
  */
-- (void)addEggClassFromInt:(int)value;
+- (void)addEggClassFromColour:(SZEggColour)colour;
 
 /**
  * Removes all egg classes from the egg list that have been used by all players.
@@ -81,5 +92,7 @@
  * @return A random egg class.
  */
 - (Class)randomEggClass;
+
+- (SZEggColour)colourOfEgg:(SZEggBase *)egg;
 
 @end

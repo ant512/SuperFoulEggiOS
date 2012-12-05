@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
+@class SZEggBase;
+
 @interface SZNetworkSession : NSObject <GKSessionDelegate> {
 	GKSession *_session;
 }
@@ -16,6 +18,6 @@
 - (void)sendLiveBlockDrop;
 - (void)sendLiveBlockRotateClockwise;
 - (void)sendLiveBlockRotateAnticlockwise;
-- (void)sendNewEgg:(char)eggColour;
+- (void)sendNewEgg:(SZEggBase *)egg;
 
 @end
