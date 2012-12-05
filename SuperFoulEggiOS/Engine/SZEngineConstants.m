@@ -13,3 +13,4 @@ NSString * const SZRemoteMoveRightNotification = @"SZRemoteMoveRight";
 NSString * const SZRemoteDropNotification = @"SZRemoteDrop";
 NSString * const SZRemoteRotateClockwiseNotification = @"SZRemoteRotateClockwise";
 NSString * const SZRemoteRotateAnticlockwiseNotification = @"SZRemoteRotateAnticlockwise";
+NSString * const SZRemoteEggDeliveryNotification = @"SZRemoteEggDeliveryNotification";

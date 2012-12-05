@@ -21,6 +21,20 @@
 	return sharedFactory;
 }
 
+- (id)init {
+	if ((self = [super init])) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedRemoteEgg:) name:SZRemoteEggDeliveryNotification object:nil];
+	}
+
+	return self;
+}
+
+- (void)receivedRemoteEgg:(NSNumber *)eggColour {
+	SZEggColour colour = [eggColour intValue];
+
+	[self addEggClassFromColour:colour];
+}
+
 - (void)setPlayerCount:(int)playerCount andEggColourCount:(int)eggColourCount {
 	_playerCount = playerCount;
 	_eggColourCount = eggColourCount;

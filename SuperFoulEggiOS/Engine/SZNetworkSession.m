@@ -96,13 +96,13 @@ static NSString * const SZDisplayName = @"Player";
 
 			if (_isServer) {
 				_isRunning = YES;
-
+/*
 				SZEggBase *egg1 = [[SZEggFactory sharedFactory] newEggForPlayerNumber:2];
 				SZEggBase *egg2 = [[SZEggFactory sharedFactory] newEggForPlayerNumber:2];
 
 				[self sendNewEgg:egg1];
 				[self sendNewEgg:egg2];
-
+*/
 				[self sendGameStart];
 			}
 
@@ -141,7 +141,7 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)parseNewEggMessage:(SZNewEggMessage *)message {
-	[[SZEggFactory sharedFactory] addEggClassFromColour:message->eggColour];
+	[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteEggDeliveryNotification object:@(message->eggColour)];
 }
 
 - (void)parseMoveMessage:(SZMoveMessage *)moveMessage {
@@ -215,13 +215,11 @@ static NSString * const SZDisplayName = @"Player";
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendNewEgg:(SZEggBase *)egg {
+- (void)sendNewEgg:(int)eggColour {
 	SZNewEggMessage message;
 
-	SZEggColour colour = [[SZEggFactory sharedFactory] colourOfEgg:egg];
-
 	message.message.messageType = SZMessageTypeNewEgg;
-	message.eggColour = colour;
+	message.eggColour = eggColour;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

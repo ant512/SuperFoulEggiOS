@@ -30,3 +30,4 @@ extern NSString * const SZRemoteMoveRightNotification;
 extern NSString * const SZRemoteDropNotification;
 extern NSString * const SZRemoteRotateClockwiseNotification;
 extern NSString * const SZRemoteRotateAnticlockwiseNotification;
+extern NSString * const SZRemoteEggDeliveryNotification;
