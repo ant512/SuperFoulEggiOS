@@ -172,7 +172,7 @@ static NSString * const SZDisplayName = @"Player";
 		NSString *winner = [_currentVotes allKeys][0];
 
 		for (NSString *peer in _currentVotes) {
-			if ([peer compare:winner] == NSOrderedAscending) {
+			if ([peer compare:winner] == NSOrderedDescending) {
 				winner = peer;
 			}
 		}
@@ -181,6 +181,7 @@ static NSString * const SZDisplayName = @"Player";
 
 		[_currentVotes removeAllObjects];
 		++_eggVoteNumber;
+		_isWaitingForVotes = NO;
 	}
 }
 
