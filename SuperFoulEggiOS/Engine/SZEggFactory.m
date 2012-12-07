@@ -155,6 +155,11 @@
 
 		// We're not in a networked game, so we can just add an egg.
 		[self addRandomEggClass];
+
+	} else if (index < _eggList.count - 2 && _isNetworkActive) {
+
+		// We want to make sure we always have a buffered egg pair in the list
+		[[SZNetworkSession sharedSession] sendEggPairVote];
 	}
 
 	return YES;
