@@ -41,7 +41,7 @@ const int SZDropSpeedMultiplier = 4;
 				isRemote:(BOOL)isRemote {
 	
 	if ((self = [super init])) {
-		_state = SZGridRunnerStateRequestingNewEgg;
+		_state = SZGridRunnerStateWaitingForNewEgg;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
@@ -206,7 +206,7 @@ const int SZDropSpeedMultiplier = 4;
 			_outgoingGarbageCount += _accumulatingGarbageCount;
 			_accumulatingGarbageCount = 0;
 
-			_state = SZGridRunnerStateRequestingNewEgg;
+			_state = SZGridRunnerStateWaitingForNewEgg;
 		}
 	}
 }
@@ -300,14 +300,8 @@ const int SZDropSpeedMultiplier = 4;
 	++_timer;
 	
 	switch (_state) {
-		case SZGridRunnerStateRequestingNewEgg:
-			[[SZEggFactory sharedFactory] addRandomEggClass];
-			[[SZEggFactory sharedFactory] addRandomEggClass];
-			_state = SZGridRunnerStateWaitingForNewEgg;
-			break;
-
 		case SZGridRunnerStateWaitingForNewEgg:
-			if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:_playerNumber ]) {
+			if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:_playerNumber]) {
 
 				[_nextEggs[0] release];
 				[_nextEggs[1] release];

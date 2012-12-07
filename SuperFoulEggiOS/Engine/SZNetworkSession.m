@@ -132,6 +132,8 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendEggPairVote {
 
 	if (_isWaitingForVotes) return;
+	if ([_session peersWithConnectionState:GKPeerStateConnected].count < _playerCount - 1) return;
+	
 	_isWaitingForVotes = YES;
 
 	SZEggPairVoteMessage message;
@@ -156,6 +158,8 @@ static NSString * const SZDisplayName = @"Player";
 	if (message->voteNumber < _eggVoteNumber) return;
 
 	_currentVotes[peerId] = @[ @(message->eggColour1), @(message->eggColour2) ];
+
+	NSLog(@"%d", [_session peersWithConnectionState:GKPeerStateConnected].count);
 
 	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count) {
 

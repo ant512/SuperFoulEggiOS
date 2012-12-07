@@ -136,7 +136,7 @@
 - (BOOL)hasEggPairForPlayer:(int)playerNumber {
 	int index = _playerEggListIndices[playerNumber] + 2;
 
-	if (index < _eggList.count) {
+	if (index > _eggList.count) {
 
 		// If we're in a networked game, we'll have to reach agreement with
 		// the group as to the colour of the next egg.  We'll also have to
