@@ -1,23 +1,23 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
-
-@class SZEggBase;
+#import "SZEggFactory.h"
 
 @interface SZNetworkSession : NSObject <GKSessionDelegate> {
 	GKSession *_session;
+	NSUInteger _eggVoteNumber;
+	NSMutableDictionary *_currentVotes;
+	NSUInteger _playerCount;
+	BOOL _isWaitingForVotes;
 }
-
-@property (readonly) BOOL isServer;
-@property (readonly) BOOL isRunning;
 
 + (SZNetworkSession *)sharedSession;
 
-- (void)start;
+- (void)startWithPlayerCount:(NSUInteger)playerCount;
 - (void)sendLiveBlockMoveLeft;
 - (void)sendLiveBlockMoveRight;
 - (void)sendLiveBlockDrop;
 - (void)sendLiveBlockRotateClockwise;
 - (void)sendLiveBlockRotateAnticlockwise;
-- (void)sendNewEgg:(int)eggColour;
+- (void)sendEggPairVote;
 
 @end

@@ -37,6 +37,7 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
 										 _eggList that each player is currently using. */
 	int _eggColourCount;			/**< Number of colours that the factory can produce. */
 	int _playerCount;				/**< Number of players in the game. */
+	BOOL _isNetworkActive;
 }
 
 /**
@@ -49,7 +50,9 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  * @param playerCount The number of players in the game.
  * @param eggColourCount The number of egg colours available.
  */
-- (void)setPlayerCount:(int)playerCount andEggColourCount:(int)eggColourCount;
+- (void)setPlayerCount:(int)playerCount
+		eggColourCount:(int)eggColourCount
+	   isNetworkActive:(BOOL)isNetworkActive;
 
 /**
  * Deallocates the object.
@@ -61,7 +64,7 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  */
 - (void)clear;
 
-- (BOOL)hasEggsForPlayer:(int)playerNumber count:(int)count;
+- (BOOL)hasEggPairForPlayer:(int)playerNumber;
 
 /**
  * Creates and returns the next egg for the specified grid.

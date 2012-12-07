@@ -74,7 +74,7 @@ const int SZGrid2ScoresY = 285;
 		
 		self.touchEnabled = YES;
 
-		_state = SZGameStateWaitingForNetwork;
+		_state = SZGameStateWaitingForEgg;
 		
 		UITapGestureRecognizer *clockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleClockwiseRotateTap:)];
 		
@@ -108,7 +108,9 @@ const int SZGrid2ScoresY = 285;
 		
 		int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 
-		[[SZEggFactory sharedFactory] setPlayerCount:players andEggColourCount:[SZSettings sharedSettings].eggColours];
+		[[SZEggFactory sharedFactory] setPlayerCount:players
+									  eggColourCount:[SZSettings sharedSettings].eggColours
+									 isNetworkActive:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
 		
 		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
@@ -499,10 +501,11 @@ const int SZGrid2ScoresY = 285;
 	++_deathEffectTimer;
 }
 
-- (void)runNetworkWaitState {
+- (void)runEggWaitState {
 	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
 
-	if ([SZNetworkSession sharedSession].isRunning) _state = SZGameStateActive;
+	if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:0] &&
+		[[SZEggFactory sharedFactory] hasEggPairForPlayer:1]) _state = SZGameStateActive;
 }
 
 - (void)update:(ccTime)dt {
@@ -533,8 +536,8 @@ const int SZGrid2ScoresY = 285;
 				[self runGameOverState];
 				break;
 
-			case SZGameStateWaitingForNetwork:
-				[self runNetworkWaitState];
+			case SZGameStateWaitingForEgg:
+				[self runEggWaitState];
 				break;
 		}
 		

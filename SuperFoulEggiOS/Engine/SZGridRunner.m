@@ -307,7 +307,7 @@ const int SZDropSpeedMultiplier = 4;
 			break;
 
 		case SZGridRunnerStateWaitingForNewEgg:
-			if ([[SZEggFactory sharedFactory] hasEggsForPlayer:_playerNumber count:SZLiveEggCount]) {
+			if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:_playerNumber ]) {
 
 				[_nextEggs[0] release];
 				[_nextEggs[1] release];

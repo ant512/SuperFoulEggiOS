@@ -29,15 +29,21 @@
 	return self;
 }
 
-- (void)receivedRemoteEgg:(NSNumber *)eggColour {
-	SZEggColour colour = [eggColour intValue];
+- (void)receivedRemoteEgg:(NSArray *)eggColours {
+	SZEggColour colour1	= [eggColours[0] intValue];
+	SZEggColour colour2 = [eggColours[1] intValue];
 
-	[self addEggClassFromColour:colour];
+	[self addEggClassFromColour:colour1];
+	[self addEggClassFromColour:colour2];
 }
 
-- (void)setPlayerCount:(int)playerCount andEggColourCount:(int)eggColourCount {
+- (void)setPlayerCount:(int)playerCount
+		eggColourCount:(int)eggColourCount
+	   isNetworkActive:(BOOL)isNetworkActive {
+
 	_playerCount = playerCount;
 	_eggColourCount = eggColourCount;
+	_isNetworkActive = isNetworkActive;
 
 	if (_playerEggListIndices) {		
 		free(_playerEggListIndices);
@@ -53,6 +59,8 @@
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteEggDeliveryNotification object:nil];
+
 	free(_playerEggListIndices);
 	
 	[_eggList release];
@@ -125,10 +133,25 @@
 	return [self eggClassFromColour:colour];
 }
 
-- (BOOL)hasEggsForPlayer:(int)playerNumber count:(int)count {
-	int index = _playerEggListIndices[playerNumber] + count;
+- (BOOL)hasEggPairForPlayer:(int)playerNumber {
+	int index = _playerEggListIndices[playerNumber] + 2;
 
-	return (index < _eggList.count);
+	if (index < _eggList.count) {
+
+		// If we're in a networked game, we'll have to reach agreement with
+		// the group as to the colour of the next egg.  We'll also have to
+		// wait until the response comes back before the game can continue.
+
+		if (_isNetworkActive) {
+			[[SZNetworkSession sharedSession] sendEggPairVote];
+			return NO;
+		}
+
+		// We're not in a networked game, so we can just add an egg.
+		[self addRandomEggClass];
+	}
+
+	return YES;
 }
 
 - (SZEggColour)colourOfEgg:(SZEggBase *)egg {
@@ -153,13 +176,7 @@
 
 - (SZEggBase *)newEggForPlayerNumber:(int)playerNumber {
 	int index = _playerEggListIndices[playerNumber]++;
-
-	// If the player is requesting an egg past the end of the egg list,
-	// we need to append a new pair before we can return it
-	if (index == [_eggList count]) {
-		[self addRandomEggClass];
-	}
-
+	
 	// Initialise a new egg instance from the class at the current egglist
 	// index that this player is using
 	SZEggBase* egg = [[[_eggList objectAtIndex:index] alloc] init];

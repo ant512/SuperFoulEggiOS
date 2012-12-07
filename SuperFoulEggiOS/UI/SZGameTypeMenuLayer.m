@@ -183,7 +183,7 @@
 				[SZSettings sharedSettings].aiType = SZAITypeInsane;
 				break;
 			case 5:
-				[[SZNetworkSession sharedSession] start];
+				[[SZNetworkSession sharedSession] startWithPlayerCount:2];
 				[SZSettings sharedSettings].gameType = SZGameTypeTwoPlayer;
 				break;
 		}

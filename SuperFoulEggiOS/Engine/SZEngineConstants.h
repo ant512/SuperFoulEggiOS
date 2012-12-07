@@ -4,6 +4,8 @@
  */
 #define SZLiveEggCount 2
 #define SZGridSize 96
+#define SZMaximumPlayers 2
+#define SZEggColourCount 6
 
 /**
  * The number of garbage eggs represented by the face boulder.
@@ -24,6 +26,7 @@ extern const int SZGridWidth;
 extern const int SZGridHeight;
 extern const int SZGridEntryY;
 extern const int SZChainLength;
+
 
 extern NSString * const SZRemoteMoveLeftNotification;
 extern NSString * const SZRemoteMoveRightNotification;
