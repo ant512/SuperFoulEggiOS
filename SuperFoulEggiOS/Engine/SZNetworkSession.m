@@ -96,11 +96,11 @@ static NSString * const SZDisplayName = @"Player";
 			[session connectToPeer:peerID withTimeout:20];
 			break;
 		case GKPeerStateConnected:
-
+/*
 			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
 				[self sendEggPairVote];
 			}
-
+*/
 			break;
 		case GKPeerStateConnecting:
 			break;
@@ -155,8 +155,6 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received egg vote");
 
-	NSAssert(message->voteNumber <= _eggVoteNumber, @"Peer voting for a future vote number");
-
 	// If we've already voted on an egg we don't want to vote again.  If we do
 	// we'll end up with every client replying to every vote, which in turn will
 	// prompt votes, and prompt votes, ad infinitum.
@@ -164,7 +162,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	_currentVotes[peerId] = @[ @(message->eggColour1), @(message->eggColour2) ];
 
-	NSLog(@"Peers: %d", [_session peersWithConnectionState:GKPeerStateConnected].count);
+	if (message->voteNumber > _eggVoteNumber) {
+		[self sendEggPairVote];
+	}
 
 	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
@@ -187,8 +187,6 @@ static NSString * const SZDisplayName = @"Player";
 		NSLog(@"Winner: %@", _currentVotes[winner]);
 
 		[[SZEggFactory sharedFactory] addEggPairFromColours:_currentVotes[winner]];
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteEggDeliveryNotification object:_currentVotes[winner]];
 
 		[_currentVotes removeAllObjects];
 		++_eggVoteNumber;
