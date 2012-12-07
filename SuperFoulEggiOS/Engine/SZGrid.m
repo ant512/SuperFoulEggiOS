@@ -687,7 +687,7 @@
 	return result;
 }
 
-- (void)addGarbage:(int)count {
+- (void)addGarbage:(int)count randomPlacement:(BOOL)randomPlacement {
 	int columnHeights[SZGridWidth];
 	int columns[SZGridWidth];
 	int items = 0;
@@ -715,14 +715,16 @@
 		// Once this is known, we'll insert into a random column between
 		// the two.  This ensures that the garbage insertion pattern
 		// isn't predictable
-		int targetEnd = insertPoint;
-				
-		while (targetEnd < items - 1 && columnHeights[targetEnd + 1] == height) {
-			++targetEnd;
+		if (randomPlacement) {
+			int targetEnd = insertPoint;
+					
+			while (targetEnd < items - 1 && columnHeights[targetEnd + 1] == height) {
+				++targetEnd;
+			}
+					
+			// Choose a column between the start and end at random
+			insertPoint += rand() % (targetEnd - insertPoint + 1);
 		}
-				
-		// Choose a column between the start and end at random
-		insertPoint += rand() % (targetEnd - insertPoint + 1);
 		
 		// Shuffle items back one space to create a gap for the new value
 		for (int k = items; k > insertPoint; --k) {

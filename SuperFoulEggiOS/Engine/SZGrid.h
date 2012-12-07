@@ -134,7 +134,7 @@
  * height, garbage eggs are added into those columns in random order.
  * @param count The number of garbage eggs to add.
  */
-- (void)addGarbage:(int)count;
+- (void)addGarbage:(int)count randomPlacement:(BOOL)randomPlacement;
 
 /**
  * Gets the number of eggs that would be exploded if the specified egg is

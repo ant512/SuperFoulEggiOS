@@ -2,6 +2,7 @@
 #import "SZEngineConstants.h"
 #import "SZNetworkSession.h"
 #import "SZEggFactory.h"
+#import "SZSettings.h"
 
 /**
  * Number of iterations before eggs drop when automatic dropping mode is
@@ -177,7 +178,7 @@ const int SZDropSpeedMultiplier = 4;
 	} else if (_incomingGarbageCount > 0) {
 		
 		// Add any incoming garbage eggs
-		[_grid addGarbage:_incomingGarbageCount];
+		[_grid addGarbage:_incomingGarbageCount randomPlacement:![SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
 		
 		// Switch back to the drop state
 		_state = SZGridRunnerStateDropGarbage;
