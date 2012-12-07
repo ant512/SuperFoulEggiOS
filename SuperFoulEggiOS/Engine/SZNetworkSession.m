@@ -53,6 +53,7 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)dealloc {
 	[_session release];
+	[_currentVotes release];
 
 	[super dealloc];
 }
@@ -70,7 +71,7 @@ static NSString * const SZDisplayName = @"Player";
 
 	[_session setDataReceiveHandler:self withContext:nil];
 
-	_currentVotes = [NSMutableDictionary dictionary];
+	_currentVotes = [[NSMutableDictionary dictionary] retain];
 	
 	_eggVoteNumber = 0;
 	_isWaitingForVotes = NO;
