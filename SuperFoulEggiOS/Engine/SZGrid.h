@@ -31,7 +31,7 @@
  */
 @interface SZGrid : SZGridBase {
 @private
-	SZEggBase* _liveEggs[SZLiveEggCount];	/**< The co-ordinates of the two live eggs in the grid. */
+	SZEggBase *_liveEggs[SZLiveEggCount];	/**< The co-ordinates of the two live eggs in the grid. */
 }
 
 @property (readwrite, assign) id <SZGridDelegate> delegate;
@@ -57,7 +57,7 @@
  * @param x The x co-ordinate of the egg.
  * @param y The y co-ordinate of the egg.
  */
-- (void)addEgg:(SZEggBase*)egg x:(int)x y:(int)y;
+- (void)addEgg:(SZEggBase *)egg x:(int)x y:(int)y;
 
 /**
  * Removes and deallocates the egg at the specified co-ordinates.
@@ -115,7 +115,7 @@
  * @return True if the eggs were added; false if they could not be added.
  * Failure indicates game over.
  */
-- (BOOL)addLiveEggs:(SZEggBase*)egg1 egg2:(SZEggBase*)egg2;
+- (BOOL)addLiveEggs:(SZEggBase *)egg1 egg2:(SZEggBase *)egg2;
 
 /**
  * Connects all eggs to their same-coloured neighbours.
@@ -153,14 +153,14 @@
  * value is set to true.
  * @return The number of eggs that would be exploded by placing the egg.
  */
-- (int)getPotentialExplodedEggCount:(int)x y:(int)y egg:(SZEggBase*)egg checkedData:(BOOL*)checkedData;
+- (int)getPotentialExplodedEggCount:(int)x y:(int)y egg:(SZEggBase *)egg checkedData:(BOOL *)checkedData;
 
 /**
  * Gets the specified live egg.  Valid indices are 0 and 1.
  * @param index The index of the live egg to retrieve.
  * @return The specified live egg.
  */
-- (SZEggBase*)liveEgg:(int)index;
+- (SZEggBase *)liveEgg:(int)index;
 
 /**
  * Creates an array of points that represent grid co-ordinates of eggs that
@@ -177,13 +177,13 @@
  * @return A new array of points in the chain that includes the supplied
  * co-ordinates.
  */
-- (NSMutableArray*)newPointChainFromCoordinatesX:(int)x y:(int)y checkedData:(BOOL*)checkedData;
+- (NSMutableArray *)newPointChainFromCoordinatesX:(int)x y:(int)y checkedData:(BOOL *)checkedData;
 
 /**
  * Gets an array of all arrays of egg chains in the grid.
  * @return An array of all point chain arrays in the grid.
  */
-- (NSMutableArray*)newPointChainsFromAllCoordinates;
+- (NSMutableArray *)newPointChainsFromAllCoordinates;
 
 /**
  * Creates the bottom row of eggs in the grid.  The bottom row is comprised of

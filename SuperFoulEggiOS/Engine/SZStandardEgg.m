@@ -2,7 +2,7 @@
 
 @implementation SZStandardEgg
 
-- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left {
+- (void)connect:(SZEggBase *)top right:(SZEggBase *)right bottom:(SZEggBase *)bottom left:(SZEggBase *)left {
 	
 	BOOL topSet = top != NULL && [top class] == [self class] && top.state == SZEggStateNormal;
 	BOOL rightSet = right != NULL && [right class] == [self class] && right.state == SZEggStateNormal;

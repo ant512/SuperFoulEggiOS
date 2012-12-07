@@ -111,7 +111,7 @@
 	[_delegate didEggConnect:self];
 }
 
-- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left {
+- (void)connect:(SZEggBase *)top right:(SZEggBase *)right bottom:(SZEggBase *)bottom left:(SZEggBase *)left {
 }
 
 - (void)setX:(int)x andY:(int)y {

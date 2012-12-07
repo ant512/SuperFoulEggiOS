@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 @interface SZGridRunner : NSObject {
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
-	SZEggBase* _nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
+	SZEggBase *_nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
 
 	int _speed;									/**< Current speed. */
 	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 /**
  * The grid controlled by this grid runner.
  */
-@property (readonly, retain) SZGrid* grid;
+@property (readonly, retain) SZGrid *grid;
 
 /**
  * The controller used for input.
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * @param speed The auto drop speed.
  */
 - (id)initWithController:(id <SZGameController>)controller
-					grid:(SZGrid*)grid
+					grid:(SZGrid *)grid
 			playerNumber:(int)playerNumber
 				   speed:(int)speed
 				isRemote:(BOOL)isRemote;
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * @param index The index of the egg to retrieve.
  * @return The requested next egg.
  */
-- (SZEggBase*)nextEgg:(int)index;
+- (SZEggBase *)nextEgg:(int)index;
 
 /**
  * Increase the amount of incoming garbage eggs by the specified amount.

@@ -4,7 +4,7 @@
 
 @implementation SZSmartAIController
 
-- (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid {
+- (id)initWithHesitation:(int)hesitation grid:(SZGrid *)grid {
 	if ((self = [super init])) {
 		_grid = [grid retain];
 		_lastLiveEggY = SZGridHeight;
@@ -23,8 +23,8 @@
 
 - (void)analyseGrid {
 	
-	SZEggBase* egg1 = [_grid liveEgg:0];
-	SZEggBase* egg2 = [_grid liveEgg:1];
+	SZEggBase *egg1 = [_grid liveEgg:0];
+	SZEggBase *egg2 = [_grid liveEgg:1];
 	
 	// If last observed y is greater than current live egg y, we'll need
 	// to choose a new move
@@ -96,7 +96,7 @@
 	int exploded = 0;
 	int iteration = 1;
 	
-	SZGrid* gridCopy = [_grid copy];
+	SZGrid *gridCopy = [_grid copy];
 	
 	while (rotation > 0) {
 		[gridCopy rotateLiveEggsClockwise];
@@ -171,7 +171,7 @@
 	// AI would be unbeatable.  I'm not going to fix the issue.
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* egg1 = [_grid liveEgg:0];
+	SZEggBase *egg1 = [_grid liveEgg:0];
 	
 	BOOL result = egg1.x > _targetX;
 
@@ -183,7 +183,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* egg1 = [_grid liveEgg:0];
+	SZEggBase *egg1 = [_grid liveEgg:0];
 	
 	BOOL result = egg1.x < _targetX;
 
@@ -199,7 +199,7 @@
 	
 	if (_targetRotations != 0) return NO;
 	
-	SZEggBase* egg1 = [_grid liveEgg:0];
+	SZEggBase *egg1 = [_grid liveEgg:0];
 	
 	BOOL result = egg1.x == _targetX;
 	

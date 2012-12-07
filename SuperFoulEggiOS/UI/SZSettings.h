@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, SZGameType) {
 
 @property(readwrite) unichar keyCodeQuit;
 
-+ (SZSettings*)sharedSettings;
++ (SZSettings *)sharedSettings;
 - (id)init;
 - (void)save;
 

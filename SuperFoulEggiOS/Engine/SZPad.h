@@ -273,13 +273,13 @@
  * Get the Pad singleton instance for player 1.
  * @return The pad singleton instance for player 1.
  */
-+ (SZPad*)instanceOne;
++ (SZPad *)instanceOne;
 
 /**
  * Get the Pad singleton instance for player 2.
  * @return The pad singleton instance for player 2.
  */
-+ (SZPad*)instanceTwo;
++ (SZPad *)instanceTwo;
 
 - (id)init;
 - (void)update;

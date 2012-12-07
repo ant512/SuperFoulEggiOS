@@ -31,7 +31,7 @@
 	[super dealloc];
 }
 
-- (void)addEgg:(SZEggBase*)egg x:(int)x y:(int)y {
+- (void)addEgg:(SZEggBase *)egg x:(int)x y:(int)y {
 	[_delegate grid:self didAddEgg:egg];
 	[super addEgg:egg x:x y:y];
 }
@@ -48,7 +48,7 @@
 
 - (void)createBottomRow {
 
-	SZEggBase* egg = [[SZGridBottomLeftEgg alloc] init];
+	SZEggBase *egg = [[SZGridBottomLeftEgg alloc] init];
 	[self addEgg:egg x:0 y:SZGridHeight - 1];
 	[egg release];
 	
@@ -67,23 +67,23 @@
 	
 	int eggs = 0;
 
-	NSMutableArray* chains = [self newPointChainsFromAllCoordinates];
+	NSMutableArray *chains = [self newPointChainsFromAllCoordinates];
 
 	// These are the co-ordinates of the 4 eggs adjacent to the current egg
 	static int xCoords[4] = { -1, 1, 0, 0 };
 	static int yCoords[4] = { 0, 0, -1, 1 };
 
-	for (NSArray* chain in chains) {
+	for (NSArray *chain in chains) {
 		eggs += [chain count];
 
-		for (SZPoint* point in chain) {
+		for (SZPoint *point in chain) {
 			
 			[[self eggAtX:point.x y:point.y] startExploding];
 
 			// Remove any adjacent garbage
 			for (int i = 0; i < 4; ++i) {
 
-				SZEggBase* garbage = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
+				SZEggBase *garbage = [self eggAtX:point.x + xCoords[i] y:point.y + yCoords[i]];
 				if (garbage != nil && [garbage isKindOfClass:[SZGarbageEgg class]]) {
 					if (garbage.state == SZEggStateNormal) {
 						[garbage startExploding];
@@ -98,9 +98,9 @@
 	return eggs;
 }
 
-- (NSMutableArray*)newPointChainsFromAllCoordinates {
+- (NSMutableArray *)newPointChainsFromAllCoordinates {
 
-	NSMutableArray* chains = [[NSMutableArray alloc] init];
+	NSMutableArray *chains = [[NSMutableArray alloc] init];
 
 	// Array of bools remembers which eggs we've already examined so that we
 	// don't check them again and get stuck in a loop
@@ -116,7 +116,7 @@
 			// Skip if egg already checked
 			if (checkedData[x + (y * SZGridWidth)]) continue;
 
-			NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
+			NSMutableArray *chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
 
 			// Only remember the chain if it has the minimum number of eggs in
 			// it at least
@@ -131,13 +131,13 @@
 	return chains;
 }
 
-- (SZEggBase*)liveEgg:(int)index {
+- (SZEggBase *)liveEgg:(int)index {
 	NSAssert(index < 2, @"Only 2 live eggs are available.");
 	
 	return _liveEggs[index];
 }
 
-- (int)getPotentialExplodedEggCount:(int)x y:(int)y egg:(SZEggBase*)egg checkedData:(BOOL*)checkedData {
+- (int)getPotentialExplodedEggCount:(int)x y:(int)y egg:(SZEggBase *)egg checkedData:(BOOL *)checkedData {
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 	
@@ -145,8 +145,8 @@
 
 	// Set initial capacity to 11 as it is highly unlikely that longer chains
 	// can be created
-	NSMutableArray* chain = [[NSMutableArray alloc] initWithCapacity:11];
-	NSMutableArray* singleChain = nil;
+	NSMutableArray *chain = [[NSMutableArray alloc] initWithCapacity:11];
+	NSMutableArray *singleChain = nil;
 
 	// These are the co-ordinates of the 4 eggs adjacent to the current egg
 	static int xCoords[4] = { -1, 1, 0, 0 };
@@ -155,7 +155,7 @@
 	// Analyze all adjacent eggs
 	for (int i = 0; i < 4; ++i) {
 
-		SZEggBase* gridEgg = [self eggAtX:x + xCoords[i] y:y + yCoords[i]];
+		SZEggBase *gridEgg = [self eggAtX:x + xCoords[i] y:y + yCoords[i]];
 		if (gridEgg != nil && [gridEgg class] == [egg class]) {
 			singleChain = [self newPointChainFromCoordinatesX:x + xCoords[i] y:y + yCoords[i] checkedData:checkedData];
 
@@ -171,11 +171,11 @@
 	int garbageCount = 0;
 
 	if ([chain count] >= SZChainLength) {
-		SZEggBase* gridEgg = nil;
+		SZEggBase *gridEgg = nil;
 
 		for (id item in chain) {
 
-			SZPoint* point = (SZPoint*)item;
+			SZPoint *point = (SZPoint *)item;
 			
 			// Check all adjacent eggs to see if they are garbage
 			for (int i = 0; i < 4; ++i) {
@@ -203,7 +203,7 @@
 	return length;
 }
 
-- (NSMutableArray*)newPointChainFromCoordinatesX:(int)x y:(int)y checkedData:(BOOL*)checkedData {
+- (NSMutableArray *)newPointChainFromCoordinatesX:(int)x y:(int)y checkedData:(BOOL *)checkedData {
 
 	NSAssert([self isValidCoordinateX:x y:y], @"Invalid co-ordinates supplied.");
 
@@ -212,10 +212,10 @@
 
 	int index = 0;
 
-	NSMutableArray* chain = [[NSMutableArray alloc] initWithCapacity:11];
+	NSMutableArray *chain = [[NSMutableArray alloc] initWithCapacity:11];
 
 	// Add the start of the chain to the list of eggs that comprise the chain
-	SZPoint* startPoint = [[SZPoint alloc] initWithX:x y:y];
+	SZPoint *startPoint = [[SZPoint alloc] initWithX:x y:y];
 
 	[chain addObject:startPoint];
 	[startPoint release];
@@ -227,8 +227,8 @@
 	// should be part of the chain.  If so, add them to the chain.
 	while (index < [chain count]) {
 
-		SZPoint* point = [chain objectAtIndex:index];
-		SZEggBase* egg = [self eggAtX:point.x y:point.y];
+		SZPoint *point = [chain objectAtIndex:index];
+		SZEggBase *egg = [self eggAtX:point.x y:point.y];
 
 		if (egg == nil) return chain;
 
@@ -239,7 +239,7 @@
 			if ([egg hasLeftConnection]) {
 
 				// Egg is part of the chain so remember its co-ordinates
-				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x - 1 y:point.y];
+				SZPoint *adjacentPoint = [[SZPoint alloc] initWithX:point.x - 1 y:point.y];
 
 				[chain addObject:adjacentPoint];
 
@@ -255,7 +255,7 @@
 
 			if ([egg hasRightConnection]) {
 
-				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x + 1 y:point.y];
+				SZPoint *adjacentPoint = [[SZPoint alloc] initWithX:point.x + 1 y:point.y];
 
 				[chain addObject:adjacentPoint];
 
@@ -269,7 +269,7 @@
 
 			if ([egg hasTopConnection]) {
 
-				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y - 1];
+				SZPoint *adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y - 1];
 
 				[chain addObject:adjacentPoint];
 
@@ -283,7 +283,7 @@
 
 			if ([egg hasBottomConnection]) {
 
-				SZPoint* adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y + 1];
+				SZPoint *adjacentPoint = [[SZPoint alloc] initWithX:point.x y:point.y + 1];
 
 				[chain addObject:adjacentPoint];
 
@@ -313,7 +313,7 @@
 		// Check if the egg has landed on another.  We don't need to bother
 		// checking if the egg is at the bottom of the grid because live
 		// eggs can never reach there - the row of bottom eggs prevents it
-		SZEggBase* eggBelow = [self eggAtX:_liveEggs[i].x y:_liveEggs[i].y + 1];
+		SZEggBase *eggBelow = [self eggAtX:_liveEggs[i].x y:_liveEggs[i].y + 1];
 
 		if (eggBelow != nil) {
 
@@ -357,7 +357,7 @@
 
 	// Everything on the bottom row should have landed
 	for (int x = 0; x < SZGridWidth; ++x) {
-		SZEggBase* egg = [self eggAtX:x y:SZGridHeight - 1];
+		SZEggBase *egg = [self eggAtX:x y:SZGridHeight - 1];
 
 		if (egg != nil && egg.state == SZEggStateFalling) {
 
@@ -379,7 +379,7 @@
 	for (int y = SZGridHeight - 2; y >= 0; --y) {
 		for (int x = 0; x < SZGridWidth; ++x) {
 			
-			SZEggBase* egg = [self eggAtX:x y:y];
+			SZEggBase *egg = [self eggAtX:x y:y];
 
 			// Ignore this egg if it's empty
 			if (egg == nil) continue;
@@ -541,7 +541,7 @@
 		[self moveEggFromSourceX:_liveEggs[1].x sourceY:_liveEggs[1].y toDestinationX:_liveEggs[0].x - 1 destinationY:_liveEggs[0].y];
 
 		// 0 egg should always be on the left
-		SZEggBase* tmp = _liveEggs[0];
+		SZEggBase *tmp = _liveEggs[0];
 		_liveEggs[0] = _liveEggs[1];
 		_liveEggs[1] = tmp;
 	}
@@ -575,7 +575,7 @@
 		[self moveEggFromSourceX:_liveEggs[0].x sourceY:_liveEggs[0].y toDestinationX:_liveEggs[1].x destinationY:_liveEggs[1].y + 1];
 
 		// 0 egg should always be at the top
-		SZEggBase* tmp = _liveEggs[0];
+		SZEggBase *tmp = _liveEggs[0];
 		_liveEggs[0] = _liveEggs[1];
 		_liveEggs[1] = tmp;
 
@@ -607,7 +607,7 @@
 	return YES;
 }
 
-- (BOOL)addLiveEggs:(SZEggBase*)egg1 egg2:(SZEggBase*)egg2 {
+- (BOOL)addLiveEggs:(SZEggBase *)egg1 egg2:(SZEggBase *)egg2 {
 
 	// Do not add more live eggs if we have eggs already.  However, return
 	// true because we don't want to treat this as a special case; as far as
@@ -635,7 +635,7 @@
 
 - (void)connectEggs {
 	
-	SZEggBase* egg = nil;
+	SZEggBase *egg = nil;
 	
 	for (int y = 0; y < SZGridHeight; ++y) {
 		for (int x = 0; x < SZGridWidth; ++x) {
@@ -658,7 +658,7 @@
 	for (int y = 0; y < SZGridHeight; ++y) {
 		for (int x = 0; x < SZGridWidth; ++x) {
 			
-			SZEggBase* egg = [self eggAtX:x y:y];
+			SZEggBase *egg = [self eggAtX:x y:y];
 			
 			if (egg == nil) continue;
 
@@ -763,7 +763,7 @@
 			// instead
 			if (garbageY == SZGridHeight - SZGridEntryY) continue;
 
-			SZGarbageEgg* egg = [[SZGarbageEgg alloc] init];
+			SZGarbageEgg *egg = [[SZGarbageEgg alloc] init];
 			[self addEgg:egg x:columns[i] y:garbageY];
 			[egg release];
 
@@ -780,7 +780,7 @@
 }
 
 - (id)copy {
-	SZGrid* grid = [[SZGrid alloc] initWithPlayerNumber:_playerNumber];
+	SZGrid *grid = [[SZGrid alloc] initWithPlayerNumber:_playerNumber];
 	
 	for (int y = 0; y < SZGridHeight; ++y) {
 		for (int x = 0; x < SZGridWidth; ++x) {
@@ -790,15 +790,15 @@
 			}
 			
 			Class eggClass = [[self eggAtX:x y:y] class];
-			SZEggBase* egg = [[eggClass alloc] init];
+			SZEggBase *egg = [[eggClass alloc] init];
 			[grid addEgg:egg x:x y:y];
 			[egg release];
 		}
 	}
 	
 	if (_hasLiveEggs) {
-		SZEggBase* egg1 = [[[_liveEggs[0] class] alloc] init];
-		SZEggBase* egg2 = [[[_liveEggs[1] class] alloc] init];
+		SZEggBase *egg1 = [[[_liveEggs[0] class] alloc] init];
+		SZEggBase *egg2 = [[[_liveEggs[1] class] alloc] init];
 		
 		[grid addLiveEggs:egg1 egg2:egg2];
 		[egg1 release];
@@ -833,7 +833,7 @@
 				score += 6 * (SZGridHeight - y);
 			} else {
 			
-				NSMutableArray* chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
+				NSMutableArray *chain = [self newPointChainFromCoordinatesX:x y:y checkedData:checkedData];
 				
 				// Store the number of connections in the chain at the co-ords
 				// of each member egg.  1 egg in the chain = 0 connections,
@@ -848,7 +848,7 @@
 					// Penalise the score for single eggs left unattached
 					score -= 8 * (SZGridHeight - y);
 				} else {
-					for (SZPoint* point in chain) {
+					for (SZPoint *point in chain) {
 						score += (1 << ([chain count])) * point.y;
 					}
 				}

@@ -32,8 +32,8 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  */
 @interface SZEggFactory : NSObject {
 @private
-	NSMutableArray* _eggList;		/**< List of egg classes that haven't been used by all players yet. */
-	int* _playerEggListIndices;		/**< Each item in the array represents the index within
+	NSMutableArray *_eggList;		/**< List of egg classes that haven't been used by all players yet. */
+	int *_playerEggListIndices;		/**< Each item in the array represents the index within
 										 _eggList that each player is currently using. */
 	int _eggColourCount;			/**< Number of colours that the factory can produce. */
 	int _playerCount;				/**< Number of players in the game. */
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  * created.
  * @return The next egg.
  */
-- (SZEggBase*)newEggForPlayerNumber:(int)playerNumber;
+- (SZEggBase *)newEggForPlayerNumber:(int)playerNumber;
 
 /**
  * Adds a random egg class to the egg list.

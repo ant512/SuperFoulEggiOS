@@ -18,7 +18,7 @@
 	SZTitleScreenLayer *layer = [SZTitleScreenLayer node];
 	
 	// add layer as a child to scene
-	[scene addChild: layer];
+	[scene addChild:layer];
 	
 	// return the scene
 	return scene;
@@ -44,14 +44,14 @@
 	int x = [[CCDirector sharedDirector] winSize].width / 2;
 	int y = [[CCDirector sharedDirector] winSize].height / 2;
 	
-	CCSprite* title = [CCSprite spriteWithFile:@"title.png"];
+	CCSprite *title = [CCSprite spriteWithFile:@"title.png"];
 	title.position = ccp(x, y);
 	[title.texture setAliasTexParameters];
 	[self addChild:title z:0];
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[[CCDirector sharedDirector] replaceScene: [CCTransitionFade transitionWithDuration:1.0f scene:[SZGameTypeMenuLayer scene]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0f scene:[SZGameTypeMenuLayer scene]]];
 }
 
 @end

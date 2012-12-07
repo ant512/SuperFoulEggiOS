@@ -11,7 +11,7 @@
 
 @property (readwrite, retain, nonatomic) NSString *title;
 
-+ (CCScene*)scene;
++ (CCScene *)scene;
 - (id)init;
 - (void)loadBackground;
 - (void)addOption:(NSString *)option;

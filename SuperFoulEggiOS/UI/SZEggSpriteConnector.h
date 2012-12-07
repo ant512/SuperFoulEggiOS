@@ -14,12 +14,12 @@
 /**
  * The egg in the grid that this connector joins with a sprite.
  */
-@property(readonly, assign) SZEggBase* egg;
+@property(readonly, assign) SZEggBase *egg;
 
 /**
  * The sprite on screen that this connector joins with an egg.
  */
-@property(readonly, assign) CCSprite* sprite;
+@property(readonly, assign) CCSprite *sprite;
 
 /**
  * If true, the egg is no longer in the grid and the connector needs to be
@@ -44,7 +44,7 @@
  * @param gridX The x co-ordinate of the grid that contains the object's egg.
  * @param gridY The y co-ordinate of the grid that contains the object's egg.
  */
-- (id)initWithEgg:(SZEggBase*)egg sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY;
+- (id)initWithEgg:(SZEggBase *)egg sprite:(CCSprite *)sprite gridX:(int)gridX gridY:(int)gridY;
 
 - (void)dealloc;
 - (void)kill;

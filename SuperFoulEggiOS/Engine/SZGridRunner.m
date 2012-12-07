@@ -36,7 +36,7 @@ const int SZDropSpeedMultiplier = 4;
 @implementation SZGridRunner
 
 - (id)initWithController:(id <SZGameController>)controller
-					grid:(SZGrid*)grid
+					grid:(SZGrid *)grid
 			playerNumber:(int)playerNumber
 				   speed:(int)speed
 				isRemote:(BOOL)isRemote {
@@ -101,7 +101,7 @@ const int SZDropSpeedMultiplier = 4;
 	[super dealloc];
 }
 
-- (SZEggBase*)nextEgg:(int)index {
+- (SZEggBase *)nextEgg:(int)index {
 	NSAssert(index < 2, @"Index must be less than 2.");
 	
 	return _nextEggs[index];

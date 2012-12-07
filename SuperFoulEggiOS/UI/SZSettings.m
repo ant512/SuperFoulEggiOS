@@ -24,7 +24,7 @@ const int SZDefaultKeyCodeQuit = 0x1B;
 
 @implementation SZSettings
 
-+ (SZSettings*)sharedSettings {
++ (SZSettings *)sharedSettings {
 	static SZSettings *sharedSettings = nil;
 	static dispatch_once_t onceToken;
 	

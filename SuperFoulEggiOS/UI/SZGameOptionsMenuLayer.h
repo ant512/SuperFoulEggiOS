@@ -8,7 +8,7 @@
 	NSMutableArray *_options;
 }
 
-+ (CCScene*)scene;
++ (CCScene *)scene;
 - (id)init;
 - (void)loadBackground;
 

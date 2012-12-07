@@ -142,7 +142,7 @@ typedef NS_ENUM(NSUInteger, SZEggState) {
  * @param right The egg to the right of this.
  * @param left The egg to the left of this.
  */
-- (void)connect:(SZEggBase*)top right:(SZEggBase*)right bottom:(SZEggBase*)bottom left:(SZEggBase*)left;
+- (void)connect:(SZEggBase *)top right:(SZEggBase *)right bottom:(SZEggBase *)bottom left:(SZEggBase *)left;
 
 /**
  * Sets the connections that the egg has to the supplied parameters.

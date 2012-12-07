@@ -190,7 +190,7 @@
 	
 	// Initialise a new egg instance from the class at the current egglist
 	// index that this player is using
-	SZEggBase* egg = [[[_eggList objectAtIndex:index] alloc] init];
+	SZEggBase *egg = [[[_eggList objectAtIndex:index] alloc] init];
 	
 	// We can try to expire any old egg in the list now
 	[self expireUsedEggClasses];

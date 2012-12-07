@@ -10,7 +10,7 @@
  * controlling in order to determine what action to take next.
  */
 @interface SZSmartAIController : NSObject <SZGameController> {
-	SZGrid* _grid;				/**< The Grid that the AI is controlling. */
+	SZGrid *_grid;				/**< The Grid that the AI is controlling. */
 	int _lastLiveEggY;			/**< The last observed y co-ordinate of the first live egg. */
 	int _targetX;				/**< The x co-ordinate the AI is trying to move the live egg to. */
 	int _targetRotations;		/**< Number of clockwise rotations needed before correct live egg
@@ -26,7 +26,7 @@
  * AI faster.
  * @param grid The grid that the AI will control.
  */
-- (id)initWithHesitation:(int)hesitation grid:(SZGrid*)grid;
+- (id)initWithHesitation:(int)hesitation grid:(SZGrid *)grid;
 
 /**
  * Deallocates the instance.

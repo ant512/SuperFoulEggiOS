@@ -174,7 +174,7 @@
 	int x = [[CCDirector sharedDirector] winSize].width / 2;
 	int y = [[CCDirector sharedDirector] winSize].height / 2;
 	
-	CCSprite* background = [CCSprite spriteWithFile:@"menubackground.png"];
+	CCSprite *background = [CCSprite spriteWithFile:@"menubackground.png"];
 	background.position = ccp(x, y);
 	[background.texture setAliasTexParameters];
 	[self addChild:background z:0];

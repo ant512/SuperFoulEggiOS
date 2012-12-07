@@ -8,7 +8,7 @@
  */
 @interface SZGridBase : NSObject {
 @private
-	SZEggBase* _data[SZGridSize];	/**< The array of eggs that constitutes the grid. */
+	SZEggBase *_data[SZGridSize];	/**< The array of eggs that constitutes the grid. */
 }
 
 /**
@@ -21,14 +21,14 @@
  * @param x The x co-ordinate of the egg to retrieve.
  * @param y The y co-ordinate of the egg to retrieve.
  */
-- (SZEggBase*)eggAtX:(int)x y:(int)y;
+- (SZEggBase *)eggAtX:(int)x y:(int)y;
 
 /**
  * Add an egg to the grid.  The grid assumes ownership of the egg.
  * @param x The x co-ordinate of the egg.
  * @param y The y co-ordinate of the egg.
  */
-- (void)addEgg:(SZEggBase*)egg x:(int)x y:(int)y;
+- (void)addEgg:(SZEggBase *)egg x:(int)x y:(int)y;
 
 /**
  * Removes and deallocates the egg at the specified co-ordinates.

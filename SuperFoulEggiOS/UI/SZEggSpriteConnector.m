@@ -9,7 +9,7 @@ const int SZEggAnimationSpeed = 2;
 
 @implementation SZEggSpriteConnector
 
-- (id)initWithEgg:(SZEggBase*)egg sprite:(CCSprite*)sprite gridX:(int)gridX gridY:(int)gridY {
+- (id)initWithEgg:(SZEggBase *)egg sprite:(CCSprite *)sprite gridX:(int)gridX gridY:(int)gridY {
 	if ((self = [super init])) {
 		_egg = [egg retain];
 		_sprite = [sprite retain];

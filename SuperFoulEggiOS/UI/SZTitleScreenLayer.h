@@ -4,7 +4,7 @@
 
 @interface SZTitleScreenLayer : CCLayer
 
-+ (CCScene*)scene;
++ (CCScene *)scene;
 - (id)init;
 - (void)loadBackground;
 
