@@ -96,7 +96,7 @@ static NSString * const SZDisplayName = @"Player";
 			break;
 		case GKPeerStateConnected:
 
-			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount) {
+			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
 				[self sendEggPairVote];
 			}
 
@@ -140,6 +140,8 @@ static NSString * const SZDisplayName = @"Player";
 	message.eggColour1 = rand() % [SZSettings sharedSettings].eggColours;
 	message.eggColour2 = rand() % [SZSettings sharedSettings].eggColours;
 	message.voteNumber = _eggVoteNumber;
+
+	_currentVotes[_session.peerID] = @[ @(message.eggColour1), @(message.eggColour2) ];
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
