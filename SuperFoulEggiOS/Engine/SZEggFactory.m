@@ -135,7 +135,7 @@
 }
 
 - (Class)randomEggClass {
-	int colour = rand() % _eggColourCount;
+	int colour = SZEggColourRed + (rand() % _eggColourCount);
 	return [self eggClassFromColour:colour];
 }
 

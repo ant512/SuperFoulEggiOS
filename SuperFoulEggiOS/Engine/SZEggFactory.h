@@ -5,14 +5,14 @@
 #import "SZGrid.h"
 
 typedef NS_ENUM(NSUInteger, SZEggColour) {
-	SZEggColourRed = 0,
-	SZEggColourBlue = 1,
-	SZEggColourYellow = 2,
-	SZEggColourPurple = 3,
-	SZEggColourGreen = 4,
-	SZEggColourOrange = 5,
-	SZEggColourGarbage = 6,
-	SZEggColourNone = 7
+	SZEggColourNone = 0,
+	SZEggColourRed = 1,
+	SZEggColourBlue = 2,
+	SZEggColourYellow = 3,
+	SZEggColourPurple = 4,
+	SZEggColourGreen = 5,
+	SZEggColourOrange = 6,
+	SZEggColourGarbage = 7,
 };
 
 /**

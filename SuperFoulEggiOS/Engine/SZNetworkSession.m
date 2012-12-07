@@ -142,8 +142,8 @@ static NSString * const SZDisplayName = @"Player";
 	SZEggPairVoteMessage message;
 
 	message.message.messageType = SZMessageTypeEggVote;
-	message.eggColour1 = rand() % [SZSettings sharedSettings].eggColours;
-	message.eggColour2 = rand() % [SZSettings sharedSettings].eggColours;
+	message.eggColour1 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
+	message.eggColour2 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
 	message.voteNumber = _eggVoteNumber;
 
 	_currentVotes[_session.peerID] = @[ @(message.eggColour1), @(message.eggColour2) ];
