@@ -159,9 +159,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	_currentVotes[peerId] = @[ @(message->eggColour1), @(message->eggColour2) ];
 
-	NSLog(@"%d", [_session peersWithConnectionState:GKPeerStateConnected].count);
+	NSLog(@"Peers: %d", [_session peersWithConnectionState:GKPeerStateConnected].count);
 
-	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count) {
+	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
 		// At this point I'd intended to count the votes and choose the colour
 		// with the most votes or, in the case of a tie, the vote from the peer
@@ -169,7 +169,7 @@ static NSString * const SZDisplayName = @"Player";
 		// count and just use the vote from the highest peer ID.  It's a
 		// democracy inspired by the American voting system!
 
-		NSString *winner = nil;
+		NSString *winner = [_currentVotes allKeys][0];
 
 		for (NSString *peer in _currentVotes) {
 			if ([peer compare:winner] == NSOrderedAscending) {
