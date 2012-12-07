@@ -3,6 +3,7 @@
 #import "SZEggFactory.h"
 #import "SZEggBase.h"
 #import "SZSettings.h"
+#import "SZEggFactory.h"
 
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
@@ -133,7 +134,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	if (_isWaitingForVotes) return;
 	if ([_session peersWithConnectionState:GKPeerStateConnected].count < _playerCount - 1) return;
-	
+
+	NSLog(@"Sending egg vote");
+
 	_isWaitingForVotes = YES;
 
 	SZEggPairVoteMessage message;
@@ -150,6 +153,8 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseEggPairVoteMessage:(SZEggPairVoteMessage *)message peerId:(NSString *)peerId {
 
+	NSLog(@"Received egg vote");
+
 	NSAssert(message->voteNumber <= _eggVoteNumber, @"Peer voting for a future vote number");
 
 	// If we've already voted on an egg we don't want to vote again.  If we do
@@ -162,6 +167,8 @@ static NSString * const SZDisplayName = @"Player";
 	NSLog(@"Peers: %d", [_session peersWithConnectionState:GKPeerStateConnected].count);
 
 	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+
+		NSLog(@"Collating egg votes");
 
 		// At this point I'd intended to count the votes and choose the colour
 		// with the most votes or, in the case of a tie, the vote from the peer
@@ -176,6 +183,10 @@ static NSString * const SZDisplayName = @"Player";
 				winner = peer;
 			}
 		}
+
+		NSLog(@"Winner: %@", _currentVotes[winner]);
+
+		[[SZEggFactory sharedFactory] addEggPairFromColours:_currentVotes[winner]];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteEggDeliveryNotification object:_currentVotes[winner]];
 

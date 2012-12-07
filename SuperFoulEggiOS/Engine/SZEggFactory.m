@@ -23,13 +23,19 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedRemoteEgg:) name:SZRemoteEggDeliveryNotification object:nil];
 	}
 
 	return self;
 }
 
-- (void)receivedRemoteEgg:(NSArray *)eggColours {
+- (void)parp {
+	NSLog(@"Parp");
+}
+
+- (void)addEggPairFromColours:(NSArray *)eggColours {
+
+	NSLog(@"Received egg colour");
+
 	SZEggColour colour1	= [eggColours[0] intValue];
 	SZEggColour colour2 = [eggColours[1] intValue];
 
