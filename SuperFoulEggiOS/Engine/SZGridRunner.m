@@ -98,6 +98,12 @@ const int SZDropSpeedMultiplier = 4;
 	[_grid release];
 	[_controller release];
 	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveLeftNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveRightNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteDropNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateClockwiseNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateAnticlockwiseNotification object:nil];
+	
 	[super dealloc];
 }
 

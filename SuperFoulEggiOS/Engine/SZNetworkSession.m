@@ -96,11 +96,11 @@ static NSString * const SZDisplayName = @"Player";
 			[session connectToPeer:peerID withTimeout:20];
 			break;
 		case GKPeerStateConnected:
-
+/*
 			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
 				[self sendEggPairVote];
 			}
-
+*/
 			break;
 		case GKPeerStateConnecting:
 			break;
@@ -166,7 +166,7 @@ static NSString * const SZDisplayName = @"Player";
 		[self sendEggPairVote];
 		++_eggVoteNumber;
 	}
-
+	
 	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
 
 	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
