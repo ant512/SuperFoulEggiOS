@@ -195,7 +195,7 @@
 	// We can try to expire any old egg in the list now
 	[self expireUsedEggClasses];
 
-	if (index + 4 > _playerEggListIndices[playerNumber]) {
+	if (index + 8 > _playerEggListIndices[playerNumber]) {
 		[[SZNetworkSession sharedSession] sendEggPairVote];
 	}
 
