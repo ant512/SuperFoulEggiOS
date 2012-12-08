@@ -9,6 +9,7 @@
 #import "SZMenuRectLayer.h"
 #import "SZGameOptionsMenuLayer.h"
 #import "SZUIConstants.h"
+#import "SZNetworkSession.h"
 
 @implementation SZGameTypeMenuLayer
 
@@ -183,6 +184,7 @@
 				break;
 			case 5:
 				[SZSettings sharedSettings].gameType = SZGameTypeTwoPlayer;
+				[[SZNetworkSession sharedSession] startWithPlayerCount:2];
 				break;
 		}
 		
