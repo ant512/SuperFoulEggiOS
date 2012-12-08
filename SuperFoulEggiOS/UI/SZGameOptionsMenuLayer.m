@@ -10,6 +10,7 @@
 #import "SZMenuRectLayer.h"
 #import "SZGameOptionsMenuLayer.h"
 #import "SZUIConstants.h"
+#import "SZNetworkSession.h"
 
 #import <Foundation/Foundation.h>
 
@@ -200,6 +201,7 @@
 		if (_rectLayer.selectedGroupIndex == 4) {
 			[[CCDirector sharedDirector] replaceScene:[SZGameTypeMenuLayer scene]];
 		} else if (_rectLayer.selectedGroupIndex == 5) {
+			[[SZNetworkSession sharedSession] startWithPlayerCount:2];
 			[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
 			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[SZGameLayer scene]]];
 		}
