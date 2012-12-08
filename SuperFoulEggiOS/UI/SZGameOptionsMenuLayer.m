@@ -32,9 +32,18 @@
 }
 
 - (void)onEnter {
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedRemoteStartGame) name:SZRemoteStartGameNotification object:nil];
+
 	[_rectLayer clearSelectionInGroup:4];
 	[_rectLayer clearSelectionInGroup:5];
 	[super onEnter];
+}
+
+- (void)onExit {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteStartGameNotification object:nil];
+
+	[super onExit];
 }
 
 - (void)addOptionRangeFrom:(int)start to:(int)end step:(int)step atY:(int)y withTitle:(NSString *)title {
@@ -116,6 +125,7 @@
 }
 
 - (void)dealloc {
+
 	[_options release];
 	[_rectLayer release];
 	
@@ -202,12 +212,15 @@
 			[[CCDirector sharedDirector] replaceScene:[SZGameTypeMenuLayer scene]];
 		} else if (_rectLayer.selectedGroupIndex == 5) {
 			[[SZNetworkSession sharedSession] startWithPlayerCount:2];
-			[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[SZGameLayer scene]]];
 		}
 	}
 	
 	[[SZSettings sharedSettings] save];
+}
+
+- (void)receivedRemoteStartGame {
+	[[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[SZGameLayer scene]]];
 }
 
 @end

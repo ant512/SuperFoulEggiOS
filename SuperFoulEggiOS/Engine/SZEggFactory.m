@@ -32,12 +32,9 @@
 	NSLog(@"Parp");
 }
 
-- (void)addEggPairFromColours:(NSArray *)eggColours {
+- (void)addEggPairColour1:(SZEggColour)colour1 colour2:(SZEggColour)colour2; {
 
 	NSLog(@"Received egg colour");
-
-	SZEggColour colour1	= [eggColours[0] intValue];
-	SZEggColour colour2 = [eggColours[1] intValue];
 
 	[self addEggClassFromColour:colour1];
 	[self addEggClassFromColour:colour2];
@@ -195,7 +192,7 @@
 	// We can try to expire any old egg in the list now
 	[self expireUsedEggClasses];
 
-	if (index + 8 > _playerEggListIndices[playerNumber]) {
+	if (index + 4 > _playerEggListIndices[playerNumber]) {
 		[[SZNetworkSession sharedSession] sendEggPairVote];
 	}
 

@@ -8,7 +8,8 @@
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
-	SZMessageTypeEggVote = 2
+	SZMessageTypeEggVote = 2,
+	SZMessageTypeStartGame = 3
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -36,6 +37,14 @@ typedef struct {
 	int voteNumber;
 } SZEggPairVoteMessage;
 
+typedef struct {
+	SZMessage message;
+	char speed;
+	char height;
+	char eggColours;
+	char gamesPerMatch;
+} SZStartGameMessage;
+
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
 
@@ -54,7 +63,7 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)dealloc {
 	[_session release];
-	[_currentVotes release];
+	[_highestPeerId release];
 
 	[super dealloc];
 }
@@ -64,18 +73,20 @@ static NSString * const SZDisplayName = @"Player";
 	_playerCount = playerCount;
 
 	[_session release];
-	[_currentVotes release];
+	[_highestPeerId release];
+	_highestPeerId = nil;
 
 	_session = [[GKSession alloc] initWithSessionID:SZSessionId displayName:SZDisplayName sessionMode:GKSessionModePeer];
 	_session.delegate = self;
 	_session.available = YES;
 
 	[_session setDataReceiveHandler:self withContext:nil];
-
-	_currentVotes = [[NSMutableDictionary dictionary] retain];
 	
-	_eggVoteNumber = 0;
-	_isWaitingForVotes = NO;
+	[self resetEggVotes];
+
+	_startGameVoteCount = 0;
+	
+	_state = SZNetworkSessionStateWaitingForPeers;
 }
 
 - (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
@@ -96,11 +107,20 @@ static NSString * const SZDisplayName = @"Player";
 			[session connectToPeer:peerID withTimeout:20];
 			break;
 		case GKPeerStateConnected:
-/*
-			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
-				[self sendEggPairVote];
+
+			if (_highestPeerId == nil) {
+				_highestPeerId = [peerID retain];
+			} else if ([_highestPeerId compare:peerID] == NSOrderedAscending) {
+				[_highestPeerId release];
+				_highestPeerId = [peerID retain];
 			}
-*/
+
+			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
+				_state = SZNetworkSessionStateGatheredPeers;
+
+				[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartGameNotification object:nil];
+			}
+			
 			break;
 		case GKPeerStateConnecting:
 			break;
@@ -120,10 +140,13 @@ static NSString * const SZDisplayName = @"Player";
 
 	switch (message->messageType) {
 		case SZMessageTypeMove:
-			[self parseMoveMessage:(SZMoveMessage *)[data bytes]];
+			[self parseMoveMessage:(SZMoveMessage *)[data bytes] peerId:peerId];
 			break;
 		case SZMessageTypeEggVote:
 			[self parseEggPairVoteMessage:(SZEggPairVoteMessage *)[data bytes] peerId:peerId];
+			break;
+		case SZMessageTypeStartGame:
+			[self parseStartGameMessage:(SZStartGameMessage *)[data bytes] peerId:peerId];
 			break;
 		case SZMessageTypeNone:
 			break;
@@ -131,19 +154,19 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)resetEggVotes {
-	[_currentVotes removeAllObjects];
+	_eggVoteColour1 = SZEggColourNone;
+	_eggVoteColour2 = SZEggColourNone;
+	_eggVoteCount = 0;
 	_eggVoteNumber = 0;
-	_isWaitingForVotes = NO;
 }
 
 - (void)sendEggPairVote {
 
-	if (_isWaitingForVotes) return;
-	if ([_session peersWithConnectionState:GKPeerStateConnected].count < _playerCount - 1) return;
+	if (_state != SZNetworkSessionStateActive) return;
 
 	NSLog(@"Sending egg vote");
 
-	_isWaitingForVotes = YES;
+	_state = SZNetworkSessionStateWaitingForEggVotes;
 
 	SZEggPairVoteMessage message;
 
@@ -152,12 +175,14 @@ static NSString * const SZDisplayName = @"Player";
 	message.eggColour2 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
 	message.voteNumber = _eggVoteNumber;
 
-	_currentVotes[_session.peerID] = @[ @(message.eggColour1), @(message.eggColour2) ];
+	++_eggVoteCount;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
 - (void)parseEggPairVoteMessage:(SZEggPairVoteMessage *)message peerId:(NSString *)peerId {
+
+	NSAssert(_state == SZNetworkSessionStateWaitingForEggVotes || _state == SZNetworkSessionStateActive, @"Received unexpected egg vote");
 
 	NSLog(@"Received egg vote");
 
@@ -166,18 +191,21 @@ static NSString * const SZDisplayName = @"Player";
 	// prompt votes, and prompt votes, ad infinitum.
 	if (message->voteNumber < _eggVoteNumber) return;
 
-	_currentVotes[peerId] = @[ @(message->eggColour1), @(message->eggColour2) ];
-
 	if (message->voteNumber > _eggVoteNumber) {
 		[self sendEggPairVote];
 		++_eggVoteNumber;
 	}
+
+	if ([peerId isEqualToString:_highestPeerId]) {
+		_eggVoteColour1 = message->eggColour1;
+		_eggVoteColour2 = message->eggColour2;
+	}
 	
 	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
 
-	if (_currentVotes.count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+	if (_eggVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
-		NSLog(@"Collating egg votes");
+		NSLog(@"Received all egg votes");
 
 		// At this point I'd intended to count the votes and choose the colour
 		// with the most votes or, in the case of a tie, the vote from the peer
@@ -185,25 +213,15 @@ static NSString * const SZDisplayName = @"Player";
 		// count and just use the vote from the highest peer ID.  It's a
 		// democracy inspired by the American voting system!
 
-		NSString *winner = [_currentVotes allKeys][0];
+		[[SZEggFactory sharedFactory] addEggPairColour1:_eggVoteColour1 colour2:_eggVoteColour2];
 
-		for (NSString *peer in _currentVotes) {
-			if ([peer compare:winner] == NSOrderedDescending) {
-				winner = peer;
-			}
-		}
-
-		NSLog(@"Winner: %@", _currentVotes[winner]);
-
-		[[SZEggFactory sharedFactory] addEggPairFromColours:_currentVotes[winner]];
-
-		[_currentVotes removeAllObjects];
 		++_eggVoteNumber;
-		_isWaitingForVotes = NO;
+		
+		_state = SZNetworkSessionStateActive;
 	}
 }
 
-- (void)parseMoveMessage:(SZMoveMessage *)moveMessage {
+- (void)parseMoveMessage:(SZMoveMessage *)moveMessage peerId:(NSString *)peerId {
 	switch (moveMessage->moveType) {
 		case SZRemoteMoveTypeNone:
 			break;
@@ -225,8 +243,42 @@ static NSString * const SZDisplayName = @"Player";
 	}
 }
 
+- (void)parseStartGameMessage:(SZStartGameMessage *)message peerId:(NSString *)peerId {
+	++_startGameVoteCount;
+
+	if ([peerId isEqualToString:_highestPeerId]) {
+		[SZSettings sharedSettings].height = message->height;
+		[SZSettings sharedSettings].eggColours = message->eggColours;
+		[SZSettings sharedSettings].speed = message->speed;
+		[SZSettings sharedSettings].gamesPerMatch = message->gamesPerMatch;
+	}
+
+	if (_startGameVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+		_state = SZNetworkSessionStateActive;
+	}
+}
+
 - (void)sendData:(NSData *)data {
 	[_session sendDataToAllPeers:data withDataMode:GKSendDataReliable error:nil];
+}
+
+- (void)sendStartGame {
+
+	NSAssert(_state == SZNetworkSessionStateGatheredPeers, @"Illegal state when trying to start game");
+
+	_state = SZNetworkSessionStateWaitingForStart;
+
+	++_startGameVoteCount;
+
+	SZStartGameMessage message;
+
+	message.message.messageType = SZMessageTypeStartGame;
+	message.eggColours = [SZSettings sharedSettings].eggColours;
+	message.height = [SZSettings sharedSettings].height;
+	message.gamesPerMatch = [SZSettings sharedSettings].gamesPerMatch;
+	message.speed = [SZSettings sharedSettings].speed;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
 - (void)sendLiveBlockMoveLeft {

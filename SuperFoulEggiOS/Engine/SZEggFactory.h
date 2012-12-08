@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
 
 - (BOOL)hasEggPairForPlayer:(int)playerNumber;
 
-- (void)addEggPairFromColours:(NSArray *)eggColours;
+- (void)addEggPairColour1:(SZEggColour)colour1 colour2:(SZEggColour)colour2;
 
 /**
  * Creates and returns the next egg for the specified grid.
