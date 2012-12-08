@@ -159,7 +159,7 @@
 	} else if (index < _eggList.count - 2 && _isNetworkActive) {
 
 		// We want to make sure we always have a buffered egg pair in the list
-		[[SZNetworkSession sharedSession] sendEggPairVote];
+		//[[SZNetworkSession sharedSession] sendEggPairVote];
 	}
 
 	return YES;
@@ -194,6 +194,10 @@
 	
 	// We can try to expire any old egg in the list now
 	[self expireUsedEggClasses];
+
+	if (index + 2 > _playerEggListIndices[playerNumber]) {
+		[[SZNetworkSession sharedSession] sendEggPairVote];
+	}
 
 	return egg;
 }
