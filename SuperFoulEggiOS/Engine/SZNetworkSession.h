@@ -13,6 +13,7 @@
 + (SZNetworkSession *)sharedSession;
 
 - (void)startWithPlayerCount:(NSUInteger)playerCount;
+- (void)resetEggVotes;
 - (void)sendLiveBlockMoveLeft;
 - (void)sendLiveBlockMoveRight;
 - (void)sendLiveBlockDrop;

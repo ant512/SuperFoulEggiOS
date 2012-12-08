@@ -130,6 +130,12 @@ static NSString * const SZDisplayName = @"Player";
 	}
 }
 
+- (void)resetEggVotes {
+	[_currentVotes removeAllObjects];
+	_eggVoteNumber = 0;
+	_isWaitingForVotes = NO;
+}
+
 - (void)sendEggPairVote {
 
 	if (_isWaitingForVotes) return;
