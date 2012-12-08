@@ -117,8 +117,6 @@ static NSString * const SZDisplayName = @"Player";
 
 			if ([session peersWithConnectionState:GKPeerStateConnected].count == _playerCount - 1) {
 				_state = SZNetworkSessionStateGatheredPeers;
-
-				[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartGameNotification object:nil];
 			}
 			
 			break;
@@ -255,6 +253,8 @@ static NSString * const SZDisplayName = @"Player";
 
 	if (_startGameVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 		_state = SZNetworkSessionStateActive;
+
+		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartGameNotification object:nil];
 	}
 }
 
