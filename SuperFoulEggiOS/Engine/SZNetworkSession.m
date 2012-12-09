@@ -173,6 +173,8 @@ static NSString * const SZDisplayName = @"Player";
 	message.eggColour2 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
 	message.voteNumber = _eggVoteNumber;
 
+	_state = SZNetworkSessionStateWaitingForEggVotes;
+
 	[self parseEggPairVoteMessage:&message peerId:_session.peerID];
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -189,7 +191,12 @@ static NSString * const SZDisplayName = @"Player";
 	// If we've already voted on an egg we don't want to vote again.  If we do
 	// we'll end up with every client replying to every vote, which in turn will
 	// prompt votes, and prompt votes, ad infinitum.
-	if (message->voteNumber < _eggVoteNumber) return;
+	if (message->voteNumber < _eggVoteNumber) {
+
+		NSLog(@"Already voted");
+
+		return;
+	}
 
 	if (message->voteNumber > _eggVoteNumber) {
 		[self sendEggPairVote];
@@ -203,8 +210,6 @@ static NSString * const SZDisplayName = @"Player";
 		_eggVoteColour1 = message->eggColour1;
 		_eggVoteColour2 = message->eggColour2;
 	}
-
-	_state = SZNetworkSessionStateWaitingForEggVotes;
 
 	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
 
