@@ -281,6 +281,8 @@ static NSString * const SZDisplayName = @"Player";
 		_voteCount = 0;
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartGameNotification object:nil];
+
+		[self sendStartRound];
 	}
 }
 
