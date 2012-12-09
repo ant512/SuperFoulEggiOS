@@ -79,6 +79,11 @@ static NSString * const SZDisplayName = @"Player";
 	_session = [[GKSession alloc] initWithSessionID:SZSessionId displayName:SZDisplayName sessionMode:GKSessionModePeer];
 	_session.delegate = self;
 	_session.available = YES;
+	_session.disconnectTimeout = 0;
+
+	_highestPeerId = [_session.peerID retain];
+
+	NSLog(@"%@", _session.peerID);
 
 	[_session setDataReceiveHandler:self withContext:nil];
 	
@@ -108,9 +113,7 @@ static NSString * const SZDisplayName = @"Player";
 			break;
 		case GKPeerStateConnected:
 
-			if (_highestPeerId == nil) {
-				_highestPeerId = [peerID retain];
-			} else if ([_highestPeerId compare:peerID] == NSOrderedAscending) {
+			if ([_highestPeerId compare:peerID] == NSOrderedAscending) {
 				[_highestPeerId release];
 				_highestPeerId = [peerID retain];
 			}
@@ -164,8 +167,6 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Sending egg vote");
 
-	_state = SZNetworkSessionStateWaitingForEggVotes;
-
 	SZEggPairVoteMessage message;
 
 	message.message.messageType = SZMessageTypeEggVote;
@@ -184,6 +185,8 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received egg vote");
 
+	_state = SZNetworkSessionStateWaitingForEggVotes;
+
 	++_eggVoteCount;
 
 	// If we've already voted on an egg we don't want to vote again.  If we do
@@ -197,6 +200,9 @@ static NSString * const SZDisplayName = @"Player";
 	}
 
 	if ([peerId isEqualToString:_highestPeerId]) {
+
+		NSLog(@"Highest peer is %@", _highestPeerId);
+
 		_eggVoteColour1 = message->eggColour1;
 		_eggVoteColour2 = message->eggColour2;
 	}
