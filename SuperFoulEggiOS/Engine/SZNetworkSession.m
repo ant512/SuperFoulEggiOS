@@ -228,6 +228,7 @@ static NSString * const SZDisplayName = @"Player";
 		[[SZEggFactory sharedFactory] addEggPairColour1:_eggVoteColour1 colour2:_eggVoteColour2];
 
 		++_eggVoteNumber;
+		_eggVoteCount = 0;
 		
 		_state = SZNetworkSessionStateActive;
 	}
