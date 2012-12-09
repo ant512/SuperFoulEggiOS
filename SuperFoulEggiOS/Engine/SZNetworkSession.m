@@ -311,7 +311,13 @@ static NSString * const SZDisplayName = @"Player";
 
 	_state = SZNetworkSessionStateWaitingForRoundStart;
 
+	SZMessage message;
 
+	message.messageType = SZMessageTypeStartRound;
+
+	[self parseStartRoundMessage:&message peerId:_session.peerID];
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
 - (void)sendStartGame {
