@@ -297,6 +297,8 @@ static NSString * const SZDisplayName = @"Player";
 
 	_state = SZNetworkSessionStateWaitingForRoundStart;
 
+	if (_state != SZNetworkSessionStateWaitingForRoundStart) _voteCount = 0;
+
 	++_voteCount;
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
@@ -308,6 +310,8 @@ static NSString * const SZDisplayName = @"Player";
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartRoundNotification object:nil];
 
 		_state = SZNetworkSessionStateActive;
+
+		NSLog(@"Round started");
 	}
 }
 
@@ -318,8 +322,6 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendStartRound {
 
 	NSLog(@"Sending round message");
-
-	_state = SZNetworkSessionStateWaitingForRoundStart;
 
 	SZMessage message;
 
