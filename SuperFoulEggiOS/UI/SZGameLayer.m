@@ -760,9 +760,6 @@ const int SZGrid2ScoresY = 285;
 
 - (void)runGameOverState {
 	
-	[[SZNetworkSession sharedSession] resetEggVotes];
-	[[SZEggFactory sharedFactory] clear];
-	
 	if ([[SZPad instanceOne] isStartNewPress] ||
 		[[SZPad instanceOne] isANewPress] ||
 		[[SZPad instanceOne] isBNewPress] ||
@@ -774,6 +771,9 @@ const int SZGrid2ScoresY = 285;
 		[[SZPad instanceTwo] isLeftNewPress] ||
 		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
+
+		[[SZNetworkSession sharedSession] resetEggVotes];
+		[[SZEggFactory sharedFactory] clear];
 
 		_state = SZGameStateWaitingForRoundStart;
 	}
