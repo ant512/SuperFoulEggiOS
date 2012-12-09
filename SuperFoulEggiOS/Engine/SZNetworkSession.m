@@ -295,9 +295,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received start round message");
 
-	_state = SZNetworkSessionStateWaitingForRoundStart;
-
 	if (_state != SZNetworkSessionStateWaitingForRoundStart) _voteCount = 0;
+
+	_state = SZNetworkSessionStateWaitingForRoundStart;
 
 	++_voteCount;
 
