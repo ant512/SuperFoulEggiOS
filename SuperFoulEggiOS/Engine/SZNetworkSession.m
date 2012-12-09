@@ -293,13 +293,14 @@ static NSString * const SZDisplayName = @"Player";
 	++_voteCount;
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
-		_state = SZNetworkSessionStateActive;
 
 		_voteCount = 0;
 
 		[self resetEggVotes];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartRoundNotification object:nil];
+
+		_state = SZNetworkSessionStateActive;
 	}
 }
 
