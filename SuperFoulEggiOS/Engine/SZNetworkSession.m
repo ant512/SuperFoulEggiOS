@@ -184,6 +184,8 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received egg vote");
 
+	++_eggVoteCount;
+
 	// If we've already voted on an egg we don't want to vote again.  If we do
 	// we'll end up with every client replying to every vote, which in turn will
 	// prompt votes, and prompt votes, ad infinitum.
