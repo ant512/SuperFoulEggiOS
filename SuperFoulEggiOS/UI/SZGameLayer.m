@@ -774,6 +774,8 @@ const int SZGrid2ScoresY = 285;
 		[[SZPad instanceTwo] isLeftNewPress] ||
 		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
+
+		_state = SZGameStateWaitingForRoundStart;
 	}
 }
 

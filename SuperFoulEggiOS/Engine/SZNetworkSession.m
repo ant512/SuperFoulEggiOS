@@ -166,6 +166,11 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)sendEggPairVote {
 
+	if (_state == SZNetworkSessionStateWaitingForRoundStart) {
+		int j = 2;
+		++j;
+	}
+
 	if (_state != SZNetworkSessionStateActive) return;
 
 	NSLog(@"Sending egg vote");
