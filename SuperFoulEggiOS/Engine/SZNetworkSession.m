@@ -186,6 +186,8 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseEggPairVoteMessage:(SZEggPairVoteMessage *)message peerId:(NSString *)peerId {
 
+	NSLog(@"%d", _state);
+
 	NSAssert(_state == SZNetworkSessionStateWaitingForEggVotes || _state == SZNetworkSessionStateActive, @"Received unexpected egg vote");
 
 	NSLog(@"Received egg vote");
