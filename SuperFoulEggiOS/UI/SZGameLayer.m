@@ -497,7 +497,6 @@ const int SZGrid2ScoresY = 285;
 
 		[self createWinLabels];
 
-		[[SZNetworkSession sharedSession] resetEggVotes];
 		[[SZEggFactory sharedFactory] clear];
 		[[SZNetworkSession sharedSession] sendStartRound];
 	}
@@ -656,8 +655,6 @@ const int SZGrid2ScoresY = 285;
 
 	[[SZPad instanceOne] reset];
 	[[SZPad instanceTwo] reset];
-	[[SZNetworkSession sharedSession] resetEggVotes];
-	[[SZEggFactory sharedFactory] clear];
 
 	// Release all existing game objects
 	for (int i = 0; i < SZMaximumPlayers; ++i) {
