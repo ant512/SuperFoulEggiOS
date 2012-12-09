@@ -79,7 +79,6 @@ static NSString * const SZDisplayName = @"Player";
 	_session = [[GKSession alloc] initWithSessionID:SZSessionId displayName:SZDisplayName sessionMode:GKSessionModePeer];
 	_session.delegate = self;
 	_session.available = YES;
-	_session.disconnectTimeout = 0;
 
 	_highestPeerId = [_session.peerID retain];
 
@@ -185,8 +184,6 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received egg vote");
 
-	_state = SZNetworkSessionStateWaitingForEggVotes;
-
 	++_eggVoteCount;
 
 	// If we've already voted on an egg we don't want to vote again.  If we do
@@ -206,8 +203,12 @@ static NSString * const SZDisplayName = @"Player";
 		_eggVoteColour1 = message->eggColour1;
 		_eggVoteColour2 = message->eggColour2;
 	}
-	
+
+	_state = SZNetworkSessionStateWaitingForEggVotes;
+
 	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
+
+	NSLog(@"Peers: %d, votes: %d", [_session peersWithConnectionState:GKPeerStateConnected].count + 1, _eggVoteCount);
 
 	if (_eggVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
