@@ -17,7 +17,8 @@ typedef NS_ENUM(NSUInteger, SZGameState) {
 	SZGameStatePaused = 1,
 	SZGameStateGameOverEffect = 2,
 	SZGameStateGameOver = 3,
-	SZGameStateWaitingForEgg = 4
+	SZGameStateWaitingForEgg = 4,
+	SZGameStateWaitingForRoundStart = 5
 };
 
 @interface SZGameLayer : CCLayer <SZGridDelegate, SZGridRunnerDelegate> {

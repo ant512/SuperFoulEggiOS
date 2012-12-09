@@ -508,6 +508,14 @@ const int SZGrid2ScoresY = 285;
 		[[SZEggFactory sharedFactory] hasEggPairForPlayer:1]) _state = SZGameStateActive;
 }
 
+- (void)runRoundStartWaitState {
+	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
+
+	if ([SZNetworkSession sharedSession].state == SZGameStateActive) {
+		_state = SZGameStateActive;
+	}
+}
+
 - (void)update:(ccTime)dt {
 	
 	// ccTime is measured in fractions of a second; we need it in frames per
@@ -538,6 +546,10 @@ const int SZGrid2ScoresY = 285;
 
 			case SZGameStateWaitingForEgg:
 				[self runEggWaitState];
+				break;
+
+			case SZGameStateWaitingForRoundStart:
+				[self runRoundStartWaitState];
 				break;
 		}
 		

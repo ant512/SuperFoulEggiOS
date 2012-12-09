@@ -22,6 +22,8 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 	NSString *_highestPeerId;
 }
 
+@property (readonly) SZNetworkSessionState state;
+
 + (SZNetworkSession *)sharedSession;
 
 - (void)startWithPlayerCount:(NSUInteger)playerCount;
