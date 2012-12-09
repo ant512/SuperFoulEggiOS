@@ -9,7 +9,8 @@ typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
 	SZMessageTypeEggVote = 2,
-	SZMessageTypeStartGame = 3
+	SZMessageTypeStartGame = 3,
+	SZMessageTypeStartRound = 4
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -88,7 +89,7 @@ static NSString * const SZDisplayName = @"Player";
 	
 	[self resetEggVotes];
 
-	_startGameVoteCount = 0;
+	_voteCount = 0;
 	
 	_state = SZNetworkSessionStateWaitingForPeers;
 }
@@ -148,6 +149,9 @@ static NSString * const SZDisplayName = @"Player";
 		case SZMessageTypeStartGame:
 			[self parseStartGameMessage:(SZStartGameMessage *)[data bytes] peerId:peerId];
 			break;
+		case SZMessageTypeStartRound:
+			[self parseStartRoundMessage:(SZMessage *)[data bytes] peerId:peerId];
+			break;
 		case SZMessageTypeNone:
 			break;
 	}
@@ -156,7 +160,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)resetEggVotes {
 	_eggVoteColour1 = SZEggColourNone;
 	_eggVoteColour2 = SZEggColourNone;
-	_eggVoteCount = 0;
+	_voteCount = 0;
 	_eggVoteNumber = 0;
 }
 
@@ -186,7 +190,7 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received egg vote");
 
-	++_eggVoteCount;
+	++_voteCount;
 
 	// If we've already voted on an egg we don't want to vote again.  If we do
 	// we'll end up with every client replying to every vote, which in turn will
@@ -213,9 +217,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
 
-	NSLog(@"Peers: %d, votes: %d", [_session peersWithConnectionState:GKPeerStateConnected].count + 1, _eggVoteCount);
+	NSLog(@"Peers: %d, votes: %d", [_session peersWithConnectionState:GKPeerStateConnected].count + 1, _voteCount);
 
-	if (_eggVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
 		NSLog(@"Received all egg votes");
 
@@ -228,7 +232,7 @@ static NSString * const SZDisplayName = @"Player";
 		[[SZEggFactory sharedFactory] addEggPairColour1:_eggVoteColour1 colour2:_eggVoteColour2];
 
 		++_eggVoteNumber;
-		_eggVoteCount = 0;
+		_voteCount = 0;
 		
 		_state = SZNetworkSessionStateActive;
 	}
@@ -260,9 +264,9 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Received start game message");
 
-	NSAssert(_state == SZNetworkSessionStateGatheredPeers || _state == SZNetworkSessionStateWaitingForStart, @"Illegal state when receiving start message");
+	NSAssert(_state == SZNetworkSessionStateGatheredPeers || _state == SZNetworkSessionStateWaitingForGameStart, @"Illegal state when receiving start message");
 
-	++_startGameVoteCount;
+	++_voteCount;
 
 	if ([peerId isEqualToString:_highestPeerId]) {
 		[SZSettings sharedSettings].height = message->height;
@@ -271,15 +275,43 @@ static NSString * const SZDisplayName = @"Player";
 		[SZSettings sharedSettings].gamesPerMatch = message->gamesPerMatch;
 	}
 
-	if (_startGameVoteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
-		_state = SZNetworkSessionStateActive;
+	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+		_state = SZNetworkSessionStateWaitingForRoundStart;
+
+		_voteCount = 0;
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartGameNotification object:nil];
 	}
 }
 
+- (void)parseStartRoundMessage:(SZMessage *)message peerId:(NSString *)peerId {
+
+	_state = SZNetworkSessionStateWaitingForRoundStart;
+
+	++_voteCount;
+
+	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+		_state = SZNetworkSessionStateActive;
+
+		_voteCount = 0;
+
+		[self resetEggVotes];
+
+		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartRoundNotification object:nil];
+	}
+}
+
 - (void)sendData:(NSData *)data {
 	[_session sendDataToAllPeers:data withDataMode:GKSendDataReliable error:nil];
+}
+
+- (void)sendStartRound {
+
+	NSLog(@"Sending round message");
+
+	_state = SZNetworkSessionStateWaitingForRoundStart;
+
+
 }
 
 - (void)sendStartGame {
@@ -290,7 +322,7 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSAssert(_state == SZNetworkSessionStateGatheredPeers, @"Illegal state when trying to start game");
 
-	_state = SZNetworkSessionStateWaitingForStart;
+	_state = SZNetworkSessionStateWaitingForGameStart;
 
 	SZStartGameMessage message;
 
