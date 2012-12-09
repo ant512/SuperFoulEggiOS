@@ -513,7 +513,7 @@ const int SZGrid2ScoresY = 285;
 - (void)runRoundStartWaitState {
 	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
 
-	if ([SZNetworkSession sharedSession].state == SZGameStateActive) {
+	if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateActive) {
 		_state = SZGameStateActive;
 	}
 }
