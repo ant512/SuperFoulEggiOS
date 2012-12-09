@@ -173,7 +173,7 @@ static NSString * const SZDisplayName = @"Player";
 	message.eggColour2 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
 	message.voteNumber = _eggVoteNumber;
 
-	++_eggVoteCount;
+	[self parseEggPairVoteMessage:&message peerId:_session.peerID];
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
@@ -242,6 +242,11 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)parseStartGameMessage:(SZStartGameMessage *)message peerId:(NSString *)peerId {
+
+	NSLog(@"Received start game message");
+
+	NSAssert(_state == SZNetworkSessionStateGatheredPeers || _state == SZNetworkSessionStateWaitingForStart, @"Illegal state when receiving start message");
+
 	++_startGameVoteCount;
 
 	if ([peerId isEqualToString:_highestPeerId]) {
@@ -264,11 +269,13 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)sendStartGame {
 
+	NSLog(@"%d", _state);
+
+	NSLog(@"Sending start game message");
+
 	NSAssert(_state == SZNetworkSessionStateGatheredPeers, @"Illegal state when trying to start game");
 
 	_state = SZNetworkSessionStateWaitingForStart;
-
-	++_startGameVoteCount;
 
 	SZStartGameMessage message;
 
@@ -278,7 +285,11 @@ static NSString * const SZDisplayName = @"Player";
 	message.gamesPerMatch = [SZSettings sharedSettings].gamesPerMatch;
 	message.speed = [SZSettings sharedSettings].speed;
 
+	[self parseStartGameMessage:&message peerId:_session.peerID];
+
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+
+	NSLog(@"Start game sent");
 }
 
 - (void)sendLiveBlockMoveLeft {
