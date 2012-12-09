@@ -727,8 +727,6 @@ const int SZGrid2ScoresY = 285;
 		sprite.position = ccp(SZGrid2TagX + 0.5, SZGrid2TagY + 0.5);
 		[_playerTagSpriteSheet addChild:sprite];
 	}
-
-	[[SZNetworkSession sharedSession] sendStartRound];
 }
 
 - (void)blankSecondGrid {
@@ -762,6 +760,8 @@ const int SZGrid2ScoresY = 285;
 		[[SZPad instanceTwo] isLeftNewPress] ||
 		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
+
+		[[SZNetworkSession sharedSession] sendStartRound];
 	}
 }
 

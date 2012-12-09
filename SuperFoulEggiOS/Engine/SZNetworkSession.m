@@ -286,6 +286,8 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseStartRoundMessage:(SZMessage *)message peerId:(NSString *)peerId {
 
+	NSLog(@"Received start round message");
+
 	_state = SZNetworkSessionStateWaitingForRoundStart;
 
 	++_voteCount;
