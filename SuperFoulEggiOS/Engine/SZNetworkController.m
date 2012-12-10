@@ -90,6 +90,8 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 
 - (BOOL)isDownHeld {
 
+	return YES;
+
 	if (_queuedMoves.count == 0) return NO;
 	
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeDown) {

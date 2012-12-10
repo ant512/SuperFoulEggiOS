@@ -244,6 +244,8 @@ const int SZDropSpeedMultiplier = 4;
 				_droppingLiveEggs = YES;
 				
 				[_delegate didGridRunnerStartDroppingLiveEggs:self];
+
+				[[SZNetworkSession sharedSession] sendLiveBlockDrop];
 			}
 		} else if (![_controller isDownHeld]) {
 			_droppingLiveEggs = NO;
