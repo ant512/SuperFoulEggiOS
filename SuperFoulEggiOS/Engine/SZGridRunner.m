@@ -67,7 +67,7 @@ const int SZDropSpeedMultiplier = 4;
 }
 
 - (void)receiveRemoteMoveDown {
-	[_grid dropLiveEggs];
+	if ([_grid hasLiveEggs]) [_grid dropLiveEggs];
 }
 
 - (void)dealloc {
