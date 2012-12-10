@@ -57,14 +57,6 @@ const int SZDropSpeedMultiplier = 4;
 		_droppingLiveEggs = NO;
 
 		_isRemote = isRemote;
-
-		if (_isRemote) {
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveLeft) name:SZRemoteMoveLeftNotification object:nil];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveRight) name:SZRemoteMoveRightNotification object:nil];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteDrop) name:SZRemoteDropNotification object:nil];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateClockwise) name:SZRemoteRotateClockwiseNotification object:nil];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateAnticlockwise) name:SZRemoteRotateAnticlockwiseNotification object:nil];
-		}
 	}
 	
 	return self;
@@ -97,12 +89,6 @@ const int SZDropSpeedMultiplier = 4;
 	
 	[_grid release];
 	[_controller release];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveLeftNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveRightNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteDropNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateClockwiseNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateAnticlockwiseNotification object:nil];
 	
 	[super dealloc];
 }

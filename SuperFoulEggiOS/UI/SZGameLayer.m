@@ -7,6 +7,7 @@
 
 #import "SZGameLayer.h"
 #import "SZPlayerOneController.h"
+#import "SZNetworkController.h"
 #import "SZPad.h"
 #import "SZPoint.h"
 #import "SZEggFactory.h"
@@ -709,6 +710,8 @@ const int SZGrid2ScoresY = 285;
 		
 		if ([SZSettings sharedSettings].gameType == SZGameTypeSinglePlayer) {
 			controller = [[SZSmartAIController alloc] initWithHesitation:(int)([SZSettings sharedSettings].aiType) grid:grid];
+		} else if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
+			controller = [[SZNetworkController alloc] init];
 		} else {
 			controller = [[SZPlayerTwoController alloc] init];
 		}
