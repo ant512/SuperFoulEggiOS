@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveLeft) name:SZRemoteMoveLeftNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveRight) name:SZRemoteMoveRightNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteDrop) name:SZRemoteDropNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveDown) name:SZRemoteMoveDownNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateClockwise) name:SZRemoteRotateClockwiseNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteRotateAnticlockwise) name:SZRemoteRotateAnticlockwiseNotification object:nil];
 
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveLeftNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveRightNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteDropNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveDownNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateClockwiseNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteRotateAnticlockwiseNotification object:nil];
 	
@@ -46,8 +46,8 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 	[_queuedMoves addObject:@(SZNetworkControllerQueuedMoveTypeRight)];
 }
 
-- (void)receiveRemoteDrop {
-	[_queuedMoves addObject:@(SZNetworkControllerQueuedMoveTypeDown)];
+- (void)receiveRemoteMoveDown {
+	_isDownHeld = YES;
 }
 
 - (void)receiveRemoteRotateClockwise {
@@ -89,18 +89,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isDownHeld {
-
-	return YES;
-
-	if (_queuedMoves.count == 0) return NO;
-	
-	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeDown) {
-		[_queuedMoves removeObjectAtIndex:0];
-
-		return YES;
-	}
-
-	return NO;
+	return _isDownHeld;
 }
 
 - (BOOL)isRotateClockwiseHeld {

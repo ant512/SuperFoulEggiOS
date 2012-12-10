@@ -10,6 +10,7 @@ const int SZChainLength = 4;
 
 NSString * const SZRemoteMoveLeftNotification = @"SZRemoteMoveLeft";
 NSString * const SZRemoteMoveRightNotification = @"SZRemoteMoveRight";
+NSString * const SZRemoteMoveDownNotification = @"SZRemoteMoveDown";
 NSString * const SZRemoteDropNotification = @"SZRemoteDrop";
 NSString * const SZRemoteRotateClockwiseNotification = @"SZRemoteRotateClockwise";
 NSString * const SZRemoteRotateAnticlockwiseNotification = @"SZRemoteRotateAnticlockwise";

@@ -150,7 +150,8 @@
 			return NO;
 		}
 
-		// We're not in a networked game, so we can just add an egg.
+		// We're not in a networked game, so we can just add an egg pair
+		[self addRandomEggClass];
 		[self addRandomEggClass];
 
 	} else if (index < _eggList.count - 2 && _isNetworkActive) {

@@ -20,6 +20,7 @@ typedef NS_ENUM(char, SZRemoteMoveType) {
 	SZRemoteMoveTypeDown = 3,
 	SZRemoteMoveTypeRotateClockwise = 4,
 	SZRemoteMoveTypeRotateAnticlockwise = 5,
+	SZRemoteMoveTypeDrop = 6
 };
 
 typedef struct {
@@ -250,13 +251,16 @@ static NSString * const SZDisplayName = @"Player";
 		case SZRemoteMoveTypeNone:
 			break;
 		case SZRemoteMoveTypeDown:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteDropNotification object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveDownNotification object:nil];
 			break;
 		case SZRemoteMoveTypeLeft:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveLeftNotification object:nil];
 			break;
 		case SZRemoteMoveTypeRight:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveRightNotification object:nil];
+			break;
+		case SZRemoteMoveTypeDrop:
+			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteDropNotification object:nil];
 			break;
 		case SZRemoteMoveTypeRotateAnticlockwise:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteRotateAnticlockwiseNotification object:nil];

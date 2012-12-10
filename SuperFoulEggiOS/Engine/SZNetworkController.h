@@ -3,6 +3,7 @@
 
 @interface SZNetworkController : NSObject <SZGameController> {
 	NSMutableArray *_queuedMoves;
+	BOOL _isDownHeld;
 }
 
 @end

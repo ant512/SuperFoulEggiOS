@@ -57,34 +57,26 @@ const int SZDropSpeedMultiplier = 4;
 		_droppingLiveEggs = NO;
 
 		_isRemote = isRemote;
+
+		if (_isRemote) {
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteDrop) name:SZRemoteDropNotification object:nil];
+		}
 	}
 	
 	return self;
-}
-
-- (void)receiveRemoteMoveLeft {
-	[_grid moveLiveEggsLeft];
-}
-
-- (void)receiveRemoteMoveRight {
-	[_grid moveLiveEggsRight];
 }
 
 - (void)receiveRemoteDrop {
 	[_grid dropLiveEggs];
 }
 
-- (void)receiveRemoteRotateClockwise {
-	[_grid rotateLiveEggsClockwise];
-}
-
-- (void)receiveRemoteRotateAnticlockwise {
-	[_grid rotateLiveEggsAntiClockwise];
-}
-
 - (void)dealloc {
 	for (int i = 0; i < SZLiveEggCount; ++i) {
 		[_nextEggs[i] release];
+	}
+
+	if (_isRemote) {
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteDropNotification object:nil];
 	}
 	
 	[_grid release];
