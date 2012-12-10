@@ -59,14 +59,14 @@ const int SZDropSpeedMultiplier = 4;
 		_isRemote = isRemote;
 
 		if (_isRemote) {
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteDrop) name:SZRemoteDropNotification object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveDown) name:SZRemoteMoveDownNotification object:nil];
 		}
 	}
 	
 	return self;
 }
 
-- (void)receiveRemoteDrop {
+- (void)receiveRemoteMoveDown {
 	[_grid dropLiveEggs];
 }
 
@@ -76,7 +76,7 @@ const int SZDropSpeedMultiplier = 4;
 	}
 
 	if (_isRemote) {
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteDropNotification object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveDownNotification object:nil];
 	}
 	
 	[_grid release];
@@ -267,7 +267,7 @@ const int SZDropSpeedMultiplier = 4;
 			
 			if (!_isRemote) {
 				[_grid dropLiveEggs];
-				[[SZNetworkSession sharedSession] sendLiveBlockDrop];
+				[[SZNetworkSession sharedSession] sendLiveBlockMoveDown];
 			}
 		}
 	} else {

@@ -379,11 +379,20 @@ static NSString * const SZDisplayName = @"Player";
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendLiveBlockDrop {
+- (void)sendLiveBlockMoveDown {
 	SZMoveMessage message;
 
 	message.message.messageType = SZMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeDown;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+}
+
+- (void)sendLiveBlockDrop {
+	SZMoveMessage message;
+
+	message.message.messageType = SZMessageTypeMove;
+	message.moveType = SZRemoteMoveTypeDrop;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 - (void)resetEggVotes;
 - (void)sendLiveBlockMoveLeft;
 - (void)sendLiveBlockMoveRight;
+- (void)sendLiveBlockMoveDown;
 - (void)sendLiveBlockDrop;
 - (void)sendLiveBlockRotateClockwise;
 - (void)sendLiveBlockRotateAnticlockwise;
