@@ -59,6 +59,9 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isLeftHeld {
+
+	if (_queuedMoves.count == 0) return NO;
+
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeLeft) {
 		[_queuedMoves removeObjectAtIndex:0];
 
@@ -69,6 +72,9 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isRightHeld {
+
+	if (_queuedMoves.count == 0) return NO;
+
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeRight) {
 		[_queuedMoves removeObjectAtIndex:0];
 
@@ -83,6 +89,9 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isDownHeld {
+
+	if (_queuedMoves.count == 0) return NO;
+	
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeDown) {
 		[_queuedMoves removeObjectAtIndex:0];
 
@@ -93,6 +102,9 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isRotateClockwiseHeld {
+
+	if (_queuedMoves.count == 0) return NO;
+
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeRotateClockwise) {
 		[_queuedMoves removeObjectAtIndex:0];
 
@@ -103,6 +115,9 @@ typedef NS_ENUM(NSUInteger, SZNetworkControllerQueuedMoveType) {
 }
 
 - (BOOL)isRotateAntiClockwiseHeld {
+
+	if (_queuedMoves.count == 0) return NO;
+
 	if ([_queuedMoves[0] intValue] == SZNetworkControllerQueuedMoveTypeRotateAnticlockwise) {
 		[_queuedMoves removeObjectAtIndex:0];
 
