@@ -67,8 +67,6 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  */
 - (void)clear;
 
-- (BOOL)hasEggPairForPlayer:(int)playerNumber;
-
 - (void)addEggPairColour1:(SZEggColour)colour1 colour2:(SZEggColour)colour2;
 
 /**

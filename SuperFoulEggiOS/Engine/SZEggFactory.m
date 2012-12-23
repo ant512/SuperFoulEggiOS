@@ -140,17 +140,6 @@
 	return [self eggClassFromColour:colour];
 }
 
-- (BOOL)hasEggPairForPlayer:(int)playerNumber {
-	int index = _playerEggListIndices[playerNumber] + 2;
-
-	if (index > _eggList.count) {
-		[self addRandomEggClass];
-		[self addRandomEggClass];
-	}
-
-	return YES;
-}
-
 - (SZEggColour)colourOfEgg:(SZEggBase *)egg {
 	if ([egg class] == [SZRedEgg class]) {
 		return SZEggColourRed;
@@ -173,6 +162,11 @@
 
 - (SZEggBase *)newEggForPlayerNumber:(int)playerNumber {
 	int index = _playerEggListIndices[playerNumber]++;
+	
+	if (index >= _eggList.count) {
+		[self addRandomEggClass];
+		[self addRandomEggClass];
+	}
 	
 	// Initialise a new egg instance from the class at the current egglist
 	// index that this player is using

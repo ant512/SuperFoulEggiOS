@@ -288,24 +288,21 @@ const int SZDropSpeedMultiplier = 4;
 	
 	switch (_state) {
 		case SZGridRunnerStateWaitingForNewEgg:
-			if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:_playerNumber]) {
+			[_nextEggs[0] release];
+			[_nextEggs[1] release];
 
-				[_nextEggs[0] release];
-				[_nextEggs[1] release];
+			_nextEggs[0] = nil;
+			_nextEggs[1] = nil;
 
-				_nextEggs[0] = nil;
-				_nextEggs[1] = nil;
-
-				// Fetch the next eggs from the egg factory and remember them
-				for (int i = 0; i < SZLiveEggCount; ++i) {
-					_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
-				}
-
-				[_delegate didGridRunnerCreateNextEggs:self];
-				[_delegate didGridRunnerAddLiveEggs:self];
-
-				_state = SZGridRunnerStateLive;
+			// Fetch the next eggs from the egg factory and remember them
+			for (int i = 0; i < SZLiveEggCount; ++i) {
+				_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 			}
+
+			[_delegate didGridRunnerCreateNextEggs:self];
+			[_delegate didGridRunnerAddLiveEggs:self];
+
+			_state = SZGridRunnerStateLive;
 			break;
 
 		case SZGridRunnerStateDropGarbage:
