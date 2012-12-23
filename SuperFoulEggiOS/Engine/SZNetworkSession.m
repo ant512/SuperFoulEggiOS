@@ -37,6 +37,7 @@ typedef struct {
 	char height;
 	char eggColours;
 	char gamesPerMatch;
+	int randomEggSeed;
 } SZStartGameMessage;
 
 typedef struct {
@@ -188,6 +189,7 @@ static NSString * const SZDisplayName = @"Player";
 		[SZSettings sharedSettings].eggColours = message->eggColours;
 		[SZSettings sharedSettings].speed = message->speed;
 		[SZSettings sharedSettings].gamesPerMatch = message->gamesPerMatch;
+		[[SZEggFactory sharedFactory] setRandomSeed:message->randomEggSeed];
 	}
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
