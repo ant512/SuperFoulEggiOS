@@ -75,7 +75,7 @@ const int SZGrid2ScoresY = 285;
 		
 		self.touchEnabled = YES;
 
-		_state = SZGameStateWaitingForEgg;
+		_state = SZGameStateActive;
 		
 		UITapGestureRecognizer *clockwiseRotateTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleClockwiseRotateTap:)];
 		
@@ -508,13 +508,6 @@ const int SZGrid2ScoresY = 285;
 	++_deathEffectTimer;
 }
 
-- (void)runEggWaitState {
-	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
-
-	if ([[SZEggFactory sharedFactory] hasEggPairForPlayer:0] &&
-		[[SZEggFactory sharedFactory] hasEggPairForPlayer:1]) _state = SZGameStateActive;
-}
-
 - (void)runRoundStartWaitState {
 	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
 
@@ -550,11 +543,7 @@ const int SZGrid2ScoresY = 285;
 			case SZGameStateGameOver:
 				[self runGameOverState];
 				break;
-
-			case SZGameStateWaitingForEgg:
-				[self runEggWaitState];
-				break;
-
+				
 			case SZGameStateWaitingForRoundStart:
 				[self runRoundStartWaitState];
 				break;
