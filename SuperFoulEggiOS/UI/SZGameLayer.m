@@ -502,7 +502,6 @@ const int SZGrid2ScoresY = 285;
 		[self createWinLabels];
 
 		[[SZEggFactory sharedFactory] clear];
-		[[SZNetworkSession sharedSession] sendStartRound];
 	}
 	
 	++_deathEffectTimer;
@@ -765,6 +764,8 @@ const int SZGrid2ScoresY = 285;
 		[[SZPad instanceTwo] isLeftNewPress] ||
 		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
+
+		[[SZNetworkSession sharedSession] sendStartRound];
 
 		_state = SZGameStateWaitingForRoundStart;
 	}
