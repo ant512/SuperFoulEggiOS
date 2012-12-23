@@ -244,6 +244,7 @@
 		C2B756F01655DD8500DB1D43 /* SZMenuRectLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E01655DD8500DB1D43 /* SZMenuRectLayer.m */; };
 		C2B756F11655DD8500DB1D43 /* SZSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E21655DD8500DB1D43 /* SZSettings.m */; };
 		C2B756F31655DD8500DB1D43 /* SZTitleScreenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */; };
+		C2C1DDB616878ADA0040C7EE /* MTRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = C2C1DDB416878ADA0040C7EE /* MTRandom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -494,7 +495,6 @@
 		C2B755AA1655DCE300DB1D43 /* utlist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = utlist.h; path = libs/cocos2d/Support/utlist.h; sourceTree = "<group>"; };
 		C2B755AB1655DCE300DB1D43 /* ZipUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ZipUtils.h; path = libs/cocos2d/Support/ZipUtils.h; sourceTree = "<group>"; };
 		C2B755AC1655DCE300DB1D43 /* ZipUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZipUtils.m; path = libs/cocos2d/Support/ZipUtils.m; sourceTree = "<group>"; };
-		C2B755AE1655DCE300DB1D43 /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_cocos2d.txt; path = libs/LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		C2B755B01655DCE300DB1D43 /* CDAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDAudioManager.h; path = libs/CocosDenshion/CDAudioManager.h; sourceTree = "<group>"; };
 		C2B755B11655DCE300DB1D43 /* CDAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CDAudioManager.m; path = libs/CocosDenshion/CDAudioManager.m; sourceTree = "<group>"; };
 		C2B755B31655DCE300DB1D43 /* CDConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CDConfig.h; path = libs/CocosDenshion/CDConfig.h; sourceTree = "<group>"; };
@@ -504,7 +504,6 @@
 		C2B755B81655DCE300DB1D43 /* CocosDenshion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CocosDenshion.m; path = libs/CocosDenshion/CocosDenshion.m; sourceTree = "<group>"; };
 		C2B755BA1655DCE400DB1D43 /* SimpleAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleAudioEngine.h; path = libs/CocosDenshion/SimpleAudioEngine.h; sourceTree = "<group>"; };
 		C2B755BB1655DCE400DB1D43 /* SimpleAudioEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SimpleAudioEngine.m; path = libs/CocosDenshion/SimpleAudioEngine.m; sourceTree = "<group>"; };
-		C2B755BD1655DCE400DB1D43 /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_CocosDenshion.txt; path = libs/LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		C2B755C11655DCE400DB1D43 /* aabb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = aabb.h; path = libs/kazmath/include/kazmath/aabb.h; sourceTree = "<group>"; };
 		C2B755C31655DCE400DB1D43 /* mat4stack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mat4stack.h; path = libs/kazmath/include/kazmath/GL/mat4stack.h; sourceTree = "<group>"; };
 		C2B755C41655DCE400DB1D43 /* matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = matrix.h; path = libs/kazmath/include/kazmath/GL/matrix.h; sourceTree = "<group>"; };
@@ -534,7 +533,6 @@
 		C2B755E91655DCE400DB1D43 /* vec2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = vec2.c; path = libs/kazmath/src/vec2.c; sourceTree = "<group>"; };
 		C2B755EB1655DCE400DB1D43 /* vec3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = vec3.c; path = libs/kazmath/src/vec3.c; sourceTree = "<group>"; };
 		C2B755ED1655DCE400DB1D43 /* vec4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = vec4.c; path = libs/kazmath/src/vec4.c; sourceTree = "<group>"; };
-		C2B755EF1655DCE400DB1D43 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_Kazmath.txt; path = libs/LICENSE_Kazmath.txt; sourceTree = "<group>"; };
 		C2B755F11655DCE400DB1D43 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		C2B755F21655DCE400DB1D43 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2B755F41655DCE400DB1D43 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -658,6 +656,8 @@
 		C2B756E21655DD8500DB1D43 /* SZSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZSettings.m; sourceTree = "<group>"; };
 		C2B756E51655DD8500DB1D43 /* SZTitleScreenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTitleScreenLayer.h; sourceTree = "<group>"; };
 		C2B756E61655DD8500DB1D43 /* SZTitleScreenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTitleScreenLayer.m; sourceTree = "<group>"; };
+		C2C1DDB316878ADA0040C7EE /* MTRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTRandom.h; sourceTree = "<group>"; };
+		C2C1DDB416878ADA0040C7EE /* MTRandom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTRandom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -767,13 +767,11 @@
 		C2B754891655DCE100DB1D43 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				C2B755AE1655DCE300DB1D43 /* LICENSE_cocos2d.txt */,
-				C2B755BD1655DCE400DB1D43 /* LICENSE_CocosDenshion.txt */,
-				C2B755EF1655DCE400DB1D43 /* LICENSE_Kazmath.txt */,
 				C213BFA11657E6440009C13E /* CCNode+SFGestureRecognizers */,
 				C2B7548A1655DCE100DB1D43 /* cocos2d */,
 				C2B755AF1655DCE300DB1D43 /* CocosDenshion */,
 				C2B755BE1655DCE400DB1D43 /* kazmath */,
+				C2C1DDB216878ADA0040C7EE /* MTRandom */,
 			);
 			name = libs;
 			sourceTree = "<group>";
@@ -1237,6 +1235,16 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		C2C1DDB216878ADA0040C7EE /* MTRandom */ = {
+			isa = PBXGroup;
+			children = (
+				C2C1DDB316878ADA0040C7EE /* MTRandom.h */,
+				C2C1DDB416878ADA0040C7EE /* MTRandom.m */,
+			);
+			name = MTRandom;
+			path = libs/MTRandom;
+			sourceTree = "<group>";
+		};
 		C2D3366E166728BE00B518F8 /* Eggs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1606,6 +1614,7 @@
 				C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */,
 				C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */,
 				C2B39AAE1675735500BCBF4C /* SZNetworkController.m in Sources */,
+				C2C1DDB616878ADA0040C7EE /* MTRandom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

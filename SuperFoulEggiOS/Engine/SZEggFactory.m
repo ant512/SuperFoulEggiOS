@@ -7,6 +7,7 @@
 #import "SZPurpleEgg.h"
 #import "SZGarbageEgg.h"
 #import "SZNetworkSession.h"
+#import "MTRandom.h"
 
 @implementation SZEggFactory
 
@@ -41,12 +42,10 @@
 }
 
 - (void)setPlayerCount:(int)playerCount
-		eggColourCount:(int)eggColourCount
-	   isNetworkActive:(BOOL)isNetworkActive {
+		eggColourCount:(int)eggColourCount {
 
 	_playerCount = playerCount;
 	_eggColourCount = eggColourCount;
-	_isNetworkActive = isNetworkActive;
 
 	if (_playerEggListIndices) {		
 		free(_playerEggListIndices);
@@ -61,12 +60,17 @@
 	[self clear];
 }
 
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteEggDeliveryNotification object:nil];
+- (void)setRandomSeed:(int)seed {
+	[_random release];
+	_random = [[MTRandom alloc] initWithSeed:seed];
+}
 
+- (void)dealloc {
 	free(_playerEggListIndices);
 	
 	[_eggList release];
+	[_random release];
+	
 	[super dealloc];
 }
 
@@ -132,7 +136,7 @@
 }
 
 - (Class)randomEggClass {
-	int colour = SZEggColourRed + (rand() % _eggColourCount);
+	int colour = SZEggColourRed + ([_random randomUInt32From:0 to:_eggColourCount - 1]);
 	return [self eggClassFromColour:colour];
 }
 
@@ -140,24 +144,8 @@
 	int index = _playerEggListIndices[playerNumber] + 2;
 
 	if (index > _eggList.count) {
-
-		// If we're in a networked game, we'll have to reach agreement with
-		// the group as to the colour of the next egg.  We'll also have to
-		// wait until the response comes back before the game can continue.
-
-		if (_isNetworkActive) {
-			[[SZNetworkSession sharedSession] sendEggPairVote];
-			return NO;
-		}
-
-		// We're not in a networked game, so we can just add an egg pair
 		[self addRandomEggClass];
 		[self addRandomEggClass];
-
-	} else if (index < _eggList.count - 2 && _isNetworkActive) {
-
-		// We want to make sure we always have a buffered egg pair in the list
-		//[[SZNetworkSession sharedSession] sendEggPairVote];
 	}
 
 	return YES;
@@ -192,10 +180,6 @@
 	
 	// We can try to expire any old egg in the list now
 	[self expireUsedEggClasses];
-
-	if (index + 4 > _playerEggListIndices[playerNumber]) {
-		[[SZNetworkSession sharedSession] sendEggPairVote];
-	}
 
 	return egg;
 }

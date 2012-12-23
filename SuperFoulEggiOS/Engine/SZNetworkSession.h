@@ -8,18 +8,15 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 	SZNetworkSessionStateWaitingForGameStart = 2,
 	SZNetworkSessionStateWaitingForRoundStart = 3,
 	SZNetworkSessionStateActive = 4,
-	SZNetworkSessionStateWaitingForEggVotes = 5,
 };
 
 @interface SZNetworkSession : NSObject <GKSessionDelegate> {
 	GKSession *_session;
-	NSUInteger _eggVoteNumber;
 	NSUInteger _voteCount;
-	SZEggColour _eggVoteColour1;
-	SZEggColour _eggVoteColour2;
 	NSUInteger _playerCount;
 	SZNetworkSessionState _state;
 	NSString *_highestPeerId;
+	int _randomEggSeed;
 }
 
 @property (readonly) SZNetworkSessionState state;
@@ -27,14 +24,12 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 + (SZNetworkSession *)sharedSession;
 
 - (void)startWithPlayerCount:(NSUInteger)playerCount;
-- (void)resetEggVotes;
 - (void)sendLiveBlockMoveLeft;
 - (void)sendLiveBlockMoveRight;
 - (void)sendLiveBlockMoveDown;
 - (void)sendLiveBlockDrop;
 - (void)sendLiveBlockRotateClockwise;
 - (void)sendLiveBlockRotateAnticlockwise;
-- (void)sendEggPairVote;
 - (void)sendStartGame;
 - (void)sendStartRound;
 

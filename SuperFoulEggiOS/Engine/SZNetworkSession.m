@@ -8,9 +8,8 @@
 typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
-	SZMessageTypeEggVote = 2,
-	SZMessageTypeStartGame = 3,
-	SZMessageTypeStartRound = 4
+	SZMessageTypeStartGame = 2,
+	SZMessageTypeStartRound = 3
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -34,18 +33,16 @@ typedef struct {
 
 typedef struct {
 	SZMessage message;
-	char eggColour1;
-	char eggColour2;
-	int voteNumber;
-} SZEggPairVoteMessage;
-
-typedef struct {
-	SZMessage message;
 	char speed;
 	char height;
 	char eggColours;
 	char gamesPerMatch;
 } SZStartGameMessage;
+
+typedef struct {
+	SZMessage message;
+	int randomEggSeed;
+} SZRoundStartMessage;
 
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
@@ -87,8 +84,6 @@ static NSString * const SZDisplayName = @"Player";
 	NSLog(@"%@", _session.peerID);
 
 	[_session setDataReceiveHandler:self withContext:nil];
-	
-	[self resetEggVotes];
 
 	_voteCount = 0;
 	
@@ -144,105 +139,14 @@ static NSString * const SZDisplayName = @"Player";
 		case SZMessageTypeMove:
 			[self parseMoveMessage:(SZMoveMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZMessageTypeEggVote:
-			[self parseEggPairVoteMessage:(SZEggPairVoteMessage *)[data bytes] peerId:peerId];
-			break;
 		case SZMessageTypeStartGame:
 			[self parseStartGameMessage:(SZStartGameMessage *)[data bytes] peerId:peerId];
 			break;
 		case SZMessageTypeStartRound:
-			[self parseStartRoundMessage:(SZMessage *)[data bytes] peerId:peerId];
+			[self parseStartRoundMessage:(SZRoundStartMessage *)[data bytes] peerId:peerId];
 			break;
 		case SZMessageTypeNone:
 			break;
-	}
-}
-
-- (void)resetEggVotes {
-	_eggVoteColour1 = SZEggColourNone;
-	_eggVoteColour2 = SZEggColourNone;
-	_voteCount = 0;
-	_eggVoteNumber = 0;
-}
-
-- (void)sendEggPairVote {
-
-	if (_state == SZNetworkSessionStateWaitingForRoundStart) {
-		int j = 2;
-		++j;
-	}
-
-	if (_state != SZNetworkSessionStateActive) return;
-
-	NSLog(@"Sending egg vote");
-
-	SZEggPairVoteMessage message;
-
-	message.message.messageType = SZMessageTypeEggVote;
-	message.eggColour1 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
-	message.eggColour2 = SZEggColourRed + (rand() % [SZSettings sharedSettings].eggColours);
-	message.voteNumber = _eggVoteNumber;
-
-	_state = SZNetworkSessionStateWaitingForEggVotes;
-
-	[self parseEggPairVoteMessage:&message peerId:_session.peerID];
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)parseEggPairVoteMessage:(SZEggPairVoteMessage *)message peerId:(NSString *)peerId {
-
-	NSLog(@"%d", _state);
-
-	NSAssert(_state == SZNetworkSessionStateWaitingForEggVotes || _state == SZNetworkSessionStateActive, @"Received unexpected egg vote");
-
-	NSLog(@"Received egg vote");
-
-	++_voteCount;
-
-	// If we've already voted on an egg we don't want to vote again.  If we do
-	// we'll end up with every client replying to every vote, which in turn will
-	// prompt votes, and prompt votes, ad infinitum.
-	if (message->voteNumber < _eggVoteNumber) {
-
-		NSLog(@"Already voted");
-
-		return;
-	}
-
-	if (message->voteNumber > _eggVoteNumber) {
-		[self sendEggPairVote];
-		++_eggVoteNumber;
-	}
-
-	if ([peerId isEqualToString:_highestPeerId]) {
-
-		NSLog(@"Highest peer is %@", _highestPeerId);
-
-		_eggVoteColour1 = message->eggColour1;
-		_eggVoteColour2 = message->eggColour2;
-	}
-
-	NSAssert(message->voteNumber == _eggVoteNumber, @"Voting out of sync");
-
-	NSLog(@"Peers: %d, votes: %d", [_session peersWithConnectionState:GKPeerStateConnected].count + 1, _voteCount);
-
-	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
-
-		NSLog(@"Received all egg votes");
-
-		// At this point I'd intended to count the votes and choose the colour
-		// with the most votes or, in the case of a tie, the vote from the peer
-		// with the highest peer ID.  Then I realised that I could ignore the
-		// count and just use the vote from the highest peer ID.  It's a
-		// democracy inspired by the American voting system!
-
-		[[SZEggFactory sharedFactory] addEggPairColour1:_eggVoteColour1 colour2:_eggVoteColour2];
-
-		++_eggVoteNumber;
-		_voteCount = 0;
-		
-		_state = SZNetworkSessionStateActive;
 	}
 }
 
@@ -295,7 +199,7 @@ static NSString * const SZDisplayName = @"Player";
 	}
 }
 
-- (void)parseStartRoundMessage:(SZMessage *)message peerId:(NSString *)peerId {
+- (void)parseStartRoundMessage:(SZRoundStartMessage *)message peerId:(NSString *)peerId {
 
 	NSLog(@"Received start round message");
 
@@ -304,12 +208,14 @@ static NSString * const SZDisplayName = @"Player";
 	_state = SZNetworkSessionStateWaitingForRoundStart;
 
 	++_voteCount;
+	
+	if ([peerId isEqualToString:_highestPeerId]) {
+		[[SZEggFactory sharedFactory] setRandomSeed:message->randomEggSeed];
+	}
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
 
 		_voteCount = 0;
-
-		[self resetEggVotes];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteStartRoundNotification object:nil];
 
@@ -327,9 +233,10 @@ static NSString * const SZDisplayName = @"Player";
 
 	NSLog(@"Sending round message");
 
-	SZMessage message;
+	SZRoundStartMessage message;
 
-	message.messageType = SZMessageTypeStartRound;
+	message.message.messageType = SZMessageTypeStartRound;
+	message.randomEggSeed = rand();
 
 	[self parseStartRoundMessage:&message peerId:_session.peerID];
 

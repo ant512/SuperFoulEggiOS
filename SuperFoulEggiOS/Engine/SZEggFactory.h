@@ -4,6 +4,8 @@
 #import "SZEggBase.h"
 #import "SZGrid.h"
 
+@class MTRandom;
+
 typedef NS_ENUM(NSUInteger, SZEggColour) {
 	SZEggColourNone = 0,
 	SZEggColourRed = 1,
@@ -37,7 +39,7 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
 										 _eggList that each player is currently using. */
 	int _eggColourCount;			/**< Number of colours that the factory can produce. */
 	int _playerCount;				/**< Number of players in the game. */
-	BOOL _isNetworkActive;
+	MTRandom *_random;
 }
 
 /**
@@ -51,8 +53,9 @@ typedef NS_ENUM(NSUInteger, SZEggColour) {
  * @param eggColourCount The number of egg colours available.
  */
 - (void)setPlayerCount:(int)playerCount
-		eggColourCount:(int)eggColourCount
-	   isNetworkActive:(BOOL)isNetworkActive;
+		eggColourCount:(int)eggColourCount;
+
+- (void)setRandomSeed:(int)seed;
 
 /**
  * Deallocates the object.

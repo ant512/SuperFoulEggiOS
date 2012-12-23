@@ -110,12 +110,15 @@ const int SZGrid2ScoresY = 285;
 		int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 
 		[[SZEggFactory sharedFactory] setPlayerCount:players
-									  eggColourCount:[SZSettings sharedSettings].eggColours
-									 isNetworkActive:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+									  eggColourCount:[SZSettings sharedSettings].eggColours];
 		
 		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
 			_gameWins[i] = 0;
+		}
+		
+		if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) {
+			[[SZEggFactory sharedFactory] setRandomSeed:rand()];
 		}
 		
 		[self loadBackground];
