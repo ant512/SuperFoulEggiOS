@@ -162,7 +162,7 @@ const int SZDropSpeedMultiplier = 4;
 	} else if (_incomingGarbageCount > 0) {
 		
 		// Add any incoming garbage eggs
-		[_grid addGarbage:_incomingGarbageCount randomPlacement:![SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+		[_grid addGarbage:_incomingGarbageCount randomPlacement:[SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer];
 		
 		// Switch back to the drop state
 		_state = SZGridRunnerStateDropGarbage;

@@ -680,7 +680,9 @@ const int SZGrid2ScoresY = 285;
 	SZGrid *grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	id <SZGameController> controller = [[SZPlayerOneController alloc] init];
+	//id <SZGameController> controller = [[SZPlayerOneController alloc] init];
+
+	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:4 grid:grid];
 	
 	_runners[0] = [[SZGridRunner alloc] initWithController:controller
 													  grid:grid
@@ -719,11 +721,11 @@ const int SZGrid2ScoresY = 285;
 	}
 
 	[_runners[0].grid createBottomRow];
-	[_runners[0].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height randomPlacement:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+	[_runners[0].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height randomPlacement:[SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer];
 
 	if (_runners[1] != nil) {
 		[_runners[1].grid createBottomRow];
-		[_runners[1].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height randomPlacement:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+		[_runners[1].grid addGarbage:SZGridWidth * [SZSettings sharedSettings].height randomPlacement:[SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer];
 	}
 	
 	if ([SZSettings sharedSettings].gameType == SZGameTypePractice) {
