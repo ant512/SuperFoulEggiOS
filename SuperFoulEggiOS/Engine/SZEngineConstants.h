@@ -36,4 +36,4 @@ extern NSString * const SZRemoteRotateAnticlockwiseNotification;
 extern NSString * const SZRemoteEggDeliveryNotification;
 extern NSString * const SZRemoteStartGameNotification;
 extern NSString * const SZRemoteStartRoundNotification;
-extern NSString * const SZRemoteRandomSeedNotification;
+extern NSString * const SZRemoteReadyForNextEggNotification;

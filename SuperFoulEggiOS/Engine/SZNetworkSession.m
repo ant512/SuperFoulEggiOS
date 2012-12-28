@@ -9,7 +9,8 @@ typedef NS_ENUM(char, SZMessageType) {
 	SZMessageTypeNone = 0,
 	SZMessageTypeMove = 1,
 	SZMessageTypeStartGame = 2,
-	SZMessageTypeStartRound = 3
+	SZMessageTypeStartRound = 3,
+	SZMessageTypeReadyForNextEgg = 4
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -45,6 +46,11 @@ typedef struct {
 	int randomEggSeed;
 } SZRoundStartMessage;
 
+typedef struct {
+	SZMessage message;
+	char playerNumber;
+} SZReadyForNextEggMessage;
+
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
 
@@ -64,6 +70,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)dealloc {
 	[_session release];
 	[_highestPeerId release];
+	[_nextEggAcknowledgements release];
 
 	[super dealloc];
 }
@@ -89,6 +96,9 @@ static NSString * const SZDisplayName = @"Player";
 	_voteCount = 0;
 	
 	_state = SZNetworkSessionStateWaitingForPeers;
+
+	[_nextEggAcknowledgements release];
+	_nextEggAcknowledgements = [[NSMutableDictionary dictionary] retain];
 }
 
 - (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
@@ -146,8 +156,39 @@ static NSString * const SZDisplayName = @"Player";
 		case SZMessageTypeStartRound:
 			[self parseStartRoundMessage:(SZRoundStartMessage *)[data bytes] peerId:peerId];
 			break;
+		case SZMessageTypeReadyForNextEgg:
+			[self parseReadyForNextEggMessage:(SZReadyForNextEggMessage *)[data bytes] peerId:peerId];
+			break;
 		case SZMessageTypeNone:
 			break;
+	}
+}
+
+- (void)parseReadyForNextEggMessage:(SZReadyForNextEggMessage *)message peerId:(NSString *)peerId {
+	
+	NSLog(@"Received ready for next egg message");
+
+	NSNumber *playerNumber = @(message->playerNumber);
+
+	if (_nextEggAcknowledgements[playerNumber]) {
+		_nextEggAcknowledgements[playerNumber] = @([_nextEggAcknowledgements[playerNumber] intValue] + 1);
+	} else {
+		_nextEggAcknowledgements[playerNumber] = @1;
+	}
+
+	int count = [_nextEggAcknowledgements[playerNumber] intValue];
+
+	if (count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
+
+		NSLog(@"Player %@ is ready for a new egg", playerNumber);
+
+		[_nextEggAcknowledgements removeObjectForKey:playerNumber];
+
+		if (![_highestPeerId isEqualToString:_session.peerID]) {
+			playerNumber = @(1 - message->playerNumber);
+		}
+
+		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteReadyForNextEggNotification object:nil userInfo:@{ @"PlayerNumber": playerNumber }];
 	}
 }
 
@@ -320,6 +361,25 @@ static NSString * const SZDisplayName = @"Player";
 
 	message.message.messageType = SZMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeRotateAnticlockwise;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+}
+
+- (void)sendReadyForNextEgg:(char)playerNumber {
+	SZReadyForNextEggMessage message;
+
+	message.message.messageType = SZMessageTypeReadyForNextEgg;
+
+	// Player 0 on the top peer is player 1 on the other peer.  This will need
+	// to be more complex to support more than two players.
+	
+	if ([_session.peerID isEqualToString:_highestPeerId]) {
+		message.playerNumber = playerNumber;
+	} else {
+		message.playerNumber = 1 - playerNumber;
+	}
+
+	[self parseReadyForNextEggMessage:&message peerId:_session.peerID];
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

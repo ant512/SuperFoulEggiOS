@@ -139,10 +139,12 @@ const int SZGrid2ScoresY = 285;
 	if (_didDrag) return;
 	
 	CGPoint point = [gesture locationInView:[CCDirector sharedDirector].view];
-	
-	if (_state == SZGameStatePaused || (point.x > 950 && point.y > 700)) {
-		[[SZPad instanceOne] pressStart];
-		return;
+
+	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) {
+		if (_state == SZGameStatePaused || (point.x > 950 && point.y > 700)) {
+			[[SZPad instanceOne] pressStart];
+			return;
+		}
 	}
 	
 	[[SZPad instanceOne] pressA];

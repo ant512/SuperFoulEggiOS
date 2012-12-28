@@ -17,4 +17,4 @@ NSString * const SZRemoteRotateAnticlockwiseNotification = @"SZRemoteRotateAntic
 NSString * const SZRemoteEggDeliveryNotification = @"SZRemoteEggDeliveryNotification";
 NSString * const SZRemoteStartGameNotification = @"SZRemoteStartGameNotification";
 NSString * const SZRemoteStartRoundNotification = @"SZRemoteStartRoundNotification";
-NSString * const SZRemoteRandomSeedNotification = @"SZRemoteRandomSeedNotification";
+NSString * const SZRemoteReadyForNextEggNotification = @"SZRemoteReadyForNextEggNotification";

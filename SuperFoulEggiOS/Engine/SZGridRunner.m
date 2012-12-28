@@ -42,7 +42,7 @@ const int SZDropSpeedMultiplier = 4;
 				isRemote:(BOOL)isRemote {
 	
 	if ((self = [super init])) {
-		_state = SZGridRunnerStateWaitingForNewEgg;
+		_state = SZGridRunnerStateDrop;
 		_timer = 0;
 		_controller = [controller retain];
 		_grid = [grid retain];
@@ -55,6 +55,10 @@ const int SZDropSpeedMultiplier = 4;
 		_accumulatingGarbageCount = 0;
 		
 		_droppingLiveEggs = NO;
+
+		for (int i = 0; i < SZLiveEggCount; ++i) {
+			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
+		}
 
 		_isRemote = isRemote;
 
@@ -170,28 +174,13 @@ const int SZDropSpeedMultiplier = 4;
 		_incomingGarbageCount = 0;
 		
 		[_delegate didGridRunnerClearIncomingGarbage:self];
-	} else {
-		
-		// Nothing exploded, so we can put a new live egg into the grid
-		BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
+	} else if (_state != SZGridRunnerStateWaitingForNewEgg) {
+		_state = SZGridRunnerStateWaitingForNewEgg;
 
-		if (!addedEggs) {
+		if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nextEggReady:) name:SZRemoteReadyForNextEggNotification object:nil];
 			
-			// Cannot add more eggs - game is over
-			_state = SZGridRunnerStateDead;
-		} else {
-
-			if (_chainMultiplier > 1) {
-				[_delegate didGridRunnerExplodeMultipleChains:self];
-			}
-
-			_chainMultiplier = 0;
-
-			// Queue up outgoing eggs for the other player
-			_outgoingGarbageCount += _accumulatingGarbageCount;
-			_accumulatingGarbageCount = 0;
-
-			_state = SZGridRunnerStateWaitingForNewEgg;
+			[[SZNetworkSession sharedSession] sendReadyForNextEgg:_playerNumber];
 		}
 	}
 }
@@ -279,6 +268,67 @@ const int SZDropSpeedMultiplier = 4;
 	}
 }
 
+- (void)waitForNewEgg {
+	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
+		[self land];
+	} else {
+		[self nextEggReady:nil];
+	}
+}
+
+- (void)nextEggReady:(NSNotification *)notification {
+
+	if (notification) {
+		int playerNumber = [notification.userInfo[@"PlayerNumber"] intValue];
+
+		if (playerNumber != _playerNumber) {
+
+			NSLog(@"Ignoring next egg for player %d", playerNumber);
+
+			return;
+		}
+	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteReadyForNextEggNotification object:nil];
+
+	NSLog(@"Got next egg for player %d", [notification.userInfo[@"PlayerNumber"] intValue]);
+
+	BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
+
+	if (!addedEggs) {
+
+		// Cannot add more eggs - game is over
+		_state = SZGridRunnerStateDead;
+	} else {
+
+		if (_chainMultiplier > 1) {
+			[_delegate didGridRunnerExplodeMultipleChains:self];
+		}
+
+		_chainMultiplier = 0;
+
+		// Queue up outgoing eggs for the other player
+		_outgoingGarbageCount += _accumulatingGarbageCount;
+		_accumulatingGarbageCount = 0;
+
+		[_nextEggs[0] release];
+		[_nextEggs[1] release];
+
+		_nextEggs[0] = nil;
+		_nextEggs[1] = nil;
+
+		// Fetch the next eggs from the egg factory and remember them
+		for (int i = 0; i < SZLiveEggCount; ++i) {
+			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
+		}
+
+		[_delegate didGridRunnerCreateNextEggs:self];
+		[_delegate didGridRunnerAddLiveEggs:self];
+
+		_state = SZGridRunnerStateLive;
+	}
+}
+
 - (void)iterate {
 	
 	// Returns true if any eggs have any logic still in progress
@@ -288,21 +338,7 @@ const int SZDropSpeedMultiplier = 4;
 	
 	switch (_state) {
 		case SZGridRunnerStateWaitingForNewEgg:
-			[_nextEggs[0] release];
-			[_nextEggs[1] release];
-
-			_nextEggs[0] = nil;
-			_nextEggs[1] = nil;
-
-			// Fetch the next eggs from the egg factory and remember them
-			for (int i = 0; i < SZLiveEggCount; ++i) {
-				_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
-			}
-
-			[_delegate didGridRunnerCreateNextEggs:self];
-			[_delegate didGridRunnerAddLiveEggs:self];
-
-			_state = SZGridRunnerStateLive;
+			[self waitForNewEgg];
 			break;
 
 		case SZGridRunnerStateDropGarbage:
