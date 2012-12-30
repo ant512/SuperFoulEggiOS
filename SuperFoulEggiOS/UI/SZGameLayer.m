@@ -110,7 +110,9 @@ const int SZGrid2ScoresY = 285;
 		[[SZEggFactory sharedFactory] setPlayerCount:players
 									  eggColourCount:[SZSettings sharedSettings].eggColours];
 
-		[[SZEggFactory sharedFactory] setRandomSeed:rand()];
+		if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) {
+			[[SZEggFactory sharedFactory] setRandomSeed:rand()];
+		}
 		
 		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
@@ -682,9 +684,9 @@ const int SZGrid2ScoresY = 285;
 	SZGrid *grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	id <SZGameController> controller = [[SZPlayerOneController alloc] init];
+	//id <SZGameController> controller = [[SZPlayerOneController alloc] init];
 
-	//id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:4 grid:grid];
+	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:1 grid:grid];
 	
 	_runners[0] = [[SZGridRunner alloc] initWithController:controller
 													  grid:grid
