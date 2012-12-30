@@ -109,6 +109,8 @@ const int SZGrid2ScoresY = 285;
 
 		[[SZEggFactory sharedFactory] setPlayerCount:players
 									  eggColourCount:[SZSettings sharedSettings].eggColours];
+
+		[[SZEggFactory sharedFactory] setRandomSeed:rand()];
 		
 		for (int i = 0; i < SZMaximumPlayers; ++i) {
 			_matchWins[i] = 0;
@@ -504,9 +506,9 @@ const int SZGrid2ScoresY = 285;
 }
 
 - (void)runRoundStartWaitState {
-	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
-
-	if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateActive) {
+	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) {
+		_state = SZGameStateActive;
+	} else if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateActive) {
 
 		[[SZEggFactory sharedFactory] clear];
 		[[SZEggFactory sharedFactory] setRandomSeed:[SZSettings sharedSettings].randomEggSeed];
@@ -737,8 +739,10 @@ const int SZGrid2ScoresY = 285;
 		[_playerTagSpriteSheet addChild:sprite];
 	}
 
-	[[SZEggFactory sharedFactory] clear];
-	[[SZEggFactory sharedFactory] setRandomSeed:[SZSettings sharedSettings].randomEggSeed];
+	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
+		[[SZEggFactory sharedFactory] clear];
+		[[SZEggFactory sharedFactory] setRandomSeed:[SZSettings sharedSettings].randomEggSeed];
+	}
 }
 
 - (void)blankSecondGrid {
