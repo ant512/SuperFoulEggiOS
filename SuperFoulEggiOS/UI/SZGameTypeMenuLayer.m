@@ -187,7 +187,8 @@
 				[[SZNetworkSession sharedSession] startWithPlayerCount:2];
 				break;
 		}
-		
+
+		sranddev();
 		[[CCDirector sharedDirector] replaceScene:[SZGameOptionsMenuLayer scene]];
 	}
 	

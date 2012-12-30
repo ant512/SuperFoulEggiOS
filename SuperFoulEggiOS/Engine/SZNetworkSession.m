@@ -230,7 +230,7 @@ static NSString * const SZDisplayName = @"Player";
 		[SZSettings sharedSettings].eggColours = message->eggColours;
 		[SZSettings sharedSettings].speed = message->speed;
 		[SZSettings sharedSettings].gamesPerMatch = message->gamesPerMatch;
-		[[SZEggFactory sharedFactory] setRandomSeed:message->randomEggSeed];
+		[SZSettings sharedSettings].randomEggSeed = message->randomEggSeed;
 	}
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
@@ -253,7 +253,9 @@ static NSString * const SZDisplayName = @"Player";
 	++_voteCount;
 	
 	if ([peerId isEqualToString:_highestPeerId]) {
-		[[SZEggFactory sharedFactory] setRandomSeed:message->randomEggSeed];
+		[SZSettings sharedSettings].randomEggSeed = message->randomEggSeed;
+
+		NSLog(@"Seed: %d", message->randomEggSeed);
 	}
 
 	if (_voteCount == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
@@ -303,6 +305,7 @@ static NSString * const SZDisplayName = @"Player";
 	message.height = [SZSettings sharedSettings].height;
 	message.gamesPerMatch = [SZSettings sharedSettings].gamesPerMatch;
 	message.speed = [SZSettings sharedSettings].speed;
+	message.randomEggSeed = rand();
 
 	[self parseStartGameMessage:&message peerId:_session.peerID];
 

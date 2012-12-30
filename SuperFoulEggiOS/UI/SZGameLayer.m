@@ -71,8 +71,6 @@ const int SZGrid2ScoresY = 285;
 - (id)init {
 	if ((self = [super init])) {
 		
-		sranddev();
-		
 		self.touchEnabled = YES;
 
 		_state = SZGameStateActive;
@@ -116,11 +114,7 @@ const int SZGrid2ScoresY = 285;
 			_matchWins[i] = 0;
 			_gameWins[i] = 0;
 		}
-		
-		if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) {
-			[[SZEggFactory sharedFactory] setRandomSeed:rand()];
-		}
-		
+
 		[self loadBackground];
 		[self prepareSpriteSheets];
 		[self loadSounds];
@@ -513,6 +507,10 @@ const int SZGrid2ScoresY = 285;
 	if ([SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer) _state = SZGameStateActive;
 
 	if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateActive) {
+
+		[[SZEggFactory sharedFactory] clear];
+		[[SZEggFactory sharedFactory] setRandomSeed:[SZSettings sharedSettings].randomEggSeed];
+
 		_state = SZGameStateActive;
 	}
 }
@@ -682,9 +680,9 @@ const int SZGrid2ScoresY = 285;
 	SZGrid *grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	//id <SZGameController> controller = [[SZPlayerOneController alloc] init];
+	id <SZGameController> controller = [[SZPlayerOneController alloc] init];
 
-	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:4 grid:grid];
+	//id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:4 grid:grid];
 	
 	_runners[0] = [[SZGridRunner alloc] initWithController:controller
 													  grid:grid
@@ -738,6 +736,9 @@ const int SZGrid2ScoresY = 285;
 		sprite.position = ccp(SZGrid2TagX + 0.5, SZGrid2TagY + 0.5);
 		[_playerTagSpriteSheet addChild:sprite];
 	}
+
+	[[SZEggFactory sharedFactory] clear];
+	[[SZEggFactory sharedFactory] setRandomSeed:[SZSettings sharedSettings].randomEggSeed];
 }
 
 - (void)blankSecondGrid {

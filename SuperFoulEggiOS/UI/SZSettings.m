@@ -79,6 +79,8 @@ const int SZDefaultKeyCodeQuit = 0x1B;
 		_keyCodeTwoStart = SZDefaultKeyCodeTwoStart;
 		
 		_keyCodeQuit = SZDefaultKeyCodeQuit;
+
+		_randomEggSeed = rand();
 	}
 	return self;
 }

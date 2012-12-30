@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, SZGameType) {
 @property(readwrite) int speed;
 @property(readwrite) int gamesPerMatch;
 @property(readwrite) int eggColours;
+@property(readwrite) int randomEggSeed;
 
 @property(readwrite) unichar keyCodeOneLeft;
 @property(readwrite) unichar keyCodeOneRight;
