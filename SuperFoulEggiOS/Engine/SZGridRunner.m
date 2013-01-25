@@ -3,6 +3,7 @@
 #import "SZNetworkSession.h"
 #import "SZEggFactory.h"
 #import "SZSettings.h"
+#import "SZMessageBus.h"
 
 /**
  * Number of iterations before eggs drop when automatic dropping mode is
@@ -185,10 +186,24 @@ const int SZDropSpeedMultiplier = 4;
 	}
 }
 
+- (void)processIncomingGarbageMessages {
+
+	NSDictionary *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+
+	while (message && [message[@"Type"] intValue] == 1) {
+		_incomingGarbageCount = [message[@"Count"] intValue];
+
+		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+
+		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	}
+}
+
 - (void)live {
 	
 	// Player-controllable eggs are in the grid
-	
+	[self processIncomingGarbageMessages];
+
 	if ([_grid hasLiveEggs]) {
 		
 		// Work out how many frames we need to wait until the eggs drop
@@ -309,6 +324,12 @@ const int SZDropSpeedMultiplier = 4;
 
 		// Queue up outgoing eggs for the other player
 		_outgoingGarbageCount += _accumulatingGarbageCount;
+
+		if (_outgoingGarbageCount > 0) {
+			[[SZMessageBus sharedMessageBus] sendGarbage:_outgoingGarbageCount fromPlayerNumber:_playerNumber toPlayerNumber:1 - _playerNumber];
+		}
+
+		_outgoingGarbageCount = 0;
 		_accumulatingGarbageCount = 0;
 
 		[_nextEggs[0] release];
@@ -378,23 +399,6 @@ const int SZDropSpeedMultiplier = 4;
 		case SZGridRunnerStateDead:
 			break;
 	}
-}
-
-- (BOOL)addIncomingGarbage:(int)count {
-	if (![self canReceiveGarbage]) return NO;
-	if (count < 1) return NO;
-	
-	_incomingGarbageCount += count;
-	
-	return YES;
-}
-
-- (void)clearOutgoingGarbageCount {
-	_outgoingGarbageCount = 0;
-}
-
-- (BOOL)canReceiveGarbage {
-	return _state == SZGridRunnerStateLive;
 }
 
 - (BOOL)isDead {

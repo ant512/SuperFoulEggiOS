@@ -48,17 +48,13 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
 													 sequences.  At the end of a sequence they are moved to the
 													 _outgoinggGarbageCount member. */
+	int _outgoingGarbageCount;					/**< Number of garbage eggs to send to the other player. */
 
 	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
 	BOOL _isRemote;
 }
 
 @property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
-
-/**
- * Number of garbage eggs to send to the other player.
- */
-@property (readonly) int outgoingGarbageCount;
 
 /**
  * Number of garbage eggs sent from the other player.
@@ -114,19 +110,6 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 - (SZEggBase *)nextEgg:(int)index;
 
 /**
- * Increase the amount of incoming garbage eggs by the specified amount.
- * Garbage can only be added when the grid runner is in its "live" state.
- * @param count The number of incoming garbage eggs to increase by.
- * @return True if the garbage was added; false if not.
- */
-- (BOOL)addIncomingGarbage:(int)count;
-
-/**
- * Resets the number of outgoing garbage eggs to 0.
- */
-- (void)clearOutgoingGarbageCount;
-
-/**
  * Check if the game is over for this grid runner.
  * @return True if the game is over.
  */
@@ -146,14 +129,5 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * Process live eggs in the grid.  Called when the grid is in live mode.
  */
 - (void)live;
-
-/**
- * Check if the grid can receive garbage.  Grid can only receive garbage
- * whilst in the live state.  If garbage is received at other times it is
- * possible that the player will forever be stuck watching garbage dropping
- * down the screen.
- * @return True if the grid can receive garbage.
- */
-- (BOOL)canReceiveGarbage;
 
 @end

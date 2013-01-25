@@ -861,6 +861,8 @@ const int SZGrid2ScoresY = 285;
 		}
 		
 		// Move garbage from one runner to the other
+#pragma message "TODO: Fix this"
+		/*
 		if ([_runners[0] addIncomingGarbage:_runners[1].outgoingGarbageCount]) {
 			[_runners[1] clearOutgoingGarbageCount];
 			
@@ -872,6 +874,7 @@ const int SZGrid2ScoresY = 285;
 			
 			[self updateIncomingGarbageDisplayForRunner:_runners[1]];
 		}
+		 */
 	}
 		
 	[self updateEggSpriteConnectors];
