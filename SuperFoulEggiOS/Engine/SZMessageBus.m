@@ -16,14 +16,14 @@
 
 - (id)init {
 	if ((self = [super init])) {
-		_messageQueue = [[NSMutableDictionary dictionary] retain];
+		_messageQueues = [[NSMutableDictionary dictionary] retain];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
-	[_messageQueue release];
+	[_messageQueues release];
 
 	[super dealloc];
 }
@@ -37,11 +37,11 @@
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
 
 	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
-	NSMutableArray *queue = _messageQueue[key];
+	NSMutableArray *queue = _messageQueues[key];
 
 	if (!queue) {
 		queue = [NSMutableArray array];
-		_messageQueue[key] = queue;
+		_messageQueues[key] = queue;
 	}
 
 	return queue;
@@ -51,16 +51,14 @@
 	
 	if (![self hasMessageForPlayerNumber:playerNumber]) return;
 
-	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
-	NSMutableArray *queue = _messageQueue[key];
+	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
 
 	[queue removeObjectAtIndex:0];
 }
 
 - (BOOL)hasMessageForPlayerNumber:(int)playerNumber {
 	
-	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
-	NSMutableArray *queue = _messageQueue[key];
+	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
 
 	if (!queue) return false;
 	if (queue.count == 0) return false;
@@ -71,9 +69,8 @@
 - (SZMessage *)nextMessageForPlayerNumber:(int)playerNumber {
 
 	if (![self hasMessageForPlayerNumber:playerNumber]) return nil;
-
-	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
-	NSMutableArray *queue = _messageQueue[key];
+	
+	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
 
 	SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
 

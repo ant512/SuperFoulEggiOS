@@ -2,8 +2,14 @@
 
 @class SZMessage;
 
+/**
+ * Allows for communication between different SZGridRunner instances.  Each
+ * player has his own message queue, which is stored in a dictionary using the
+ * player number as the key.  Each program loop, the grids must check for
+ * incoming messages, remove them, and process them appropriately.
+ */
 @interface SZMessageBus : NSObject {
-	NSMutableDictionary *_messageQueue;
+	NSMutableDictionary *_messageQueues;	/**< All message queues. */
 }
 
 + (SZMessageBus *)sharedMessageBus;
