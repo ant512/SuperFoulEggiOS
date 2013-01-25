@@ -17,6 +17,7 @@
 - (void)didGridRunnerExplodeMultipleChains:(SZGridRunner *)gridRunner;
 - (void)didGridRunnerClearIncomingGarbage:(SZGridRunner *)gridRunner;
 - (void)didGridRunnerExplodeChain:(SZGridRunner *)gridRunner sequence:(int)sequence;
+- (void)didGridRunnerReceiveGarbage:(SZGridRunner *)gridRunner;
 
 @end
 

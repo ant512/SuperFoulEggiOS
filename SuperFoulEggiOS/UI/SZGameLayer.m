@@ -859,22 +859,6 @@ const int SZGrid2ScoresY = 285;
 			_state = SZGameStateGameOverEffect;
 			_deathEffectTimer = 0;
 		}
-		
-		// Move garbage from one runner to the other
-#pragma message "TODO: Fix this"
-		/*
-		if ([_runners[0] addIncomingGarbage:_runners[1].outgoingGarbageCount]) {
-			[_runners[1] clearOutgoingGarbageCount];
-			
-			[self updateIncomingGarbageDisplayForRunner:_runners[0]];
-		}
-		
-		if ([_runners[1] addIncomingGarbage:_runners[0].outgoingGarbageCount]) {
-			[_runners[0] clearOutgoingGarbageCount];
-			
-			[self updateIncomingGarbageDisplayForRunner:_runners[1]];
-		}
-		 */
 	}
 		
 	[self updateEggSpriteConnectors];
@@ -1096,6 +1080,10 @@ const int SZGrid2ScoresY = 285;
 	if (gridRunner.playerNumber == 0 || (gridRunner.playerNumber == 1 && players == 1)) {
 		[[SimpleAudioEngine sharedEngine] playEffect:@"drop.wav" pitch:1.0 pan:pan gain:1.0];
 	}
+}
+
+- (void)didGridRunnerReceiveGarbage:(SZGridRunner *)gridRunner {
+	[self updateIncomingGarbageDisplayForRunner:gridRunner];
 }
 
 @end

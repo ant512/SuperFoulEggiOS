@@ -188,14 +188,22 @@ const int SZDropSpeedMultiplier = 4;
 
 - (void)processIncomingGarbageMessages {
 
+	BOOL receivedGarbage = NO;
+
 	NSDictionary *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 
 	while (message && [message[@"Type"] intValue] == 1) {
-		_incomingGarbageCount = [message[@"Count"] intValue];
+		receivedGarbage = YES;
+
+		_incomingGarbageCount += [message[@"Count"] intValue];
 
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	}
+
+	if (receivedGarbage) {
+		[_delegate didGridRunnerReceiveGarbage:self];
 	}
 }
 
