@@ -3,6 +3,7 @@
 #import "SZNetworkSession.h"
 #import "SZEggFactory.h"
 #import "SZSettings.h"
+#import "SZMessage.h"
 #import "SZMessageBus.h"
 
 /**
@@ -190,12 +191,12 @@ const int SZDropSpeedMultiplier = 4;
 
 	BOOL receivedGarbage = NO;
 
-	NSDictionary *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 
-	while (message && [message[@"Type"] intValue] == 1) {
+	while (message && message.type == SZMessageTypeGarbage) {
 		receivedGarbage = YES;
 
-		_incomingGarbageCount += [message[@"Count"] intValue];
+		_incomingGarbageCount += [message.info[@"Count"] intValue];
 
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 

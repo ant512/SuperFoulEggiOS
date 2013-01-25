@@ -5,12 +5,12 @@
 #import "SZSettings.h"
 #import "SZEggFactory.h"
 
-typedef NS_ENUM(char, SZMessageType) {
-	SZMessageTypeNone = 0,
-	SZMessageTypeMove = 1,
-	SZMessageTypeStartGame = 2,
-	SZMessageTypeStartRound = 3,
-	SZMessageTypeReadyForNextEgg = 4
+typedef NS_ENUM(char, SZNetworkMessageType) {
+	SZNetworkMessageTypeNone = 0,
+	SZNetworkMessageTypeMove = 1,
+	SZNetworkMessageTypeStartGame = 2,
+	SZNetworkMessageTypeStartRound = 3,
+	SZNetworkMessageTypeReadyForNextEgg = 4
 };
 
 typedef NS_ENUM(char, SZRemoteMoveType) {
@@ -24,16 +24,16 @@ typedef NS_ENUM(char, SZRemoteMoveType) {
 };
 
 typedef struct {
-	SZMessageType messageType;
-} SZMessage;
+	SZNetworkMessageType messageType;
+} SZNetworkMessage;
 
 typedef struct {
-	SZMessage message;
+	SZNetworkMessage message;
 	SZRemoteMoveType moveType;
 } SZMoveMessage;
 
 typedef struct {
-	SZMessage message;
+	SZNetworkMessage message;
 	char speed;
 	char height;
 	char eggColours;
@@ -42,12 +42,12 @@ typedef struct {
 } SZStartGameMessage;
 
 typedef struct {
-	SZMessage message;
+	SZNetworkMessage message;
 	int randomEggSeed;
 } SZRoundStartMessage;
 
 typedef struct {
-	SZMessage message;
+	SZNetworkMessage message;
 	char playerNumber;
 } SZReadyForNextEggMessage;
 
@@ -144,22 +144,22 @@ static NSString * const SZDisplayName = @"Player";
 		  inSession:(GKSession *)session
 			context:(void *)context {
 
-	SZMessage *message = (SZMessage *)[data bytes];
+	SZNetworkMessage *message = (SZNetworkMessage *)[data bytes];
 
 	switch (message->messageType) {
-		case SZMessageTypeMove:
+		case SZNetworkMessageTypeMove:
 			[self parseMoveMessage:(SZMoveMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZMessageTypeStartGame:
+		case SZNetworkMessageTypeStartGame:
 			[self parseStartGameMessage:(SZStartGameMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZMessageTypeStartRound:
+		case SZNetworkMessageTypeStartRound:
 			[self parseStartRoundMessage:(SZRoundStartMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZMessageTypeReadyForNextEgg:
+		case SZNetworkMessageTypeReadyForNextEgg:
 			[self parseReadyForNextEggMessage:(SZReadyForNextEggMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZMessageTypeNone:
+		case SZNetworkMessageTypeNone:
 			break;
 	}
 }
@@ -280,7 +280,7 @@ static NSString * const SZDisplayName = @"Player";
 
 	SZRoundStartMessage message;
 
-	message.message.messageType = SZMessageTypeStartRound;
+	message.message.messageType = SZNetworkMessageTypeStartRound;
 	message.randomEggSeed = rand();
 
 	[self parseStartRoundMessage:&message peerId:_session.peerID];
@@ -300,7 +300,7 @@ static NSString * const SZDisplayName = @"Player";
 
 	SZStartGameMessage message;
 
-	message.message.messageType = SZMessageTypeStartGame;
+	message.message.messageType = SZNetworkMessageTypeStartGame;
 	message.eggColours = [SZSettings sharedSettings].eggColours;
 	message.height = [SZSettings sharedSettings].height;
 	message.gamesPerMatch = [SZSettings sharedSettings].gamesPerMatch;
@@ -317,7 +317,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockMoveLeft {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeLeft;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -326,7 +326,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockMoveRight {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeRight;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -335,7 +335,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockMoveDown {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeDown;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -344,7 +344,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockDrop {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeDrop;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -353,7 +353,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockRotateClockwise {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeRotateClockwise;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -362,7 +362,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendLiveBlockRotateAnticlockwise {
 	SZMoveMessage message;
 
-	message.message.messageType = SZMessageTypeMove;
+	message.message.messageType = SZNetworkMessageTypeMove;
 	message.moveType = SZRemoteMoveTypeRotateAnticlockwise;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
@@ -371,7 +371,7 @@ static NSString * const SZDisplayName = @"Player";
 - (void)sendReadyForNextEgg:(char)playerNumber {
 	SZReadyForNextEggMessage message;
 
-	message.message.messageType = SZMessageTypeReadyForNextEgg;
+	message.message.messageType = SZNetworkMessageTypeReadyForNextEgg;
 
 	// Player 0 on the top peer is player 1 on the other peer.  This will need
 	// to be more complex to support more than two players.

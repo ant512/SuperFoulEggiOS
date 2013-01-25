@@ -1,4 +1,5 @@
 #import "SZMessageBus.h"
+#import "SZMessage.h"
 
 @implementation SZMessageBus
 
@@ -30,10 +31,7 @@
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to {
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:to];
 
-	[queue addObject:@{
-	 @"Type": @1,
-	 @"Count": @(count)
-	 }];
+	[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage info:@{ @"Count": @(count) }]];
 }
 
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
@@ -70,14 +68,14 @@
 	return true;
 }
 
-- (NSDictionary *)nextMessageForPlayerNumber:(int)playerNumber {
+- (SZMessage *)nextMessageForPlayerNumber:(int)playerNumber {
 
 	if (![self hasMessageForPlayerNumber:playerNumber]) return nil;
 
 	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
 	NSMutableArray *queue = _messageQueue[key];
 
-	NSDictionary *message = [[[queue objectAtIndex:0] retain] autorelease];
+	SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
 
 	[queue removeObjectAtIndex:0];
 

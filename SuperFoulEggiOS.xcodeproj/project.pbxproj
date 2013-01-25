@@ -37,6 +37,7 @@
 		C213BFDD1659501D0009C13E /* message-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDC1659501D0009C13E /* message-ipadhd.plist */; };
 		C213BFDF165950990009C13E /* playertags-ipadhd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C213BFDE165950990009C13E /* playertags-ipadhd.plist */; };
 		C234296E16B207BC0053F9B2 /* SZMessageBus.m in Sources */ = {isa = PBXBuildFile; fileRef = C234296D16B207BC0053F9B2 /* SZMessageBus.m */; };
+		C234297216B211B20053F9B2 /* SZMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C234297116B211B20053F9B2 /* SZMessage.m */; };
 		C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C254C332166D76B700FE081C /* SZNetworkSession.m */; };
 		C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */; };
 		C2B39AAE1675735500BCBF4C /* SZNetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B39AAD1675735500BCBF4C /* SZNetworkController.m */; };
@@ -281,6 +282,8 @@
 		C213BFDE165950990009C13E /* playertags-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "playertags-ipadhd.plist"; sourceTree = "<group>"; };
 		C234296C16B207BC0053F9B2 /* SZMessageBus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMessageBus.h; sourceTree = "<group>"; };
 		C234296D16B207BC0053F9B2 /* SZMessageBus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMessageBus.m; sourceTree = "<group>"; };
+		C234297016B211B20053F9B2 /* SZMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMessage.h; sourceTree = "<group>"; };
+		C234297116B211B20053F9B2 /* SZMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMessage.m; sourceTree = "<group>"; };
 		C254C331166D76B700FE081C /* SZNetworkSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZNetworkSession.h; sourceTree = "<group>"; };
 		C254C332166D76B700FE081C /* SZNetworkSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZNetworkSession.m; sourceTree = "<group>"; };
 		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
@@ -1129,6 +1132,8 @@
 				C2B756061655DD3100DB1D43 /* SZEggFactory.m */,
 				C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */,
 				C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */,
+				C234297016B211B20053F9B2 /* SZMessage.h */,
+				C234297116B211B20053F9B2 /* SZMessage.m */,
 				C234296C16B207BC0053F9B2 /* SZMessageBus.h */,
 				C234296D16B207BC0053F9B2 /* SZMessageBus.m */,
 				C254C331166D76B700FE081C /* SZNetworkSession.h */,
@@ -1621,6 +1626,7 @@
 				C2B39AAE1675735500BCBF4C /* SZNetworkController.m in Sources */,
 				C2C1DDB616878ADA0040C7EE /* MTRandom.m in Sources */,
 				C234296E16B207BC0053F9B2 /* SZMessageBus.m in Sources */,
+				C234297216B211B20053F9B2 /* SZMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
