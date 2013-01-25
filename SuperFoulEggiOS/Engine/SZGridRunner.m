@@ -52,7 +52,6 @@ const int SZDropSpeedMultiplier = 4;
 		
 		_speed = speed;
 		_chainMultiplier = 0;
-		_outgoingGarbageCount = 0;
 		_incomingGarbageCount = 0;
 		_accumulatingGarbageCount = 0;
 		
@@ -332,13 +331,11 @@ const int SZDropSpeedMultiplier = 4;
 		_chainMultiplier = 0;
 
 		// Queue up outgoing eggs for the other player
-		_outgoingGarbageCount += _accumulatingGarbageCount;
 
-		if (_outgoingGarbageCount > 0) {
-			[[SZMessageBus sharedMessageBus] sendGarbage:_outgoingGarbageCount fromPlayerNumber:_playerNumber toPlayerNumber:1 - _playerNumber];
+		if (_accumulatingGarbageCount > 0) {
+			[[SZMessageBus sharedMessageBus] sendGarbage:_accumulatingGarbageCount fromPlayerNumber:_playerNumber toPlayerNumber:1 - _playerNumber];
 		}
 
-		_outgoingGarbageCount = 0;
 		_accumulatingGarbageCount = 0;
 
 		[_nextEggs[0] release];

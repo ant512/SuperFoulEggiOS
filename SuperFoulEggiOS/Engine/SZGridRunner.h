@@ -47,9 +47,7 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
 
 	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
-													 sequences.  At the end of a sequence they are moved to the
-													 _outgoinggGarbageCount member. */
-	int _outgoingGarbageCount;					/**< Number of garbage eggs to send to the other player. */
+													 sequences. */
 
 	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
 	BOOL _isRemote;
