@@ -1,5 +1,6 @@
 #import "SZMessageBus.h"
 #import "SZMessage.h"
+#import "SZNetworkSession.h"
 
 @implementation SZMessageBus
 
@@ -30,21 +31,30 @@
 
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to {
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:to];
+	
+	@synchronized(queue) {
+		[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage info:@{ @"Count": @(count) }]];
+	}
+}
 
-	[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage info:@{ @"Count": @(count) }]];
+- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from {
+	[[SZNetworkSession sharedSession] sendBlockMove:move fromPlayerNumber:from];
 }
 
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
 
-	NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
-	NSMutableArray *queue = _messageQueues[key];
+	@synchronized(_messageQueues) {
+	
+		NSString *key = [NSString stringWithFormat:@"%d", playerNumber];
+		NSMutableArray *queue = _messageQueues[key];
 
-	if (!queue) {
-		queue = [NSMutableArray array];
-		_messageQueues[key] = queue;
+		if (!queue) {
+			queue = [NSMutableArray array];
+			_messageQueues[key] = queue;
+		}
+
+		return queue;
 	}
-
-	return queue;
 }
 
 - (void)removeNextMessageForPlayerNumber:(int)playerNumber {
@@ -52,16 +62,20 @@
 	if (![self hasMessageForPlayerNumber:playerNumber]) return;
 
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
-
-	[queue removeObjectAtIndex:0];
+	
+	@synchronized(queue) {
+		[queue removeObjectAtIndex:0];
+	}
 }
 
 - (BOOL)hasMessageForPlayerNumber:(int)playerNumber {
 	
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
-
-	if (!queue) return false;
-	if (queue.count == 0) return false;
+	
+	@synchronized(queue) {
+		if (!queue) return false;
+		if (queue.count == 0) return false;
+	}
 
 	return true;
 }
@@ -71,12 +85,12 @@
 	if (![self hasMessageForPlayerNumber:playerNumber]) return nil;
 	
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:playerNumber];
-
-	SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
-
-	[queue removeObjectAtIndex:0];
-
-	return message;
+	
+	@synchronized(queue) {
+		SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
+		[queue removeObjectAtIndex:0];
+		return message;
+	}
 }
 
 @end

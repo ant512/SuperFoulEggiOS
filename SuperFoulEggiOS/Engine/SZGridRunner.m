@@ -225,17 +225,13 @@ const int SZDropSpeedMultiplier = 4;
 			if ([_grid moveLiveEggsLeft]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
 
-				if (!_isRemote) {
-					[[SZNetworkSession sharedSession] sendLiveBlockMoveLeft];
-				}
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeLeft fromPlayerNumber:_playerNumber];
             }
 		} else if ([_controller isRightHeld]) {
 			if ([_grid moveLiveEggsRight]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
-
-				if (!_isRemote) {
-					[[SZNetworkSession sharedSession] sendLiveBlockMoveRight];
-				}
+				
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRight fromPlayerNumber:_playerNumber];
 			}
 		}
 		
@@ -249,7 +245,7 @@ const int SZDropSpeedMultiplier = 4;
 				
 				[_delegate didGridRunnerStartDroppingLiveEggs:self];
 
-				[[SZNetworkSession sharedSession] sendLiveBlockDrop];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 			}
 		} else if (![_controller isDownHeld]) {
 			_droppingLiveEggs = NO;
@@ -259,17 +255,13 @@ const int SZDropSpeedMultiplier = 4;
 			if ([_grid rotateLiveEggsClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
 
-				if (!_isRemote) {
-					[[SZNetworkSession sharedSession] sendLiveBlockRotateClockwise];
-				}
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateClockwise fromPlayerNumber:_playerNumber];
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
 			if ([_grid rotateLiveEggsAntiClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
 
-				if (!_isRemote) {
-					[[SZNetworkSession sharedSession] sendLiveBlockRotateAnticlockwise];
-				}
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateAnticlockwise fromPlayerNumber:_playerNumber];
 			}
 		}
 		
@@ -277,10 +269,8 @@ const int SZDropSpeedMultiplier = 4;
 		if (_timer >= timeToDrop) {
 			_timer = 0;
 			
-			if (!_isRemote) {
-				[_grid dropLiveEggs];
-				[[SZNetworkSession sharedSession] sendLiveBlockMoveDown];
-			}
+			[_grid dropLiveEggs];
+			[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 		}
 	} else {
 		

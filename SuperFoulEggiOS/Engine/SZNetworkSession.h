@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 #import "SZEggFactory.h"
+#import "SZMessageBus.h"
 
 typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 	SZNetworkSessionStateWaitingForPeers = 0,
@@ -26,12 +27,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 + (SZNetworkSession *)sharedSession;
 
 - (void)startWithPlayerCount:(NSUInteger)playerCount;
-- (void)sendLiveBlockMoveLeft;
-- (void)sendLiveBlockMoveRight;
-- (void)sendLiveBlockMoveDown;
-- (void)sendLiveBlockDrop;
-- (void)sendLiveBlockRotateClockwise;
-- (void)sendLiveBlockRotateAnticlockwise;
+- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
 - (void)sendStartGame;
 - (void)sendStartRound;
 - (void)sendReadyForNextEgg:(char)playerNumber;

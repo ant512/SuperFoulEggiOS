@@ -2,6 +2,14 @@
 
 @class SZMessage;
 
+typedef NS_ENUM(NSUInteger, SZBlockMoveType) {
+	SZBlockMoveTypeLeft = 0,
+	SZBlockMoveTypeRight = 1,
+	SZBlockMoveTypeDown = 2,
+	SZBlockMoveTypeRotateClockwise = 3,
+	SZBlockMoveTypeRotateAnticlockwise = 4
+};
+
 /**
  * Allows for communication between different SZGridRunner instances.  Each
  * player has his own message queue, which is stored in a dictionary using the
@@ -15,6 +23,8 @@
 + (SZMessageBus *)sharedMessageBus;
 
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to;
+- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
+
 - (SZMessage *)nextMessageForPlayerNumber:(int)playerNumber;
 - (void)removeNextMessageForPlayerNumber:(int)playerNumber;
 - (BOOL)hasMessageForPlayerNumber:(int)playerNumber;

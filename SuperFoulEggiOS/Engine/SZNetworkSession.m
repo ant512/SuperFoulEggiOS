@@ -13,23 +13,15 @@ typedef NS_ENUM(char, SZNetworkMessageType) {
 	SZNetworkMessageTypeReadyForNextEgg = 4
 };
 
-typedef NS_ENUM(char, SZRemoteMoveType) {
-	SZRemoteMoveTypeNone = 0,
-	SZRemoteMoveTypeLeft = 1,
-	SZRemoteMoveTypeRight = 2,
-	SZRemoteMoveTypeDown = 3,
-	SZRemoteMoveTypeRotateClockwise = 4,
-	SZRemoteMoveTypeRotateAnticlockwise = 5,
-	SZRemoteMoveTypeDrop = 6
-};
-
 typedef struct {
 	SZNetworkMessageType messageType;
+	int from;
+	int to;
 } SZNetworkMessage;
 
 typedef struct {
 	SZNetworkMessage message;
-	SZRemoteMoveType moveType;
+	SZBlockMoveType moveType;
 } SZMoveMessage;
 
 typedef struct {
@@ -194,24 +186,22 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseMoveMessage:(SZMoveMessage *)moveMessage peerId:(NSString *)peerId {
 	switch (moveMessage->moveType) {
-		case SZRemoteMoveTypeNone:
-			break;
-		case SZRemoteMoveTypeDown:
+		case SZBlockMoveTypeDown:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveDownNotification object:nil];
 			break;
-		case SZRemoteMoveTypeLeft:
+		case SZBlockMoveTypeLeft:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveLeftNotification object:nil];
 			break;
-		case SZRemoteMoveTypeRight:
+		case SZBlockMoveTypeRight:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveRightNotification object:nil];
 			break;
-		case SZRemoteMoveTypeDrop:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteDropNotification object:nil];
-			break;
-		case SZRemoteMoveTypeRotateAnticlockwise:
+		//case SZRemoteMoveTypeDrop:
+		//	[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteDropNotification object:nil];
+		//	break;
+		case SZBlockMoveTypeRotateAnticlockwise:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteRotateAnticlockwiseNotification object:nil];
 			break;
-		case SZRemoteMoveTypeRotateClockwise:
+		case SZBlockMoveTypeRotateClockwise:
 			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteRotateClockwiseNotification object:nil];
 			break;
 	}
@@ -314,57 +304,14 @@ static NSString * const SZDisplayName = @"Player";
 	NSLog(@"Start game sent");
 }
 
-- (void)sendLiveBlockMoveLeft {
+- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from {
 	SZMoveMessage message;
 
 	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeLeft;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendLiveBlockMoveRight {
-	SZMoveMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeRight;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendLiveBlockMoveDown {
-	SZMoveMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeDown;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendLiveBlockDrop {
-	SZMoveMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeDrop;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendLiveBlockRotateClockwise {
-	SZMoveMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeRotateClockwise;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendLiveBlockRotateAnticlockwise {
-	SZMoveMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeMove;
-	message.moveType = SZRemoteMoveTypeRotateAnticlockwise;
-
+	message.message.from = from;
+	message.message.to = from;
+	message.moveType = move;
+	
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
