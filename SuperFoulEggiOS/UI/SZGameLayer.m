@@ -34,6 +34,8 @@
 
 #import "CCNode+SFGestureRecognizers.h"
 
+#import "SZLocalGridRunner.h"
+
 const int SZFrameRate = 60;
 const int SZGrid1X = 80;
 const int SZGrid2X = 656;
@@ -237,7 +239,7 @@ const int SZGrid2ScoresY = 285;
 	_dragStartX = -1;
 }
 
-- (void)createNextEggSpriteConnectorPairForRunner:(SZGridRunner *)runner {
+- (void)createNextEggSpriteConnectorPairForRunner:(id <SZGridRunner>)runner {
 
 	int gridX = runner.playerNumber == 0 ? SZNextEgg1X : SZNextEgg2X;
 	
@@ -688,11 +690,11 @@ const int SZGrid2ScoresY = 285;
 
 	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:1 grid:grid];
 	
-	_runners[0] = [[SZGridRunner alloc] initWithController:controller
-													  grid:grid
-											  playerNumber:0
-													 speed:[SZSettings sharedSettings].speed
-												  isRemote:NO];
+	_runners[0] = [[SZLocalGridRunner alloc] initWithController:controller
+														   grid:grid
+												   playerNumber:0
+														  speed:[SZSettings sharedSettings].speed
+													   isRemote:NO];
 	_runners[0].delegate = self;
 	
 	[grid release];
@@ -713,11 +715,11 @@ const int SZGrid2ScoresY = 285;
 			controller = [[SZPlayerTwoController alloc] init];
 		}
 		
-		_runners[1] = [[SZGridRunner alloc] initWithController:controller
-														  grid:grid
-												  playerNumber:1
-														 speed:[SZSettings sharedSettings].speed
-													  isRemote:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+		_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
+															   grid:grid
+													   playerNumber:1
+															  speed:[SZSettings sharedSettings].speed
+														   isRemote:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
 		_runners[1].delegate = self;
 
 		[grid release];
@@ -881,7 +883,7 @@ const int SZGrid2ScoresY = 285;
 	}
 }
 
-- (void)updateIncomingGarbageDisplayForRunner:(SZGridRunner *)runner {
+- (void)updateIncomingGarbageDisplayForRunner:(id <SZGridRunner>)runner {
 	
 	int playerNumber = runner.playerNumber;
 	
@@ -1029,15 +1031,15 @@ const int SZGrid2ScoresY = 285;
 
 #pragma mark - SZGridRunnerDelegate
 
-- (void)didGridRunnerAddLiveEggs:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerAddLiveEggs:(id <SZGridRunner>)gridRunner {
 
 }
 
-- (void)didGridRunnerClearIncomingGarbage:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerClearIncomingGarbage:(id <SZGridRunner>)gridRunner {
 	[self updateIncomingGarbageDisplayForRunner:gridRunner];
 }
 
-- (void)didGridRunnerCreateNextEggs:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerCreateNextEggs:(id <SZGridRunner>)gridRunner {
 	[self createNextEggSpriteConnectorPairForRunner:gridRunner];
 
 	if (gridRunner.playerNumber == 0) {
@@ -1049,28 +1051,28 @@ const int SZGrid2ScoresY = 285;
 	}
 }
 
-- (void)didGridRunnerExplodeChain:(SZGridRunner *)gridRunner sequence:(int)sequence {
+- (void)didGridRunnerExplodeChain:(id <SZGridRunner>)gridRunner sequence:(int)sequence {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"chain.wav" pitch:(1.0 + (sequence * 0.05)) pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerExplodeMultipleChains:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerExplodeMultipleChains:(id <SZGridRunner>)gridRunner {
 	NSString *filename = gridRunner.playerNumber == 0 ? @"multichain1.wav" : @"multichain2.wav";
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:filename pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerMoveLiveEggs:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerMoveLiveEggs:(id <SZGridRunner>)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"move.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerRotateLiveEggs:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerRotateLiveEggs:(id <SZGridRunner>)gridRunner {
 	CGFloat pan = [self panForPlayerNumber:gridRunner.playerNumber];
 	[[SimpleAudioEngine sharedEngine] playEffect:@"rotate.wav" pitch:1.0 pan:pan gain:1.0];
 }
 
-- (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerStartDroppingLiveEggs:(id <SZGridRunner>)gridRunner {
 
 	int players = [SZSettings sharedSettings].gameType == SZGameTypePractice ? 1 : 2;
 
@@ -1082,7 +1084,7 @@ const int SZGrid2ScoresY = 285;
 	}
 }
 
-- (void)didGridRunnerReceiveGarbage:(SZGridRunner *)gridRunner {
+- (void)didGridRunnerReceiveGarbage:(id <SZGridRunner>)gridRunner {
 	[self updateIncomingGarbageDisplayForRunner:gridRunner];
 }
 

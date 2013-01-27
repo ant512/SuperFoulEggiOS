@@ -1,25 +1,6 @@
-#import <Foundation/NSObject.h>
+#import <Foundation/Foundation.h>
 
-#import "SZGrid.h"
-#import "SZGameController.h"
-#import "SZEggBase.h"
-#import "SZEngineConstants.h"
-
-@class SZGridRunner;
-
-@protocol SZGridRunnerDelegate <NSObject>
-
-- (void)didGridRunnerMoveLiveEggs:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerRotateLiveEggs:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerStartDroppingLiveEggs:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerAddLiveEggs:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerCreateNextEggs:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerExplodeMultipleChains:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerClearIncomingGarbage:(SZGridRunner *)gridRunner;
-- (void)didGridRunnerExplodeChain:(SZGridRunner *)gridRunner sequence:(int)sequence;
-- (void)didGridRunnerReceiveGarbage:(SZGridRunner *)gridRunner;
-
-@end
+@protocol SZGridRunner;
 
 /**
  * All possible states of the state machine.
@@ -34,36 +15,28 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 	SZGridRunnerStateWaitingForNewEgg = 6		/**< Waiting for an egg to be created in the egg factory. */
 };
 
-/**
- * Controls a grid.  Maintains a state machine that tracks what should happen
- * currently and next as the game progresses.
- */
-@interface SZGridRunner : NSObject {
-	SZGridRunnerState _state;					/**< The state of the state machine. */
-	int _timer;									/**< Frames since the last event took place. */
-	SZEggBase *_nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
+@protocol SZGridRunnerDelegate <NSObject>
 
-	int _speed;									/**< Current speed. */
-	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
+- (void)didGridRunnerMoveLiveEggs:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerRotateLiveEggs:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerStartDroppingLiveEggs:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerAddLiveEggs:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerCreateNextEggs:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerExplodeMultipleChains:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerClearIncomingGarbage:(id <SZGridRunner>)gridRunner;
+- (void)didGridRunnerExplodeChain:(id <SZGridRunner>)gridRunner sequence:(int)sequence;
+- (void)didGridRunnerReceiveGarbage:(id <SZGridRunner>)gridRunner;
 
-	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
-													 sequences. */
+@end
 
-	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
-	BOOL _isRemote;
-}
-
-@property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
-
-/**
- * Number of garbage eggs sent from the other player.
- */
-@property (readonly) int incomingGarbageCount;
+@protocol SZGridRunner <NSObject>
 
 /**
  * The zero-based number of the current player.
  */
 @property (readonly) int playerNumber;
+
+@property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
 
 /**
  * The grid controlled by this grid runner.
@@ -71,28 +44,9 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
 @property (readonly, retain) SZGrid *grid;
 
 /**
- * The controller used for input.
+ * Number of garbage eggs sent from the other player.
  */
-@property (readonly, retain) id <SZGameController> controller;
-
-/**
- * Initialise a new instance of the class.
- * @param controller A controller object that will provide input for the
- * movement of live eggs.
- * @param grid Grid to run.
- * @param playerNumber The unique number of the player using this runner.
- * @param speed The auto drop speed.
- */
-- (id)initWithController:(id <SZGameController>)controller
-					grid:(SZGrid *)grid
-			playerNumber:(int)playerNumber
-				   speed:(int)speed
-				isRemote:(BOOL)isRemote;
-
-/**
- * Deallocates the object.
- */
-- (void)dealloc;
+@property (readonly) int incomingGarbageCount;
 
 /**
  * Process a single iteration of the state machine/grid logic.  This model
@@ -113,20 +67,5 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  * @return True if the game is over.
  */
 - (BOOL)isDead;
-
-/**
- * Drops eggs in the grid.  Called when the grid is in drop mode.
- */
-- (void)drop;
-
-/**
- * Lands eggs in the grid.  Called when the grid is in land mode.
- */
-- (void)land;
-
-/**
- * Process live eggs in the grid.  Called when the grid is in live mode.
- */
-- (void)live;
 
 @end

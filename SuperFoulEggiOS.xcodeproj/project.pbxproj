@@ -167,7 +167,7 @@
 		C2B756351655DD3100DB1D43 /* SZGridBottomEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756131655DD3100DB1D43 /* SZGridBottomEgg.m */; };
 		C2B756361655DD3100DB1D43 /* SZGridBottomLeftEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756151655DD3100DB1D43 /* SZGridBottomLeftEgg.m */; };
 		C2B756371655DD3100DB1D43 /* SZGridBottomRightEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756171655DD3100DB1D43 /* SZGridBottomRightEgg.m */; };
-		C2B756381655DD3100DB1D43 /* SZGridRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756191655DD3100DB1D43 /* SZGridRunner.m */; };
+		C2B756381655DD3100DB1D43 /* SZLocalGridRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B756191655DD3100DB1D43 /* SZLocalGridRunner.m */; };
 		C2B756391655DD3100DB1D43 /* SZStandardEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */; };
 		C2B7563A1655DD3100DB1D43 /* SZOrangeEgg.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561D1655DD3100DB1D43 /* SZOrangeEgg.m */; };
 		C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B7561F1655DD3100DB1D43 /* SZPad.m */; };
@@ -280,6 +280,7 @@
 		C213BFDA16594EEC0009C13E /* incoming-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "incoming-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDC1659501D0009C13E /* message-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "message-ipadhd.plist"; sourceTree = "<group>"; };
 		C213BFDE165950990009C13E /* playertags-ipadhd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "playertags-ipadhd.plist"; sourceTree = "<group>"; };
+		C22E0B4B16B59A8600A3FF25 /* SZGridRunner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZGridRunner.h; sourceTree = "<group>"; };
 		C234296C16B207BC0053F9B2 /* SZMessageBus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMessageBus.h; sourceTree = "<group>"; };
 		C234296D16B207BC0053F9B2 /* SZMessageBus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZMessageBus.m; sourceTree = "<group>"; };
 		C234297016B211B20053F9B2 /* SZMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZMessage.h; sourceTree = "<group>"; };
@@ -564,8 +565,8 @@
 		C2B756151655DD3100DB1D43 /* SZGridBottomLeftEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGridBottomLeftEgg.m; sourceTree = "<group>"; };
 		C2B756161655DD3100DB1D43 /* SZGridBottomRightEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGridBottomRightEgg.h; sourceTree = "<group>"; };
 		C2B756171655DD3100DB1D43 /* SZGridBottomRightEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGridBottomRightEgg.m; sourceTree = "<group>"; };
-		C2B756181655DD3100DB1D43 /* SZGridRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZGridRunner.h; sourceTree = "<group>"; };
-		C2B756191655DD3100DB1D43 /* SZGridRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZGridRunner.m; sourceTree = "<group>"; };
+		C2B756181655DD3100DB1D43 /* SZLocalGridRunner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZLocalGridRunner.h; sourceTree = "<group>"; };
+		C2B756191655DD3100DB1D43 /* SZLocalGridRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZLocalGridRunner.m; sourceTree = "<group>"; };
 		C2B7561A1655DD3100DB1D43 /* SZStandardEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZStandardEgg.h; sourceTree = "<group>"; };
 		C2B7561B1655DD3100DB1D43 /* SZStandardEgg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZStandardEgg.m; sourceTree = "<group>"; };
 		C2B7561C1655DD3100DB1D43 /* SZOrangeEgg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZOrangeEgg.h; sourceTree = "<group>"; };
@@ -1311,8 +1312,9 @@
 				C2B7560F1655DD3100DB1D43 /* SZGrid.m */,
 				C2B756101655DD3100DB1D43 /* SZGridBase.h */,
 				C2B756111655DD3100DB1D43 /* SZGridBase.m */,
-				C2B756181655DD3100DB1D43 /* SZGridRunner.h */,
-				C2B756191655DD3100DB1D43 /* SZGridRunner.m */,
+				C22E0B4B16B59A8600A3FF25 /* SZGridRunner.h */,
+				C2B756181655DD3100DB1D43 /* SZLocalGridRunner.h */,
+				C2B756191655DD3100DB1D43 /* SZLocalGridRunner.m */,
 			);
 			name = Grid;
 			sourceTree = "<group>";
@@ -1601,7 +1603,7 @@
 				C2B756351655DD3100DB1D43 /* SZGridBottomEgg.m in Sources */,
 				C2B756361655DD3100DB1D43 /* SZGridBottomLeftEgg.m in Sources */,
 				C2B756371655DD3100DB1D43 /* SZGridBottomRightEgg.m in Sources */,
-				C2B756381655DD3100DB1D43 /* SZGridRunner.m in Sources */,
+				C2B756381655DD3100DB1D43 /* SZLocalGridRunner.m in Sources */,
 				C2B756391655DD3100DB1D43 /* SZStandardEgg.m in Sources */,
 				C2B7563A1655DD3100DB1D43 /* SZOrangeEgg.m in Sources */,
 				C2B7563B1655DD3100DB1D43 /* SZPad.m in Sources */,

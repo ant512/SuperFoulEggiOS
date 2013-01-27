@@ -1,4 +1,4 @@
-#import "SZGridRunner.h"
+#import "SZLocalGridRunner.h"
 #import "SZEngineConstants.h"
 #import "SZNetworkSession.h"
 #import "SZEggFactory.h"
@@ -35,7 +35,7 @@ const int SZMinimumDropSpeed = 38;
  */
 const int SZDropSpeedMultiplier = 4;
 
-@implementation SZGridRunner
+@implementation SZLocalGridRunner
 
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid *)grid
