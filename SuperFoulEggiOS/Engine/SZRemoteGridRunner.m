@@ -7,15 +7,13 @@
 
 @implementation SZRemoteGridRunner
 
-- (id)initWithController:(id <SZGameController>)controller
-					grid:(SZGrid *)grid
-			playerNumber:(int)playerNumber
-				   speed:(int)speed {
+- (id)initWithGrid:(SZGrid *)grid
+	  playerNumber:(int)playerNumber
+			 speed:(int)speed {
 	
 	if ((self = [super init])) {
 		_state = SZGridRunnerStateDrop;
 		_timer = 0;
-		_controller = [controller retain];
 		_grid = [grid retain];
 		_playerNumber = playerNumber;
 		
@@ -44,7 +42,6 @@
 	}
 
 	[_grid release];
-	[_controller release];
 	
 	[super dealloc];
 }
@@ -183,48 +180,57 @@
 		if (timeToDrop < SZMaximumDropSpeed) timeToDrop = SZMaximumDropSpeed;
 		
 		// Process user input
-		if ([_controller isLeftHeld]) {
-			if ([_grid moveLiveEggsLeft]) {
-				[_delegate didGridRunnerMoveLiveEggs:self];
-				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeLeft fromPlayerNumber:_playerNumber];
-            }
-		} else if ([_controller isRightHeld]) {
-			if ([_grid moveLiveEggsRight]) {
-				[_delegate didGridRunnerMoveLiveEggs:self];
-				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRight fromPlayerNumber:_playerNumber];
-			}
-		}
+		SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 		
-		if ([_controller isDownHeld] && (_timer % 2 == 0)) {
+		if (message.type == SZMessageTypeMove) {
 			
-			// Force eggs to drop
-			_timer = timeToDrop;
-			
-			if (!_droppingLiveEggs) {
-				_droppingLiveEggs = YES;
-				
-				[_delegate didGridRunnerStartDroppingLiveEggs:self];
-				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
-			}
-		} else if (![_controller isDownHeld]) {
 			_droppingLiveEggs = NO;
-		}
-		
-		if ([_controller isRotateClockwiseHeld]) {
-			if ([_grid rotateLiveEggsClockwise]) {
-				[_delegate didGridRunnerRotateLiveEggs:self];
+			
+			SZBlockMoveType moveType = [message.info[@"Move"] intValue];
+			
+			switch (moveType) {
+				case SZBlockMoveTypeLeft:
+					if ([_grid moveLiveEggsLeft]) {
+						[_delegate didGridRunnerMoveLiveEggs:self];
+					}
+					break;
 				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateClockwise fromPlayerNumber:_playerNumber];
+				case SZBlockMoveTypeRight:
+					if ([_grid moveLiveEggsRight]) {
+						[_delegate didGridRunnerMoveLiveEggs:self];
+					}
+					break;
+					
+				case SZBlockMoveTypeDown:
+					if (_timer % 2 == 0) {
+						
+						// Force eggs to drop
+						_timer = timeToDrop;
+						
+						if (!_droppingLiveEggs) {
+							_droppingLiveEggs = YES;
+							
+							[_delegate didGridRunnerStartDroppingLiveEggs:self];
+							
+							[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+						}
+					}
+					break;
+					
+				case SZBlockMoveTypeRotateClockwise:
+					if ([_grid rotateLiveEggsClockwise]) {
+						[_delegate didGridRunnerRotateLiveEggs:self];
+					}
+					break;
+					
+				case SZBlockMoveTypeRotateAnticlockwise:
+					if ([_grid rotateLiveEggsAntiClockwise]) {
+						[_delegate didGridRunnerRotateLiveEggs:self];
+					}
+					break;
 			}
-		} else if ([_controller isRotateAntiClockwiseHeld]) {
-			if ([_grid rotateLiveEggsAntiClockwise]) {
-				[_delegate didGridRunnerRotateLiveEggs:self];
-				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateAnticlockwise fromPlayerNumber:_playerNumber];
-			}
+			
+			[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		}
 		
 		// Drop live eggs if the timer has expired

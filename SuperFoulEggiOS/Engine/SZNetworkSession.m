@@ -4,6 +4,7 @@
 #import "SZEggBase.h"
 #import "SZSettings.h"
 #import "SZEggFactory.h"
+#import "SZMessage.h"
 
 typedef NS_ENUM(char, SZNetworkMessageType) {
 	SZNetworkMessageTypeNone = 0,
@@ -185,26 +186,13 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)parseMoveMessage:(SZMoveMessage *)moveMessage peerId:(NSString *)peerId {
-	switch (moveMessage->moveType) {
-		case SZBlockMoveTypeDown:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveDownNotification object:nil];
-			break;
-		case SZBlockMoveTypeLeft:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveLeftNotification object:nil];
-			break;
-		case SZBlockMoveTypeRight:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteMoveRightNotification object:nil];
-			break;
-		//case SZRemoteMoveTypeDrop:
-		//	[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteDropNotification object:nil];
-		//	break;
-		case SZBlockMoveTypeRotateAnticlockwise:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteRotateAnticlockwiseNotification object:nil];
-			break;
-		case SZBlockMoveTypeRotateClockwise:
-			[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteRotateClockwiseNotification object:nil];
-			break;
-	}
+	
+	SZMessage *message = [SZMessage messageWithType:SZMessageTypeMove
+											   from:0
+												 to:0
+											   info:@{ @"Move": @(moveMessage->moveType) }];
+	
+	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }
 
 - (void)parseStartGameMessage:(SZStartGameMessage *)message peerId:(NSString *)peerId {

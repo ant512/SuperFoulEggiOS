@@ -42,21 +42,13 @@
 @property (readonly, retain) SZGrid *grid;
 
 /**
- * The controller used for input.
- */
-@property (readonly, retain) id <SZGameController> controller;
-
-/**
  * Initialise a new instance of the class.
- * @param controller A controller object that will provide input for the
- * movement of live eggs.
  * @param grid Grid to run.
  * @param playerNumber The unique number of the player using this runner.
  * @param speed The auto drop speed.
  */
-- (id)initWithController:(id <SZGameController>)controller
-					grid:(SZGrid *)grid
-			playerNumber:(int)playerNumber
-				   speed:(int)speed;
+- (id)initWithGrid:(SZGrid *)grid
+	  playerNumber:(int)playerNumber
+			 speed:(int)speed;
 
 @end

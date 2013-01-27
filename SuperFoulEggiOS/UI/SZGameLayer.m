@@ -35,6 +35,7 @@
 #import "CCNode+SFGestureRecognizers.h"
 
 #import "SZLocalGridRunner.h"
+#import "SZRemoteGridRunner.h"
 
 const int SZFrameRate = 60;
 const int SZGrid1X = 80;
@@ -714,10 +715,16 @@ const int SZGrid2ScoresY = 285;
 			controller = [[SZPlayerTwoController alloc] init];
 		}
 		
-		_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
+		/*_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
 															   grid:grid
 													   playerNumber:1
 															  speed:[SZSettings sharedSettings].speed];
+		 */
+		
+		_runners[1] = [[SZRemoteGridRunner alloc] initWithGrid:grid
+												  playerNumber:1
+														 speed:[SZSettings sharedSettings].speed];
+		
 		_runners[1].delegate = self;
 
 		[grid release];

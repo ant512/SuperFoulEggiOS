@@ -33,7 +33,10 @@
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:to];
 	
 	@synchronized(queue) {
-		[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage info:@{ @"Count": @(count) }]];
+		[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage
+											   from:from
+												 to:to
+											   info:@{ @"Count": @(count) }]];
 	}
 }
 
@@ -90,6 +93,14 @@
 		SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
 		[queue removeObjectAtIndex:0];
 		return message;
+	}
+}
+
+- (void)receiveMessage:(SZMessage *)message {
+	NSMutableArray *queue = [self messageQueueForPlayerNumber:message.to];
+	
+	@synchronized(queue) {
+		[queue addObject:message];
 	}
 }
 
