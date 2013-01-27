@@ -250,8 +250,6 @@
 }
 
 - (void)waitForNewEgg {
-	[self land];
-	
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	
 	if (message.type == SZMessageTypePlaceNextEggs) {

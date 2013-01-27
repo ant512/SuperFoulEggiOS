@@ -273,6 +273,8 @@
 		for (int i = 0; i < SZLiveEggCount; ++i) {
 			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 		}
+		
+		[[SZMessageBus sharedMessageBus] sendPlaceNextEggsFromPlayerNumber:_playerNumber];
 
 		[_delegate didGridRunnerCreateNextEggs:self];
 		[_delegate didGridRunnerAddLiveEggs:self];
