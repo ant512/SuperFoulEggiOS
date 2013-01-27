@@ -44,6 +44,10 @@
 	[[SZNetworkSession sharedSession] sendBlockMove:move fromPlayerNumber:from];
 }
 
+- (void)sendPlaceNextEggsFromPlayerNumber:(int)from {
+	[[SZNetworkSession sharedSession] sendPlaceNextEggsFromPlayerNumber:from];
+}
+
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
 
 	@synchronized(_messageQueues) {

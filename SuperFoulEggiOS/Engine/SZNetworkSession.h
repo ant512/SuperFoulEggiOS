@@ -19,7 +19,6 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 	SZNetworkSessionState _state;
 	NSString *_highestPeerId;
 	int _randomEggSeed;
-	NSMutableDictionary *_nextEggAcknowledgements;
 }
 
 @property (readonly) SZNetworkSessionState state;
@@ -30,6 +29,6 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 - (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
 - (void)sendStartGame;
 - (void)sendStartRound;
-- (void)sendReadyForNextEgg:(char)playerNumber;
+- (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber;
 
 @end

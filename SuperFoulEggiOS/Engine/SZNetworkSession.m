@@ -11,7 +11,7 @@ typedef NS_ENUM(char, SZNetworkMessageType) {
 	SZNetworkMessageTypeMove = 1,
 	SZNetworkMessageTypeStartGame = 2,
 	SZNetworkMessageTypeStartRound = 3,
-	SZNetworkMessageTypeReadyForNextEgg = 4
+	SZNetworkMessageTypePlaceNextEggs = 4
 };
 
 typedef struct {
@@ -39,11 +39,6 @@ typedef struct {
 	int randomEggSeed;
 } SZRoundStartMessage;
 
-typedef struct {
-	SZNetworkMessage message;
-	char playerNumber;
-} SZReadyForNextEggMessage;
-
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
 
@@ -63,7 +58,6 @@ static NSString * const SZDisplayName = @"Player";
 - (void)dealloc {
 	[_session release];
 	[_highestPeerId release];
-	[_nextEggAcknowledgements release];
 
 	[super dealloc];
 }
@@ -89,9 +83,6 @@ static NSString * const SZDisplayName = @"Player";
 	_voteCount = 0;
 	
 	_state = SZNetworkSessionStateWaitingForPeers;
-
-	[_nextEggAcknowledgements release];
-	_nextEggAcknowledgements = [[NSMutableDictionary dictionary] retain];
 }
 
 - (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
@@ -149,48 +140,32 @@ static NSString * const SZDisplayName = @"Player";
 		case SZNetworkMessageTypeStartRound:
 			[self parseStartRoundMessage:(SZRoundStartMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZNetworkMessageTypeReadyForNextEgg:
-			[self parseReadyForNextEggMessage:(SZReadyForNextEggMessage *)[data bytes] peerId:peerId];
+		case SZNetworkMessageTypePlaceNextEggs:
+			[self parsePlaceNextEggsMessage:(SZNetworkMessage *)[data bytes] peerId:peerId];
 			break;
 		case SZNetworkMessageTypeNone:
 			break;
 	}
 }
 
-- (void)parseReadyForNextEggMessage:(SZReadyForNextEggMessage *)message peerId:(NSString *)peerId {
+- (void)parsePlaceNextEggsMessage:(SZNetworkMessage *)networkMessage peerId:(NSString *)peerId {
 	
 	NSLog(@"Received ready for next egg message");
+	
+	SZMessage *message = [SZMessage messageWithType:SZMessageTypePlaceNextEggs
+											   from:networkMessage->from
+												 to:networkMessage->to
+											   info:nil];
 
-	NSNumber *playerNumber = @(message->playerNumber);
-
-	if (_nextEggAcknowledgements[playerNumber]) {
-		_nextEggAcknowledgements[playerNumber] = @([_nextEggAcknowledgements[playerNumber] intValue] + 1);
-	} else {
-		_nextEggAcknowledgements[playerNumber] = @1;
-	}
-
-	int count = [_nextEggAcknowledgements[playerNumber] intValue];
-
-	if (count == [_session peersWithConnectionState:GKPeerStateConnected].count + 1) {
-
-		NSLog(@"Player %@ is ready for a new egg", playerNumber);
-
-		[_nextEggAcknowledgements removeObjectForKey:playerNumber];
-
-		if (![_highestPeerId isEqualToString:_session.peerID]) {
-			playerNumber = @(1 - message->playerNumber);
-		}
-
-		[[NSNotificationCenter defaultCenter] postNotificationName:SZRemoteReadyForNextEggNotification object:nil userInfo:@{ @"PlayerNumber": playerNumber }];
-	}
+	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }
 
-- (void)parseMoveMessage:(SZMoveMessage *)moveMessage peerId:(NSString *)peerId {
+- (void)parseMoveMessage:(SZMoveMessage *)networkMessage peerId:(NSString *)peerId {
 	
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypeMove
-											   from:0
-												 to:0
-											   info:@{ @"Move": @(moveMessage->moveType) }];
+											   from:networkMessage->message.from
+												 to:networkMessage->message.to
+											   info:@{ @"Move": @(networkMessage->moveType) }];
 	
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }
@@ -303,21 +278,12 @@ static NSString * const SZDisplayName = @"Player";
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendReadyForNextEgg:(char)playerNumber {
-	SZReadyForNextEggMessage message;
+- (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber {
+	SZNetworkMessage message;
 
-	message.message.messageType = SZNetworkMessageTypeReadyForNextEgg;
-
-	// Player 0 on the top peer is player 1 on the other peer.  This will need
-	// to be more complex to support more than two players.
-	
-	if ([_session.peerID isEqualToString:_highestPeerId]) {
-		message.playerNumber = playerNumber;
-	} else {
-		message.playerNumber = 1 - playerNumber;
-	}
-
-	[self parseReadyForNextEggMessage:&message peerId:_session.peerID];
+	message.messageType = SZNetworkMessageTypePlaceNextEggs;
+	message.from = playerNumber;
+	message.to = playerNumber;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
