@@ -1,47 +1,16 @@
 #import "SZLocalGridRunner.h"
 #import "SZEngineConstants.h"
-#import "SZNetworkSession.h"
 #import "SZEggFactory.h"
 #import "SZSettings.h"
 #import "SZMessage.h"
 #import "SZMessageBus.h"
-
-/**
- * Number of iterations before eggs drop when automatic dropping mode is
- * active.
- */
-const int SZAutoDropTime = 2;
-
-/**
- * The bonus given for each successive chain sequenced together.
- */
-const int SZChainSequenceGarbageBonus = 6;
-
-/**
- * The maximum speed at which live eggs can be forced to drop, measured in
- * iterations.
- */
-const int SZMaximumDropSpeed = 2;
-
-/**
- * The minimum speed at which live eggs can be forced to drop, measured in
- * iterations.
- */
-const int SZMinimumDropSpeed = 38;
-
-/**
- * The current drop speed is multiplied by this to produce the number of
- * iterations required until the live eggs are forced to drop.
- */
-const int SZDropSpeedMultiplier = 4;
 
 @implementation SZLocalGridRunner
 
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid *)grid
 			playerNumber:(int)playerNumber
-				   speed:(int)speed
-				isRemote:(BOOL)isRemote {
+				   speed:(int)speed {
 	
 	if ((self = [super init])) {
 		_state = SZGridRunnerStateDrop;
@@ -60,28 +29,14 @@ const int SZDropSpeedMultiplier = 4;
 		for (int i = 0; i < SZLiveEggCount; ++i) {
 			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 		}
-
-		_isRemote = isRemote;
-
-		if (_isRemote) {
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteMoveDown) name:SZRemoteMoveDownNotification object:nil];
-		}
 	}
 	
 	return self;
 }
 
-- (void)receiveRemoteMoveDown {
-	if ([_grid hasLiveEggs]) [_grid dropLiveEggs];
-}
-
 - (void)dealloc {
 	for (int i = 0; i < SZLiveEggCount; ++i) {
 		[_nextEggs[i] release];
-	}
-
-	if (_isRemote) {
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteMoveDownNotification object:nil];
 	}
 	
 	[_grid release];
@@ -97,6 +52,7 @@ const int SZDropSpeedMultiplier = 4;
 }
 
 - (void)dropGarbage {
+	NSAssert(_state == SZGridRunnerStateDropGarbage, @"Illegal state");
 	
 	// Garbage eggs are dropping down the screen
 	
@@ -111,6 +67,10 @@ const int SZDropSpeedMultiplier = 4;
 }
 
 - (void)drop {
+	
+	NSLog(@"%d", _state);
+	
+	NSAssert(_state == SZGridRunnerStateDrop, @"Illegal state");
 	
 	// Eggs are dropping down the screen automatically
 	
@@ -177,16 +137,12 @@ const int SZDropSpeedMultiplier = 4;
 		[_delegate didGridRunnerClearIncomingGarbage:self];
 	} else if (_state != SZGridRunnerStateWaitingForNewEgg) {
 		_state = SZGridRunnerStateWaitingForNewEgg;
-
-		if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nextEggReady:) name:SZRemoteReadyForNextEggNotification object:nil];
-			
-			[[SZNetworkSession sharedSession] sendReadyForNextEgg:_playerNumber];
-		}
 	}
 }
 
 - (void)processIncomingGarbageMessages {
+	
+	NSAssert(_state = SZGridRunnerStateLive, @"Illegal state");
 
 	BOOL receivedGarbage = NO;
 
@@ -208,6 +164,8 @@ const int SZDropSpeedMultiplier = 4;
 }
 
 - (void)live {
+	
+	NSAssert(_state = SZGridRunnerStateLive, @"Illegal state");
 	
 	// Player-controllable eggs are in the grid
 	[self processIncomingGarbageMessages];

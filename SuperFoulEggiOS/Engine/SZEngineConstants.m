@@ -8,6 +8,12 @@ const int SZGridHeight = 16;
 const int SZGridEntryY = 3;
 const int SZChainLength = 4;
 
+const int SZAutoDropTime = 2;
+const int SZChainSequenceGarbageBonus = 6;
+const int SZMaximumDropSpeed = 2;
+const int SZMinimumDropSpeed = 38;
+const int SZDropSpeedMultiplier = 4;
+
 NSString * const SZRemoteMoveLeftNotification = @"SZRemoteMoveLeft";
 NSString * const SZRemoteMoveRightNotification = @"SZRemoteMoveRight";
 NSString * const SZRemoteMoveDownNotification = @"SZRemoteMoveDown";

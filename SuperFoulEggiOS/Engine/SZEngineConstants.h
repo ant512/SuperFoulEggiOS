@@ -22,6 +22,35 @@ extern const int SZGarbageLargeBoulderValue;
  */
 extern const int SZEggSize;
 
+/**
+ * Number of iterations before eggs drop when automatic dropping mode is
+ * active.
+ */
+extern const int SZAutoDropTime;
+
+/**
+ * The bonus given for each successive chain sequenced together.
+ */
+extern const int SZChainSequenceGarbageBonus;
+
+/**
+ * The maximum speed at which live eggs can be forced to drop, measured in
+ * iterations.
+ */
+extern const int SZMaximumDropSpeed;
+
+/**
+ * The minimum speed at which live eggs can be forced to drop, measured in
+ * iterations.
+ */
+extern const int SZMinimumDropSpeed;
+
+/**
+ * The current drop speed is multiplied by this to produce the number of
+ * iterations required until the live eggs are forced to drop.
+ */
+extern const int SZDropSpeedMultiplier;
+
 extern const int SZGridWidth;
 extern const int SZGridHeight;
 extern const int SZGridEntryY;

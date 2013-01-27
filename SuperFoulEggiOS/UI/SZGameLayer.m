@@ -693,8 +693,7 @@ const int SZGrid2ScoresY = 285;
 	_runners[0] = [[SZLocalGridRunner alloc] initWithController:controller
 														   grid:grid
 												   playerNumber:0
-														  speed:[SZSettings sharedSettings].speed
-													   isRemote:NO];
+														  speed:[SZSettings sharedSettings].speed];
 	_runners[0].delegate = self;
 	
 	[grid release];
@@ -718,8 +717,7 @@ const int SZGrid2ScoresY = 285;
 		_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
 															   grid:grid
 													   playerNumber:1
-															  speed:[SZSettings sharedSettings].speed
-														   isRemote:[SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer];
+															  speed:[SZSettings sharedSettings].speed];
 		_runners[1].delegate = self;
 
 		[grid release];

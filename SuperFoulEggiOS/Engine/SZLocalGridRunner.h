@@ -6,8 +6,6 @@
 #import "SZEngineConstants.h"
 #import "SZGridRunner.h"
 
-@class SZLocalGridRunner;
-
 /**
  * Controls a grid.  Maintains a state machine that tracks what should happen
  * currently and next as the game progresses.
@@ -16,15 +14,14 @@
 	SZGridRunnerState _state;					/**< The state of the state machine. */
 	int _timer;									/**< Frames since the last event took place. */
 	SZEggBase *_nextEggs[SZLiveEggCount];		/**< Array of 2 eggs that will be placed next. */
-
+	
 	int _speed;									/**< Current speed. */
-	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
-
+	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one												 move. */
+	
 	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
 													 sequences. */
-
+	
 	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
-	BOOL _isRemote;
 }
 
 @property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
@@ -60,7 +57,6 @@
 - (id)initWithController:(id <SZGameController>)controller
 					grid:(SZGrid *)grid
 			playerNumber:(int)playerNumber
-				   speed:(int)speed
-				isRemote:(BOOL)isRemote;
+				   speed:(int)speed;
 
 @end
