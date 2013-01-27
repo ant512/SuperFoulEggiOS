@@ -239,30 +239,7 @@
 	}
 }
 
-- (void)waitForNewEgg {
-	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
-		[self land];
-	} else {
-		[self nextEggReady:nil];
-	}
-}
-
-- (void)nextEggReady:(NSNotification *)notification {
-
-	if (notification) {
-		int playerNumber = [notification.userInfo[@"PlayerNumber"] intValue];
-
-		if (playerNumber != _playerNumber) {
-
-			NSLog(@"Ignoring next egg for player %d", playerNumber);
-
-			return;
-		}
-	}
-
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteReadyForNextEggNotification object:nil];
-
-	NSLog(@"Got next egg for player %d", [notification.userInfo[@"PlayerNumber"] intValue]);
+- (void)addNextEgg {
 
 	BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
 
@@ -313,7 +290,7 @@
 	
 	switch (_state) {
 		case SZGridRunnerStateWaitingForNewEgg:
-			[self waitForNewEgg];
+			[self addNextEgg];
 			break;
 
 		case SZGridRunnerStateDropGarbage:
