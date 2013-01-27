@@ -250,29 +250,18 @@
 }
 
 - (void)waitForNewEgg {
-	if ([SZSettings sharedSettings].gameType == SZGameTypeTwoPlayer) {
-		[self land];
+	[self land];
+	
+	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	
+	if (message.type == SZMessageTypePlaceNextEggs) {
+		[self addNextEgg];
 	} else {
-		[self nextEggReady:nil];
+		[self land];
 	}
 }
 
-- (void)nextEggReady:(NSNotification *)notification {
-	
-	if (notification) {
-		int playerNumber = [notification.userInfo[@"PlayerNumber"] intValue];
-		
-		if (playerNumber != _playerNumber) {
-			
-			NSLog(@"Ignoring next egg for player %d", playerNumber);
-			
-			return;
-		}
-	}
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:SZRemoteReadyForNextEggNotification object:nil];
-	
-	NSLog(@"Got next egg for player %d", [notification.userInfo[@"PlayerNumber"] intValue]);
+- (void)addNextEgg {
 	
 	BOOL addedEggs = [_grid addLiveEggs:_nextEggs[0] egg2:_nextEggs[1]];
 	
