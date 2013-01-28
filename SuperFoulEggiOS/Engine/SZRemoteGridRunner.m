@@ -252,6 +252,8 @@
 	
 	if (message.type == SZMessageTypePlaceNextEggs) {
 		[self addNextEgg];
+		
+		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 	} else {
 		[self land];
 	}
