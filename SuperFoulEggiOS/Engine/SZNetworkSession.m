@@ -155,8 +155,8 @@ static NSString * const SZDisplayName = @"Player";
 	// TODO: To/from switching needs to be smarter for more players
 	
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypePlaceNextEggs
-											   from:networkMessage->to
-												 to:networkMessage->from
+											   from:1
+												 to:1
 											   info:nil];
 
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
@@ -167,8 +167,8 @@ static NSString * const SZDisplayName = @"Player";
 	// TODO: To/from switching needs to be smarter for more players
 	
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypeMove
-											   from:networkMessage->message.to
-												 to:networkMessage->message.from
+											   from:1
+												 to:1
 											   info:@{ @"Move": @(networkMessage->moveType) }];
 	
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
@@ -246,8 +246,6 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)sendStartGame {
-
-	NSLog(@"%d", _state);
 
 	NSLog(@"Sending start game message");
 

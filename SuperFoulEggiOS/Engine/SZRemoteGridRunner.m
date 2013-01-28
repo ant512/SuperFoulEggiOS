@@ -69,8 +69,6 @@
 
 - (void)drop {
 	
-	NSLog(@"%d", _state);
-	
 	NSAssert(_state == SZGridRunnerStateDrop, @"Illegal state");
 	
 	// Eggs are dropping down the screen automatically
@@ -193,12 +191,14 @@
 					if ([_grid moveLiveEggsLeft]) {
 						[_delegate didGridRunnerMoveLiveEggs:self];
 					}
+					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 				
 				case SZBlockMoveTypeRight:
 					if ([_grid moveLiveEggsRight]) {
 						[_delegate didGridRunnerMoveLiveEggs:self];
 					}
+					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 					
 				case SZBlockMoveTypeDown:
@@ -211,9 +211,9 @@
 							_droppingLiveEggs = YES;
 							
 							[_delegate didGridRunnerStartDroppingLiveEggs:self];
-							
-							[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 						}
+						
+						[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					}
 					break;
 					
@@ -221,16 +221,16 @@
 					if ([_grid rotateLiveEggsClockwise]) {
 						[_delegate didGridRunnerRotateLiveEggs:self];
 					}
+					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 					
 				case SZBlockMoveTypeRotateAnticlockwise:
 					if ([_grid rotateLiveEggsAntiClockwise]) {
 						[_delegate didGridRunnerRotateLiveEggs:self];
 					}
+					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 			}
-			
-			[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		}
 		
 		// Drop live eggs if the timer has expired
