@@ -68,8 +68,6 @@
 
 - (void)drop {
 	
-	NSLog(@"%d", _state);
-	
 	NSAssert(_state == SZGridRunnerStateDrop, @"Illegal state");
 	
 	// Eggs are dropping down the screen automatically

@@ -28,10 +28,6 @@
 	return self;
 }
 
-- (void)parp {
-	NSLog(@"Parp");
-}
-
 - (void)addEggPairColour1:(SZEggColour)colour1 colour2:(SZEggColour)colour2; {
 
 	NSLog(@"Received egg colour");

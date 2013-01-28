@@ -182,6 +182,8 @@
 		
 		if (message.type == SZMessageTypeMove) {
 			
+			NSLog(@"Move %@", message.info[@"Move"]);
+			
 			_droppingLiveEggs = NO;
 			
 			SZBlockMoveType moveType = [message.info[@"Move"] intValue];
@@ -238,7 +240,6 @@
 			_timer = 0;
 			
 			[_grid dropLiveEggs];
-			[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 		}
 	} else {
 		
