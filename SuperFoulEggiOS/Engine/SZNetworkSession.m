@@ -152,9 +152,11 @@ static NSString * const SZDisplayName = @"Player";
 	
 	NSLog(@"Received ready for next egg message");
 	
+	// TODO: To/from switching needs to be smarter for more players
+	
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypePlaceNextEggs
-											   from:networkMessage->from
-												 to:networkMessage->to
+											   from:networkMessage->to
+												 to:networkMessage->from
 											   info:nil];
 
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
@@ -162,9 +164,11 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseMoveMessage:(SZMoveMessage *)networkMessage peerId:(NSString *)peerId {
 	
+	// TODO: To/from switching needs to be smarter for more players
+	
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypeMove
-											   from:networkMessage->message.from
-												 to:networkMessage->message.to
+											   from:networkMessage->message.to
+												 to:networkMessage->message.from
 											   info:@{ @"Move": @(networkMessage->moveType) }];
 	
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
