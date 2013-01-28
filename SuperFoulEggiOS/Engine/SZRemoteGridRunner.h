@@ -18,9 +18,6 @@
 	int _speed;									/**< Current speed. */
 	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
 	
-	int _accumulatingGarbageCount;				/**< Outgoing garbage eggs that accumulate during chain
-												 sequences. */
-	
 	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
 }
 

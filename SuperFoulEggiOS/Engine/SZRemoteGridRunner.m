@@ -20,8 +20,7 @@
 		_speed = speed;
 		_chainMultiplier = 0;
 		_incomingGarbageCount = 0;
-		_accumulatingGarbageCount = 0;
-		
+
 		_droppingLiveEggs = NO;
 		
 		for (int i = 0; i < SZLiveEggCount; ++i) {
@@ -117,8 +116,6 @@
 			// Add any additional eggs on top of the standard chain length
 			garbage += eggs - SZChainLength;
 		}
-		
-		_accumulatingGarbageCount += garbage;
 		
 		// We need to run the explosion animations next
 		_state = SZGridRunnerStateExploding;
@@ -275,14 +272,6 @@
 		}
 		
 		_chainMultiplier = 0;
-		
-		// Queue up outgoing eggs for the other player
-		
-		if (_accumulatingGarbageCount > 0) {
-			[[SZMessageBus sharedMessageBus] sendGarbage:_accumulatingGarbageCount fromPlayerNumber:_playerNumber toPlayerNumber:1 - _playerNumber];
-		}
-		
-		_accumulatingGarbageCount = 0;
 		
 		[_nextEggs[0] release];
 		[_nextEggs[1] release];
