@@ -223,9 +223,8 @@
 		if (_timer >= timeToDrop) {
 			_timer = 0;
 			
-			if ([_grid dropLiveEggs]) {
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
-			}
+			[_grid dropLiveEggs];
+			[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 		}
 	} else {
 		

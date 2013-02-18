@@ -12,7 +12,7 @@
 			 speed:(int)speed {
 	
 	if ((self = [super init])) {
-		_state = SZGridRunnerStateDrop;
+		[self setState:SZGridRunnerStateDrop];
 		_timer = 0;
 		_grid = [grid retain];
 		_playerNumber = playerNumber;
@@ -58,7 +58,7 @@
 		
 		// Eggs have stopped dropping, so we need to run the landing
 		// animations
-		_state = SZGridRunnerStateLanding;
+		[self setState:SZGridRunnerStateLanding];
 	}
 }
 
@@ -76,7 +76,7 @@
 		
 		// Eggs have stopped dropping, so we need to run the landing
 		// animations
-		_state = SZGridRunnerStateLanding;
+		[self setState:SZGridRunnerStateLanding];
 	}
 }
 
@@ -114,7 +114,7 @@
 		}
 		
 		// We need to run the explosion animations next
-		_state = SZGridRunnerStateExploding;
+		[self setState:SZGridRunnerStateExploding];
 		
 	} else if (_incomingGarbageCount > 0) {
 		
@@ -122,13 +122,13 @@
 		[_grid addGarbage:_incomingGarbageCount randomPlacement:[SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer];
 		
 		// Switch back to the drop state
-		_state = SZGridRunnerStateDropGarbage;
+		[self setState:SZGridRunnerStateDropGarbage];
 		
 		_incomingGarbageCount = 0;
 		
 		[_delegate didGridRunnerClearIncomingGarbage:self];
 	} else if (_state != SZGridRunnerStateWaitingForNewEgg) {
-		_state = SZGridRunnerStateWaitingForNewEgg;
+		[self setState:SZGridRunnerStateWaitingForNewEgg];
 	}
 }
 
@@ -169,7 +169,7 @@
 		
 		if (message.type == SZMessageTypeMove) {
 			
-			NSLog(@"Move %@", message.info[@"Move"]);
+			//NSLog(@"Move %@", message.info[@"Move"]);
 			
 			_droppingLiveEggs = NO;
 			
@@ -197,7 +197,10 @@
 						[_delegate didGridRunnerStartDroppingLiveEggs:self];
 					}
 
-					[_grid dropLiveEggs];
+					if (![_grid dropLiveEggs]) {
+						int j = 1;
+						++j;
+					}
 
 					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
@@ -222,7 +225,7 @@
 		// At least one of the eggs in the live pair has touched down.
 		// We need to drop the other egg automatically
 		_droppingLiveEggs = NO;
-		_state = SZGridRunnerStateDrop;
+		[self setState:SZGridRunnerStateDrop];
 	}
 }
 
@@ -233,8 +236,6 @@
 		[self addNextEgg];
 		
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
-
-		_state = SZGridRunnerStateLive;
 	} else {
 		[self land];
 	}
@@ -247,7 +248,7 @@
 	if (!addedEggs) {
 		
 		// Cannot add more eggs - game is over
-		_state = SZGridRunnerStateDead;
+		[self setState:SZGridRunnerStateDead];
 	} else {
 		
 		if (_chainMultiplier > 1) {
@@ -270,24 +271,22 @@
 		[_delegate didGridRunnerCreateNextEggs:self];
 		[_delegate didGridRunnerAddLiveEggs:self];
 		
-		_state = SZGridRunnerStateLive;
+		[self setState:SZGridRunnerStateLive];
 	}
 }
 
 - (void)iterate {
 
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	NSLog(@"%@", message);
+	//if (message) NSLog(@"%@", message);
 
 	switch (message.type) {
 		case SZMessageTypeGarbage:
-			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
 			break;
 		case SZMessageTypeMove:
-			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
 			break;
 		case SZMessageTypePlaceNextEggs:
-			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
+			//if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg: %d", _state);
 			break;
 	}
 
@@ -326,7 +325,7 @@
 				// All iterations have finished - we need to drop any eggs that
 				
 				// are now sat on holes in the grid
-				_state = SZGridRunnerStateDrop;
+				[self setState:SZGridRunnerStateDrop];
 			}
 			
 			break;
@@ -342,6 +341,12 @@
 
 - (BOOL)isDead {
 	return _state == SZGridRunnerStateDead;
+}
+
+- (void)setState:(SZGridRunnerState)state {
+	_state = state;
+	
+	NSLog(@"New state: %d", state);
 }
 
 @end
