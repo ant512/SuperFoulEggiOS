@@ -161,6 +161,7 @@ static NSString * const SZDisplayName = @"Player";
 }
 
 - (void)parseGarbageMessage:(SZGarbageMessage *)networkMessage peerId:(NSString *)peerId {
+
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypeGarbage
 											   from:networkMessage->message.to
 												 to:networkMessage->message.from
@@ -290,7 +291,10 @@ static NSString * const SZDisplayName = @"Player";
 	NSLog(@"Start game sent");
 }
 
-- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from {
+- (void)sendBlockMove:(SZBlockMoveType)move {
+
+	int from = [[_session peersWithConnectionState:GKPeerStateConnected] indexOfObject:_session.peerID];
+
 	SZMoveMessage message;
 
 	message.message.messageType = SZNetworkMessageTypeMove;
@@ -301,12 +305,15 @@ static NSString * const SZDisplayName = @"Player";
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
 
-- (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber {
+- (void)sendPlaceNextEggs {
+
+	int from = [[_session peersWithConnectionState:GKPeerStateConnected] indexOfObject:_session.peerID];
+
 	SZNetworkMessage message;
 
 	message.messageType = SZNetworkMessageTypePlaceNextEggs;
-	message.from = playerNumber;
-	message.to = playerNumber;
+	message.from = from;
+	message.to = from;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

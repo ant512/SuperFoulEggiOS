@@ -26,10 +26,10 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 + (SZNetworkSession *)sharedSession;
 
 - (void)startWithPlayerCount:(NSUInteger)playerCount;
-- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
+- (void)sendBlockMove:(SZBlockMoveType)move;
 - (void)sendStartGame;
 - (void)sendStartRound;
-- (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber;
+- (void)sendPlaceNextEggs;
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to;
 - (void)disable;
 

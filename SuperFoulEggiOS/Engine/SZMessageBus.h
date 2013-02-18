@@ -24,8 +24,8 @@ typedef NS_ENUM(NSUInteger, SZBlockMoveType) {
 + (SZMessageBus *)sharedMessageBus;
 
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to;
-- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
-- (void)sendPlaceNextEggsFromPlayerNumber:(int)from;
+- (void)sendBlockMove:(SZBlockMoveType)move;
+- (void)sendPlaceNextEggs;
 
 - (void)receiveMessage:(SZMessage *)message;
 

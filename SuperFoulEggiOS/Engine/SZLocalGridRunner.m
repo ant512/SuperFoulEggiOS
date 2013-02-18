@@ -176,13 +176,13 @@
 			if ([_grid moveLiveEggsLeft]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
 
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeLeft fromPlayerNumber:_playerNumber];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeLeft];
             }
 		} else if ([_controller isRightHeld]) {
 			if ([_grid moveLiveEggsRight]) {
 				[_delegate didGridRunnerMoveLiveEggs:self];
 				
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRight fromPlayerNumber:_playerNumber];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRight];
 			}
 		}
 		
@@ -204,13 +204,13 @@
 			if ([_grid rotateLiveEggsClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
 
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateClockwise fromPlayerNumber:_playerNumber];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateClockwise];
 			}
 		} else if ([_controller isRotateAntiClockwiseHeld]) {
 			if ([_grid rotateLiveEggsAntiClockwise]) {
 				[_delegate didGridRunnerRotateLiveEggs:self];
 
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateAnticlockwise fromPlayerNumber:_playerNumber];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeRotateAnticlockwise];
 			}
 		}
 		
@@ -220,7 +220,7 @@
 
 			if (_grid.hasLiveEggs) {
 				[_grid dropLiveEggs];
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown];
 			}
 		}
 	} else {
@@ -267,7 +267,7 @@
 			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
 		}
 		
-		[[SZMessageBus sharedMessageBus] sendPlaceNextEggsFromPlayerNumber:_playerNumber];
+		[[SZMessageBus sharedMessageBus] sendPlaceNextEggs];
 
 		[_delegate didGridRunnerCreateNextEggs:self];
 		[_delegate didGridRunnerAddLiveEggs:self];

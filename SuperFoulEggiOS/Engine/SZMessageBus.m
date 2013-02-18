@@ -45,12 +45,12 @@
 	}
 }
 
-- (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from {
-	[[SZNetworkSession sharedSession] sendBlockMove:move fromPlayerNumber:from];
+- (void)sendBlockMove:(SZBlockMoveType)move {
+	[[SZNetworkSession sharedSession] sendBlockMove:move];
 }
 
-- (void)sendPlaceNextEggsFromPlayerNumber:(int)from {
-	[[SZNetworkSession sharedSession] sendPlaceNextEggsFromPlayerNumber:from];
+- (void)sendPlaceNextEggs {
+	[[SZNetworkSession sharedSession] sendPlaceNextEggs];
 }
 
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
