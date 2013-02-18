@@ -231,6 +231,8 @@
 		[self addNextEgg];
 		
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+
+		_state = SZGridRunnerStateLive;
 	} else {
 		[self land];
 	}
@@ -286,6 +288,17 @@
 
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	NSLog(@"%@", message);
+
+	switch (message.type) {
+		case SZMessageTypeGarbage:
+			break;
+		case SZMessageTypeMove:
+			break;
+		case SZMessageTypeState:
+			break;
+		case SZMessageTypePlaceNextEggs:
+			break;
+	}
 
 	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];
