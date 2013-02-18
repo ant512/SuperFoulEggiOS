@@ -131,17 +131,23 @@
 }
 
 - (void)processIncomingGarbageMessages {
+
+	int count = 0;
 	
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	
 	while (message && message.type == SZMessageTypeGarbage) {
 		
-		_bufferedGarbageCount += [message.info[@"Count"] intValue];
+		count += [message.info[@"Count"] intValue];
 		
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	}
+
+	_bufferedGarbageCount += count;
+
+	[[SZMessageBus sharedMessageBus] sendGarbage:count fromPlayerNumber:_playerNumber toPlayerNumber:_playerNumber];
 }
 
 - (void)live {
