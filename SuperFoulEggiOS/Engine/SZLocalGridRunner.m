@@ -139,25 +139,16 @@
 }
 
 - (void)processIncomingGarbageMessages {
-	
-	NSAssert(_state == SZGridRunnerStateLive, @"Illegal state");
-
-	BOOL receivedGarbage = NO;
 
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 
 	while (message && message.type == SZMessageTypeGarbage) {
-		receivedGarbage = YES;
 
-		_incomingGarbageCount += [message.info[@"Count"] intValue];
+		_bufferedGarbageCount += [message.info[@"Count"] intValue];
 
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	}
-
-	if (receivedGarbage) {
-		[_delegate didGridRunnerReceiveGarbage:self];
 	}
 }
 

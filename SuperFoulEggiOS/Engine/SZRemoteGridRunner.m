@@ -134,8 +134,6 @@
 
 - (void)processIncomingGarbageMessages {
 	
-	NSAssert(_state == SZGridRunnerStateLive, @"Illegal state");
-	
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	
 	while (message && message.type == SZMessageTypeGarbage) {
@@ -225,6 +223,11 @@
 
 - (void)waitForNewEgg {
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+
+	while (message && message.type != SZMessageTypePlaceNextEggs) {
+		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	}
 	
 	if (message.type == SZMessageTypePlaceNextEggs) {
 		[self addNextEgg];
@@ -272,16 +275,10 @@
 - (void)iterate {
 
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	if (message) NSLog(@"%@", message);
+	//if (message) NSLog(@"%@", message);
 
-	switch (message.type) {
-		case SZMessageTypeGarbage:
-			break;
-		case SZMessageTypeMove:
-			break;
-		case SZMessageTypePlaceNextEggs:
-			//if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg: %d", _state);
-			break;
+	if (_state == SZGridRunnerStateWaitingForNewEgg && message.type != SZMessageTypePlaceNextEggs) {
+		NSLog(@"Waiting for egg; got %d", message.type);
 	}
 
 	[self processIncomingGarbageMessages];
