@@ -217,9 +217,11 @@
 		// Drop live eggs if the timer has expired
 		if (_timer >= timeToDrop) {
 			_timer = 0;
-			
-			[_grid dropLiveEggs];
-			[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+
+			if (_grid.hasLiveEggs) {
+				[_grid dropLiveEggs];
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+			}
 		}
 	} else {
 		

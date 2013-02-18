@@ -20,8 +20,6 @@
 		_speed = speed;
 		_chainMultiplier = 0;
 		_incomingGarbageCount = 0;
-
-		_droppingLiveEggs = NO;
 		
 		for (int i = 0; i < SZLiveEggCount; ++i) {
 			_nextEggs[i] = [[SZEggFactory sharedFactory] newEggForPlayerNumber:_playerNumber];
@@ -166,8 +164,6 @@
 			
 			//NSLog(@"Move %@", message.info[@"Move"]);
 			
-			_droppingLiveEggs = NO;
-			
 			SZBlockMoveType moveType = [message.info[@"Move"] intValue];
 			
 			switch (moveType) {
@@ -175,59 +171,51 @@
 					if ([_grid moveLiveEggsLeft]) {
 						[_delegate didGridRunnerMoveLiveEggs:self];
 					}
-					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+					
 					break;
 				
 				case SZBlockMoveTypeRight:
 					if ([_grid moveLiveEggsRight]) {
 						[_delegate didGridRunnerMoveLiveEggs:self];
 					}
-					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 
 				case SZBlockMoveTypeDown:
-					if (!_droppingLiveEggs) {
-						_droppingLiveEggs = YES;
-						
-						[_delegate didGridRunnerStartDroppingLiveEggs:self];
-					}
-
+					[_delegate didGridRunnerStartDroppingLiveEggs:self];
 					[_grid dropLiveEggs];
 
-					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 					
 				case SZBlockMoveTypeRotateClockwise:
 					if ([_grid rotateLiveEggsClockwise]) {
 						[_delegate didGridRunnerRotateLiveEggs:self];
 					}
-					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 					
 				case SZBlockMoveTypeRotateAnticlockwise:
 					if ([_grid rotateLiveEggsAntiClockwise]) {
 						[_delegate didGridRunnerRotateLiveEggs:self];
 					}
-					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 			}
+
+			[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		}
 	} else {
 		
 		// At least one of the eggs in the live pair has touched down.
 		// We need to drop the other egg automatically
-		_droppingLiveEggs = NO;
 		[self setState:SZGridRunnerStateDrop];
 	}
 }
 
 - (void)waitForNewEgg {
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-
+/*
 	while (message && message.type != SZMessageTypePlaceNextEggs) {
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	}
+	}*/
 	
 	if (message.type == SZMessageTypePlaceNextEggs) {
 		[self addNextEgg];

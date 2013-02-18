@@ -17,8 +17,6 @@
 	
 	int _speed;									/**< Current speed. */
 	int _chainMultiplier;						/**< Increases when multiple chains are exploded in one move. */
-	
-	BOOL _droppingLiveEggs;						/**< True if live eggs are dropping automatically. */
 }
 
 @property (readwrite, assign) id <SZGridRunnerDelegate> delegate;
