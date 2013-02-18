@@ -708,7 +708,6 @@
 				C213BFAC1659411F0009C13E /* Icon-72@2x.png */,
 				C2B7546A1655DCE100DB1D43 /* SuperFoulEggiOS */,
 				C2B754571655DCE100DB1D43 /* Frameworks */,
-				C2B754551655DCE100DB1D43 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -718,6 +717,7 @@
 				C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		C2B754571655DCE100DB1D43 /* Frameworks */ = {
@@ -1120,6 +1120,7 @@
 		C2B755F01655DCE400DB1D43 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C2B754551655DCE100DB1D43 /* Products */,
 				C2B755F11655DCE400DB1D43 /* Prefix.pch */,
 				C2B755F21655DCE400DB1D43 /* main.m */,
 			);

@@ -48,6 +48,10 @@
 	[[SZNetworkSession sharedSession] sendPlaceNextEggsFromPlayerNumber:from];
 }
 
+- (void)sendState:(SZGridRunnerState)state fromPlayerNumber:(int)from {
+	[[SZNetworkSession sharedSession] sendState:state fromPlayerNumber:from];
+}
+
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
 
 	@synchronized(_messageQueues) {
@@ -95,12 +99,12 @@
 	
 	@synchronized(queue) {
 		SZMessage *message = [[[queue objectAtIndex:0] retain] autorelease];
-		[queue removeObjectAtIndex:0];
 		return message;
 	}
 }
 
 - (void)receiveMessage:(SZMessage *)message {
+
 	NSMutableArray *queue = [self messageQueueForPlayerNumber:message.to];
 	
 	@synchronized(queue) {

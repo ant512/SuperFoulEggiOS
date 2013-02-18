@@ -293,12 +293,26 @@
 	}
 }
 
+- (void)processStateChange {
+	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+
+	if (message.type == SZMessageTypeState) {
+		SZGridRunnerState state = [message.info[@"State"] intValue];
+
+		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+
+		_state = state;
+	}
+}
+
 - (void)iterate {
 	
 	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];
 	
 	++_timer;
+
+	[self processStateChange];
 	
 	switch (_state) {
 		case SZGridRunnerStateWaitingForNewEgg:

@@ -1,5 +1,8 @@
 #import <Foundation/Foundation.h>
 
+@class SZGrid;
+@class SZEggBase;
+
 @protocol SZGridRunner;
 
 /**

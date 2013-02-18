@@ -32,4 +32,8 @@
 	[super dealloc];
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"Type: %d From: %d To: %d Info: %@", _type, _from, _to, _info];
+}
+
 @end
