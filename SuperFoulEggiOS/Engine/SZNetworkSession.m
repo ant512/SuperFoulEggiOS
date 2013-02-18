@@ -11,7 +11,8 @@ typedef NS_ENUM(char, SZNetworkMessageType) {
 	SZNetworkMessageTypeMove = 1,
 	SZNetworkMessageTypeStartGame = 2,
 	SZNetworkMessageTypeStartRound = 3,
-	SZNetworkMessageTypePlaceNextEggs = 4
+	SZNetworkMessageTypePlaceNextEggs = 4,
+	SZNetworkMessageTypeGarbage = 5
 };
 
 typedef struct {
@@ -38,6 +39,11 @@ typedef struct {
 	SZNetworkMessage message;
 	int randomEggSeed;
 } SZRoundStartMessage;
+
+typedef struct {
+	SZNetworkMessage message;
+	int count;
+} SZGarbageMessage;
 
 static NSString * const SZSessionId = @"com.simianzombie.superfoulegg";
 static NSString * const SZDisplayName = @"Player";
@@ -83,6 +89,10 @@ static NSString * const SZDisplayName = @"Player";
 	_voteCount = 0;
 	
 	_state = SZNetworkSessionStateWaitingForPeers;
+}
+
+- (void)disable {
+	_state = SZNetworkSessionStateDisabled;
 }
 
 - (void)session:(GKSession *)session connectionWithPeerFailed:(NSString *)peerID withError:(NSError *)error {
@@ -143,9 +153,20 @@ static NSString * const SZDisplayName = @"Player";
 		case SZNetworkMessageTypePlaceNextEggs:
 			[self parsePlaceNextEggsMessage:(SZNetworkMessage *)[data bytes] peerId:peerId];
 			break;
+		case SZNetworkMessageTypeGarbage:
+			[self parseGarbageMessage:(SZGarbageMessage *)[data bytes] peerId:peerId];
 		case SZNetworkMessageTypeNone:
 			break;
 	}
+}
+
+- (void)parseGarbageMessage:(SZGarbageMessage *)networkMessage peerId:(NSString *)peerId {
+	SZMessage *message = [SZMessage messageWithType:SZMessageTypeGarbage
+											   from:1
+												 to:1
+											   info:@{ @"Count": @(networkMessage->count) }];
+
+	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }
 
 - (void)parsePlaceNextEggsMessage:(SZNetworkMessage *)networkMessage peerId:(NSString *)peerId {
@@ -286,6 +307,17 @@ static NSString * const SZDisplayName = @"Player";
 	message.messageType = SZNetworkMessageTypePlaceNextEggs;
 	message.from = playerNumber;
 	message.to = playerNumber;
+
+	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
+}
+
+- (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to {
+	SZGarbageMessage message;
+
+	message.message.messageType = SZNetworkMessageTypeGarbage;
+	message.message.from = from;
+	message.message.to = to;
+	message.count = count;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }

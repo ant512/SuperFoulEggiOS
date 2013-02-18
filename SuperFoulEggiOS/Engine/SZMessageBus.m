@@ -30,13 +30,18 @@
 }
 
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to {
-	NSMutableArray *queue = [self messageQueueForPlayerNumber:to];
-	
-	@synchronized(queue) {
-		[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage
-											   from:from
-												 to:to
-											   info:@{ @"Count": @(count) }]];
+
+	if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateDisabled) {
+		NSMutableArray *queue = [self messageQueueForPlayerNumber:to];
+		
+		@synchronized(queue) {
+			[queue addObject:[SZMessage messageWithType:SZMessageTypeGarbage
+												   from:from
+													 to:to
+												   info:@{ @"Count": @(count) }]];
+		}
+	} else {
+		[[SZNetworkSession sharedSession] sendGarbage:count fromPlayerNumber:from toPlayerNumber:to];
 	}
 }
 

@@ -4,12 +4,12 @@
 #import "SZMessageBus.h"
 
 typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
-	SZNetworkSessionStateWaitingForPeers = 0,
-	SZNetworkSessionStateGatheredPeers = 1,
-	SZNetworkSessionStateWaitingForGameStart = 2,
-	SZNetworkSessionStateWaitingForRoundStart = 3,
-	SZNetworkSessionStateActive = 4,
-	SZNetworkSessionStateReadyForNextEgg = 5
+	SZNetworkSessionStateDisabled = 0,
+	SZNetworkSessionStateWaitingForPeers = 1,
+	SZNetworkSessionStateGatheredPeers = 2,
+	SZNetworkSessionStateWaitingForGameStart = 3,
+	SZNetworkSessionStateWaitingForRoundStart = 4,
+	SZNetworkSessionStateActive = 5
 };
 
 @interface SZNetworkSession : NSObject <GKSessionDelegate> {
@@ -30,5 +30,7 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 - (void)sendStartGame;
 - (void)sendStartRound;
 - (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber;
+- (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to;
+- (void)disable;
 
 @end
