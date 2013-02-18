@@ -171,7 +171,6 @@
 					if ([_grid moveLiveEggsLeft]) {
 						[_delegate didGridRunnerMoveLiveEggs:self];
 					}
-					
 					break;
 				
 				case SZBlockMoveTypeRight:
@@ -211,11 +210,11 @@
 
 - (void)waitForNewEgg {
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-/*
+
 	while (message && message.type != SZMessageTypePlaceNextEggs) {
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	}*/
+	}
 	
 	if (message.type == SZMessageTypePlaceNextEggs) {
 		[self addNextEgg];

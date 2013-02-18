@@ -689,7 +689,7 @@ const int SZGrid2ScoresY = 285;
 	
 	//id <SZGameController> controller = [[SZPlayerOneController alloc] init];
 
-	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:1 grid:grid];
+	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:3 grid:grid];
 	
 	_runners[0] = [[SZLocalGridRunner alloc] initWithController:controller
 														   grid:grid
