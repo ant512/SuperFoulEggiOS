@@ -3,8 +3,7 @@
 typedef NS_ENUM(NSUInteger, SZMessageType) {
 	SZMessageTypeGarbage = 0,
 	SZMessageTypeMove = 1,
-	SZMessageTypePlaceNextEggs = 2,
-	SZMessageTypeState = 3
+	SZMessageTypePlaceNextEggs = 2
 };
 
 @interface SZMessage : NSObject

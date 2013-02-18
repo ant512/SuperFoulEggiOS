@@ -281,13 +281,13 @@
 
 	switch (message.type) {
 		case SZMessageTypeGarbage:
+			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
 			break;
 		case SZMessageTypeMove:
-			break;
-		case SZMessageTypeState:
+			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
 			break;
 		case SZMessageTypePlaceNextEggs:
-			NSAssert(_state == SZGridRunnerStateWaitingForNewEgg, @"Not ready for next egg");
+			if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg");
 			break;
 	}
 
