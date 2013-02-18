@@ -162,10 +162,19 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseGarbageMessage:(SZGarbageMessage *)networkMessage peerId:(NSString *)peerId {
 
-	SZMessage *message = [SZMessage messageWithType:SZMessageTypeGarbage
-											   from:networkMessage->message.to
-												 to:networkMessage->message.from
-											   info:@{ @"Count": @(networkMessage->count) }];
+	SZMessage *message = nil;
+	
+	if (networkMessage->message.to != networkMessage->message.from) {
+		message = [SZMessage messageWithType:SZMessageTypeGarbage
+										from:networkMessage->message.to
+										  to:networkMessage->message.from
+										info:@{ @"Count": @(networkMessage->count) }];
+	} else {
+		message = [SZMessage messageWithType:SZMessageTypeGarbage
+										from:1
+										  to:1
+										info:@{ @"Count": @(networkMessage->count) }];
+	}
 
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }

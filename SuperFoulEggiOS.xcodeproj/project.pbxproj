@@ -41,7 +41,6 @@
 		C234297216B211B20053F9B2 /* SZMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = C234297116B211B20053F9B2 /* SZMessage.m */; };
 		C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */ = {isa = PBXBuildFile; fileRef = C254C332166D76B700FE081C /* SZNetworkSession.m */; };
 		C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */; };
-		C2B39AAE1675735500BCBF4C /* SZNetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = C2B39AAD1675735500BCBF4C /* SZNetworkController.m */; };
 		C2B754591655DCE100DB1D43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B754581655DCE100DB1D43 /* QuartzCore.framework */; };
 		C2B7545B1655DCE100DB1D43 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */; };
 		C2B7545D1655DCE100DB1D43 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2B7545C1655DCE100DB1D43 /* OpenAL.framework */; };
@@ -293,8 +292,6 @@
 		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
 		C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEngineConstants.m; sourceTree = "<group>"; };
 		C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZYellowEgg.h; sourceTree = "<group>"; };
-		C2B39AAC1675735500BCBF4C /* SZNetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZNetworkController.h; sourceTree = "<group>"; };
-		C2B39AAD1675735500BCBF4C /* SZNetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZNetworkController.m; sourceTree = "<group>"; };
 		C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEggiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B754581655DCE100DB1D43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1303,8 +1300,6 @@
 				C2B756231655DD3100DB1D43 /* SZPlayerTwoController.m */,
 				C2B756281655DD3100DB1D43 /* SZSmartAIController.h */,
 				C2B756291655DD3100DB1D43 /* SZSmartAIController.m */,
-				C2B39AAC1675735500BCBF4C /* SZNetworkController.h */,
-				C2B39AAD1675735500BCBF4C /* SZNetworkController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1368,7 +1363,7 @@
 		C2B7544B1655DCE100DB1D43 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Antony Dzeryn";
 			};
 			buildConfigurationList = C2B7544E1655DCE100DB1D43 /* Build configuration list for PBXProject "SuperFoulEggiOS" */;
@@ -1631,7 +1626,6 @@
 				C213BFA51657E6440009C13E /* CCNode+SFGestureRecognizers.m in Sources */,
 				C2A6D7B51666E59B009E5C9B /* SZEngineConstants.m in Sources */,
 				C254C333166D76B700FE081C /* SZNetworkSession.m in Sources */,
-				C2B39AAE1675735500BCBF4C /* SZNetworkController.m in Sources */,
 				C2C1DDB616878ADA0040C7EE /* MTRandom.m in Sources */,
 				C234296E16B207BC0053F9B2 /* SZMessageBus.m in Sources */,
 				C234297216B211B20053F9B2 /* SZMessage.m in Sources */,
@@ -1646,6 +1640,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1656,6 +1654,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
@@ -1667,6 +1666,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1675,6 +1678,7 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
