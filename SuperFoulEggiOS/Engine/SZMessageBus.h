@@ -26,7 +26,6 @@ typedef NS_ENUM(NSUInteger, SZBlockMoveType) {
 - (void)sendGarbage:(int)count fromPlayerNumber:(int)from toPlayerNumber:(int)to;
 - (void)sendBlockMove:(SZBlockMoveType)move fromPlayerNumber:(int)from;
 - (void)sendPlaceNextEggsFromPlayerNumber:(int)from;
-- (void)sendState:(SZGridRunnerState)state fromPlayerNumber:(int)from;
 
 - (void)receiveMessage:(SZMessage *)message;
 

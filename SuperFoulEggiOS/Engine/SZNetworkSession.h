@@ -30,6 +30,5 @@ typedef NS_ENUM(NSUInteger, SZNetworkSessionState) {
 - (void)sendStartGame;
 - (void)sendStartRound;
 - (void)sendPlaceNextEggsFromPlayerNumber:(int)playerNumber;
-- (void)sendState:(SZGridRunnerState)state fromPlayerNumber:(int)playerNumber;
 
 @end

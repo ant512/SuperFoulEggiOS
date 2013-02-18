@@ -48,10 +48,6 @@
 	[[SZNetworkSession sharedSession] sendPlaceNextEggsFromPlayerNumber:from];
 }
 
-- (void)sendState:(SZGridRunnerState)state fromPlayerNumber:(int)from {
-	[[SZNetworkSession sharedSession] sendState:state fromPlayerNumber:from];
-}
-
 - (NSMutableArray *)messageQueueForPlayerNumber:(int)playerNumber {
 
 	@synchronized(_messageQueues) {

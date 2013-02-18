@@ -11,8 +11,7 @@ typedef NS_ENUM(char, SZNetworkMessageType) {
 	SZNetworkMessageTypeMove = 1,
 	SZNetworkMessageTypeStartGame = 2,
 	SZNetworkMessageTypeStartRound = 3,
-	SZNetworkMessageTypePlaceNextEggs = 4,
-	SZNetworkMessageTypeState = 5
+	SZNetworkMessageTypePlaceNextEggs = 4
 };
 
 typedef struct {
@@ -25,11 +24,6 @@ typedef struct {
 	SZNetworkMessage message;
 	SZBlockMoveType moveType;
 } SZMoveMessage;
-
-typedef struct {
-	SZNetworkMessage message;
-	int state;
-} SZStateMessage;
 
 typedef struct {
 	SZNetworkMessage message;
@@ -149,26 +143,9 @@ static NSString * const SZDisplayName = @"Player";
 		case SZNetworkMessageTypePlaceNextEggs:
 			[self parsePlaceNextEggsMessage:(SZNetworkMessage *)[data bytes] peerId:peerId];
 			break;
-		case SZNetworkMessageTypeState:
-			[self parseStateMessage:(SZStateMessage *)[data bytes] peerId:peerId];
-			break;
 		case SZNetworkMessageTypeNone:
 			break;
 	}
-}
-
-- (void)parseStateMessage:(SZStateMessage *)networkMessage peerId:(NSString *)peerId {
-
-	NSLog(@"Received ready for next egg message");
-
-	// TODO: To/from switching needs to be smarter for more players
-
-	SZMessage *message = [SZMessage messageWithType:SZMessageTypeState
-											   from:1
-												 to:1
-											   info:@{ @"State": @(networkMessage->state) }];
-
-	[[SZMessageBus sharedMessageBus] receiveMessage:message];
 }
 
 - (void)parsePlaceNextEggsMessage:(SZNetworkMessage *)networkMessage peerId:(NSString *)peerId {
@@ -309,17 +286,6 @@ static NSString * const SZDisplayName = @"Player";
 	message.messageType = SZNetworkMessageTypePlaceNextEggs;
 	message.from = playerNumber;
 	message.to = playerNumber;
-
-	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
-}
-
-- (void)sendState:(SZGridRunnerState)state fromPlayerNumber:(int)playerNumber {
-	SZStateMessage message;
-
-	message.message.messageType = SZNetworkMessageTypeState;
-	message.message.from = playerNumber;
-	message.message.to = playerNumber;
-	message.state = state;
 
 	[self sendData:[NSData dataWithBytes:&message length:sizeof(message)]];
 }
