@@ -337,7 +337,7 @@
 
 - (void)setState:(SZGridRunnerState)state {
 	_state = state;
-	[[SZMessageBus sharedMessageBus] sendState:state fromPlayerNumber:_playerNumber];
+	//[[SZMessageBus sharedMessageBus] sendState:state fromPlayerNumber:_playerNumber];
 }
 
 @end

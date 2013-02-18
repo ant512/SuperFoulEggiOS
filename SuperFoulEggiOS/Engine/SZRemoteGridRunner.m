@@ -31,10 +31,6 @@
 	return self;
 }
 
-- (void)receiveRemoteMoveDown {
-	if ([_grid hasLiveEggs]) [_grid dropLiveEggs];
-}
-
 - (void)dealloc {
 	for (int i = 0; i < SZLiveEggCount; ++i) {
 		[_nextEggs[i] release];
@@ -62,7 +58,7 @@
 		
 		// Eggs have stopped dropping, so we need to run the landing
 		// animations
-		//_state = SZGridRunnerStateLanding;
+		_state = SZGridRunnerStateLanding;
 	}
 }
 
@@ -80,7 +76,7 @@
 		
 		// Eggs have stopped dropping, so we need to run the landing
 		// animations
-		//_state = SZGridRunnerStateLanding;
+		_state = SZGridRunnerStateLanding;
 	}
 }
 
@@ -118,7 +114,7 @@
 		}
 		
 		// We need to run the explosion animations next
-		//_state = SZGridRunnerStateExploding;
+		_state = SZGridRunnerStateExploding;
 		
 	} else if (_incomingGarbageCount > 0) {
 		
@@ -126,13 +122,13 @@
 		[_grid addGarbage:_incomingGarbageCount randomPlacement:[SZSettings sharedSettings].gameType != SZGameTypeTwoPlayer];
 		
 		// Switch back to the drop state
-		//_state = SZGridRunnerStateDropGarbage;
+		_state = SZGridRunnerStateDropGarbage;
 		
 		_incomingGarbageCount = 0;
 		
 		[_delegate didGridRunnerClearIncomingGarbage:self];
 	} else if (_state != SZGridRunnerStateWaitingForNewEgg) {
-		//_state = SZGridRunnerStateWaitingForNewEgg;
+		_state = SZGridRunnerStateWaitingForNewEgg;
 	}
 }
 
@@ -193,7 +189,7 @@
 					}
 					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
-					
+
 				case SZBlockMoveTypeDown:
 					if (!_droppingLiveEggs) {
 						_droppingLiveEggs = YES;
@@ -224,7 +220,7 @@
 		// At least one of the eggs in the live pair has touched down.
 		// We need to drop the other egg automatically
 		_droppingLiveEggs = NO;
-		//_state = SZGridRunnerStateDrop;
+		_state = SZGridRunnerStateDrop;
 	}
 }
 
@@ -247,7 +243,7 @@
 	if (!addedEggs) {
 		
 		// Cannot add more eggs - game is over
-		//_state = SZGridRunnerStateDead;
+		_state = SZGridRunnerStateDead;
 	} else {
 		
 		if (_chainMultiplier > 1) {
@@ -270,7 +266,7 @@
 		[_delegate didGridRunnerCreateNextEggs:self];
 		[_delegate didGridRunnerAddLiveEggs:self];
 		
-		//_state = SZGridRunnerStateLive;
+		_state = SZGridRunnerStateLive;
 	}
 }
 
@@ -296,7 +292,7 @@
 	
 	++_timer;
 
-	[self processStateChange];
+	//[self processStateChange];
 	
 	switch (_state) {
 		case SZGridRunnerStateWaitingForNewEgg:
@@ -328,7 +324,7 @@
 				// All iterations have finished - we need to drop any eggs that
 				
 				// are now sat on holes in the grid
-				//_state = SZGridRunnerStateDrop;
+				_state = SZGridRunnerStateDrop;
 			}
 			
 			break;
