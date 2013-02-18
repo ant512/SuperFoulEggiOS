@@ -28,6 +28,8 @@
  */
 @property (readonly) int incomingGarbageCount;
 
+@property (readonly) int bufferedGarbageCount;
+
 /**
  * The zero-based number of the current player.
  */

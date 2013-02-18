@@ -51,6 +51,8 @@ typedef NS_ENUM(NSUInteger, SZGridRunnerState) {
  */
 @property (readonly) int incomingGarbageCount;
 
+@property (readonly) int bufferedGarbageCount;
+
 /**
  * Process a single iteration of the state machine/grid logic.  This model
  * enables other code to be run between iterations of the grid (for example,

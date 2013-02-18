@@ -164,9 +164,13 @@
 - (void)live {
 	
 	NSAssert(_state == SZGridRunnerStateLive, @"Illegal state");
-	
-	// Player-controllable eggs are in the grid
-	[self processIncomingGarbageMessages];
+
+	if (_bufferedGarbageCount > 0) {
+		_incomingGarbageCount += _bufferedGarbageCount;
+		_bufferedGarbageCount = 0;
+
+		[_delegate didGridRunnerReceiveGarbage:self];
+	}
 
 	if ([_grid hasLiveEggs]) {
 		
@@ -280,6 +284,8 @@
 }
 
 - (void)iterate {
+
+	[self processIncomingGarbageMessages];
 	
 	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];

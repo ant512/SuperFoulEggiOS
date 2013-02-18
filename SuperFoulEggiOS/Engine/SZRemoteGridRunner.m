@@ -136,31 +136,28 @@
 	
 	NSAssert(_state == SZGridRunnerStateLive, @"Illegal state");
 	
-	BOOL receivedGarbage = NO;
-	
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 	
 	while (message && message.type == SZMessageTypeGarbage) {
-		receivedGarbage = YES;
 		
-		_incomingGarbageCount += [message.info[@"Count"] intValue];
+		_bufferedGarbageCount += [message.info[@"Count"] intValue];
 		
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 		
 		message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	}
-	
-	if (receivedGarbage) {
-		[_delegate didGridRunnerReceiveGarbage:self];
 	}
 }
 
 - (void)live {
 	
 	NSAssert(_state == SZGridRunnerStateLive, @"Illegal state");
-	
-	// Player-controllable eggs are in the grid
-	[self processIncomingGarbageMessages];
+
+	if (_bufferedGarbageCount > 0) {
+		_incomingGarbageCount += _bufferedGarbageCount;
+		_bufferedGarbageCount = 0;
+
+		[_delegate didGridRunnerReceiveGarbage:self];
+	}
 	
 	if ([_grid hasLiveEggs]) {
 		
@@ -197,10 +194,7 @@
 						[_delegate didGridRunnerStartDroppingLiveEggs:self];
 					}
 
-					if (![_grid dropLiveEggs]) {
-						int j = 1;
-						++j;
-					}
+					[_grid dropLiveEggs];
 
 					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
@@ -278,7 +272,7 @@
 - (void)iterate {
 
 	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
-	//if (message) NSLog(@"%@", message);
+	if (message) NSLog(@"%@", message);
 
 	switch (message.type) {
 		case SZMessageTypeGarbage:
@@ -289,6 +283,8 @@
 			//if (_state != SZGridRunnerStateWaitingForNewEgg) NSLog(@"Not ready for next egg: %d", _state);
 			break;
 	}
+
+	[self processIncomingGarbageMessages];
 
 	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];
