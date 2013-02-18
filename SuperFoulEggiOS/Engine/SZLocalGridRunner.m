@@ -144,7 +144,7 @@
 
 	while (message && message.type == SZMessageTypeGarbage) {
 
-		_bufferedGarbageCount += [message.info[@"Count"] intValue];
+		//_bufferedGarbageCount += [message.info[@"Count"] intValue];
 
 		[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 
