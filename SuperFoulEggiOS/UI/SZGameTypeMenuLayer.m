@@ -165,22 +165,27 @@
 		switch ([_rectLayer selectedIndexInGroup:0]) {
 			case 0:
 				[SZSettings sharedSettings].gameType = SZGameTypePractice;
+				[[SZNetworkSession sharedSession] disable];
 				break;
 			case 1:
 				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
 				[SZSettings sharedSettings].aiType = SZAITypeEasy;
+				[[SZNetworkSession sharedSession] disable];
 				break;
 			case 2:
 				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
 				[SZSettings sharedSettings].aiType = SZAITypeMedium;
+				[[SZNetworkSession sharedSession] disable];
 				break;
 			case 3:
 				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
 				[SZSettings sharedSettings].aiType = SZAITypeHard;
+				[[SZNetworkSession sharedSession] disable];
 				break;
 			case 4:
 				[SZSettings sharedSettings].gameType = SZGameTypeSinglePlayer;
 				[SZSettings sharedSettings].aiType = SZAITypeInsane;
+				[[SZNetworkSession sharedSession] disable];
 				break;
 			case 5:
 				[SZSettings sharedSettings].gameType = SZGameTypeTwoPlayer;

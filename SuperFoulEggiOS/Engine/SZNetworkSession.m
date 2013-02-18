@@ -162,8 +162,8 @@ static NSString * const SZDisplayName = @"Player";
 
 - (void)parseGarbageMessage:(SZGarbageMessage *)networkMessage peerId:(NSString *)peerId {
 	SZMessage *message = [SZMessage messageWithType:SZMessageTypeGarbage
-											   from:1
-												 to:1
+											   from:networkMessage->message.to
+												 to:networkMessage->message.from
 											   info:@{ @"Count": @(networkMessage->count) }];
 
 	[[SZMessageBus sharedMessageBus] receiveMessage:message];
