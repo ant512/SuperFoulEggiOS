@@ -168,12 +168,6 @@
 	
 	if ([_grid hasLiveEggs]) {
 		
-		// Work out how many frames we need to wait until the eggs drop
-		// automatically
-		int timeToDrop = SZMinimumDropSpeed - (SZDropSpeedMultiplier * _speed);
-		
-		if (timeToDrop < SZMaximumDropSpeed) timeToDrop = SZMaximumDropSpeed;
-		
 		// Process user input
 		SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
 		
@@ -201,19 +195,13 @@
 					break;
 					
 				case SZBlockMoveTypeDown:
-					if (_timer % 2 == 0) {
+					if (!_droppingLiveEggs) {
+						_droppingLiveEggs = YES;
 						
-						// Force eggs to drop
-						_timer = timeToDrop;
-						
-						if (!_droppingLiveEggs) {
-							_droppingLiveEggs = YES;
-							
-							[_delegate didGridRunnerStartDroppingLiveEggs:self];
-						}
-						
-						[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
+						[_delegate didGridRunnerStartDroppingLiveEggs:self];
 					}
+					
+					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 					
 				case SZBlockMoveTypeRotateClockwise:
@@ -230,13 +218,6 @@
 					[[SZMessageBus sharedMessageBus] removeNextMessageForPlayerNumber:_playerNumber];
 					break;
 			}
-		}
-		
-		// Drop live eggs if the timer has expired
-		if (_timer >= timeToDrop) {
-			_timer = 0;
-			
-			[_grid dropLiveEggs];
 		}
 	} else {
 		
@@ -306,7 +287,10 @@
 }
 
 - (void)iterate {
-	
+
+	SZMessage *message = [[SZMessageBus sharedMessageBus] nextMessageForPlayerNumber:_playerNumber];
+	NSLog(@"%@", message);
+
 	// Returns true if any eggs have any logic still in progress
 	BOOL iterated = [_grid iterate];
 	
