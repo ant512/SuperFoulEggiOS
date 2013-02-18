@@ -74,8 +74,9 @@
 
 /**
  * Drops the live eggs down half of one square.
+ * @return YES if the eggs dropped; no if at least one landed.
  */
-- (void)dropLiveEggs;
+- (BOOL)dropLiveEggs;
 
 /**
  * Drops all eggs down half of one square.

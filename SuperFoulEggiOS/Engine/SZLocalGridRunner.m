@@ -200,8 +200,6 @@
 				_droppingLiveEggs = YES;
 				
 				[_delegate didGridRunnerStartDroppingLiveEggs:self];
-
-				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
 			}
 		} else if (![_controller isDownHeld]) {
 			_droppingLiveEggs = NO;
@@ -225,8 +223,9 @@
 		if (_timer >= timeToDrop) {
 			_timer = 0;
 			
-			[_grid dropLiveEggs];
-			[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+			if ([_grid dropLiveEggs]) {
+				[[SZMessageBus sharedMessageBus] sendBlockMove:SZBlockMoveTypeDown fromPlayerNumber:_playerNumber];
+			}
 		}
 	} else {
 		

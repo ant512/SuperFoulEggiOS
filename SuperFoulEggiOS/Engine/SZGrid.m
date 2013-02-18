@@ -299,7 +299,7 @@
 	return chain;
 }
 
-- (void)dropLiveEggs {
+- (BOOL)dropLiveEggs {
 
 	NSAssert(_hasLiveEggs, @"No live eggs in play.");
 
@@ -345,6 +345,8 @@
 	if (hasLanded) {
 		[_delegate didLandEggInGrid:self];
 	}
+
+	return !hasLanded;
 }
 
 - (BOOL)dropEggs {
