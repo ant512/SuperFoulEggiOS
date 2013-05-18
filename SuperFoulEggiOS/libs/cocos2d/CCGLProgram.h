@@ -70,7 +70,7 @@ enum {
 #define kCCUniformCosTime_s				"CC_CosTime"
 #define kCCUniformRandom01_s			"CC_Random01"
 #define kCCUniformSampler_s				"CC_Texture0"
-#define kCCUniformAlphaTestValue		"CC_alpha_value"
+#define kCCUniformAlphaTestValue_s		"CC_AlphaValue"
 
 // Attribute names
 #define	kCCAttributeNameColor			@"a_color"
@@ -88,18 +88,30 @@ struct _hashUniformEntry;
  */
 @interface CCGLProgram : NSObject
 {
-	struct _hashUniformEntry	*hashForUniforms_;
+	struct _hashUniformEntry	*_hashForUniforms;
 
 @public
-	GLuint          program_,
-					vertShader_,
-					fragShader_;
+	GLuint          _program,
+					_vertShader,
+					_fragShader;
 
-	GLint			uniforms_[kCCUniform_MAX];
-	BOOL usesTime_;
+	GLint			_uniforms[kCCUniform_MAX];
+
+	struct {
+        unsigned int usesTime:1;
+        unsigned int usesMVP:1;
+        unsigned int usesMV:1;
+		unsigned int usesRandom:1;
+    } _flags;
 }
 
 @property(nonatomic, readonly) GLuint program;
+
+/** creates the CCGLProgram with a vertex and fragment from byte arrays */
++ (id)programWithVertexShaderByteArray:(const GLchar*)vShaderByteArray fragmentShaderByteArray:(const GLchar*)fShaderByteArray;
+
+/** creates the CCGLProgram with a vertex and fragment with contents of filenames */
++ (id)programWithVertexShaderFilename:(NSString *)vShaderFilename fragmentShaderFilename:(NSString *)fShaderFilename;
 
 /** Initializes the CCGLProgram with a vertex and fragment with bytes array */
 - (id)initWithVertexShaderByteArray:(const GLchar*)vShaderByteArray fragmentShaderByteArray:(const GLchar*)fShaderByteArray;
@@ -125,6 +137,9 @@ struct _hashUniformEntry;
  And it will bind "kCCUniformSampler" to 0
  */
 - (void) updateUniforms;
+
+/** calls retrieves the named uniform location for this shader program. */
+- (GLint)uniformLocationForName:(NSString*)name;
 
 /** calls glUniform1i only if the values are different than the previous call for this same shader program. */
 -(void) setUniformLocation:(GLint)location withI1:(GLint)i1;

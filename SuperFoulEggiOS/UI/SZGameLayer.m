@@ -686,9 +686,10 @@ const int SZGrid2ScoresY = 285;
 	SZGrid *grid = [[SZGrid alloc] initWithPlayerNumber:0];
 	grid.delegate = self;
 	
-	//id <SZGameController> controller = [[SZPlayerOneController alloc] init];
+	id <SZGameController> controller = [[SZPlayerOneController alloc] init];
 
-	id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:3 grid:grid];
+	// TODO: Enable to debug AI
+	//id <SZGameController> controller = [[SZSmartAIController alloc] initWithHesitation:3 grid:grid];
 	
 	_runners[0] = [[SZLocalGridRunner alloc] initWithController:controller
 														   grid:grid
@@ -714,16 +715,18 @@ const int SZGrid2ScoresY = 285;
 			controller = [[SZPlayerTwoController alloc] init];
 		}
 		
-		/*_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
+		_runners[1] = [[SZLocalGridRunner alloc] initWithController:controller
 															   grid:grid
 													   playerNumber:1
 															  speed:[SZSettings sharedSettings].speed];
-		 */
-		
+
+		// TODO: Enable to debug networking
+		/*
 		_runners[1] = [[SZRemoteGridRunner alloc] initWithGrid:grid
 												  playerNumber:1
 														 speed:[SZSettings sharedSettings].speed];
-		
+		*/
+
 		_runners[1].delegate = self;
 
 		[grid release];

@@ -39,6 +39,15 @@
 #define CC_ENABLE_CHIPMUNK_INTEGRATION 0
 #endif
 
+/** @def CC_CHIPMUNK_IMPORT
+ Which file to import if using Chipmunk.
+ Change it to "ObjectiveChipmunk.h" or define it as a preprocessor macro if you are using ObjectiveChipmunk.
+ @since v2.1
+ */
+#if CC_ENABLE_CHIPMUNK_INTEGRATION && !defined(CC_CHIPMUNK_IMPORT)
+#define CC_CHIPMUNK_IMPORT "chipmunk.h"
+#endif
+
 /** @def CC_ENABLE_BOX2D_INTEGRATION
  If enabled, it will include CCPhysicsScript with Box2D Physics support.
  If you enable it, make sure that Box2D is in the search path.
@@ -49,6 +58,19 @@
  */
 #ifndef CC_ENABLE_BOX2D_INTEGRATION
 #define CC_ENABLE_BOX2D_INTEGRATION 0
+#endif
+
+/** @def CC_ENABLE_STACKABLE_ACTIONS
+ If enabled, actions that alter the position property (eg: CCMoveBy, CCJumpBy, CCBezierBy, etc..) will be stacked.
+ If you run 2 or more 'position' actions at the same time on a node, then end position will be the sum of all the positions. 
+ If disabled, only the last run action will take effect.
+ 
+ Enabled by default. Disable to be compatible with v2.0 and older versions.
+
+ @since v2.1
+ */
+#ifndef CC_ENABLE_STACKABLE_ACTIONS
+#define CC_ENABLE_STACKABLE_ACTIONS 1
 #endif
 
 
@@ -64,12 +86,12 @@
  It is recommended to enable it whenever possible to improve speed.
  If you are migrating your code from GL ES 1.1, then keep it disabled. Once all your code works as expected, turn it on.
 
- Default value: Disabled by default
+ Default value: Enabled by default
 
  @since v2.0.0
  */
 #ifndef CC_ENABLE_GL_STATE_CACHE
-#define CC_ENABLE_GL_STATE_CACHE 0
+#define CC_ENABLE_GL_STATE_CACHE 1
 #endif
 
 /** @def CC_ENABLE_DEPRECATED
@@ -132,7 +154,7 @@
 /** @def CC_DIRECTOR_IOS_USE_BACKGROUND_THREAD
  If enabled, cocos2d-ios will run on a background thread. If disabled cocos2d-ios will run the main thread.
 
- To enable set it to a 1, to disable it set to 0. Enabled by default.
+ To enable set it to a 1, to disable it set to 0. Disabled by default.
 
  Only valid for cocos2d-ios. Not supported on cocos2d-mac.
  
@@ -267,3 +289,4 @@
 #ifndef CC_ENABLE_PROFILERS
 #define CC_ENABLE_PROFILERS 0
 #endif
+
