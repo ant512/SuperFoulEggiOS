@@ -69,7 +69,7 @@
 		[self addOption:@"Medium"];
 		[self addOption:@"Hard"];
 		[self addOption:@"Insane"];
-		[self addOption:@"2 Player"];
+		//[self addOption:@"2 Player"];
 		
 		switch ([SZSettings sharedSettings].gameType) {
 			case SZGameTypePractice:
