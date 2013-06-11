@@ -144,6 +144,9 @@ const int SZGrid2ScoresY = 285;
 		if (_state == SZGameStatePaused || (point.x > 950 && point.y > 700)) {
 			[[SZPad instanceOne] pressStart];
 			return;
+		} else if (point.x > 950 && point.y < 80) {
+			[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0f
+																						 scene:[SZGameTypeMenuLayer scene]]];
 		}
 	}
 	

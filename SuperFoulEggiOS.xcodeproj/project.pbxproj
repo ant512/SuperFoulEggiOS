@@ -713,7 +713,6 @@
 		C2B754491655DCE100DB1D43 = {
 			isa = PBXGroup;
 			children = (
-				C2FC3CA71747F6A20099A195 /* CoreText.framework */,
 				C213BFAE165941B00009C13E /* Icon-72.png */,
 				C213BFAC1659411F0009C13E /* Icon-72@2x.png */,
 				C2B7546A1655DCE100DB1D43 /* SuperFoulEggiOS */,
@@ -733,6 +732,7 @@
 		C2B754571655DCE100DB1D43 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C2FC3CA71747F6A20099A195 /* CoreText.framework */,
 				C2B754581655DCE100DB1D43 /* QuartzCore.framework */,
 				C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */,
 				C2B7545C1655DCE100DB1D43 /* OpenAL.framework */,
