@@ -296,7 +296,7 @@
 		C2A6D7B21666E55D009E5C9B /* SZEngineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZEngineConstants.h; sourceTree = "<group>"; };
 		C2A6D7B41666E59B009E5C9B /* SZEngineConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZEngineConstants.m; sourceTree = "<group>"; };
 		C2A6D7B61666E7B9009E5C9B /* SZYellowEgg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SZYellowEgg.h; sourceTree = "<group>"; };
-		C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEggiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2B754541655DCE100DB1D43 /* SuperFoulEgg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuperFoulEgg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B754581655DCE100DB1D43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C2B7545A1655DCE100DB1D43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C2B7545C1655DCE100DB1D43 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -723,7 +723,7 @@
 		C2B754551655DCE100DB1D43 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */,
+				C2B754541655DCE100DB1D43 /* SuperFoulEgg.app */,
 			);
 			name = Products;
 			path = ..;
@@ -1361,9 +1361,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C2B754531655DCE100DB1D43 /* SuperFoulEggiOS */ = {
+		C2B754531655DCE100DB1D43 /* SuperFoulEgg */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C2B755FF1655DCE400DB1D43 /* Build configuration list for PBXNativeTarget "SuperFoulEggiOS" */;
+			buildConfigurationList = C2B755FF1655DCE400DB1D43 /* Build configuration list for PBXNativeTarget "SuperFoulEgg" */;
 			buildPhases = (
 				C2B754501655DCE100DB1D43 /* Sources */,
 				C2B754511655DCE100DB1D43 /* Frameworks */,
@@ -1373,9 +1373,9 @@
 			);
 			dependencies = (
 			);
-			name = SuperFoulEggiOS;
+			name = SuperFoulEgg;
 			productName = SuperFoulEggiOS;
-			productReference = C2B754541655DCE100DB1D43 /* SuperFoulEggiOS.app */;
+			productReference = C2B754541655DCE100DB1D43 /* SuperFoulEgg.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1400,7 +1400,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C2B754531655DCE100DB1D43 /* SuperFoulEggiOS */,
+				C2B754531655DCE100DB1D43 /* SuperFoulEgg */,
 			);
 		};
 /* End PBXProject section */
@@ -1720,6 +1720,7 @@
 				GCC_PREFIX_HEADER = SuperFoulEggiOS/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"SuperFoulEggiOS/libs/kazmath/include\"";
 				INFOPLIST_FILE = SuperFoulEggiOS/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -1739,6 +1740,7 @@
 				GCC_PREFIX_HEADER = SuperFoulEggiOS/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"SuperFoulEggiOS/libs/kazmath/include\"";
 				INFOPLIST_FILE = SuperFoulEggiOS/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -1762,7 +1764,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C2B755FF1655DCE400DB1D43 /* Build configuration list for PBXNativeTarget "SuperFoulEggiOS" */ = {
+		C2B755FF1655DCE400DB1D43 /* Build configuration list for PBXNativeTarget "SuperFoulEgg" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C2B756001655DCE400DB1D43 /* Debug */,
