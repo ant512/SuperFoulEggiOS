@@ -788,7 +788,9 @@ const int SZGrid2ScoresY = 285;
 		[[SZPad instanceTwo] isRightNewPress]) {
 		[self resetGame];
 
-		[[SZNetworkSession sharedSession] sendStartRound];
+		if ([SZNetworkSession sharedSession].state == SZNetworkSessionStateActive) {
+			[[SZNetworkSession sharedSession] sendStartRound];
+		}
 
 		_state = SZGameStateWaitingForRoundStart;
 	}
