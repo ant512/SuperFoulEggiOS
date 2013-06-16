@@ -526,6 +526,19 @@ const int SZGrid2ScoresY = 285;
 
 - (void)update:(ccTime)dt {
 	
+	switch (_state) {
+		case SZGameStateGameOver:
+			[self runGameOverState];
+			return;
+			
+		case SZGameStatePaused:
+			[self runPausedState];
+			return;
+			
+		default:
+			break;
+	}
+	
 	// ccTime is measured in fractions of a second; we need it in frames per
 	// second, using 60fps as the framerate
 	int frames = (int)(round(2.0f * dt * SZFrameRate) / 2.0f);
@@ -540,20 +553,15 @@ const int SZGrid2ScoresY = 285;
 				[self runActiveState];
 				break;
 				
-			case SZGameStatePaused:
-				[self runPausedState];
-				break;
-				
 			case SZGameStateGameOverEffect:
 				[self runGameOverEffectState];
 				break;
-				
-			case SZGameStateGameOver:
-				[self runGameOverState];
-				break;
-				
+			
 			case SZGameStateWaitingForRoundStart:
 				[self runRoundStartWaitState];
+				break;
+				
+			default:
 				break;
 		}
 		
